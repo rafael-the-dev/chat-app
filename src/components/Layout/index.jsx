@@ -7,6 +7,7 @@ import globalStyles from "src/styles/global-styles.module.css"
 
 import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from 'src/context/AppContext';
+import Footer from 'src/components/Footer';
 
 const Container = ({ children }) => {
     const router = useRouter();
@@ -63,6 +64,7 @@ const Container = ({ children }) => {
             </Collapse>
             <div id="root" ref={rootRef}>
                 { children }
+                { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
             </div>
             <Dialog
                 open={openRefreshTokenDialog && ![ '/login', '/signup' ].includes(pathname)}

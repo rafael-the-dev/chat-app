@@ -17,7 +17,7 @@ export const ADD_FEEDBACK = gql`
 `;
 
 export const CREATE_NEW_USER = gql`
-    mutation createUser($user: RegisteredUserInput!) {
+    mutation CreateUser($user: UserInput!) {
         registerUser(user: $user) {
             name
             username

@@ -6,7 +6,6 @@ import { Avatar, Button, Grid, Hidden, IconButton, List, ListItem, ListItemButto
     Paper, Popover, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import FeedbackCard from 'src/components/FeedbackCard';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import LogoutIcon from '@mui/icons-material/Logout';

@@ -19,69 +19,13 @@ export const AppContextProvider = ({ children }) => {
     const stopLoading = useCallback(() => setIsLoading(false), [])
 
     const addError = useCallback(({ hasError, errorMessage }) => setError({ hasError, errorMessage }), [])
-    const feedbackSubscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
+   /* const feedbackSubscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
         variables: { 
             id: "null"
         } 
     });
 
-    const deleteFeedbackSubscription = useSubscription(DELETE_FEEDBACK_SUBSCRIPTION);
-
-    const usersList = useMemo(() => [
-        {
-            "image": "image-zena.jpg",
-            "name": "Zena Kelley",
-            "username": "velvetround"
-        },{
-            "image": "image-suzanne.jpg",
-            "name": "Suzanne Chang",
-            "username": "upbeat1811"
-        },{
-            "image": "image-thomas.jpg",
-            "name": "Thomas Hood",
-            "username": "brawnybrave"
-        },{
-            "image": "image-elijah.jpg",
-            "name": "Elijah Moss",
-            "username": "hexagon.bestagon"
-        },{
-            "image": "image-james.jpg",
-            "name": "James Skinner",
-            "username": "hummingbird1"
-        },{
-            "image": "image-anne.jpg",
-            "name": "Anne Valentine",
-            "username": "annev1990"
-        },{
-            "image": "image-ryan.jpg",
-            "name": "Ryan Welles",
-            "username": "voyager.344"
-        },{
-            "image": "image-george.jpg",
-            "name": "George Partridge",
-            "username": "soccerviewer8"
-        },{
-            "image": "image-javier.jpg",
-            "name": "Javier Pollard",
-            "username": "warlikeduke"
-        },{
-            "image": "image-roxanne.jpg",
-            "name": "Roxanne Travis",
-            "username": "peppersprime32"
-        },{
-            "image": "image-jackson.jpg",
-            "name": "Jackson Barker",
-            "username": "countryspirit"
-        },{
-            "image": "image-victoria.jpg",
-            "name": "Victoria Mejia",
-            "username": "arlen_the_marlin"
-        },{
-            "image": "image-george.jpg",
-            "name": "George Partridge",
-            "username": "soccerviewer8"
-        }, 
-    ], []);
+   const deleteFeedbackSubscription = useSubscription(DELETE_FEEDBACK_SUBSCRIPTION);*/
 
     const getInitialsNameLetters = useCallback(name => {
         let result = "";
@@ -118,21 +62,10 @@ export const AppContextProvider = ({ children }) => {
         })
     }, [ addError ]);
 
-    const nextUser = useRef({ name: 'unknown'});
-    const generateNextUser = useCallback(() => {
-        let user = usersList[Math.floor(Math.random() * usersList.length)];
-        while(user.name === nextUser.current.name) {
-            user = usersList[Math.floor(Math.random() * usersList.length)];
-        }
-        nextUser.current = user;
-    }, [ usersList ]);
+    //const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
+    //const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
 
-    useEffect(() => generateNextUser(), [ generateNextUser ], [])
-
-    const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
-    const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
-
-    const updateAllFeedbacks = useCallback((newFeedback) => {
+    /*const updateAllFeedbacks = useCallback((newFeedback) => {
         //console.log("hello rt")
         subscribeToMore({
             document: GET_FEEDBACKS__SUBSCRIPTION,
@@ -147,9 +80,9 @@ export const AppContextProvider = ({ children }) => {
                 });
             }
         });
-    }, [ subscribeToMore ])
+    }, [ subscribeToMore ])*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         subscribeToMore({
             document: GET_FEEDBACK__SUBSCRIPTION,
             variables: { id: "null" },
@@ -166,9 +99,9 @@ export const AppContextProvider = ({ children }) => {
                 });
             }
         });
-    }, [ feedbackSubscription, subscribeToMore ]); //
+    }, [ subscribeToMore ]); */
 
-    useEffect(() => {
+    /*useEffect(() => {
         subscribeToMore({
             document: DELETE_FEEDBACK_SUBSCRIPTION,
             updateQuery: (prev, { subscriptionData }) => {
@@ -182,19 +115,19 @@ export const AppContextProvider = ({ children }) => {
                 });
             }
         });
-    }, [ feedbackSubscription, subscribeToMore ]);
+    }, [ subscribeToMore ]);
 
     useEffect(() => {
         updateAllFeedbacks();
-    }, [ updateAllFeedbacks ]);
+    }, [ updateAllFeedbacks ]);*/
  
-    useEffect(() => {
+    /*useEffect(() => {
         const data = result.data;
         console.log(data)
         if(data) {
             setFeedbackList(data.feedbacks)
         }
-    }, [ result ]);
+    }, [ result ]);*/
 
     /*useEffect(() => {
         if(!Boolean(localStorage.getItem(localStoraFeedbacksName.current))) {
@@ -230,8 +163,8 @@ export const AppContextProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{ ...error.hasError, errorHandler, feedbacksList, getInitialsNameLetters, generateNextUser, isLoading, nextUser, setFeedbackList, 
-            refreshAllFeedbacks: result.refetch, startLoading, stopLoading, updateAllFeedbacks }}>
+            value={{ ...error.hasError, errorHandler, feedbacksList, getInitialsNameLetters, isLoading, setFeedbackList, 
+            startLoading, stopLoading }}>
             { children }
         </AppContext.Provider>
     );

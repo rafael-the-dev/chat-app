@@ -7,6 +7,7 @@ import classes from './styles.module.css'
 
 import { CREATE_NEW_USER } from 'src/graphql/mutations'
 import { AppContext } from 'src/context/AppContext';
+import Input from 'src/components/Input';
 
 const Container = () => {
     const { errorHandler } = useContext(AppContext)
@@ -116,65 +117,61 @@ const Container = () => {
     ), []);
 
     const nameMemo = useMemo(() => (
-        <TextField
-            id="name-textfield"
-            label="Name"
-            fullWidth
-            className={classNames("mt-4")}
-            inputRef={nameRef}
-            required
-            variant="outlined"
-        />
+        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg`)}>
+            <Input 
+                id="name-textfield"
+                placeholder="Name"
+                ref={nameRef}
+                required
+            />
+        </div>
     ), []);
 
     const usernameMemo = useMemo(() => (
-        <TextField
-            error={hasUsernameError}
-            id="username-textfield"
-            inputRef={userNameRef}
-            label="Username"
-            fullWidth
-            className={classNames("mt-4")}
-            required
-            variant="outlined"
-            onChange={inputChangeHandler(setUsername)}
-        />
+        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg`)}>
+            <Input 
+                id="username-textfield"
+                error={hasUsernameError}
+                placeholder="Username"
+                ref={userNameRef}
+                required
+                onChange={inputChangeHandler(setUsername)}
+            />
+        </div>
     ), [  hasUsernameError, inputChangeHandler, setUsername ]);
 
     const passwordMemo = useMemo(() => (
-        <TextField
-            error={hasPasswordError}
-            id="password-textfield"
-            label="Password"
-            fullWidth
-            className={classNames("mt-4")}
-            inputRef={passwordRef}
-            required
-            type="password"
-            variant="outlined"
-            onChange={inputChangeHandler(setPassword)}
-        />
+        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg`)}>
+            <Input 
+                id="password-textfield"
+                error={hasPasswordError}
+                placeholder="Password"
+                ref={passwordRef}
+                required
+                type="password"
+                onChange={inputChangeHandler(setPassword)}
+            />
+        </div>
     ), [ hasPasswordError, inputChangeHandler ]);
 
     const comfirmPasswordMemo = useMemo(() => (
-        <TextField
-            error={hasComfirmPasswordError}
-            id="confirm-password-textfield"
-            label="Confirm Password"
-            fullWidth
-            className={classNames("mt-4")}
-            inputRef={comfirmPasswordRef}
-            required
-            type="password"
-            variant="outlined"
-            onChange={inputChangeHandler(setComfirmPassword)}
-        />
+        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg`)}>
+            <Input 
+                error={hasComfirmPasswordError}
+                id="confirm-password-textfield"
+                placeholder="Confirm Password"
+                ref={comfirmPasswordRef}
+                required
+                type="password"
+                onChange={inputChangeHandler(setComfirmPassword)}
+            />
+        </div>
     ), [ hasComfirmPasswordError, inputChangeHandler ]);
 
     return (
         <div className="min-h-screen flex items-center justify-center w-full px-5 md:px-0">
             <Paper 
-                className={classNames(classes.loginContainer, `px-5 py-8 md:px-6`)}
+                className={classNames(classes.loginContainer, `px-5 py-8 w-full md:px-6`)}
                 component="form"
                 elavation={0}
                 onSubmit={onSubmitHandler}>
@@ -190,16 +187,16 @@ const Container = () => {
                 </fieldset>
                 <div 
                     className={classNames("flex flex-col sm:flex-row-reverse sm:items-center mt-4 sm:justify-end")}>
-                    <Typography component="p" className="ml-4 text-sm">
-                        don't you have an account? 
+                    <Typography component="p" className="ml-4 text-center text-sm">
+                        do you have an account? 
                         <Link href="/login">
-                            <a className={classNames(classes.signUpLink, "ml-2 underline hover:opacity-90")}>
+                            <a className={classNames(classes.signUpLink, "ml-2 text-blue-700 uppercase underline hover:opacity-90")}>
                                 sign in.
                             </a>
                         </Link>
                     </Typography>
                     <Button 
-                        className="mt-4 py-2 sm:mt-0"
+                        className="bg-cyan-500 mt-6 py-3 sm:mt-0 rounded-2xl text-base"
                         disabled={hasFormError}
                         variant="contained"
                         type="submit"
