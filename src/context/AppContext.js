@@ -55,6 +55,7 @@ export const AppContextProvider = ({ children }) => {
     const userProperties = useMemo(() => {
         const data = result.data
         if(data) {
+            colorIndex.current = 0;
             let usersColors = {};
             data.users.forEach(item => {
                 if(!Object.keys(usersColors).includes(item.username)) {

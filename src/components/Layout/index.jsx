@@ -12,6 +12,7 @@ import Footer from 'src/components/Footer';
 const Container = ({ children }) => {
     const router = useRouter();
     const { pathname } = router;
+    const { tab } = router.query;
 
     const { openRefreshTokenDialog, revalidateToken, setOpenRefreshTokenDialog, user } = useContext(LoginContext)
     const { errorMessage, hasError, isLoading } = useContext(AppContext)
@@ -49,6 +50,14 @@ const Container = ({ children }) => {
             }
         }
     }, [ isLogged ])
+
+    useEffect(() => {
+        if([ 'friends' ].includes(tab)) {
+            rootRef.current.classList.add("remove-root-bg")
+        } else {
+            rootRef.current.classList.remove("remove-root-bg")
+        }
+    }, [ tab ])
 
     //if(!isLogged) return <></>;
 

@@ -16,6 +16,10 @@ a {
   padding: 0 !important;
 }
 
+.remove-root-bg {
+  background-color: #FFF !important;
+}
+
 @media screen  and (min-width: 900px){
   #root {
       align-items: flex-start;
