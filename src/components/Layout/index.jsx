@@ -28,6 +28,7 @@ const Container = ({ children }) => {
             pathnameRef.current = pathname;
 
             if([ '/login' ].includes(pathname) && user !== null) {
+                console.log("hello")
                 router.push("/")
             }else if(!isLogged && (![ '/login', '/signup' ].includes(pathname))) {
                 router.push("/login")

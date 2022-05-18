@@ -3,14 +3,17 @@ import { createContext, useCallback, useEffect, useMemo, useRef, useState } from
 //import { useDispatch } from 'react-redux'
 import { useQuery, useSubscription } from "@apollo/client"
 
-import { GET_FEEDBACKS } from 'src/graphql/queries';
+import { GET_USERS } from 'src/graphql/queries';
 import { DELETE_FEEDBACK_SUBSCRIPTION, GET_FEEDBACKS__SUBSCRIPTION, GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
+import useUsersQuery from 'src/hooks/useUsersQuery';
 //import WebSocket from "ws"
 
 export const AppContext = createContext();
 AppContext.displayName = 'AppContext';
 
 export const AppContextProvider = ({ children }) => {
+    const result = useUsersQuery();
+
     const [ isLoading, setIsLoading ] = useState(false);
     const [ feedbacksList, setFeedbackList ] = useState([]);
     const [ error, setError ] = useState({ hasError: false, errorMessage: "" })
@@ -18,7 +21,58 @@ export const AppContextProvider = ({ children }) => {
     const startLoading = useCallback(() => setIsLoading(true), [])
     const stopLoading = useCallback(() => setIsLoading(false), [])
 
-    const addError = useCallback(({ hasError, errorMessage }) => setError({ hasError, errorMessage }), [])
+    const addError = useCallback(({ hasError, errorMessage }) => setError({ hasError, errorMessage }), []);
+
+    //const [ userProperties, setUserProperties ] = useState({ usersColors: {}, usersList: [], });
+    const userOldProperties = useRef({ usersColors: {}, usersList: []});
+
+    const colorIndex = useRef(0);
+    const getColor = useCallback(() => {
+        const colors = [
+            "#c10c0c",
+            "rgb(143 13 117)",
+            "rgb(97 93 177)",
+            "rgb(163 115 18)",
+            "rgb(205 81 81)",
+            "rgb(73 126 30)",
+            "#0048BA",
+            "#8F9779",
+            "#B284BE",
+            "#89CFF0",
+            "#7C0A02",
+            "#3B7A57",
+            "#FF7E00",
+        ];
+
+        if (colorIndex.current === colors.length) {
+            colorIndex.current = 0;
+        }
+        const color = colors[colorIndex.current];
+        colorIndex.current = colorIndex.current + 1;
+        return color; //colors[Math.floor(Math.random() * colors.length)];
+    }, []);
+    
+    const userProperties = useMemo(() => {
+        const data = result.data
+        if(data) {
+            let usersColors = {};
+            data.users.forEach(item => {
+                if(!Object.keys(usersColors).includes(item.username)) {
+                    usersColors = { ...usersColors, [item.username]: getColor() }
+                }
+            });
+            
+            const newUserProperties = { ...userOldProperties.current, usersColors, usersList: data.users };
+            userOldProperties.current = newUserProperties;
+            return newUserProperties;
+        }
+        return userOldProperties;
+    }, [ getColor, result ]);
+
+    const getBgColors = useCallback(() => userProperties.usersColors, [ userProperties ]);
+    const getUsersList = useCallback(() => userProperties.usersList, [ userProperties ]);
+
+    //const { subscribeToMore, ...result } = useQuery(GET_USERS);
    /* const feedbackSubscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
         variables: { 
             id: "null"
@@ -120,25 +174,22 @@ export const AppContextProvider = ({ children }) => {
     useEffect(() => {
         updateAllFeedbacks();
     }, [ updateAllFeedbacks ]);*/
+
  
     /*useEffect(() => {
         const data = result.data;
-        console.log(data)
+        console.log(result)
         if(data) {
-            setFeedbackList(data.feedbacks)
+            let usersColors = {};
+            data.users.forEach(item => {
+                if(!Object.keys(usersColors).includes(item.username)) {
+                    usersColors = { ...usersColors, [item.username]: getColor() }
+                }
+            });
+            
+            setUserProperties(userOldProperties => ({ ...userOldProperties, usersColors, usersList: data.users }));
         }
-    }, [ result ]);*/
-
-    /*useEffect(() => {
-        if(!Boolean(localStorage.getItem(localStoraFeedbacksName.current))) {
-            setFeedbackList([ ...data.productRequests, ])
-            dispatch(addProducts([ ...data.productRequests, ]))
-        } else {
-            const list = [ ...JSON.parse(localStorage.getItem(localStoraFeedbacksName.current))];
-            setFeedbackList(list)
-            dispatch(addProducts(list))
-        }
-    }, [ dispatch ]);*/
+    }, [ getColor, result ]);*/
 
     /*useEffect(() => {
        subscribeToMore({
@@ -152,18 +203,12 @@ export const AppContextProvider = ({ children }) => {
                 });
             }
         })
-    }, [ subscribeToMore ])
-
-    useEffect(() => {
-        const data = result.data;
-        if(data) {
-            dispatch(addProducts([ ...data.feedbacks, ]))
-        }
-    }, [ dispatch, result ]);*/
+    }, [ subscribeToMore ])*/
 
     return (
         <AppContext.Provider 
-            value={{ ...error.hasError, errorHandler, feedbacksList, getInitialsNameLetters, isLoading, setFeedbackList, 
+            value={{ ...error.hasError, errorHandler, feedbacksList, getInitialsNameLetters, getBgColors, getUsersList, 
+                isLoading, setFeedbackList, 
             startLoading, stopLoading }}>
             { children }
         </AppContext.Provider>
