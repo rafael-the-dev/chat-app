@@ -1,0 +1,87 @@
+
+.headerHighlight {
+    background-image: linear-gradient(205deg, #E84D70, #A337F6, #28A7ED);
+}
+
+.drawerRoot, .drawerRoot .MuiBackdrop-root {
+    top: 86px !important;
+}
+
+.drawerPaper {
+    top: 86px !important;
+    width: 80%;
+}
+
+.drawerContent {
+    background-color: #F2F4FF;
+}
+
+.paper {
+    border-radius: 12px !important;
+}
+
+.roadmapTitle {
+    color: #3A4374;
+}
+
+.roadmapState {
+    color: #647196;
+}
+
+.roadmapStateText::before {
+    border-radius: 50%;
+    content: "";
+    display: inline-block;
+    height: 13;
+    margin-right: 13;
+    width: 13;
+}
+
+.roadmapStateTextPlanned::before {
+    background-color: #F49F85;
+}
+
+.roadmapStateTextInProgress::before {
+    background-color: #AD1FEA;
+}
+
+.roadmapStateTextLive::before {
+    background-color: #62BCFA;
+}
+
+.chip {
+    background-color: #CFD7FF !important;
+    color: #4661E6 !important;
+}
+
+@media screen and (min-width: 600px) {
+    .headerHighlight {
+        border-radius: 12px;
+        width: 31%;
+    }
+
+    .paper {
+        width: 31%;
+    }
+
+    .smPx {
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .header, .headerHighlight {
+        width: 300px;
+    }
+
+    .paper {
+        width: 100%;
+    }
+
+    .smPx {
+        padding-left: 5%;
+        padding-right: 5%;
+        
+    }
+}

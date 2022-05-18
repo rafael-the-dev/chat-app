@@ -1,0 +1,100 @@
+
+.px {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+    
+.introTitleBar::before {
+        background-color: #C8CCD8;
+        content: "";
+        display: block;
+        height: 1;
+        margin-bottom: 2.4rem;
+        width: 90px;
+    }
+    
+.button {
+    border-radius: 11px !important;
+    padding: 7px 16px !important
+}
+    
+.addFeedbackButton {
+    background-color: #AD1FEA !important;
+}
+
+.addFeedbackButton:hover {
+    background-color: #C75AF6 !important;
+}
+    
+.cancelFeedbackButton {
+    background-color: #3A4374 !important;
+}
+
+.cancelFeedbackButton :hover {
+    background-color: #656EA3 !important;
+}
+    
+.deleteFeedbackButton {
+    background-color: #D73737 !important;
+}
+    
+.borderRadius {
+    border-radius: 12px !important
+}
+
+.blueColor {
+    color: #4661E6 !important
+}
+
+.darkBlueColor {
+    color: #3A4374 !important
+}
+
+.lightBlueColor {
+    color: #647196 !important
+}
+    
+.purpleColor {
+    color: #AD1FEA !important
+}
+
+.listItem {
+    border-bottom: 1px solid #979797d6;
+}
+
+.listItem :last-child {
+    border-bottom: none !important
+}
+
+.listItem:hover .MuiTypography-root {
+    color: #AD1FEA !important;
+}
+    
+.listIcon {
+    color: #AD1FEA !important;
+    min-width: 23px !important
+}
+    
+.input {
+    background-color: #F7F8FD;
+    border-radius: 12;
+    padding: .8rem 1rem;
+}
+
+.input :focus {
+    border: 1px solid #4661E6 !important
+}
+
+@media screen and (min-width: 600px) {
+    .main {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+}
+
+@media screen and (min-width: 00px) {
+    .main {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+}

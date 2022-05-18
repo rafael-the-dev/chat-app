@@ -1,0 +1,71 @@
+
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto';
+}
+
+a {
+  text-decoration: none;
+}
+
+#root {
+  background-color: #F2F4FF;
+  min-height: 100vh;
+}
+
+.remove-root-padding {
+  padding: 0 !important;
+}
+
+.user-avatar {
+  background-color: #4661E6 !important;
+}
+
+.categories {
+  padding: .2rem .3rem !important;
+}
+
+.categories .MuiOutlinedInput-root {
+  background-color: #F7F8FD;
+  border-radius: 12px !important;
+}
+      
+.categories .MuiSelect-select {
+  color: #647196;
+  padding: .8rem 1rem !important;
+}
+
+.categories .MuiSelect-select .listIcon {
+  display: none !important;
+}
+  
+.categories .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+
+.empty-icon::before {
+  background-image: url(/images/illustration-empty.svg);
+  background-position: center top;
+  content: "" !important;
+  height: 150px;
+  width: 150px;
+}
+
+
+.comment-grid-item .comment-grid-item__wrapper {
+  border-bottom: 1px solid #97979742;
+}
+
+.comment-grid-item:last-child .comment-grid-item__wrapper {
+  border-bottom: none;
+}
+
+
+@media screen  and (min-width: 900px){
+  #root {
+      align-items: flex-start;
+      display: flex;
+      justify-content: space-between;
+      padding: 3rem 10%;
+  }
+}

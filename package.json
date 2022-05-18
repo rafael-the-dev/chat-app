@@ -1,0 +1,61 @@
+{
+  "name": "product-feedback-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.6.4",
+    "@emotion/cache": "latest",
+    "@emotion/react": "latest",
+    "@emotion/server": "latest",
+    "@emotion/styled": "latest",
+    "@graphql-tools/schema": "latest",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "classnames": "latest",
+    "graphql": "^16.5.0",
+    "graphql-subscriptions": "latest",
+    "graphql-ws": "latest",
+    "http": "^0.0.1-security",
+    "micro-cors": "latest",
+    "next": "latest",
+    "process": "^0.11.10",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-hook-form": "latest",
+    "react-jss": "latest",
+    "react-scripts": "latest",
+    "web-vitals": "latest",
+    "ws": "latest"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.4",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.24"
+  }
+}
