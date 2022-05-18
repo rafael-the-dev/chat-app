@@ -14,6 +14,7 @@ library.add(faComment);
 const Footer = () => {
     const router = useRouter();
     const { pathname } = router;
+    const { tab } = router.query;
 
     const clickHandler = prop => () => router.push(`${pathname}${prop ? `?tab=${prop}` : "" }`);
 
@@ -21,19 +22,24 @@ const Footer = () => {
         <footer className={classNames(`bottom-0 fixed w-full`)}>
             <nav className={classNames(classes.navbar, "bg-white flex justify-between py-2 px-2 w-full")}>
                 <IconButton onClick={clickHandler()}>
-                    <HomeIcon className={classNames("text-3xl text-red-500")} />
+                    <HomeIcon className={classNames("text-3xl", `${tab === undefined ? "text-red-500" : "text-cyan-500" }`)} />
                 </IconButton>
                 <IconButton onClick={clickHandler("friends")}>
-                    <PeopleAltIcon className={classNames("text-3xl text-cyan-500")} />
+                    <PeopleAltIcon 
+                        className={classNames("text-3xl", `${tab === "friends" ? "text-red-500" : "text-cyan-500" }`)} 
+                    />
                 </IconButton>
                 <IconButton onClick={clickHandler("chat")}>
-                    <FontAwesomeIcon className={classNames("text-2xl text-cyan-500")} icon="fa-solid comment fa-comment" />
+                    <FontAwesomeIcon 
+                        className={classNames("text-2xl", `${tab === "chat" ? "text-red-500" : "text-cyan-500" }`)} 
+                        icon="fa-solid comment fa-comment" 
+                    />
                 </IconButton>
                 <IconButton onClick={clickHandler("notifications")}>
-                    <NotificationsIcon className={classNames("text-3xl text-cyan-500")} />
+                    <NotificationsIcon className={classNames("text-3xl", `${tab === "notifications" ? "text-red-500" : "text-cyan-500" }`)} />
                 </IconButton>
                 <IconButton onClick={clickHandler("settings")}>
-                    <SettingsIcon className={classNames("text-3xl text-cyan-500")} />
+                    <SettingsIcon className={classNames("text-3xl", `${tab === "settings" ? "text-red-500" : "text-cyan-500" }`)} />
                 </IconButton>
             </nav>
         </footer>
