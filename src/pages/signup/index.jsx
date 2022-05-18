@@ -1,4 +1,4 @@
-import { Button, Paper, TextField, Typography } from '@mui/material';
+import { Avatar, Button, Paper, TextField, Typography } from '@mui/material';
 import { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { useMutation } from "@apollo/client";
 import Link from 'next/link'
@@ -8,6 +8,7 @@ import classes from './styles.module.css'
 import { CREATE_NEW_USER } from 'src/graphql/mutations'
 import { AppContext } from 'src/context/AppContext';
 import Input from 'src/components/Input';
+import Image from "./components/Image"
 
 const Container = () => {
     const { errorHandler } = useContext(AppContext)
@@ -115,6 +116,9 @@ const Container = () => {
             Sign up
         </Typography>
     ), []);
+    
+   const imageRef = useRef(null);
+    const profileImageMemo = useMemo(() => <Image imageRef={imageRef} />, [])
 
     const nameMemo = useMemo(() => (
         <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg`)}>
@@ -177,6 +181,7 @@ const Container = () => {
                 onSubmit={onSubmitHandler}>
                 { legendMemo }
                 <fieldset>
+                    { profileImageMemo }
                     { nameMemo }
                     { usernameMemo }
                     { usernameErrorsPanel }
