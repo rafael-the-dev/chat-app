@@ -90,15 +90,19 @@ const Container = () => {
         return errorsPanel({ ...comfirmPasswordErrors, htmlFor: "confirm-password-textfield" })
     }, [ comfirmPasswordErrors, errorsPanel ])
 
+    const imageRef = useRef(null);
+
     const mutation = useMutation(CREATE_NEW_USER);
     const onSubmitHandler = useCallback((event) => {
         event.preventDefault();
         const registerUser = mutation[0];
 
         if(!hasFormError) {
+            //console.log(imageRef)
             registerUser({
                 variables: {
                     user: {
+                        image: imageRef.current,
                         name: nameRef.current.value,
                         password: passwordRef.current.value,
                         username: userNameRef.current.value,
@@ -117,7 +121,6 @@ const Container = () => {
         </Typography>
     ), []);
     
-   const imageRef = useRef(null);
     const profileImageMemo = useMemo(() => <Image imageRef={imageRef} />, [])
 
     const nameMemo = useMemo(() => (
