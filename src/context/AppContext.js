@@ -14,6 +14,7 @@ AppContext.displayName = 'AppContext';
 export const AppContextProvider = ({ children }) => {
     const result = useUsersQuery();
 
+    const serverPublicURL = useRef("http://localhost:5000")
     const [ isLoading, setIsLoading ] = useState(false);
     const [ feedbacksList, setFeedbackList ] = useState([]);
     const [ error, setError ] = useState({ hasError: false, errorMessage: "" })
@@ -209,7 +210,7 @@ export const AppContextProvider = ({ children }) => {
     return (
         <AppContext.Provider 
             value={{ ...error.hasError, errorHandler, feedbacksList, getInitialsNameLetters, getBgColors, getUsersList, 
-                isLoading, setFeedbackList, 
+                isLoading, setFeedbackList, serverPublicURL,
             startLoading, stopLoading }}>
             { children }
         </AppContext.Provider>

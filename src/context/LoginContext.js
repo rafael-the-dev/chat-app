@@ -43,8 +43,8 @@ export const LoginContextProvider = ({ children }) => {
                 onCompleted(data) {
                     //console.log(data)
                     if(data) {
-                        const { name, username } = data.validateToken;
-                        addUser({ name, username })
+                        const { image, name, username } = data.validateToken;
+                        addUser({ image, name, username })
                     }
                 },
                 onError(err) {

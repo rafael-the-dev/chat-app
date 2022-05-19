@@ -7,7 +7,7 @@ import { AppContext } from 'src/context/AppContext';
 
 const Container = () => {
     const { user } = useContext(LoginContext)
-    const { getInitialsNameLetters } = useContext(AppContext)
+    const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
     const [ chatTab, setChatTab ] = useState("DIRECT_CHAT");
 
     const clickHandler = useCallback(prop => () => setChatTab(prop), []);
@@ -27,7 +27,11 @@ const Container = () => {
                     component="h1">
                     Chat app
                 </Typography>
-                <Avatar className="bg-cyan-500">{ getInitialsNameLetters(user ? user.name : "" )}</Avatar>
+                <Avatar 
+                    className={classNames({ "bg-cyan-500": !Boolean(user?.image) })}
+                    src={user?.image ? `${serverPublicURL.current}/${user.image}` : ""}>
+                    { user?.image ? "" : getInitialsNameLetters(user ? user.name : "" ) }
+                </Avatar>
             </header>
             <main>
                 <div className={classNames("flex pla")}>

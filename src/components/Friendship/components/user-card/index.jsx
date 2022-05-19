@@ -7,7 +7,7 @@ import classes from './styles.module.css'
 
 const Container = ({ image, name, username }) => {
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
-    console.log(image)
+    
     return (
         <article className={classNames(classes.card, `flex items-center py-2 last:border-0`)}>
             <Avatar 

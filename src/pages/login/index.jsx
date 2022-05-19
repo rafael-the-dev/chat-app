@@ -63,8 +63,8 @@ const Container = () => {
                 },
                 async onCompleted(data) {
                     localStorage.setItem("__chat-app--token", JSON.stringify(data.login.acessToken))
-                    console.log(data)
-                    addUser({ name: data.login.name, username: data.login.username });
+                    //console.log(data)
+                    addUser({ image: data.login.image, name: data.login.name, username: data.login.username });
                     stopLoading();
                     //refreshAllFeedbacks();
                     router.push('/');

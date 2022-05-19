@@ -59,6 +59,7 @@ export const LOGIN = gql`
                 expiresIn
                 token
             }
+            image
             name
             username
         }
@@ -81,6 +82,7 @@ export const VALIDATE_TOKEN = gql`
                 expiresIn
                 token
             }
+            image
             name
             username
         }
