@@ -50,7 +50,7 @@ const Container = () => {
                         Friends
                     </Button>
                 </div>
-                <SearchFriendsContainer className={classNames({ 'hidden': tab !== 'SEARCH_FRIENDS' })} />
+                <SearchFriendsContainer className={classNames("", { 'hidden': tab !== 'SEARCH_FRIENDS' })} />
             </main>
         </>
     );
