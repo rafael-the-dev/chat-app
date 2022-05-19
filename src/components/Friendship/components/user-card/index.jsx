@@ -22,7 +22,7 @@ const Container = ({ image, name, username }) => {
                 </Typography>
             </div>
             <IconButton className="ml-3">
-                <PersonAddIcon className="text-blue-600" />
+                <PersonAddIcon className="opacity-80 text-blue-600" />
             </IconButton>
         </article>
     );

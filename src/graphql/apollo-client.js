@@ -1,7 +1,10 @@
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, split, concat } from '@apollo/client';
+import { ApolloClient, HttpLink, ApolloLink, from, InMemoryCache, split, concat } from '@apollo/client';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { createUploadLink } from 'apollo-upload-client';
+//import { , HttpLink } from '@apollo/client';
+//import createUploadLink from "apollo-upload-client/public/createUploadLink.js";
 
 const getToken = () => {
   if(typeof window !== "undefined") {
@@ -57,7 +60,7 @@ const wsLink =
       );
     },
     wsLink,
-    concat(authMiddleware, httpLink),
+    concat(authMiddleware, createUploadLink({ uri: "http://localhost:5000/graphql" })),
   ) : null;
 
 const client = new ApolloClient({
