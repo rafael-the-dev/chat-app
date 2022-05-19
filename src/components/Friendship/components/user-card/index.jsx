@@ -7,10 +7,15 @@ import classes from './styles.module.css'
 
 const Container = ({ image, name, username }) => {
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
-
+    console.log(image)
     return (
         <article className={classNames(classes.card, `flex items-center py-2 last:border-0`)}>
-            <Avatar style={{ backgroundColor: getBgColors()[username] }} className="text-base">{ getInitialsNameLetters(name)}</Avatar>
+            <Avatar 
+                src={image ? `http://localhost:5000/${image}` : ""}
+                style={{ backgroundColor: image ? "transparent" : getBgColors()[username] }} 
+                className="text-base">
+                { image ? "" :getInitialsNameLetters(name) }
+            </Avatar>
             <div className="flex flex-col grow ml-3">
                 <Typography 
                     className={classNames("font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap")} 
