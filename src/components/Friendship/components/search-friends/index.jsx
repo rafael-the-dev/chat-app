@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { IconButton } from '@mui/material'
 import classNames from 'classnames';
 
@@ -11,24 +11,49 @@ import FriendCard from "../user-card";
 
 const Container = ({ className }) => {
     const { getUsersList } = useContext(AppContext)
+    const [ filter, setFilter ] = useState("");
+    const inputRef = useRef(null);
+
+    const filterList = useMemo(() => {
+        if(filter === "") return getUsersList();
+
+        const filterLowerCased = filter.toLocaleLowerCase();
+        return getUsersList().filter(item => item.username.toLocaleLowerCase().includes(filterLowerCased) || item.name.toLowerCase().includes(filterLowerCased))
+    }, [ filter, getUsersList ])
+
+    const searchHandler = useCallback(event => {
+        event.preventDefault();
+        const value = inputRef.current.value.trim();
+        if(inputRef.current !== null && value !== "") setFilter(value)
+    }, []);
+
+    const onChangeHandler = useCallback(event => {
+        if(event.target.value === "") {
+            setFilter("")
+        }
+    }, [])
 
     return (
         <div className={classNames(className)}>
-            <form className={classNames("border border-solid border-slate-200 flex items-center px-2 py-1")}>
-                <IconButton>
+            <form 
+                className={classNames("border border-solid border-slate-200 flex items-center px-2 py-1")}
+                onSubmit={searchHandler}>
+                <IconButton type="button">
                     <FilterAltIcon />
                 </IconButton>
                 <input 
                     className={classNames("border-0 grow text-base outline-none py-3")}
                     placeholder="search username"
+                    ref={inputRef}
+                    onChange={onChangeHandler}
                 />
-                <IconButton>
+                <IconButton type="submit">
                     <SearchIcon />
                 </IconButton>
             </form>
             <div className="px-5 pt-6">
                 {
-                    getUsersList()?.map((item, index) => <FriendCard key={index} { ...item } />)
+                    filterList?.map((item, index) => <FriendCard key={index} { ...item } />)
                 }
             </div>
         </div>
