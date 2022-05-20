@@ -26,7 +26,7 @@ export const AppContextProvider = ({ children }) => {
     const addError = useCallback(({ hasError, errorMessage }) => setError({ hasError, errorMessage }), []);
 
     //const [ userProperties, setUserProperties ] = useState({ usersColors: {}, usersList: [], });
-    const userOldProperties = useRef({ usersColors: {}, usersList: []});
+    const userOldProperties = useRef({ friendshipInvitations: [], usersColors: {}, usersList: []});
 
     const colorIndex = useRef(0);
     const getColor = useCallback(() => {
@@ -86,6 +86,7 @@ export const AppContextProvider = ({ children }) => {
 
     const getBgColors = useCallback(() => userProperties.usersColors, [ userProperties ]);
     const getUsersList = useCallback(() => userProperties.usersList, [ userProperties ]);
+    const getFriendshipInvitationsList = useCallback(() => userProperties.friendshipInvitations, [ userProperties ]);
 
     //const { subscribeToMore, ...result } = useQuery(GET_USERS);
    /* const feedbackSubscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
@@ -222,7 +223,7 @@ export const AppContextProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{ ...error.hasError, errorHandler, feedbacksList, getInitialsNameLetters, getBgColors, getUsersList, 
+            value={{ ...error.hasError, errorHandler, feedbacksList, getFriendshipInvitationsList, getInitialsNameLetters, getBgColors, getUsersList, 
                 isLoading, setFeedbackList, serverPublicURL,
             startLoading, stopLoading }}>
             { children }

@@ -1,4 +1,4 @@
-import { Avatar, IconButton, Typography } from "@mui/material";
+import { Avatar, Icon, IconButton, Typography } from "@mui/material";
 import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import { useCallback, useContext, useMemo, useRef, useState } from "react";
 import { AppContext } from "src/context/AppContext";
@@ -9,52 +9,74 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-const FriendshipInvitaitonCard = ({ image, name, username }) => {
+const FriendshipInvitaitonCard = ({ description, image, sender }) => {
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
     const [ expanded, setExpanded ] = useState(false);
+    
+    const toggleExpanded = useCallback(() => setExpanded(b => !b), []);
 
-    const toggleExpanded = useCallback(prop => () => setExpanded(prop));
+    const hasDescription = useMemo(() => {
+        if(!Boolean(description)) return false;
+        return description.trim().length > 0;
+    }, [ description ]);
 
-    <article className={classNames(classes.card, `flex items-center py-2 last:border-0`)}>
-            <div>
-                <Avatar 
-                    src={image ? `http://localhost:5000/${image}` : ""}
-                    style={{ backgroundColor: image ? "transparent" : getBgColors()[username] }} 
-                    className="text-base">
-                    { image ? "" :getInitialsNameLetters(name) }
-                </Avatar>
-                <div className="flex flex-col grow ml-3">
-                    <div className="flex items-center justify-between">
-                        <Typography 
-                            className={classNames("font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap")} 
-                            component="h2">
-                            { name }
-                        </Typography>
-                        <Typography className={classNames("")}>
-                           12/05/2022
-                        </Typography>
+    return (
+        <article className={classNames(classes.card, `flex flex-col pt-3 pb-2 last:border-0`)}>
+                <div className="flex items-center">
+                    <Avatar 
+                        className="h-[50px] text-base w-[50px]"
+                        src={sender.image ? `http://localhost:5000/${sender.image}` : ""}
+                        style={{ backgroundColor: image ? "transparent" : getBgColors()[sender.username] }} 
+                        variant="square">
+                        { sender.image ? "" :getInitialsNameLetters(sender.name) }
+                    </Avatar>
+                    <div className="flex flex-col grow ml-3">
+                        <div className="flex items-center justify-between">
+                            <Typography 
+                                className={classNames("font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap")} 
+                                component="h2">
+                                { sender.name }
+                            </Typography>
+                            <Typography className={classNames("text-sm")}>
+                                12/05/2022
+                            </Typography>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <Typography className={classNames()}>
+                                @{ sender.username }
+                            </Typography>
+                            <div className="flex items-center">
+                                <IconButton 
+                                    className="p-[5px]">
+                                    <CloseIcon className="opacity-80 text-red-500" />
+                                </IconButton>
+                                <IconButton 
+                                    className="ml-2 p-[5px]">
+                                    <CheckIcon className="opacity-80 text-blue-600" />
+                                </IconButton>
+                            </div>
+                        </div>
                     </div>
-                    <Typography className={classNames("mt-1")}>
-                        @{ username }
-                    </Typography>
                 </div>
-            </div>
-            <div className="flex items-center justify-between">
-                <Typography className="flex items-center">
-                    Description { expanded ? <KeyboardArrowDownIcon className="rotate-180 ml-2" onClick={toggleExpanded(false)} /> : <KeyboardArrowDownIcon className="ml-2"  onClick={toggleExpanded(true)} />}
-                </Typography>
-                <div>
-                    <IconButton 
-                        className="">
-                        <CloseIcon className="opacity-80 text-red-500" />
-                    </IconButton>
-                    <IconButton 
-                        className="ml-3">
-                        <CheckIcon className="opacity-80 text-blue-600" />
-                    </IconButton>
-                </div>
-            </div>
-    </article>
+                { hasDescription && (
+                    <>
+                        <div className="flex items-center justify-between">
+                            <Typography className="" component="h3">
+                                Description 
+                            </Typography>
+                            <IconButton onClick={toggleExpanded}>
+                                { expanded ? <KeyboardArrowDownIcon className={classes.iconRotate} /> : <KeyboardArrowDownIcon className="" />}
+                            </IconButton>
+                        </div>
+                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                            <Typography className="text-gray-700">
+                                { description } 
+                            </Typography>
+                        </Collapse>
+                    </>
+                )}
+        </article>
+    );
 };
 
 export default FriendshipInvitaitonCard;

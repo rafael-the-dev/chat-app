@@ -10,6 +10,7 @@ import { AppContext } from "src/context/AppContext";
 
 //import FriendCard from "../user-card";
 import SearchList from "../search-list"
+import FriendshipInvitations from "../friendship-invitations"
 
 const Container = ({ className }) => {
     const { getUsersList } = useContext(AppContext)
@@ -17,6 +18,8 @@ const Container = ({ className }) => {
     const [ filter, setFilter ] = useState("SEARCH");
     const [ anchorEl, setAnchorEl] = useState(null);
     const inputRef = useRef(null);
+
+    const friendshipInvitationsMemo = useMemo(() => <FriendshipInvitations />, [])
 
     const filterOptions = useRef({
         invitations: "INVITATIONS",
@@ -73,6 +76,9 @@ const Container = ({ className }) => {
                 className={classNames({ "hidden": filter !== filterOptions.current.search })} 
                 searchKey={searchKey} 
             />
+            <div className={classNames("px-5 mt-6", { 'hidden': filter !== filterOptions.current.invitations })}>
+                { friendshipInvitationsMemo }
+            </div>
             <Popover
                 id={id}
                 open={openPopover}
