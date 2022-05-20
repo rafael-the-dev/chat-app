@@ -5,9 +5,15 @@ import { AppContext } from "src/context/AppContext";
 import classNames from 'classnames'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import classes from './styles.module.css'
+import { useMutation} from "@apollo/client"
+
 import Input from "./components/input"
 
+import { SEND_FRIENDSHIP_INVITATION } from "src/graphql/mutations"
+
 const Container = ({ image, name, username }) => {
+    const sendInvitationMutation = useMutation(SEND_FRIENDSHIP_INVITATION);
+
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
     const [ open, setOpen ] = useState(false);
     const [ expanded, setExpanded ] = useState(false);
@@ -15,10 +21,26 @@ const Container = ({ image, name, username }) => {
 
     const toggleDialog = useCallback(prop => () => setOpen(prop), []);
     const toggleExpand = useCallback(() => setExpanded(b => !b), []);
-    const sendInvitation = useCallback(() => {}, [])
 
     const input = useMemo(() => <Input valueRef={valueRef} />, []);
 
+    const sendInvitationHandler = useCallback(() => {
+        const send = sendInvitationMutation[0];
+
+        send({ variables: 
+            {
+                description: valueRef.current,
+                targetUsername: username
+            },
+            onCompleted() {
+                valueRef.current = "";
+                setExpanded(false);
+            },
+            onError(err) {
+                console.log(err)
+            }
+        })
+    }, [ sendInvitationMutation, username ])
     
     return (
         <article className={classNames(classes.card, `flex items-center py-2 last:border-0`)}>
@@ -70,7 +92,7 @@ const Container = ({ image, name, username }) => {
                         variant="contained"
                         type="button"
                         className={classNames("capitalize ml-2 sm:mr-4 hover:bg-red-500", )}
-                        onClick={sendInvitation}>
+                        onClick={sendInvitationHandler}>
                         Send
                     </Button>    
                 </DialogActions>
