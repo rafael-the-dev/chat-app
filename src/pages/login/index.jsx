@@ -85,7 +85,7 @@ const Container = () => {
     return (
         <div className="min-h-screen flex items-center justify-center w-full px-5 md:px-0">
             <Paper 
-                className={classNames(classes.loginContainer, `px-5 py-8 w-full md:px-6`)}
+                className={classNames(classes.loginContainer, `px-5 py-8 rounded-2xl w-full md:px-6`)}
                 component="form"
                 elavation={0}
                 onSubmit={onSubmitHandler}>
