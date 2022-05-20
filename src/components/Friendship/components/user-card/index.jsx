@@ -1,19 +1,24 @@
 import { Avatar, IconButton, Typography } from "@mui/material";
 import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useMemo, useRef, useState } from "react";
 import { AppContext } from "src/context/AppContext";
 import classNames from 'classnames'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import classes from './styles.module.css'
+import Input from "./components/input"
 
 const Container = ({ image, name, username }) => {
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
     const [ open, setOpen ] = useState(false);
     const [ expanded, setExpanded ] = useState(false);
+    const valueRef = useRef("");
 
     const toggleDialog = useCallback(prop => () => setOpen(prop), []);
     const toggleExpand = useCallback(() => setExpanded(b => !b), []);
     const sendInvitation = useCallback(() => {}, [])
+
+    const input = useMemo(() => <Input valueRef={valueRef} />, []);
+
     
     return (
         <article className={classNames(classes.card, `flex items-center py-2 last:border-0`)}>
@@ -49,20 +54,7 @@ const Container = ({ image, name, username }) => {
                         <span className="font-bold ml-2">{username}</span>.
                     </DialogContentText>
                     <Collapse in={expanded} timeout="auto" unmountOnExit>
-                        <form className="flex flex-col items-stretch mt-4 w-full">
-                            <Typography 
-                                component="label" 
-                                htmlFor="description-input">
-                                Message (Optional)
-                            </Typography>
-                            <textarea 
-                                className="border-cyan-500 mt-3 text-base outline-cyan-800"
-                                id="description-input"
-                                placeholder="Insert your message"
-
-                                rows="6"
-                            ></textarea>
-                        </form>
+                        { input }
                     </Collapse>
                 </DialogContent>
                 <DialogActions className="pb-4">
