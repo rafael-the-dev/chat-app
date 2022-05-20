@@ -1,5 +1,21 @@
 import { gql } from "@apollo/client"
 
+export const GET_FRIENDSHIPS_INVITATIONS = gql`
+    query getFriendshipsInvitations {
+        friendshipInvitations {
+            ID
+            active
+            description
+            datetime
+            sender {
+                image
+                name
+                username
+            }
+        }
+    }
+`;
+
 export const GET_USERS = gql`
     query getUsers {
         users {

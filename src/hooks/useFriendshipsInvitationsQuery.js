@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { GET_USERS } from 'src/graphql/queries';
+import { GET_FRIENDSHIPS_INVITATIONS } from 'src/graphql/queries';
 import { useQuery } from "@apollo/client"
 
-export const useUsersQuery = (query, variables) => {
-    const { subscribeToMore, ...result } = useQuery(GET_USERS);
+export const useFriendshipsInvitationsQuery = (query, variables) => {
+    const { subscribeToMore, ...result } = useQuery(GET_FRIENDSHIPS_INVITATIONS);
 
     const [ data, setData ] = useState(null);
     const [ loading, setLoading ] = useState(false);
@@ -17,5 +17,3 @@ export const useUsersQuery = (query, variables) => {
   
     return { data, loading, error };
 };
-
-export default useUsersQuery;

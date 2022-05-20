@@ -5,7 +5,7 @@ import { useQuery, useSubscription } from "@apollo/client"
 
 import { GET_USERS } from 'src/graphql/queries';
 import { DELETE_FEEDBACK_SUBSCRIPTION, GET_FEEDBACKS__SUBSCRIPTION, GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
-import useUsersQuery from 'src/hooks/useUsersQuery';
+import { useUsersQuery, useFriendshipsInvitationsQuery } from 'src/hooks';
 //import WebSocket from "ws"
 
 export const AppContext = createContext();
@@ -13,6 +13,7 @@ AppContext.displayName = 'AppContext';
 
 export const AppContextProvider = ({ children }) => {
     const result = useUsersQuery();
+    const friendshipInvitationsResult = useFriendshipsInvitationsQuery();
 
     const serverPublicURL = useRef("http://localhost:5000")
     const [ isLoading, setIsLoading ] = useState(false);
@@ -54,7 +55,11 @@ export const AppContextProvider = ({ children }) => {
     }, []);
     
     const userProperties = useMemo(() => {
-        const data = result.data
+        const data = result.data;
+        const friendshipInvitationsData = friendshipInvitationsResult.data;
+
+        let properties = {};
+
         if(data) {
             colorIndex.current = 0;
             let usersColors = {};
@@ -64,12 +69,20 @@ export const AppContextProvider = ({ children }) => {
                 }
             });
             
-            const newUserProperties = { ...userOldProperties.current, usersColors, usersList: data.users };
-            userOldProperties.current = newUserProperties;
-            return newUserProperties;
+            //const newUserProperties = { ...userOldProperties.current };
+            //userOldProperties.current = newUserProperties;
+            properties = { ...properties, usersColors, usersList: data.users }
+            //return newUserProperties;
         }
-        return userOldProperties;
-    }, [ getColor, result ]);
+        
+        if(friendshipInvitationsData) {
+            properties = { ...properties, friendshipInvitations: friendshipInvitationsData.friendshipInvitations };
+        }
+
+        const newUserProperties = { ...userOldProperties.current, ...properties };
+        userOldProperties.current = newUserProperties;
+        return newUserProperties;
+    }, [ friendshipInvitationsResult, getColor, result ]);
 
     const getBgColors = useCallback(() => userProperties.usersColors, [ userProperties ]);
     const getUsersList = useCallback(() => userProperties.usersList, [ userProperties ]);
