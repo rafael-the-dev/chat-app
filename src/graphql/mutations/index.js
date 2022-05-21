@@ -32,6 +32,15 @@ export const REVALIDATE_TOKEN = gql`
     }
 `;
 
+export const REJECT_FRIENDSHIP_INVITATION = gql`
+    mutation RejectFriendshipInvitation($id: String!) {
+        rejectFriendshipInvitation(id: $id) {
+            ID
+            status
+        }
+    }
+`;
+
 export const SEND_FRIENDSHIP_INVITATION = gql`
     mutation SendFriendshipInvitation($targetUsername: String!, $description: String) {
         sendFriendshipInvitation(targetUsername: $targetUsername, description: $description) {

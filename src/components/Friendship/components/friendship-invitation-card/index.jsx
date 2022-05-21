@@ -10,10 +10,17 @@ import { getDate } from "src/helpers"
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useMutation } from "@apollo/client";
+import { REJECT_FRIENDSHIP_INVITATION } from "src/graphql/mutations";
+import { GET_FRIENDSHIPS_INVITATIONS } from "src/graphql/queries";
 
-const FriendshipInvitaitonCard = ({ description, datetime, image, sender }) => {
+const FriendshipInvitaitonCard = ({ description, ID, datetime, image, sender }) => {
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
     const [ expanded, setExpanded ] = useState(false);
+
+    const rejectMutation = useMutation(REJECT_FRIENDSHIP_INVITATION, { 
+        refetchQueries: [ GET_FRIENDSHIPS_INVITATIONS ]
+    });
     
     const toggleExpanded = useCallback(() => setExpanded(b => !b), []);
 
@@ -21,6 +28,18 @@ const FriendshipInvitaitonCard = ({ description, datetime, image, sender }) => {
         if(!Boolean(description)) return false;
         return description.trim().length > 0;
     }, [ description ]);
+
+    const rejectFriendshipInvitation = useCallback(() => {
+        const rejectInvitation = rejectMutation[0];
+        rejectInvitation({ 
+            variables: {
+                id: ID
+            },
+            onError(err) {
+                console.log(err)
+            }
+        });
+    }, [ ID, rejectMutation ])
 
     return (
         <article className={classNames(classes.card, `flex flex-col pt-3 pb-2 last:border-0`)}>
@@ -49,7 +68,8 @@ const FriendshipInvitaitonCard = ({ description, datetime, image, sender }) => {
                             </Typography>
                             <div className="flex items-center">
                                 <IconButton 
-                                    className="p-[5px]">
+                                    className="p-[5px]"
+                                    onClick={rejectFriendshipInvitation}>
                                     <CloseIcon className="opacity-80 text-red-500" />
                                 </IconButton>
                                 <IconButton 

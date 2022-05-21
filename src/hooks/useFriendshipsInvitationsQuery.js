@@ -7,6 +7,7 @@ import { FRIENDSHIP_INVITATION_SENT } from 'src/graphql/subscriptions';
 export const useFriendshipsInvitationsQuery = (loggedUser) => {
     const username = useMemo(() => loggedUser ? loggedUser.username : "", [ loggedUser ]);
     const subscription = useSubscription(FRIENDSHIP_INVITATION_SENT, { variables: { id: username }})
+    
     const { subscribeToMore, ...result } = useQuery(GET_FRIENDSHIPS_INVITATIONS);
 
     const [ data, setData ] = useState(null);
@@ -21,8 +22,8 @@ export const useFriendshipsInvitationsQuery = (loggedUser) => {
                 if (!subscriptionData.data || !Boolean(loggedUser)) return prev;
 
                 const invitation = subscriptionData.data.friendshipInvitationSent;
-                const friendshipInvitations = [ invitation, ...prev.friendshipInvitations ];
-
+                let friendshipInvitations = [ invitation, ...prev.friendshipInvitations.filter(item => item.sender.username !== invitation.sender.username) ];
+                
                 return Object.assign({}, prev, {
                     friendshipInvitations
                 });
