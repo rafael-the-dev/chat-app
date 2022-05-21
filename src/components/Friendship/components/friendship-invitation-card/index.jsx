@@ -5,11 +5,13 @@ import { AppContext } from "src/context/AppContext";
 import classNames from 'classnames'
 import classes from './styles.module.css'
 
+import { getDate } from "src/helpers"
+
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-const FriendshipInvitaitonCard = ({ description, image, sender }) => {
+const FriendshipInvitaitonCard = ({ description, datetime, image, sender }) => {
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
     const [ expanded, setExpanded ] = useState(false);
     
@@ -38,7 +40,7 @@ const FriendshipInvitaitonCard = ({ description, image, sender }) => {
                                 { sender.name }
                             </Typography>
                             <Typography className={classNames("text-sm")}>
-                                12/05/2022
+                                { getDate(new Date(parseInt(datetime))) }
                             </Typography>
                         </div>
                         <div className="flex items-center justify-between">
