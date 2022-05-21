@@ -10,6 +10,22 @@ export const USER_CREATED_SUBSCRIPTION = gql`
     }
 `;
 
+export const FRIENDSHIP_INVITATION_SENT = gql`
+    subscription FriendshipInvitationSent($id: String!) {
+        friendshipInvitationSent(id: $id) {
+            ID
+            active
+            description
+            datetime
+            sender {
+                image
+                name
+                username
+            }
+        }
+    }
+`;
+
 export const GET_FEEDBACKS__SUBSCRIPTION = gql`
     subscription PostCreated {
         feedbackCreated {
