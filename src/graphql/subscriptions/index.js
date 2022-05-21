@@ -1,5 +1,15 @@
 import { gql } from '@apollo/client';
 
+export const USER_CREATED_SUBSCRIPTION = gql`
+    subscription UserCreated {
+        userCreated {
+            image
+            name
+            username
+        }
+    }
+`;
+
 export const GET_FEEDBACKS__SUBSCRIPTION = gql`
     subscription PostCreated {
         feedbackCreated {

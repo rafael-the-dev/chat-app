@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 //import data from 'src/data.json';
 //import { useDispatch } from 'react-redux'
 import { useQuery, useSubscription } from "@apollo/client"
@@ -6,14 +6,16 @@ import { useQuery, useSubscription } from "@apollo/client"
 import { GET_USERS } from 'src/graphql/queries';
 import { DELETE_FEEDBACK_SUBSCRIPTION, GET_FEEDBACKS__SUBSCRIPTION, GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
 import { useUsersQuery, useFriendshipsInvitationsQuery } from 'src/hooks';
+import { LoginContext } from './LoginContext';
 //import WebSocket from "ws"
 
 export const AppContext = createContext();
 AppContext.displayName = 'AppContext';
 
 export const AppContextProvider = ({ children }) => {
-    const result = useUsersQuery();
-    const friendshipInvitationsResult = useFriendshipsInvitationsQuery();
+    const { user } = useContext(LoginContext)
+    const result = useUsersQuery(user);
+    const friendshipInvitationsResult = useFriendshipsInvitationsQuery(user);
 
     const serverPublicURL = useRef("http://localhost:5000")
     const [ isLoading, setIsLoading ] = useState(false);
