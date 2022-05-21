@@ -4,7 +4,7 @@ import { AppContext } from 'src/context/AppContext';
 
 import FriendCard from "../user-card";
 
-const Container = ({ className, searchKey }) => {
+const Container = ({ searchKey }) => {
     const { getUsersList } = useContext(AppContext);
     
     const filterList = useMemo(() => {
@@ -15,11 +15,11 @@ const Container = ({ className, searchKey }) => {
     }, [ searchKey, getUsersList ]);
 
     return (
-        <div className={classNames(className, "px-5 pt-6")}>
+        <>
             {
                 filterList?.map((item, index) => <FriendCard key={index} { ...item } />)
             }
-        </div>
+        </>
     );
 };
 

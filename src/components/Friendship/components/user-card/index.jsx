@@ -1,5 +1,5 @@
 import { Avatar, IconButton, Typography } from "@mui/material";
-import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
+import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText } from '@mui/material';
 import { useCallback, useContext, useMemo, useRef, useState } from "react";
 import { AppContext } from "src/context/AppContext";
 import classNames from 'classnames'
@@ -68,9 +68,13 @@ const Container = ({ image, name, username }) => {
             <Dialog
                 open={open}
                 onClose={toggleDialog(false)}
-                aria-describedby="session-dialog-description"
+                aria-labelledby="friendship-invitation-dialog-title"
+                aria-describedby="friendship-invitation-dialog-description"
             >
-                <DialogContent>
+                <DialogTitle id="friendship-invitation-dialog-title">
+                    Invite { name }
+                </DialogTitle>
+                <DialogContent id="friendship-invitation-dialog-description">
                     <DialogContentText id="session-dialog-description">
                         You can add a description to personalize your invitation to 
                         <span className="font-bold ml-2">{username}</span>.

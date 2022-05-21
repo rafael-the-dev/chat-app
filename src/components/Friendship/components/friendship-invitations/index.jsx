@@ -9,7 +9,7 @@ import Card  from "../friendship-invitation-card"
 
 const FriendshipInvitations = () => {
     const { getFriendshipInvitationsList, getInitialsNameLetters } = useContext(AppContext)
-    console.log("rafael tivane", getFriendshipInvitationsList())
+    
     return (
         <>
             {

@@ -16,10 +16,8 @@ const Container = () => {
 
     const classesToggler = useCallback((key, tab) => {
         return `py-2 rounded-none w-1/2 ${tab === key ? "bg-gray-500" : "bg-gray-400 text-black"}`
-    }, [ ])
-    console.log(user)
+    }, [ ]);
 
-    console.log(getUsersList())
     return (
         <>
             <Head>

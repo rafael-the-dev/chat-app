@@ -19,7 +19,12 @@ const Container = ({ className }) => {
     const [ anchorEl, setAnchorEl] = useState(null);
     const inputRef = useRef(null);
 
-    const friendshipInvitationsMemo = useMemo(() => <FriendshipInvitations />, [])
+    const friendshipInvitationsMemo = useMemo(() => <FriendshipInvitations />, []);
+    const searchListMemo = useMemo(() => (
+        <SearchList 
+            searchKey={searchKey} 
+        />
+    ), [ searchKey ]);
 
     const filterOptions = useRef({
         invitations: "INVITATIONS",
@@ -50,10 +55,11 @@ const Container = ({ className }) => {
     const openPopover = Boolean(anchorEl);
     const id = openPopover ? 'simple-popover' : undefined;
 
-    const listItemClickHandler = useCallback(prop => () => setFilter(prop), []);
-    console.log(
-        "rafael"
-    )
+    const listItemClickHandler = useCallback(prop => () => {
+        setFilter(prop);
+        handleClose();
+    }, [ handleClose ]);
+
     return (
         <div className={classNames(className)}>
             <form 
@@ -72,10 +78,9 @@ const Container = ({ className }) => {
                     <SearchIcon />
                 </IconButton>
             </form>
-            <SearchList  
-                className={classNames({ "hidden": filter !== filterOptions.current.search })} 
-                searchKey={searchKey} 
-            />
+            <div className={classNames({ "hidden": filter !== filterOptions.current.search }, "px-5 pt-6")}>
+                { searchListMemo }
+            </div>
             <div className={classNames("px-5 mt-6", { 'hidden': filter !== filterOptions.current.invitations })}>
                 { friendshipInvitationsMemo }
             </div>
