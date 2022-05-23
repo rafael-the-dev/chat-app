@@ -6,6 +6,7 @@ import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from "src/context/AppContext";
 
 import SearchFriendsContainer from "./components/search-friends"
+import FriendshipContainer from "./components/friendships"
 
 const Container = () => {
     const { user } = useContext(LoginContext)
@@ -13,6 +14,9 @@ const Container = () => {
     const [ tab, setTab ] = useState("SEARCH_FRIENDS");
 
     const clickHandler = useCallback(prop => () => setTab(prop), []);
+
+    const friendsContainer = useMemo(() => <FriendshipContainer />, []);
+    const searchFriendsContainer = useMemo(() => <SearchFriendsContainer />, []);
 
     const classesToggler = useCallback((key, tab) => {
         return `py-2 rounded-none w-1/2 ${tab === key ? "bg-gray-500" : "bg-gray-400 text-black"}`
@@ -48,7 +52,12 @@ const Container = () => {
                         Friends
                     </Button>
                 </div>
-                <SearchFriendsContainer className={classNames("", { 'hidden': tab !== 'SEARCH_FRIENDS' })} />
+                <div  className={classNames({ 'hidden': tab !== 'SEARCH_FRIENDS' })}>
+                    { searchFriendsContainer }
+                </div>
+                <div className={classNames("mt-4 px-5", { 'hidden': tab !== 'FRIENDS' })}>
+                    { friendsContainer }
+                </div>
             </main>
         </>
     );

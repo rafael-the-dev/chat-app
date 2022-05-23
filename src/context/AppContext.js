@@ -85,6 +85,7 @@ export const AppContextProvider = ({ children }) => {
 
         if(friendshipsData) {
             console.log(friendshipsData)
+            properties = { ...properties, friendships: friendshipsData.friendships };
         }
 
         const newUserProperties = { ...userOldProperties.current, ...properties };
@@ -93,8 +94,9 @@ export const AppContextProvider = ({ children }) => {
     }, [ friendshipsResult, friendshipInvitationsResult, getColor, result ]);
 
     const getBgColors = useCallback(() => userProperties.usersColors, [ userProperties ]);
-    const getUsersList = useCallback(() => userProperties.usersList, [ userProperties ]);
+    const getFriendshipsList = useCallback(() => userProperties.friendships, [ userProperties ]);
     const getFriendshipInvitationsList = useCallback(() => userProperties.friendshipInvitations, [ userProperties ]);
+    const getUsersList = useCallback(() => userProperties.usersList, [ userProperties ]);
 
     //const { subscribeToMore, ...result } = useQuery(GET_USERS);
    /* const feedbackSubscription = useSubscription(GET_FEEDBACK__SUBSCRIPTION, { 
@@ -231,7 +233,8 @@ export const AppContextProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{ ...error.hasError, errorHandler, feedbacksList, getFriendshipInvitationsList, getInitialsNameLetters, getBgColors, getUsersList, 
+            value={{ ...error.hasError, errorHandler, feedbacksList, getFriendshipInvitationsList, 
+                getInitialsNameLetters, getBgColors, getFriendshipsList, getUsersList, 
                 isLoading, setFeedbackList, serverPublicURL,
             startLoading, stopLoading }}>
             { children }

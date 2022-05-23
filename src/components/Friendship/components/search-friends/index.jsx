@@ -61,7 +61,7 @@ const Container = ({ className }) => {
     }, [ handleClose ]);
 
     return (
-        <div className={classNames(className)}>
+        <>
             <form 
                 className={classNames("border border-solid border-slate-200 flex items-center px-2 py-1")}
                 onSubmit={searchHandler}>
@@ -130,7 +130,7 @@ const Container = ({ className }) => {
                     </ListItem>
                 </List>
             </Popover>
-        </div>
+        </>
     );
 };
 

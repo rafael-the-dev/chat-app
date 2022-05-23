@@ -25,8 +25,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                     <Avatar 
                         className="h-[50px] text-base w-[50px]"
                         src={image ? `http://localhost:5000/${image}` : ""}
-                        style={{ backgroundColor: image ? "transparent" : getBgColors()[username] }} 
-                        variant="square">
+                        style={{ backgroundColor: image ? "transparent" : getBgColors()[username] }}>
                         { image ? "" :getInitialsNameLetters(name) }
                     </Avatar>
                     <div className="flex flex-col grow ml-3">
@@ -36,7 +35,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                                 component="h2">
                                 { name }
                             </Typography>
-                            <IconButton>
+                            <IconButton className="p-0">
                                 <MoreHorizIcon />
                             </IconButton>
                         </div>
@@ -44,12 +43,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                             <Typography className={classNames()}>
                                 @{ username }
                             </Typography>
-                            <div className="flex items-center">
-                                <IconButton 
-                                    className="p-[5px]">
-                                    <CircleIcon className={classNames(isOnline ? "text-green-500" : "text-red-500")} />
-                                </IconButton>
-                            </div>
+                            <CircleIcon className={classNames("text-[.6rem] mr-[2px]", isOnline ? "text-green-500" : "text-red-500")} />
                         </div>
                     </div>
                 </div>
