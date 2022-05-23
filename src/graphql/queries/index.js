@@ -16,6 +16,16 @@ export const GET_FRIENDSHIPS_INVITATIONS = gql`
     }
 `;
 
+export const GET_FRIENDSHIPS = gql`
+    query getFriendships {
+        friendships {
+            image
+            name
+            username
+        }
+    }
+`;
+
 export const GET_USERS = gql`
     query getUsers {
         users {

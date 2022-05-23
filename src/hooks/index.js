@@ -1,4 +1,5 @@
 import { useUsersQuery } from "./useUsersQuery"
 import { useFriendshipsInvitationsQuery } from "./useFriendshipsInvitationsQuery";
+import { useFriendshipsQuery } from "./useFriendshipsQuery";
 
-export { useUsersQuery, useFriendshipsInvitationsQuery };
+export { useUsersQuery, useFriendshipsQuery, useFriendshipsInvitationsQuery };

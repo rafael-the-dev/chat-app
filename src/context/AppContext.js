@@ -1,11 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 //import data from 'src/data.json';
 //import { useDispatch } from 'react-redux'
-import { useQuery, useSubscription } from "@apollo/client"
+//import { useQuery, useSubscription } from "@apollo/client"
 
-import { GET_USERS } from 'src/graphql/queries';
-import { DELETE_FEEDBACK_SUBSCRIPTION, GET_FEEDBACKS__SUBSCRIPTION, GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
-import { useUsersQuery, useFriendshipsInvitationsQuery } from 'src/hooks';
+//import { GET_USERS } from 'src/graphql/queries';
+//import { DELETE_FEEDBACK_SUBSCRIPTION, GET_FEEDBACKS__SUBSCRIPTION, GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
+import { useUsersQuery, useFriendshipsQuery, useFriendshipsInvitationsQuery } from 'src/hooks';
 import { LoginContext } from './LoginContext';
 //import WebSocket from "ws"
 
@@ -15,6 +15,7 @@ AppContext.displayName = 'AppContext';
 export const AppContextProvider = ({ children }) => {
     const { user } = useContext(LoginContext)
     const result = useUsersQuery(user);
+    const friendshipsResult = useFriendshipsQuery(user);
     const friendshipInvitationsResult = useFriendshipsInvitationsQuery(user);
 
     const serverPublicURL = useRef("http://localhost:5000")
@@ -59,6 +60,7 @@ export const AppContextProvider = ({ children }) => {
     const userProperties = useMemo(() => {
         const data = result.data;
         const friendshipInvitationsData = friendshipInvitationsResult.data;
+        const friendshipsData = friendshipsResult.data;
 
         let properties = {};
 
@@ -81,10 +83,14 @@ export const AppContextProvider = ({ children }) => {
             properties = { ...properties, friendshipInvitations: friendshipInvitationsData.friendshipInvitations };
         }
 
+        if(friendshipsData) {
+            console.log(friendshipsData)
+        }
+
         const newUserProperties = { ...userOldProperties.current, ...properties };
         userOldProperties.current = newUserProperties;
         return newUserProperties;
-    }, [ friendshipInvitationsResult, getColor, result ]);
+    }, [ friendshipsResult, friendshipInvitationsResult, getColor, result ]);
 
     const getBgColors = useCallback(() => userProperties.usersColors, [ userProperties ]);
     const getUsersList = useCallback(() => userProperties.usersList, [ userProperties ]);
