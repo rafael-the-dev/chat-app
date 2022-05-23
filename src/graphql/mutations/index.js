@@ -1,5 +1,14 @@
 import { gql } from '@apollo/client'
 
+export const ACCEPT_FRIENDSHIP_INVITATION = gql`
+    mutation AcceptFriendshipInvitation($id: String!) {
+        acceptFriendshipInvitation(id: $id) {
+            ID
+            status
+        }
+    }
+`;
+
 export const CREATE_NEW_USER = gql`
     mutation CreateUser($user: UserInput!) {
         registerUser(user: $user) {

@@ -11,12 +11,16 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useMutation } from "@apollo/client";
-import { REJECT_FRIENDSHIP_INVITATION } from "src/graphql/mutations";
+import { ACCEPT_FRIENDSHIP_INVITATION, REJECT_FRIENDSHIP_INVITATION } from "src/graphql/mutations";
 import { GET_FRIENDSHIPS_INVITATIONS } from "src/graphql/queries";
 
 const FriendshipInvitaitonCard = ({ description, ID, datetime, image, sender }) => {
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
     const [ expanded, setExpanded ] = useState(false);
+
+    const acceptFriendshipMutation = useMutation(ACCEPT_FRIENDSHIP_INVITATION, { 
+        refetchQueries: [ GET_FRIENDSHIPS_INVITATIONS ]
+    });
 
     const rejectMutation = useMutation(REJECT_FRIENDSHIP_INVITATION, { 
         refetchQueries: [ GET_FRIENDSHIPS_INVITATIONS ]
@@ -28,6 +32,18 @@ const FriendshipInvitaitonCard = ({ description, ID, datetime, image, sender }) 
         if(!Boolean(description)) return false;
         return description.trim().length > 0;
     }, [ description ]);
+
+    const acceptFriendshipInvitation = useCallback(() => {
+        const acceptInvitation = acceptFriendshipMutation[0];
+        acceptInvitation({ 
+            variables: {
+                id: ID
+            },
+            onError(err) {
+                console.log(err)
+            }
+        });
+    }, [ ID, acceptFriendshipMutation ])
 
     const rejectFriendshipInvitation = useCallback(() => {
         const rejectInvitation = rejectMutation[0];
@@ -73,7 +89,8 @@ const FriendshipInvitaitonCard = ({ description, ID, datetime, image, sender }) 
                                     <CloseIcon className="opacity-80 text-red-500" />
                                 </IconButton>
                                 <IconButton 
-                                    className="ml-2 p-[5px]">
+                                    className="ml-2 p-[5px]"
+                                    onClick={acceptFriendshipInvitation}>
                                     <CheckIcon className="opacity-80 text-blue-600" />
                                 </IconButton>
                             </div>
