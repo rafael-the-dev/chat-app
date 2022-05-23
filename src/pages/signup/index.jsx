@@ -1,7 +1,8 @@
-import { Avatar, Button, Paper, TextField, Typography } from '@mui/material';
+import { Alert, AlertTitle, Button, Paper, Typography } from '@mui/material';
 import { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { useMutation } from "@apollo/client";
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import classNames from 'classnames'
 import classes from './styles.module.css'
 
@@ -11,16 +12,17 @@ import Input from 'src/components/Input';
 import Image from "./components/Image"
 
 const Container = () => {
-    const { errorHandler } = useContext(AppContext)
+    const { errorHandler, startLoading, stopLoading } = useContext(AppContext);
+
     const [ password, setPassword ] = useState("");
     const [ comfirmPassword, setComfirmPassword ] = useState("");
     const [ username, setUsername ] = useState("");
 
+    const alertRef = useRef(null);
     const nameRef = useRef(null);
     const userNameRef = useRef(null);
     const passwordRef = useRef(null);
     const comfirmPasswordRef = useRef(null);
-    //const [ errors, setErrors ] = useState({ passwordMatch: false,  });
 
     const hasErrors = useCallback(({ checkWhiteSpace, checkPasswords, value, value2 }) => {
         let errors = { passwordMatch: false, whiteSpace: false };
@@ -91,14 +93,15 @@ const Container = () => {
     }, [ comfirmPasswordErrors, errorsPanel ])
 
     const imageRef = useRef(null);
-
+    const router = useRouter();
     const mutation = useMutation(CREATE_NEW_USER);
+
     const onSubmitHandler = useCallback((event) => {
         event.preventDefault();
         const registerUser = mutation[0];
 
         if(!hasFormError) {
-            //console.log(imageRef)
+            startLoading();
             registerUser({
                 variables: {
                     user: {
@@ -108,18 +111,32 @@ const Container = () => {
                         username: userNameRef.current.value,
                     }
                 },
+                onCompleted() {
+                    stopLoading();
+                    router.push('/login');
+                },
                 onError(err) {
-                    errorHandler(err);
+                    stopLoading();
+                    let responseError = null;
+
+                    err.graphQLErrors.forEach(error => {
+                        if(error.extensions.code === "BAD_USER_INPUT" && error.message === "Username not available") {
+                            responseError = error;
+                        }
+                    });
+
+                    if(responseError) { alertRef.current.classList.remove("hidden"); }
+                    else errorHandler(err);
                 }
             })
         }
-    }, [ hasFormError, errorHandler, mutation ]);
+    }, [ hasFormError, errorHandler, mutation, router, startLoading, stopLoading ]);
 
-    const legendMemo = useMemo(() => (
+    /*const legendMemo = useMemo(() => (
         <Typography component="legend" className="font-bold mb-8 text-center text-2xl uppercase">
             Sign up
         </Typography>
-    ), []);
+    ), []);*/
     
     const profileImageMemo = useMemo(() => <Image imageRef={imageRef} />, [])
 
@@ -178,12 +195,15 @@ const Container = () => {
     return (
         <div className="min-h-screen flex items-center justify-center w-full px-5 md:px-0">
             <Paper 
-                className={classNames(classes.loginContainer, `px-5 py-8 w-full md:px-6`)}
+                className={classNames(classes.loginContainer, `px-5 py-8 rounded-2xl w-full md:px-6`)}
                 component="form"
                 elavation={0}
                 onSubmit={onSubmitHandler}>
-                { legendMemo }
                 <fieldset>
+                    <Alert className={classNames("hidden mb-4")} ref={alertRef} severity="error">
+                        <AlertTitle>Error</AlertTitle>
+                        Username not available!
+                    </Alert>
                     { profileImageMemo }
                     { nameMemo }
                     { usernameMemo }
@@ -194,7 +214,7 @@ const Container = () => {
                     { comfirmPasswordErrorsPanel }
                 </fieldset>
                 <div 
-                    className={classNames("flex flex-col sm:flex-row-reverse sm:items-center mt-4 sm:justify-end")}>
+                    className={classNames("flex flex-col items-center mt-4")}>
                     <Typography component="p" className="ml-4 text-center text-sm">
                         do you have an account? 
                         <Link href="/login">
@@ -204,7 +224,7 @@ const Container = () => {
                         </Link>
                     </Typography>
                     <Button 
-                        className="bg-cyan-500 mt-6 py-3 sm:mt-0 rounded-2xl text-base"
+                        className="bg-cyan-500 mt-6 py-3 rounded-2xl text-base w-full"
                         disabled={hasFormError}
                         variant="contained"
                         type="submit"

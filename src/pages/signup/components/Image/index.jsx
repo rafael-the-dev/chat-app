@@ -60,9 +60,9 @@ const Image = ({ imageRef }) => {
                 /> 
                 <AccountCircleIcon className={classNames("text-8xl", { 'hidden': Boolean(file) })} />
                 <IconButton 
-                    className={classNames("absolute", Boolean(file) ? 'right-[-13px] bottom-[-9px]' : "bottom-0 right-0" )} 
+                    className={classNames("absolute p-[2px] text-base text-slate-100", Boolean(file) ? 'bg-red-500 right-[-2px] bottom-[-2px] hover:bg-red-300' : "bg-cyan-600 bottom-[4px] right-[4px] hover:bg-cyan-500" )} 
                     onClick={clickHandler}>
-                    { file ? <CloseIcon className="text-red-500" /> : <AddIcon className="text-cyan-600" /> }
+                    { file ? <CloseIcon /> : <AddIcon /> }
                 </IconButton>
             </div>
         </div>
