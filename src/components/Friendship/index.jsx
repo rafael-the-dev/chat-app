@@ -18,7 +18,7 @@ const Container = () => {
     const { filterOptions, searchFriendsFilter, setSearchFriendsFilter, setSearchKey, setTab, tab  } = useContext(FriendshipContext)
     const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
     //const [ tab, setTab ] = useState("SEARCH_FRIENDS");
-    const [ filter, setFilter ] = useState("SEARCH");
+    //const [ filter, setFilter ] = useState("SEARCH");
     const [ anchorEl, setAnchorEl] = useState(null);
     const inputRef = useRef(null);
 
