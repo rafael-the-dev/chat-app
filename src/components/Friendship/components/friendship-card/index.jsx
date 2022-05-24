@@ -53,7 +53,8 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                         horizontal: 'right',
                     }}
                     color="secondary"
-                    className={classNames("bottom-[5px] right-[5px] ")}
+
+                    classes={{ badge: classNames("bottom-[5px] right-[5px]", isOnline ? "bg-green-500" : "bg-red-500") }}
                     variant="dot"
                 >
                     <Avatar 
