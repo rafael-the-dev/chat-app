@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 
 import Chat from 'src/components/chat'
 import Friendships from 'src/components/Friendship'
+import { FriendshipContextProvider } from 'src/context/FriendshipContext';
 
 const Home = () => {
     const router = useRouter();
@@ -22,7 +23,7 @@ const Home = () => {
                 return <Chat />
             }
             case 'friends': {
-                return <Friendships />
+                return <FriendshipContextProvider><Friendships /></FriendshipContextProvider>
             }
             default: {
                 return <><h1 className="text-red-500">Welcome to my chat app</h1></>

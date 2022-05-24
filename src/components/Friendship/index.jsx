@@ -4,15 +4,17 @@ import Head from 'next/head';
 import classNames from "classnames"
 import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from "src/context/AppContext";
+import { FriendshipContext } from "src/context/FriendshipContext";
 
 import SearchFriendsContainer from "./components/search-friends"
 import FriendshipContainer from "./components/friendships"
 
 const Container = () => {
     const { user } = useContext(LoginContext)
+    const { tab, setTab  } = useContext(FriendshipContext)
     const { getUsersList, getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
-    const [ tab, setTab ] = useState("SEARCH_FRIENDS");
-
+    //const [ tab, setTab ] = useState("SEARCH_FRIENDS");
+    console.log("context tab", tab)
     const clickHandler = useCallback(prop => () => setTab(prop), []);
 
     const friendsContainer = useMemo(() => <FriendshipContainer />, []);
