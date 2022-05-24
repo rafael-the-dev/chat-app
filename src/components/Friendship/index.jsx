@@ -1,20 +1,27 @@
-import { useCallback, useContext, useMemo, useState } from 'react'
-import { Avatar, Button, Typography } from '@mui/material'
+import { useCallback, useContext, useMemo, useRef, useState } from 'react'
+import { Avatar, Button, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Popover, Typography } from '@mui/material'
 import Head from 'next/head';
 import classNames from "classnames"
 import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from "src/context/AppContext";
 import { FriendshipContext } from "src/context/FriendshipContext";
 
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import SearchIcon from '@mui/icons-material/Search';
+import CheckIcon from '@mui/icons-material/Check';
+
 import SearchFriendsContainer from "./components/search-friends"
 import FriendshipContainer from "./components/friendships"
 
 const Container = () => {
     const { user } = useContext(LoginContext)
-    const { tab, setTab  } = useContext(FriendshipContext)
-    const { getUsersList, getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
+    const { filterOptions, searchFriendsFilter, setSearchFriendsFilter, setSearchKey, setTab, tab  } = useContext(FriendshipContext)
+    const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
     //const [ tab, setTab ] = useState("SEARCH_FRIENDS");
-    console.log("context tab", tab)
+    const [ filter, setFilter ] = useState("SEARCH");
+    const [ anchorEl, setAnchorEl] = useState(null);
+    const inputRef = useRef(null);
+
     const clickHandler = useCallback(prop => () => setTab(prop), []);
 
     const friendsContainer = useMemo(() => <FriendshipContainer />, []);
@@ -23,6 +30,36 @@ const Container = () => {
     const classesToggler = useCallback((key, tab) => {
         return `py-2 rounded-none w-1/2 ${tab === key ? "bg-gray-500" : "bg-gray-400 text-black"}`
     }, [ ]);
+
+    const searchHandler = useCallback(event => {
+        event.preventDefault();
+
+        const value = inputRef.current.value.trim();
+        if(inputRef.current !== null && value !== "") setSearchKey(value)
+    }, [ setSearchKey ]);
+
+    const handleClose = useCallback(() => {
+        setAnchorEl(null);
+    }, []);
+
+    const openPopover = Boolean(anchorEl);
+    const id = openPopover ? 'simple-popover' : undefined;
+
+    const listItemClickHandler = useCallback(prop => () => {
+        setSearchFriendsFilter(prop);
+        handleClose();
+    }, [ handleClose, setSearchFriendsFilter ]);
+
+
+    const onChangeHandler = useCallback(event => {
+        if(event.target.value === "") {
+            setSearchKey("")
+        }
+    }, [ setSearchKey ]);
+    
+    const handleClick = useCallback((event) => {
+        setAnchorEl(event.currentTarget);
+    }, []);
 
     return (
         <>
@@ -54,12 +91,70 @@ const Container = () => {
                         Friends
                     </Button>
                 </div>
-                <div  className={classNames({ 'hidden': tab !== 'SEARCH_FRIENDS' })}>
-                    { searchFriendsContainer }
-                </div>
-                <div className={classNames("mt-4 px-5", { 'hidden': tab !== 'FRIENDS' })}>
-                    { friendsContainer }
-                </div>
+                <form 
+                    className={classNames("border border-solid border-slate-200 flex items-center px-2 py-1")}
+                    onSubmit={searchHandler}>
+                    <IconButton className={classNames({ 'hidden': tab !== "SEARCH_FRIENDS" })} onClick={handleClick} type="button">
+                        <FilterAltIcon />
+                    </IconButton>
+                    <input 
+                        className={classNames("border-0 grow text-base outline-none py-3", { 'pl-4': tab !== "SEARCH_FRIENDS" })}
+                        placeholder="search username"
+                        ref={inputRef}
+                        onChange={onChangeHandler}
+                    />
+                    <IconButton type="submit">
+                        <SearchIcon />
+                    </IconButton>
+                </form>
+                { searchFriendsContainer }
+                { friendsContainer }
+                <Popover
+                    id={id}
+                    open={openPopover}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    classes={{ paper: ""}}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                >
+                    <List className={classNames("pt-0 w-[230px]")}>
+                        <ListItem 
+                            disablePadding 
+                            onClick={listItemClickHandler(filterOptions.current.search)} 
+                            className={classNames()}>
+                            <ListItemButton>
+                                <ListItemText 
+                                    classes={{}} 
+                                    primary="Search Friends" 
+                                />
+                                { searchFriendsFilter === filterOptions.current.search && (
+                                    <ListItemIcon classes={{ root: "min-w-[20px] text-red-500" }}>
+                                        <CheckIcon />
+                                    </ListItemIcon>
+                                )}
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem 
+                            disablePadding 
+                            onClick={listItemClickHandler(filterOptions.current.invitations)} 
+                            className={classNames()}>
+                            <ListItemButton>
+                                <ListItemText 
+                                    classes={{}} 
+                                    primary="Friendship Invitations" 
+                                />
+                                { searchFriendsFilter === filterOptions.current.invitations && (
+                                    <ListItemIcon classes={{ root: "min-w-[20px] text-red-500" }}>
+                                        <CheckIcon />
+                                    </ListItemIcon>
+                                )}
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
+                </Popover>
             </main>
         </>
     );
