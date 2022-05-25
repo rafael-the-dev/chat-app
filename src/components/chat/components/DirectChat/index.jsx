@@ -8,7 +8,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
 
 import { LoginContext } from "src/context/LoginContext"
-import { useDirectChatQuery } from "src/hooks"
+import { useDirectChatQuery, useUserQuery } from "src/hooks"
 
 const DirectChatContainer = () => {
     const router = useRouter();
@@ -16,7 +16,13 @@ const DirectChatContainer = () => {
 
     const { user } = useContext(LoginContext)
 
+    const destinataryResult = useUserQuery({ dest, user });
     const { data } = useDirectChatQuery({ dest, id, loggedUser: user });
+
+    const destinatary = useMemo(() => {
+        if(destinataryResult.data) return destinataryResult.data.user
+        return {};
+    }, [ destinataryResult ])
 
     const chat = useMemo(() => {
         console.log(data);
@@ -41,7 +47,7 @@ const DirectChatContainer = () => {
                         <Typography 
                             className="text-slate-100" 
                             component="h1">
-                            Mira Vicente
+                            { destinatary.name }
                         </Typography>
                         <Typography 
                             className="mt-1 text-slate-300" 

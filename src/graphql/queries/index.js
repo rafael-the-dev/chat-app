@@ -50,6 +50,16 @@ export const GET_FRIENDSHIPS = gql`
     }
 `;
 
+export const GET_USER = gql`
+    query getUsers($username: String!) {
+        user(username: $username) {
+            image
+            name
+            username
+        }
+    }
+`;
+
 export const GET_USERS = gql`
     query getUsers {
         users {
