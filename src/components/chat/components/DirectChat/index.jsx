@@ -1,4 +1,5 @@
 import Head from "next/head"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { IconButton, Typography } from "@mui/material"
 
@@ -10,15 +11,20 @@ const DirectChatContainer = () => {
     const { dest, id } = router;
 
     return (
-        <>
+        <div className="flex flex-col grow h-screen items-stretch pb-[5rem]">
             <Head>
+                <meta name="theme-color" content="#2597BB" />
                 <title> | Chat</title>
             </Head>
-            <header>
+            <header className="bg-cyan-700 py-2">
                 <div className="flex items-center">
-                    <IconButton>
-                        <ArrowBackIcon className="text-slate-100" />
-                    </IconButton>
+                    <Link href="/?tab=chat">
+                        <a>
+                            <IconButton>
+                                <ArrowBackIcon className="text-slate-100" />
+                            </IconButton>
+                        </a>
+                    </Link>
                     <div className="flex flex-col">
                         <Typography 
                             className="text-slate-100" 
@@ -26,18 +32,18 @@ const DirectChatContainer = () => {
                             Mira Vicente
                         </Typography>
                         <Typography 
-                            className="mt-1 text-slate-200" 
+                            className="mt-1 text-slate-300" 
                             component="p">
                             online
                         </Typography>
                     </div>
                 </div>
             </header>
-            <main className="flex items-stretch flex-col ">
+            <main className="flex grow items-stretch flex-col ">
                 <div className="grow"></div>
                 <TextfieldContainer />
             </main>
-        </>
+        </div>
     );
 };
 

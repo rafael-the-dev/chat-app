@@ -4,6 +4,8 @@ import { AppContext } from "src/context/AppContext";
 import classNames from 'classnames'
 import classes from './styles.module.css'
 
+import { useRouter } from "next/router"
+
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 //import CircleIcon from '@mui/icons-material/Circle';
 
@@ -14,7 +16,9 @@ import { GET_FRIENDSHIPS_INVITATIONS } from "src/graphql/queries";
 import Input from "./components/Input"
 
 const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
+    const router = useRouter();
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
+
     const [ anchorEl, setAnchorEl] = useState(null);
     const [ expanded, setExpanded ] = useState(false);
 
@@ -40,6 +44,10 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
     const handleClick = useCallback((event) => {
         setAnchorEl(event.currentTarget);
     }, []);
+
+    const goToChatClickHandler = useCallback(() => {
+        router.push(`/?tab=chat&page=direct-chat&dest=${username}`)
+    }, [ router, username ]);
 
     const inputMemo = useMemo(() => <Input closeInput={toggleExpanded(false)} />, [ toggleExpanded ])
 
@@ -110,11 +118,10 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                     </ListItem>
                     <ListItem 
                         disablePadding 
-                        onClick={listItemClickHandler()} 
+                        onClick={goToChatClickHandler} 
                         className={classNames()}>
                         <ListItemButton>
                             <ListItemText 
-                                classes={{}} 
                                 primary="Go to chat" 
                             />
                         </ListItemButton>

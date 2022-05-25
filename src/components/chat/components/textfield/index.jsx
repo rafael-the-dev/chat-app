@@ -7,13 +7,13 @@ const TextfieldContainer = () => {
     return (
         <form className="bg-cyan-300 flex items-center">
             <IconButton>
-                <InsertEmoticonIcon />
+                <InsertEmoticonIcon className="hover:text-cyan-600" />
             </IconButton>
             <input 
-                className="bg-transparent grow p-2 text-base"
+                className="bg-transparent grow p-2 text-base focus:outline-cyan-600"
             />
             <IconButton>
-                <SendIcon />
+                <SendIcon className="hover:text-cyan-600" />
             </IconButton>
         </form>
     );

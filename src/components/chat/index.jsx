@@ -6,11 +6,11 @@ import Home from "./components/Home"
 
 const Container = () => {
     const router = useRouter();
-    const { page } = router;
+    const { page } = router.query;
 
     const directChat = useMemo(() => <DirectChat />, []);
     const home = useMemo(() => <Home />, [])
-
+    
     const selectedPage = useMemo(() => {
         switch(page) {
             case "direct-chat": {
