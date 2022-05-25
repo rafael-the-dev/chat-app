@@ -1,14 +1,26 @@
 import Head from "next/head"
 import Link from "next/link"
+import { useContext, useMemo } from "react"
 import { useRouter } from "next/router"
 import { IconButton, Typography } from "@mui/material"
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
 
+import { LoginContext } from "src/context/LoginContext"
+import { useDirectChatQuery } from "src/hooks"
+
 const DirectChatContainer = () => {
     const router = useRouter();
-    const { dest, id } = router;
+    const { dest, id } = router.query;
+
+    const { user } = useContext(LoginContext)
+
+    const { data } = useDirectChatQuery({ dest, id, loggedUser: user });
+
+    const chat = useMemo(() => {
+        console.log(data);
+    }, [ data ])
 
     return (
         <div className="flex flex-col grow h-screen items-stretch pb-[5rem]">

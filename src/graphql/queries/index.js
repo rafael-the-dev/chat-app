@@ -1,5 +1,29 @@
 import { gql } from "@apollo/client"
 
+export const GET_DIRECT_CHAT = gql`
+    query GetDirectChat($id: String, $dest: String) {
+        directChat(id: $id, dest: $dest) {
+            ID
+            datetime
+            messages {
+                datetime
+                ID
+                isForwarded
+                receiver {
+                    image
+                    name
+                    username
+                }
+                sender {
+                    image
+                    name
+                    username
+                }
+            }
+        }
+    }
+`;
+
 export const GET_FRIENDSHIPS_INVITATIONS = gql`
     query getFriendshipsInvitations {
         friendshipInvitations {
