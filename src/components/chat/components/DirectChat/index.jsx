@@ -3,6 +3,7 @@ import Link from "next/link"
 import { useContext, useMemo } from "react"
 import { useRouter } from "next/router"
 import { IconButton, Typography } from "@mui/material"
+import moment from 'moment'
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
@@ -24,9 +25,15 @@ const DirectChatContainer = () => {
         return {};
     }, [ destinataryResult ])
 
-    const chat = useMemo(() => {
-        console.log(data);
-    }, [ data ])
+    const chatDetails = useMemo(() => {
+        if(data) return data.directChat;
+        return {};
+    }, [ data ]);
+
+    const friendshipDate = useMemo(() => {
+        if(chatDetails.datetime) return moment(new Date(parseInt(chatDetails.datetime))).format("DD-MM-YYYY");
+        return "";
+    }, [ chatDetails ])
 
     return (
         <div className="flex flex-col grow h-screen items-stretch pb-[5rem]">
@@ -58,7 +65,13 @@ const DirectChatContainer = () => {
                 </div>
             </header>
             <main className="flex grow items-stretch flex-col ">
-                <div className="grow"></div>
+                <div className="grow pt-4">
+                    <div>
+                        <Typography className="text-center" component="h2">
+                            Friends since<br />{ friendshipDate }
+                        </Typography>
+                    </div>
+                </div>
                 <TextfieldContainer />
             </main>
         </div>

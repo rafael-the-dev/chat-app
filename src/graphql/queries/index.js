@@ -6,19 +6,20 @@ export const GET_DIRECT_CHAT = gql`
             ID
             datetime
             messages {
-                datetime
+                createdAt
                 ID
                 isForwarded
-                receiver {
+                image
+                isRead
+                reply {
+                    createdAt
+                    ID
                     image
-                    name
-                    username
+                    sender
+                    text
                 }
-                sender {
-                    image
-                    name
-                    username
-                }
+                sender
+                text
             }
         }
     }
