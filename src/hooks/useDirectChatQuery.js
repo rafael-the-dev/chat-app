@@ -6,7 +6,7 @@ import { GET_DIRECT_CHAT } from 'src/graphql/queries';
 import { DIRECT_MESSAGE_SENT } from 'src/graphql/subscriptions';
 
 export const useDirectChatQuery = ({ dest, id, loggedUser }) => {
-    const subscription = useSubscription(DIRECT_MESSAGE_SENT)
+    const subscription = useSubscription(DIRECT_MESSAGE_SENT, { variables: { username: dest  } });
     const { subscribeToMore, ...result } = useQuery(GET_DIRECT_CHAT, { variables: { dest, id } });
 
     const [ data, setData ] = useState(null);
@@ -21,6 +21,7 @@ export const useDirectChatQuery = ({ dest, id, loggedUser }) => {
                 if (!subscriptionData.data || !Boolean(loggedUser)) return prev;
                 
                 const chat = subscriptionData.data.messageSent;
+                console.log(chat)
                 return Object.assign({}, prev, {
                     directChat: { ...chat }
                 });

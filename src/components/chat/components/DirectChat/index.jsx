@@ -1,6 +1,6 @@
 import Head from "next/head"
 import Link from "next/link"
-import { useCallback, useContext, useMemo, useRef } from "react"
+import { useCallback, useContext, useEffect, useMemo, useRef } from "react"
 import { useRouter } from "next/router"
 import { IconButton, Typography } from "@mui/material"
 import { useMutation } from "@apollo/client"
@@ -28,6 +28,7 @@ const DirectChatContainer = () => {
 
     const chatIDRef = useRef("");
     const destinataryRef = useRef("");
+    const mainRef = useRef(null);
 
     const destinatary = useMemo(() => {
         if(destinataryResult.data)  {
@@ -50,6 +51,12 @@ const DirectChatContainer = () => {
         return "";
     }, [ chatDetails ]);
 
+    useEffect(() => {
+        if(Boolean(data) && mainRef.current) {
+            const scrollHeight = mainRef.current.scrollHeight;
+            mainRef.current.scroll({ behavior: "smooth", top: scrollHeight })
+        }
+    }, [ data ])
     
     const sendDirectMessage = useCallback(({ inputRef }) => {
         const send = sendDirectMessageMutation[0];
@@ -104,7 +111,7 @@ const DirectChatContainer = () => {
                     </div>
                 </div>
             </header>
-            <main className="flex h-full items-stretch flex-col chat__main">
+            <main className="flex h-full items-stretch flex-col chat__main" ref={mainRef}>
                 <div className="grow pt-4">
                     <div>
                         <Typography className="text-center" component="h2">
