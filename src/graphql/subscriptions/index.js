@@ -1,5 +1,30 @@
 import { gql } from '@apollo/client';
 
+export const DIRECT_MESSAGE_SENT = gql`
+    subscription MessageSent($username: String!) {
+        messageSent(username: $username) {
+            ID
+            datetime
+            messages {
+                createdAt
+                ID
+                isForwarded
+                image
+                isRead
+                reply {
+                    createdAt
+                    ID
+                    image
+                    sender
+                    text
+                }
+                sender
+                text
+            }
+        }
+    }
+`;
+
 export const FRIENDSHIP_INVITATION_ACCEPTED = gql`
     subscription FriendshipInvitationAccepted($id: String!) {
         friendshipInvitationAccepted(id: $id) {

@@ -3,31 +3,30 @@ import { useQuery, useSubscription } from "@apollo/client"
 
 
 import { GET_DIRECT_CHAT } from 'src/graphql/queries';
-import { USER_CREATED_SUBSCRIPTION } from 'src/graphql/subscriptions';
+import { DIRECT_MESSAGE_SENT } from 'src/graphql/subscriptions';
 
 export const useDirectChatQuery = ({ dest, id, loggedUser }) => {
-    //const subscription = useSubscription(USER_CREATED_SUBSCRIPTION)
+    const subscription = useSubscription(DIRECT_MESSAGE_SENT)
     const { subscribeToMore, ...result } = useQuery(GET_DIRECT_CHAT, { variables: { dest, id } });
 
     const [ data, setData ] = useState(null);
     const [ loading, setLoading ] = useState(false);
     const [ error, setError ] = useState(null);
 
-    /*useEffect(() => {
+    useEffect(() => {
         subscribeToMore({
-            document: USER_CREATED_SUBSCRIPTION,
+            document: DIRECT_MESSAGE_SENT,
+            variables: { username: dest },
             updateQuery: (prev, { subscriptionData }) => {
                 if (!subscriptionData.data || !Boolean(loggedUser)) return prev;
-
-                const user = subscriptionData.data.userCreated;
-                const users = prev.users ? [ user, ...prev.users ] : [ user ];
-
+                
+                const chat = subscriptionData.data.messageSent;
                 return Object.assign({}, prev, {
-                    users
+                    directChat: { ...chat }
                 });
             }
         });
-    }, [ loggedUser, subscribeToMore ]); */
+    }, [ dest, loggedUser, subscribeToMore ]); 
   
     useEffect(() => {
         console.log(result)
