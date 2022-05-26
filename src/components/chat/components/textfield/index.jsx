@@ -5,9 +5,11 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import SendIcon from '@mui/icons-material/Send';
 
-const TextfieldContainer = () => {
+
+const TextfieldContainer = ({ sendHandler }) => {
     const router = useRouter();
     const { page } = router.query;
+
 
     const [ canISubmit, setCanISubmit ] = useState(false);
     const inputRef = useRef(null);
@@ -37,10 +39,12 @@ const TextfieldContainer = () => {
             <SendIcon className="hover:text-cyan-600" />
         </IconButton>
     ), [ canISubmit ])
+    
 
     const submitHandler = useCallback(event => {
         event.preventDefault();
-    }, [])
+        sendHandler({ inputRef })
+    }, [ sendHandler ])
 
     return (
         <form 

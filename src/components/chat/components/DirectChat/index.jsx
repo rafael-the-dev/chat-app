@@ -1,8 +1,9 @@
 import Head from "next/head"
 import Link from "next/link"
-import { useContext, useMemo } from "react"
+import { useCallback, useContext, useMemo, useRef } from "react"
 import { useRouter } from "next/router"
 import { IconButton, Typography } from "@mui/material"
+import { useMutation } from "@apollo/client"
 import moment from 'moment'
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -11,29 +12,68 @@ import TextfieldContainer from "../textfield";
 import { LoginContext } from "src/context/LoginContext"
 import { useDirectChatQuery, useUserQuery } from "src/hooks"
 
+import { SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
+
 const DirectChatContainer = () => {
     const router = useRouter();
     const { dest, id } = router.query;
+
+    const sendDirectMessageMutation = useMutation(SEND_DIRECT_MESSAGE)
 
     const { user } = useContext(LoginContext)
 
     const destinataryResult = useUserQuery({ dest, user });
     const { data } = useDirectChatQuery({ dest, id, loggedUser: user });
 
+    const chatIDRef = useRef("");
+    const destinataryRef = useRef("");
+
     const destinatary = useMemo(() => {
-        if(destinataryResult.data) return destinataryResult.data.user
+        if(destinataryResult.data)  {
+            destinataryRef.current = destinataryResult.data.user.username;
+            return destinataryResult.data.user;
+        }
         return {};
     }, [ destinataryResult ])
 
     const chatDetails = useMemo(() => {
-        if(data) return data.directChat;
+        if(data) {
+            console.log(data)
+            chatIDRef.current = data.directChat.ID;
+            return data.directChat;
+        }
         return {};
     }, [ data ]);
 
     const friendshipDate = useMemo(() => {
         if(chatDetails.datetime) return moment(new Date(parseInt(chatDetails.datetime))).format("DD-MM-YYYY");
         return "";
-    }, [ chatDetails ])
+    }, [ chatDetails ]);
+
+    
+    const sendDirectMessage = useCallback(({ inputRef }) => {
+        const send = sendDirectMessageMutation[0];
+
+        send({ variables: {
+            messageInput: {
+                chatID: chatIDRef.current,
+                destinatary: destinataryRef.current,
+                image: "",
+                isForwarded: false,
+                reply: "",
+                text: inputRef.current.value
+            }},
+            onCompleted() {
+                inputRef.current.value = "";
+            },
+            onError(err) {
+                console.log(err)
+            }
+        })
+
+    }, [ sendDirectMessageMutation ]);
+
+    const textfieldContainer = useMemo(() => <TextfieldContainer sendHandler={sendDirectMessage} />, [])
 
     return (
         <div className="flex flex-col grow h-screen items-stretch pb-[5rem]">
@@ -72,7 +112,7 @@ const DirectChatContainer = () => {
                         </Typography>
                     </div>
                 </div>
-                <TextfieldContainer />
+                { textfieldContainer }
             </main>
         </div>
     );
