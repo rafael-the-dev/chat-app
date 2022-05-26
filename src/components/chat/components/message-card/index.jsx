@@ -10,7 +10,7 @@ import { getDate } from "src/helpers"
 
 const Container = ({ createdAt, image, sender, text }) => {
     const { user } = useContext(LoginContext)
-    const { getInitialsNameLetters} = useContext(AppContext);
+    const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext);
 
     return (
         <article className={classNames("flex mb-4 w-full", user.username === sender ? "justify-end" : "")}>

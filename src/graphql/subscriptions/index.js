@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const DIRECT_MESSAGE_SENT = gql`
-    subscription MessageSent($username: String!) {
-        messageSent(username: $username) {
+    subscription MessageSent($users: [String!]!) {
+        messageSent(users: $users) {
             ID
             datetime
             messages {

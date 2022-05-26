@@ -24,7 +24,7 @@ const DirectChatContainer = () => {
     const { user } = useContext(LoginContext)
 
     const destinataryResult = useUserQuery({ dest, user });
-    const { data } = useDirectChatQuery({ dest, id, loggedUser: user });
+    const { data } = useDirectChatQuery({ dest, id, loggedUser: user, users: [ dest, user.username ] });
 
     const chatIDRef = useRef("");
     const destinataryRef = useRef("");
