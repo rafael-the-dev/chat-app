@@ -13,6 +13,7 @@ import { LoginContext } from "src/context/LoginContext"
 import { useDirectChatQuery, useUserQuery } from "src/hooks"
 
 import { SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
+import MessageCard from '../message-card'
 
 const DirectChatContainer = () => {
     const router = useRouter();
@@ -38,11 +39,10 @@ const DirectChatContainer = () => {
 
     const chatDetails = useMemo(() => {
         if(data) {
-            console.log(data)
             chatIDRef.current = data.directChat.ID;
             return data.directChat;
         }
-        return {};
+        return { messages: [] };
     }, [ data ]);
 
     const friendshipDate = useMemo(() => {
@@ -79,9 +79,9 @@ const DirectChatContainer = () => {
         <div className="flex flex-col grow h-screen items-stretch pb-[5rem]">
             <Head>
                 <meta name="theme-color" content="#2597BB" />
-                <title> | Chat</title>
+                <title>{ destinatary.name } | Chat</title>
             </Head>
-            <header className="bg-cyan-700 py-2">
+            <header className="bg-cyan-700 py-2 fixed left-0 top-0 w-full z-10">
                 <div className="flex items-center">
                     <Link href="/?tab=chat">
                         <a>
@@ -104,12 +104,17 @@ const DirectChatContainer = () => {
                     </div>
                 </div>
             </header>
-            <main className="flex grow items-stretch flex-col ">
+            <main className="flex h-full items-stretch flex-col chat__main">
                 <div className="grow pt-4">
                     <div>
                         <Typography className="text-center" component="h2">
                             Friends since<br />{ friendshipDate }
                         </Typography>
+                    </div>
+                    <div className="flex flex-col items-stretch px-4 pt-6">
+                        {
+                            chatDetails.messages.map((item, index) => <MessageCard key={index} { ...item } />)
+                        }
                     </div>
                 </div>
                 { textfieldContainer }

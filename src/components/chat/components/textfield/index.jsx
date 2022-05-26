@@ -48,7 +48,7 @@ const TextfieldContainer = ({ sendHandler }) => {
 
     return (
         <form 
-            className="bg-cyan-300 flex items-center"
+            className="bg-cyan-300 flex items-center fixed bottom-20 w-full z-10"
             onSubmit={submitHandler}>
             { emojiButtonMemo }
             { inputMemo }

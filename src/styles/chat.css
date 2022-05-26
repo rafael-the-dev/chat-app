@@ -1,0 +1,6 @@
+.chat__main {
+    height: 100vh;
+    overflow-y: auto;
+    padding: 4rem 0 3rem 0;
+    scroll-behavior: smooth;
+}

@@ -10,6 +10,7 @@ import { ApolloProvider } from "@apollo/client"
 import Layout from 'src/components/Layout';
 import 'src/styles/reset.css'
 import 'src/styles/globals.css'
+import 'src/styles/chat.css'
 import 'src/styles/tailwind.css'
 import { AppContextProvider } from 'src/context/AppContext';
 import client from 'src/graphql/apollo-client';

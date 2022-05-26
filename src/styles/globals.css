@@ -20,6 +20,14 @@ a {
   background-color: #FFF !important;
 }
 
+.user-message {
+  background-color: #D9E5E9;
+}
+
+.other-message {
+  background-color: #48B0D0;
+}
+
 @media screen  and (min-width: 900px){
   #root {
       align-items: flex-start;
