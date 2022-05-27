@@ -28,7 +28,7 @@ const Container = ({ createdAt, image, sender, text }) => {
                             { text }
                         </Typography>
                     </div>
-                    <Typography className={classNames("text-slate-300", user.username !== sender ? "" : "text-right")}>
+                    <Typography className={classNames("mt-[4px] text-xs text-slate-300", user.username !== sender ? "" : "text-right")}>
                         { getDate(new Date(parseInt(createdAt))) }
                     </Typography>
                 </div>

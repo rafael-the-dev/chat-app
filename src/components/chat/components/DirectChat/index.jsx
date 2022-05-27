@@ -1,6 +1,6 @@
 import Head from "next/head"
 import Link from "next/link"
-import { useCallback, useContext, useEffect, useMemo, useRef } from "react"
+import React, { useCallback, useContext, useEffect, useMemo, useRef } from "react"
 import { useRouter } from "next/router"
 import { IconButton, Typography } from "@mui/material"
 import { useMutation } from "@apollo/client"
@@ -11,6 +11,7 @@ import TextfieldContainer from "../textfield";
 
 import { LoginContext } from "src/context/LoginContext"
 import { useDirectChatQuery, useUserQuery } from "src/hooks"
+import { getOnlyDate } from "src/helpers"
 
 import { SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
 import MessageCard from '../message-card'
@@ -24,7 +25,7 @@ const DirectChatContainer = () => {
     const { user } = useContext(LoginContext)
 
     const destinataryResult = useUserQuery({ dest, user });
-    const { data } = useDirectChatQuery({ dest, id, loggedUser: user, users: [ dest, user.username ] });
+    const { data } = useDirectChatQuery({ dest, id, loggedUser: user, users: [ dest, user?.username ] });
 
     const chatIDRef = useRef("");
     const destinataryRef = useRef("");
@@ -38,8 +39,10 @@ const DirectChatContainer = () => {
         return {};
     }, [ destinataryResult ])
 
+    const currentDate = useRef("");
     const chatDetails = useMemo(() => {
         if(data) {
+            currentDate.current = "";
             chatIDRef.current = data.directChat.ID;
             return data.directChat;
         }
@@ -80,7 +83,17 @@ const DirectChatContainer = () => {
 
     }, [ sendDirectMessageMutation ]);
 
-    const textfieldContainer = useMemo(() => <TextfieldContainer sendHandler={sendDirectMessage} />, [])
+    const textfieldContainer = useMemo(() => <TextfieldContainer sendHandler={sendDirectMessage} />, [ sendDirectMessage ]);
+
+    const isDateChanged = useCallback(date => { 
+        const convertedDay = moment(new Date(parseInt(date))).format("D MM YYYY");
+
+        if(convertedDay !== currentDate.current) {
+            currentDate.current = convertedDay;
+            return true;
+        }
+        return false;
+    }, []);
 
     return (
         <div className="flex flex-col grow h-screen items-stretch pb-[5rem]">
@@ -120,7 +133,21 @@ const DirectChatContainer = () => {
                     </div>
                     <div className="flex flex-col items-stretch px-4 pt-6">
                         {
-                            chatDetails.messages.map((item, index) => <MessageCard key={index} { ...item } />)
+                            chatDetails.messages.map((item, index) => {
+                                if(isDateChanged(item.createdAt)) {
+                                    return (
+                                        <div className="flex flex-col items-stretch" key={index}>
+                                            <div className="flex justify-center mb-4">
+                                                <Typography className="font-semibold">
+                                                    { getOnlyDate(new Date(parseInt(item.createdAt))) }
+                                                </Typography>
+                                            </div>
+                                            <MessageCard { ...item } />
+                                        </div>
+                                    );
+                                }
+                                return <MessageCard key={index} { ...item } />
+                            })
                         }
                     </div>
                 </div>
