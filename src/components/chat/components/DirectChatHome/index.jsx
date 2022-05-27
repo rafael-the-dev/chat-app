@@ -16,7 +16,7 @@ const DirectChatHome = () => {
     }, [ data ])
     
     return (
-        <div className="px-5 pt-4">
+        <div className="pt-4">
             {
                 directChats.map((item, index) => <MessageCard key={index} { ...item } />)
             }

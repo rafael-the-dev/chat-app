@@ -21,13 +21,21 @@ export const useDirectChatsQuery = ({ loggedUser }) => {
             variables: { users },
             updateQuery: (prev, { subscriptionData }) => {
                 if (!subscriptionData.data || !Boolean(loggedUser)) return prev;
-                console.log(prev)
+
+                const chats = [ ...prev.directChats ]
+                const receivedChat = subscriptionData.data.messageSent;
+
+                const chatIndex = chats.findIndex(item => item.ID === receivedChat.ID);
+
+                if(chatIndex !== -1) {
+                    chats[chatIndex] = receivedChat;
+
+                    return Object.assign({}, prev, {
+                        directChats: [...chats ]
+                    });
+                }
+
                 return prev;
-                /*const chat = subscriptionData.data.messageSent;
-                console.log(chat)
-                return Object.assign({}, prev, {
-                    directChat: { ...chat }
-                });*/
             }
         });
     }, [ loggedUser, subscribeToMore, users ]); 

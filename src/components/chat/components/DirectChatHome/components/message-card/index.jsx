@@ -1,4 +1,4 @@
-import { useContext, useMemo } from "react"
+import { useCallback, useContext, useMemo } from "react"
 import { Avatar, Typography } from "@mui/material";
 import classNames from "classnames";
 import { useRouter } from 'next/router'
@@ -19,8 +19,6 @@ const MessageCard = ({ image, ID, messages, users}) => {
     const { user } = useContext(LoginContext)
     const { getBgColors, getUsersList } = useContext(AppContext)
 
-    console.log(getUsersList())
-
     const destinatary = useMemo(() => {
         const name = users[0] === user?.username ? users[1] : users[0];
         const result = getUsersList().find(item => item.username === name);
@@ -38,12 +36,19 @@ const MessageCard = ({ image, ID, messages, users}) => {
         }, 0);
     }, [ destinatary, messages ]);
 
-    console.log("unread messages", unreadMessagesLength)
+    console.log("unread messages", unreadMessagesLength);
+
+    const router = useRouter();
+    const clickHandler = useCallback(() => {
+        router.push(`/?tab=chat&page=direct-chat&dest=${destinatary.username}`)
+    }, [ destinatary, router ])
 
     if(messages.length === 0) return <></>;
 
     return (
-        <article className={classNames(classes.card, "flex items-center py-2 last:border-0")}>
+        <article 
+            className={classNames(classes.card, "flex items-center px-5 py-2 last:border-0")}
+            onClick={clickHandler}>
             <Avatar 
                 src={`http://localhost:5000/${destinatary.image}`}
                 className="text-base"

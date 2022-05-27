@@ -1,3 +1,8 @@
 .card {
     border-bottom: 1px solid #bcb8b866;
 }
+
+.card:hover {
+    background-color: #e2e7e9;
+    cursor: pointer;
+}
