@@ -4,13 +4,18 @@ import { useCallback, useContext, useState } from 'react';
 import { AppContext } from 'src/context/AppContext';
 import { LoginContext } from 'src/context/LoginContext';
 
+import { useMutation } from "@apollo/client"
+
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
+import { DELETE_DIRECT_MESSAGE } from "src/graphql/mutations"
 import { getDate } from "src/helpers"
 
-const Container = ({ createdAt, ID, image, sender, text }) => {
+const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, image, sender, text }) => {
     const { user } = useContext(LoginContext)
     const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext);
+
+    const deleteMutation = useMutation(DELETE_DIRECT_MESSAGE)
 
     const [ anchorEl, setAnchorEl] = useState(null);
 
@@ -20,15 +25,30 @@ const Container = ({ createdAt, ID, image, sender, text }) => {
     const handleClose = useCallback(() => {
         setAnchorEl(null);
     }, []);
-
-    const listItemClickHandler = useCallback(prop => () => {
-    }, [  ]);
     
     const handleClick = useCallback((event) => {
         setAnchorEl(event.currentTarget);
     }, []);
 
     const forwardHandler = useCallback(() => {}, []);
+
+    const deleteHandler = useCallback(() => {
+        const deleteMessage = deleteMutation[0];
+
+        deleteMessage({ 
+            variables: {
+                chatID: chatIDRef.current,
+                destinatary: dest,
+                messageID: ID
+            },
+            onCompleted() {
+                handleClose();
+            },
+            onError(error) {
+                console.log(error)
+            }
+        })
+    }, [ chatIDRef, deleteMutation, dest, handleClose, ID ])
 
     return (
         <article className={classNames("flex mb-4 w-full", user.username === sender ? "justify-end" : "")}>
@@ -38,12 +58,14 @@ const Container = ({ createdAt, ID, image, sender, text }) => {
                     { getInitialsNameLetters(user ? user.name : "" )}
                 </Avatar>
                 <div className={classNames("", { "ml-3": user.username !== sender})}>
-                    <div className={classNames("flex flex-col min-w-[120px] pt-1 pb-3 px-4 rounded-2xl", user.username !== sender ? "other-message rounded-bl-none": "user-message rounded-br-none")}>
-                        <IconButton className="p-0 self-end" onClick={handleClick}>
+                    <div className={classNames("flex flex-col min-w-[120px] pt-1 pb-3 px-4 rounded-2xl", 
+                        user.username !== sender ? "other-message rounded-bl-none": "user-message rounded-br-none",
+                        isDeleted ? "deleted-message" : "")}>
+                        <IconButton disabled={isDeleted} className="p-0 self-end" onClick={handleClick}>
                             <MoreHorizIcon />
                         </IconButton>
                         <Typography>
-                            { text }
+                            { isDeleted ? "This message was deleted" : text }
                         </Typography>
                     </div>
                     <Typography className={classNames("mt-[4px] text-xs text-slate-300", user.username !== sender ? "" : "text-right")}>
@@ -66,7 +88,7 @@ const Container = ({ createdAt, ID, image, sender, text }) => {
                             disablePadding 
                             onClick={forwardHandler} 
                             className={classNames()}>
-                            <ListItemButton>
+                            <ListItemButton disabled={ sender !== user.username }>
                                 <ListItemText 
                                     primary="Forward" 
                                 />
@@ -74,7 +96,7 @@ const Container = ({ createdAt, ID, image, sender, text }) => {
                         </ListItem>
                         <ListItem 
                             disablePadding 
-                            onClick={listItemClickHandler()} 
+                            onClick={deleteHandler} 
                             className={classNames()}>
                             <ListItemButton>
                                 <ListItemText 

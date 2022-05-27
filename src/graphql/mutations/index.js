@@ -18,6 +18,32 @@ export const CREATE_NEW_USER = gql`
     }
 `;
 
+export const DELETE_DIRECT_MESSAGE = gql`
+    mutation DeleteDirectMessage($chatID: String!, $destinatary: String!, $messageID: String) {
+        deleteDirectMessage(chatID: $chatID, destinatary: $destinatary, messageID: $messageID) {
+            ID
+            datetime
+            messages {
+                createdAt
+                ID
+                isDeleted
+                isForwarded
+                image
+                isRead
+                reply {
+                    createdAt
+                    ID
+                    image
+                    sender
+                    text
+                }
+                sender
+                text
+            }
+        }
+    }
+`;
+
 export const LOGIN = gql`
     mutation Login($username: String!, $password: String!) {
         login(username: $username, password: $password) {
@@ -67,6 +93,7 @@ export const SEND_DIRECT_MESSAGE = gql`
             messages {
                 createdAt
                 ID
+                isDeleted
                 isForwarded
                 image
                 isRead

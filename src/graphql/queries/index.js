@@ -8,6 +8,7 @@ export const GET_DIRECT_CHAT = gql`
             messages {
                 createdAt
                 ID
+                isDeleted
                 isForwarded
                 image
                 isRead

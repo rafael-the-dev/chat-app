@@ -4,3 +4,7 @@
     padding: 4rem 0 3rem 0;
     scroll-behavior: smooth;
 }
+
+.deleted-message {
+    background-color: rgba(197, 197, 29, .7) !important;
+}
