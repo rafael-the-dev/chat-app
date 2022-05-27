@@ -26,6 +26,33 @@ export const GET_DIRECT_CHAT = gql`
     }
 `;
 
+export const GET_DIRECTS_CHAT = gql`
+    query GetDirectsChat {
+        directChats {
+            ID
+            datetime
+            messages {
+                createdAt
+                ID
+                isDeleted
+                isForwarded
+                image
+                isRead
+                reply {
+                    createdAt
+                    ID
+                    image
+                    sender
+                    text
+                }
+                sender
+                text
+            }
+            users
+        }
+    }
+`;
+
 export const GET_FRIENDSHIPS_INVITATIONS = gql`
     query getFriendshipsInvitations {
         friendshipInvitations {

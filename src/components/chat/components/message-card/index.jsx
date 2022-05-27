@@ -51,13 +51,13 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, image, sender, t
     }, [ chatIDRef, deleteMutation, dest, handleClose, ID ])
 
     return (
-        <article className={classNames("flex mb-4 w-full", user.username === sender ? "justify-end" : "")}>
+        <article className={classNames("flex mb-4 w-full", user?.username === sender ? "justify-end" : "")}>
             <div className={classNames("flex items-end")}>
                 <Avatar 
-                    className={classNames("mb-4", { "hidden": user.username === sender })}>
-                    { getInitialsNameLetters(user ? user.name : "" )}
+                    className={classNames("mb-4", { "hidden": user?.username === sender })}>
+                    { getInitialsNameLetters(user ? user?.name : "" )}
                 </Avatar>
-                <div className={classNames("", { "ml-3": user.username !== sender})}>
+                <div className={classNames("", { "ml-3": user?.username !== sender})}>
                     <div className={classNames("flex flex-col min-w-[120px] pt-1 pb-3 px-4 rounded-2xl", 
                         user.username !== sender ? "other-message rounded-bl-none": "user-message rounded-br-none",
                         isDeleted ? "deleted-message" : "")}>
@@ -68,7 +68,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, image, sender, t
                             { isDeleted ? "This message was deleted" : text }
                         </Typography>
                     </div>
-                    <Typography className={classNames("mt-[4px] text-xs text-slate-300", user.username !== sender ? "" : "text-right")}>
+                    <Typography className={classNames("mt-[4px] text-xs text-slate-300", user?.username !== sender ? "" : "text-right")}>
                         { getDate(new Date(parseInt(createdAt))) }
                     </Typography>
                 </div>
@@ -88,7 +88,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, image, sender, t
                             disablePadding 
                             onClick={forwardHandler} 
                             className={classNames()}>
-                            <ListItemButton disabled={ sender !== user.username }>
+                            <ListItemButton>
                                 <ListItemText 
                                     primary="Forward" 
                                 />
@@ -98,7 +98,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, image, sender, t
                             disablePadding 
                             onClick={deleteHandler} 
                             className={classNames()}>
-                            <ListItemButton>
+                            <ListItemButton disabled={ sender !== user?.username }>
                                 <ListItemText 
                                     className={classNames('text-red-500')} 
                                     primary="Delete" 
