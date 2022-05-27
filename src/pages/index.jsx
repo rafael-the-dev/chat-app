@@ -16,13 +16,14 @@ const Home = () => {
     //const { feedbacksList, getInitialsNameLetters } = useContext(AppContext);
     //const { logout, user } = useContext(LoginContext);
 
+    const chatMemo = useMemo(() => <Chat />, [])
     const friendshipsMemo = useMemo(() => <Friendships />, [])
 
     const tabComponent = useMemo(() => {
         //console.log("")
         switch(tab) {
             case 'chat': {
-                return <Chat />
+                return chatMemo;
             }
             case 'friends': {
                 return <FriendshipContextProvider>{ friendshipsMemo }</FriendshipContextProvider>
@@ -31,7 +32,7 @@ const Home = () => {
                 return <><h1 className="text-red-500">Welcome to my chat app</h1></>
             }
         }
-    }, [ friendshipsMemo, tab ])
+    }, [ chatMemo, friendshipsMemo, tab ])
 
     return (
         <>
