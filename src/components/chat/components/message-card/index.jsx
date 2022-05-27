@@ -1,6 +1,6 @@
-import { Avatar, IconButton, Typography } from '@mui/material'
+import { Avatar, IconButton, List, ListItem, ListItemButton, ListItemText, Popover, Typography } from '@mui/material'
 import classNames from 'classnames';
-import { useContext } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { AppContext } from 'src/context/AppContext';
 import { LoginContext } from 'src/context/LoginContext';
 
@@ -8,9 +8,27 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import { getDate } from "src/helpers"
 
-const Container = ({ createdAt, image, sender, text }) => {
+const Container = ({ createdAt, ID, image, sender, text }) => {
     const { user } = useContext(LoginContext)
     const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext);
+
+    const [ anchorEl, setAnchorEl] = useState(null);
+
+    const openPopover = Boolean(anchorEl);
+    const id = openPopover ? 'simple-popover' : undefined;
+
+    const handleClose = useCallback(() => {
+        setAnchorEl(null);
+    }, []);
+
+    const listItemClickHandler = useCallback(prop => () => {
+    }, [  ]);
+    
+    const handleClick = useCallback((event) => {
+        setAnchorEl(event.currentTarget);
+    }, []);
+
+    const forwardHandler = useCallback(() => {}, []);
 
     return (
         <article className={classNames("flex mb-4 w-full", user.username === sender ? "justify-end" : "")}>
@@ -21,7 +39,7 @@ const Container = ({ createdAt, image, sender, text }) => {
                 </Avatar>
                 <div className={classNames("", { "ml-3": user.username !== sender})}>
                     <div className={classNames("flex flex-col min-w-[120px] pt-1 pb-3 px-4 rounded-2xl", user.username !== sender ? "other-message rounded-bl-none": "user-message rounded-br-none")}>
-                        <IconButton className="p-0 self-end">
+                        <IconButton className="p-0 self-end" onClick={handleClick}>
                             <MoreHorizIcon />
                         </IconButton>
                         <Typography>
@@ -32,6 +50,41 @@ const Container = ({ createdAt, image, sender, text }) => {
                         { getDate(new Date(parseInt(createdAt))) }
                     </Typography>
                 </div>
+                <Popover
+                    id={id}
+                    open={openPopover}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    classes={{ paper: ""}}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                >
+                    <List className={classNames("py-0 w-[170px]")}>
+                        <ListItem 
+                            disablePadding 
+                            onClick={forwardHandler} 
+                            className={classNames()}>
+                            <ListItemButton>
+                                <ListItemText 
+                                    primary="Forward" 
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem 
+                            disablePadding 
+                            onClick={listItemClickHandler()} 
+                            className={classNames()}>
+                            <ListItemButton>
+                                <ListItemText 
+                                    className={classNames('text-red-500')} 
+                                    primary="Delete" 
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
+                </Popover>
             </div>
         </article>
     );
