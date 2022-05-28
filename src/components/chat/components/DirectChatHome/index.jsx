@@ -11,7 +11,18 @@ const DirectChatHome = () => {
     const { data } = useDirectChatsQuery({ loggedUser: user });
 
     const directChats = useMemo(() => {
-        if(data) return data.directChats;
+        if(data) {
+            const chats = [ ...data.directChats ];
+
+            const sortedData = chats.sort((a, b) => {
+                const aDate = new Date(parseInt(a.messages[a.messages.length - 1].createdAt));
+                const bDate = new Date(parseInt(b.messages[b.messages.length - 1].createdAt));
+
+                return bDate - aDate;
+            });
+
+            return sortedData;
+        }
         return [];
     }, [ data ])
     

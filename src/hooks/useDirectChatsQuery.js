@@ -41,7 +41,6 @@ export const useDirectChatsQuery = ({ loggedUser }) => {
     }, [ loggedUser, subscribeToMore, users ]); 
   
     useEffect(() => {
-        console.log("result", result)
         if(result.data) {
             setData(result.data);
         }

@@ -28,7 +28,7 @@ const ReadIcon = ({ isLoggedUser, isRead }) => {
 
 const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, sender, text }) => {
     const { user } = useContext(LoginContext)
-    const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext);
+    const { getInitialsNameLetters, getUsersList, serverPublicURL } = useContext(AppContext);
 
     const deleteMutation = useMutation(DELETE_DIRECT_MESSAGE)
 
@@ -65,15 +65,20 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, s
         })
     }, [ chatIDRef, deleteMutation, dest, handleClose, ID ])
 
-    const readIcon = useMemo(() => <ReadIcon />, [])
+    const destinatary = useMemo(() => {
+        const result = getUsersList()?.find(item => item.username === sender);
+
+        if(result) return result;
+        return {};
+    }, [ getUsersList, sender ]);
 
     return (
         <article className={classNames("flex mb-4 w-full", user?.username === sender ? "justify-end" : "")}>
             <div className={classNames("flex items-end")}>
                 <Avatar 
-                    className={classNames("mb-4", { "hidden": user?.username === sender })}>
-                    { getInitialsNameLetters(user ? user?.name : "" )}
-                </Avatar>
+                    className={classNames("mb-4", { "hidden": user?.username === sender })}
+                    src={`${serverPublicURL.current}/${destinatary.image}`}
+                />
                 <div className={classNames("", { "ml-3": user?.username !== sender})}>
                     <div className={classNames("flex flex-col min-w-[120px] pt-1 pb-3 px-4 rounded-2xl", 
                         user.username !== sender ? "other-message rounded-bl-none": "user-message rounded-br-none",
