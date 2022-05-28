@@ -8,6 +8,7 @@ export const DIRECT_MESSAGE_SENT = gql`
             messages {
                 createdAt
                 ID
+                isDeleted
                 isForwarded
                 image
                 isRead

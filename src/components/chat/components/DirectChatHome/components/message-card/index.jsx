@@ -15,7 +15,7 @@ import { AppContext } from "src/context/AppContext"
 
 library.add(faCheckDouble);
 
-const MessageCard = ({ image, ID, messages, users}) => {
+const MessageCard = ({ image, ID, messages, users }) => {
     const { user } = useContext(LoginContext)
     const { getBgColors, getUsersList } = useContext(AppContext)
 
@@ -35,8 +35,6 @@ const MessageCard = ({ image, ID, messages, users}) => {
             return previousValue;
         }, 0);
     }, [ destinatary, messages ]);
-
-    console.log("unread messages", unreadMessagesLength);
 
     const router = useRouter();
     const clickHandler = useCallback(() => {
