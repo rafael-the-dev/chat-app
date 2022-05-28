@@ -5,8 +5,8 @@ import { useRouter } from 'next/router'
 
 import { getDate } from "src/helpers"
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classes from './styles.module.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 

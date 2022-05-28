@@ -67,6 +67,14 @@ export const REVALIDATE_TOKEN = gql`
     }
 `;
 
+export const READ_DIRECT_MESSAGE = gql`
+    mutation ReadMessage($chatID: String!) {
+        readMessage(chatID: $chatID) {
+            ID
+        }
+    }
+`;
+
 export const REJECT_FRIENDSHIP_INVITATION = gql`
     mutation RejectFriendshipInvitation($id: String!) {
         rejectFriendshipInvitation(id: $id) {

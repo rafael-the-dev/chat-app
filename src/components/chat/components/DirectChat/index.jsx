@@ -13,14 +13,15 @@ import { LoginContext } from "src/context/LoginContext"
 import { useDirectChatQuery, useUserQuery } from "src/hooks"
 import { getOnlyDate } from "src/helpers"
 
-import { SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
+import { READ_DIRECT_MESSAGE, SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
 import MessageCard from '../message-card'
 
 const DirectChatContainer = () => {
     const router = useRouter();
     const { dest, id } = router.query;
 
-    const sendDirectMessageMutation = useMutation(SEND_DIRECT_MESSAGE)
+    const sendDirectMessageMutation = useMutation(SEND_DIRECT_MESSAGE);
+    const readDirectMessageMutation = useMutation(READ_DIRECT_MESSAGE);
 
     const { user } = useContext(LoginContext)
 
@@ -37,13 +38,27 @@ const DirectChatContainer = () => {
             return destinataryResult.data.user;
         }
         return {};
-    }, [ destinataryResult ])
+    }, [ destinataryResult ]);
+
+    const makeMessagesAsRead = useCallback((chatID) => {
+        const readMessage = readDirectMessageMutation[0];
+
+        readMessage({
+            variables: {
+                chatID
+            },
+            onError(error) {
+                console.log(error);
+            }
+        })
+    }, [ readDirectMessageMutation ])
 
     const currentDate = useRef("");
     const chatDetails = useMemo(() => {
         if(data) {
             currentDate.current = "";
             chatIDRef.current = data.directChat.ID;
+
             return data.directChat;
         }
         return { messages: [] };
@@ -94,6 +109,27 @@ const DirectChatContainer = () => {
         }
         return false;
     }, []);
+
+    const hasUnreadMessages = useCallback((messages, username) => {
+        return messages.find(message => {
+            if(message.sender !== username && !message.isRead) {
+                return true;
+            }
+
+            return false;
+        })
+    }, [])
+
+    useEffect(() => {
+        const hasUser = Boolean(user);
+        const hasData = Boolean(data);
+        if(hasUser && hasData) {
+            if(hasUnreadMessages(data.directChat.messages, user.username)) {
+                makeMessagesAsRead(data.directChat.ID);
+
+            }
+        }
+    }, [ data, hasUnreadMessages, makeMessagesAsRead, user ]);
 
     return (
         <div className="flex flex-col grow h-screen items-stretch pb-[5rem]">
