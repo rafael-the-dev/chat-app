@@ -14,7 +14,7 @@ import SearchFriendsContainer from "./components/search-friends"
 import FriendshipContainer from "./components/friendships"
 
 const Container = () => {
-    const { user } = useContext(LoginContext)
+    const { loggedUser } = useContext(LoginContext)
     const { filterOptions, searchFriendsFilter, setSearchFriendsFilter, setSearchKey, setTab, tab  } = useContext(FriendshipContext)
     const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
     //const [ tab, setTab ] = useState("SEARCH_FRIENDS");
@@ -73,9 +73,9 @@ const Container = () => {
                     Chat app
                 </Typography>
                 <Avatar 
-                    className={classNames({ "bg-cyan-500": !Boolean(user?.image) })}
-                    src={user?.image ? `${serverPublicURL.current}/${user.image}` : ""}>
-                    { user?.image ? "" : getInitialsNameLetters(user ? user.name : "" ) }
+                    className={classNames({ "bg-cyan-500": !Boolean(loggedUser.image) })}
+                    src={loggedUser.image ? `${serverPublicURL.current}/${loggedUser.image}` : ""}>
+                    { loggedUser.image ? "" : getInitialsNameLetters(loggedUser ? loggedUser.name : "" ) }
                 </Avatar>
             </header>
             <main>

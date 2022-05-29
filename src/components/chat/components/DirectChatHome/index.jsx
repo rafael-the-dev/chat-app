@@ -6,9 +6,9 @@ import { useDirectChatsQuery } from "src/hooks"
 import MessageCard from "./components/message-card"
 
 const DirectChatHome = () => {
-    const { user } = useContext(LoginContext)
+    const { loggedUser } = useContext(LoginContext)
 
-    const { data } = useDirectChatsQuery({ loggedUser: user });
+    const { data } = useDirectChatsQuery({ loggedUser });
 
     const directChats = useMemo(() => {
         if(data) {

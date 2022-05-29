@@ -23,10 +23,10 @@ const DirectChatContainer = () => {
     const sendDirectMessageMutation = useMutation(SEND_DIRECT_MESSAGE);
     const readDirectMessageMutation = useMutation(READ_DIRECT_MESSAGE);
 
-    const { user } = useContext(LoginContext)
+    const { loggedUser } = useContext(LoginContext)
 
-    const destinataryResult = useUserQuery({ dest, user });
-    const { data } = useDirectChatQuery({ dest, id, loggedUser: user, users: [ dest, user?.username ] });
+    const destinataryResult = useUserQuery({ dest, loggedUser });
+    const { data } = useDirectChatQuery({ dest, id, loggedUser, users: [ dest, loggedUser.username ] });
 
     const chatIDRef = useRef("");
     const destinataryRef = useRef("");
@@ -121,15 +121,15 @@ const DirectChatContainer = () => {
     }, [])
 
     useEffect(() => {
-        const hasUser = Boolean(user);
+        const hasUser = Boolean(loggedUser);
         const hasData = Boolean(data);
         if(hasUser && hasData) {
-            if(hasUnreadMessages(data.directChat.messages, user.username)) {
+            if(hasUnreadMessages(data.directChat.messages, loggedUser.username)) {
                 makeMessagesAsRead(data.directChat.ID);
 
             }
         }
-    }, [ data, hasUnreadMessages, makeMessagesAsRead, user ]);
+    }, [ data, hasUnreadMessages, makeMessagesAsRead, loggedUser ]);
 
     return (
         <div className="flex flex-col grow h-screen items-stretch pb-[5rem]">

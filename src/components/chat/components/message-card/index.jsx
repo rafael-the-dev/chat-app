@@ -27,7 +27,7 @@ const ReadIcon = ({ isLoggedUser, isRead }) => {
 };
 
 const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, sender, text }) => {
-    const { user } = useContext(LoginContext)
+    const { loggedUser } = useContext(LoginContext)
     const { getInitialsNameLetters, getUsersList, serverPublicURL } = useContext(AppContext);
 
     const deleteMutation = useMutation(DELETE_DIRECT_MESSAGE)
@@ -73,15 +73,15 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, s
     }, [ getUsersList, sender ]);
 
     return (
-        <article className={classNames("flex mb-4 w-full", user?.username === sender ? "justify-end" : "")}>
+        <article className={classNames("flex mb-4 w-full", loggedUser.username === sender ? "justify-end" : "")}>
             <div className={classNames("flex items-end")}>
                 <Avatar 
-                    className={classNames("mb-4", { "hidden": user?.username === sender })}
+                    className={classNames("mb-4", { "hidden": loggedUser.username === sender })}
                     src={`${serverPublicURL.current}/${destinatary.image}`}
                 />
-                <div className={classNames("", { "ml-3": user?.username !== sender})}>
+                <div className={classNames("", { "ml-3": loggedUser.username !== sender})}>
                     <div className={classNames("flex flex-col min-w-[120px] pt-1 pb-3 px-4 rounded-2xl", 
-                        user.username !== sender ? "other-message rounded-bl-none": "user-message rounded-br-none",
+                        loggedUser.username !== sender ? "other-message rounded-bl-none": "user-message rounded-br-none",
                         isDeleted ? "deleted-message" : "")}>
                         <IconButton disabled={isDeleted} className="p-0 self-end" onClick={handleClick}>
                             <MoreHorizIcon />
@@ -90,10 +90,10 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, s
                             { isDeleted ? "This message was deleted" : text }
                         </Typography>
                     </div>
-                    <Typography className={classNames("mt-[4px] text-xs text-slate-300", user?.username !== sender ? "" : "text-right")}>
-                        { sender !== user.username && <ReadIcon isRead={isRead}  /> }
+                    <Typography className={classNames("mt-[4px] text-xs text-slate-300", loggedUser.username !== sender ? "" : "text-right")}>
+                        { sender !== loggedUser.username && <ReadIcon isRead={isRead}  /> }
                         { getDate(new Date(parseInt(createdAt))) } 
-                        { sender === user.username && <ReadIcon isLoggedUser isRead={isRead} /> }
+                        { sender === loggedUser.username && <ReadIcon isLoggedUser isRead={isRead} /> }
                     </Typography>
                 </div>
                 <Popover
@@ -122,7 +122,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, s
                             disablePadding 
                             onClick={deleteHandler} 
                             className={classNames()}>
-                            <ListItemButton disabled={ sender !== user?.username }>
+                            <ListItemButton disabled={ sender !== loggedUser.username }>
                                 <ListItemText 
                                     className={classNames('text-red-500')} 
                                     primary="Delete" 

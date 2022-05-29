@@ -16,18 +16,20 @@ import { AppContext } from "src/context/AppContext"
 library.add(faCheckDouble);
 
 const MessageCard = ({ image, ID, messages, users }) => {
-    const { user } = useContext(LoginContext)
+    const { loggedUser } = useContext(LoginContext)
     const { getBgColors, getUsersList } = useContext(AppContext)
 
     const destinatary = useMemo(() => {
-        const name = users[0] === user?.username ? users[1] : users[0];
+        const name = users[0] === loggedUser.username ? users[1] : users[0];
         const result = getUsersList().find(item => item.username === name);
+
+        console.log(users, name, loggedUser)
 
         if(result) return result;
         return {};
-    }, [ getUsersList, user, users ]);
+    }, [ getUsersList, loggedUser, users ]);
 
-    const unreadMessagesLength = useMemo(() => {
+    const countUnreadMessages = useMemo(() => {
         return messages.reduce((previousValue, currentMessage) => {
             if((currentMessage.sender === destinatary.username) && !(currentMessage.isRead)) {
                 return previousValue + 1;
@@ -70,8 +72,8 @@ const MessageCard = ({ image, ID, messages, users }) => {
                         />
                         { messages[messages.length - 1].text }
                     </Typography>
-                    { unreadMessagesLength > 0 && <Typography className="text-cyan-500">
-                        { unreadMessagesLength }x
+                    { countUnreadMessages > 0 && <Typography className="text-cyan-500">
+                        { countUnreadMessages }x
                     </Typography> }
                 </div>
             </div>

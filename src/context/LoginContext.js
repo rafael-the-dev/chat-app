@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useRef, useState } from 'react'
+import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { REVALIDATE_TOKEN, VALIDATE_TOKEN } from "src/graphql/mutations"
 import { useRouter } from 'next/router'
@@ -17,8 +17,13 @@ export const LoginContextProvider = ({ children }) => {
     const dialogTimeoutRef = useRef(null);
     const verificationTimeoutRef = useRef(null);
 
-    const addUser = useCallback((loggedUser) => {
-        setUser(loggedUser)
+    const loggedUser = useMemo(() => {
+        if(user) return user;
+        return {};
+    }, [ user ])
+
+    const addUser = useCallback((newUser) => {
+        setUser(newUser)
     }, []);
 
     const getToken = useCallback(() => {
@@ -137,7 +142,7 @@ export const LoginContextProvider = ({ children }) => {
     }, [ user, checkExpirationToken ]);
 
     return (
-        <LoginContext.Provider value={{ addUser, logout, openRefreshTokenDialog, revalidateToken, 
+        <LoginContext.Provider value={{ addUser, loggedUser, logout, openRefreshTokenDialog, revalidateToken, 
             setOpenRefreshTokenDialog, user }}>
             { children }
         </LoginContext.Provider>

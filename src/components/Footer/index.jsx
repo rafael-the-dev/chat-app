@@ -1,15 +1,15 @@
 import classNames from 'classnames'
 import { IconButton } from '@mui/material'
+
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import classes from './styles.module.css'
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faComment } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
-library.add(faComment);
+
+import ChatTab from "./components/chat-tab"
 
 const Footer = () => {
     const router = useRouter();
@@ -29,12 +29,7 @@ const Footer = () => {
                         className={classNames("text-3xl", `${tab === "friends" ? "text-red-500" : "text-cyan-500" }`)} 
                     />
                 </IconButton>
-                <IconButton onClick={clickHandler("chat")}>
-                    <FontAwesomeIcon 
-                        className={classNames("text-2xl", `${tab === "chat" ? "text-red-500" : "text-cyan-500" }`)} 
-                        icon="fa-solid comment fa-comment" 
-                    />
-                </IconButton>
+                <ChatTab clickHandler={clickHandler} tab={tab} />
                 <IconButton onClick={clickHandler("notifications")}>
                     <NotificationsIcon className={classNames("text-3xl", `${tab === "notifications" ? "text-red-500" : "text-cyan-500" }`)} />
                 </IconButton>
