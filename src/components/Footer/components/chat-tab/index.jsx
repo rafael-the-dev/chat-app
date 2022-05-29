@@ -7,25 +7,21 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faComment } from '@fortawesome/free-solid-svg-icons'
 
 import { LoginContext } from "src/context/LoginContext"
-import { useDirectChatsQuery } from "src/hooks"
-
+import { AppContext } from "src/context/AppContext"
 
 library.add(faComment);
 
 const ChatTab = ({ clickHandler, tab }) => {
-    const { user } = useContext(LoginContext)
-
-    const { data } = useDirectChatsQuery({ loggedUser: user });
+    const { loggedUser } = useContext(LoginContext)
+    const { getDirectChats } = useContext(AppContext)
 
     const unreadMessagesLength = useMemo(() => {
-        const hasData = Boolean(data);
-        const hasUser = Boolean(user)
-        if(hasData && hasUser) {
-            const chats = [ ...data.directChats ];
+        if(getDirectChats()) {
+            const chats = [ ...getDirectChats() ];
             console.log(chats)
             return chats.reduce((prevChatValue, currentChat) => {
                 return prevChatValue + currentChat.messages.reduce((prevValue, currentMessage) => {
-                    if(currentMessage.sender !== user.username && !currentMessage.isRead) {
+                    if(currentMessage.sender !== loggedUser.username && !currentMessage.isRead) {
                         return prevValue + 1;
                     }
                     return prevValue;
@@ -33,7 +29,7 @@ const ChatTab = ({ clickHandler, tab }) => {
             }, 0)
         }
         return 0;
-    }, [ data, user ])
+    }, [ getDirectChats, loggedUser ])
 
     return (
         <IconButton onClick={clickHandler("chat")}>

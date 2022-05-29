@@ -65,7 +65,7 @@ const MessageCard = ({ image, ID, messages, users }) => {
                     </span>
                 </Typography>
                 <div className="flex items-center justify-between mt-1">
-                    <Typography className={classNames("flex items-center max-w-[250px] overflow-hidden text-sm text-ellipsis whitespace-nowrap")}>
+                    <Typography className={classNames("flex items-center max-w-[220px] overflow-hidden text-sm text-ellipsis whitespace-nowrap")}>
                         <FontAwesomeIcon 
                             className={classNames("mr-2", messages[messages.length - 1].isRead ? "text-cyan-500" : "text-slate-300")}
                             icon="fa-solid fa-check-double" 

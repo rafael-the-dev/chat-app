@@ -17,10 +17,10 @@ const Container = () => {
                 return directChat;
             }
             default: {
-                return <Home />;
+                return home;
             }
         }
-    }, [ directChat, page ])
+    }, [ directChat, home, page ])
 
     return (
         <>

@@ -5,7 +5,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 
 //import { GET_USERS } from 'src/graphql/queries';
 //import { DELETE_FEEDBACK_SUBSCRIPTION, GET_FEEDBACKS__SUBSCRIPTION, GET_FEEDBACK__SUBSCRIPTION } from 'src/graphql/subscriptions';
-import { useUsersQuery, useFriendshipsQuery, useFriendshipsInvitationsQuery } from 'src/hooks';
+import { useDirectChatsQuery, useUsersQuery, useFriendshipsQuery, useFriendshipsInvitationsQuery } from 'src/hooks';
 import { LoginContext } from './LoginContext';
 //import WebSocket from "ws"
 
@@ -13,10 +13,12 @@ export const AppContext = createContext();
 AppContext.displayName = 'AppContext';
 
 export const AppContextProvider = ({ children }) => {
-    const { user } = useContext(LoginContext)
-    const result = useUsersQuery(user);
-    const friendshipsResult = useFriendshipsQuery(user);
-    const friendshipInvitationsResult = useFriendshipsInvitationsQuery(user);
+    const { loggedUser } = useContext(LoginContext);
+
+    const result = useUsersQuery(loggedUser);
+    const friendshipsResult = useFriendshipsQuery(loggedUser);
+    const friendshipInvitationsResult = useFriendshipsInvitationsQuery(loggedUser);
+    const directChatsResult = useDirectChatsQuery({ loggedUser });
 
     const serverPublicURL = useRef("http://localhost:5000")
     const [ isLoading, setIsLoading ] = useState(false);
@@ -29,7 +31,7 @@ export const AppContextProvider = ({ children }) => {
     const addError = useCallback(({ hasError, errorMessage }) => setError({ hasError, errorMessage }), []);
 
     //const [ userProperties, setUserProperties ] = useState({ usersColors: {}, usersList: [], });
-    const userOldProperties = useRef({ friendshipInvitations: [], usersColors: {}, usersList: []});
+    const userOldProperties = useRef({ directChats: [], friendshipInvitations: [], usersColors: {}, usersList: []});
 
     const colorIndex = useRef(0);
     const getColor = useCallback(() => {
@@ -87,13 +89,18 @@ export const AppContextProvider = ({ children }) => {
             console.log(friendshipsData)
             properties = { ...properties, friendships: friendshipsData.friendships };
         }
+        const directChatsData = directChatsResult.data;
+        if(directChatsData) {
+            properties = { ...properties, directChats: directChatsData.directChats };
+        }
 
         const newUserProperties = { ...userOldProperties.current, ...properties };
         userOldProperties.current = newUserProperties;
         return newUserProperties;
-    }, [ friendshipsResult, friendshipInvitationsResult, getColor, result ]);
+    }, [ directChatsResult, friendshipsResult, friendshipInvitationsResult, getColor, result ]);
 
     const getBgColors = useCallback(() => userProperties.usersColors, [ userProperties ]);
+    const getDirectChats = useCallback(() => userProperties.directChats, [ userProperties ]);
     const getFriendshipsList = useCallback(() => userProperties.friendships, [ userProperties ]);
     const getFriendshipInvitationsList = useCallback(() => userProperties.friendshipInvitations, [ userProperties ]);
     const getUsersList = useCallback(() => userProperties.usersList, [ userProperties ]);
@@ -233,7 +240,7 @@ export const AppContextProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{ ...error.hasError, errorHandler, feedbacksList, getFriendshipInvitationsList, 
+            value={{ ...error.hasError, errorHandler, feedbacksList, getDirectChats, getFriendshipInvitationsList, 
                 getInitialsNameLetters, getBgColors, getFriendshipsList, getUsersList, 
                 isLoading, setFeedbackList, serverPublicURL,
             startLoading, stopLoading }}>

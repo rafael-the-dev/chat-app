@@ -14,6 +14,7 @@ import { useDirectChatQuery, useUserQuery } from "src/hooks"
 import { getOnlyDate } from "src/helpers"
 
 import { READ_DIRECT_MESSAGE, SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
+import { GET_DIRECTS_CHAT } from "src/graphql/queries"
 import MessageCard from '../message-card'
 
 const DirectChatContainer = () => {
