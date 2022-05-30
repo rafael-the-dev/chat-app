@@ -32,7 +32,7 @@ export const AppContextProvider = ({ children }) => {
     const addError = useCallback(({ hasError, errorMessage }) => setError({ hasError, errorMessage }), []);
 
     //const [ userProperties, setUserProperties ] = useState({ usersColors: {}, usersList: [], });
-    const userOldProperties = useRef({ directChats: [], friendshipInvitations: [], usersColors: {}, usersList: []});
+    const userOldProperties = useRef({ directChats: [], friendships: [], friendshipInvitations: [], usersColors: {}, usersList: []});
 
     const colorIndex = useRef(0);
     const getColor = useCallback(() => {

@@ -4,9 +4,12 @@ import classNames from "classnames"
 import CircleIcon from '@mui/icons-material/Circle';
 import { getInitialsNameLetters } from "src/helpers"
 
-const UserContainer = ({ image, isOnline, name, username }) => {
+const UserContainer = ({ image, isOnline, name, setValue, username }) => {
+    const clickHandler = prop => event => {
+        setValue(prop);
+    }
     return (
-        <MenuItem className="" value={username}>
+        <MenuItem className="" value={username} onClick={clickHandler(username)}>
             <div className={classNames("flex items-center w-full")}>
                 <Avatar 
                     className="h-[25px] text-base w-[25px]"
