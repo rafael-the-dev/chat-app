@@ -30,7 +30,7 @@ const ReadIcon = ({ isLoggedUser, isRead }) => {
 const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, sender, text }) => {
     const { loggedUser } = useContext(LoginContext)
     const { getInitialsNameLetters, getUsersList, serverPublicURL } = useContext(AppContext);
-    const { setOpenForwardMessageDialog } = useContext(ForwardMessage);
+    const { addMessageVariables, setOpenForwardMessageDialog, setDirectContact } = useContext(ForwardMessage);
 
     const deleteMutation = useMutation(DELETE_DIRECT_MESSAGE)
 
@@ -48,9 +48,17 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, s
     }, []);
 
     const forwardHandler = useCallback(() => {
+        addMessageVariables({
+            chatID: "",
+            image,
+            isForwarded: true,
+            reply: "",
+            text: text
+        });
+        setDirectContact(dest);
         setAnchorEl(null);
         setOpenForwardMessageDialog(true);
-    }, [ setOpenForwardMessageDialog ])
+    }, [ addMessageVariables, dest, image, text, setOpenForwardMessageDialog ])
 
     const deleteHandler = useCallback(() => {
         const deleteMessage = deleteMutation[0];

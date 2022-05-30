@@ -10,12 +10,17 @@ import classes from "./styles.module.css"
 import ContactCard from "./components/User"
 import { AppContext } from "src/context/AppContext"
 import { ForwardMessage } from "src/context"
+import { useMutation } from "@apollo/client";
+import { SEND_DIRECT_MESSAGE } from "src/graphql/mutations";
 
 const ForwardMessageContainer = () => {
     const { getFriendshipsList } = useContext(AppContext);
-    const { openForwardMessageDialog, setOpenForwardMessageDialog } = useContext(ForwardMessage);
+    const { directContact, messageVariables, openForwardMessageDialog, setOpenForwardMessageDialog } = useContext(ForwardMessage);
 
-    const [ receiverName, setReceiverName ] = useState('');
+    
+    const sendDirectMessageMutation = useMutation(SEND_DIRECT_MESSAGE);
+
+    const [ receiver, setReceiver ] = useState('');
     const [ receiverType, setReceiverType ] = useState('CONTACT');
     const [ isLoading, setIsLoading ] = useState(false);
 
@@ -23,32 +28,60 @@ const ForwardMessageContainer = () => {
 
     const radioChangeHandler = useCallback(event => {
         setReceiverType(event.target.value);
-        setReceiverName('');
+        setReceiver('');
     }, [])
 
     const onChangeHandler = useCallback(event => {
-        setReceiverName(event.target.value);
+        setReceiver(event.target.value);
     }, []);
+
+    const sendDirectMessage = useCallback(() => {
+        const send = sendDirectMessageMutation[0];
+
+        console.log()
+
+
+        send({ variables: {
+            messageInput: { ...messageVariables.current, destinatary: receiver } },
+            onCompleted(data) {
+                console.log(data)
+            },
+            onError(err) {
+                console.log(err)
+            }
+        })
+    }, [ messageVariables, receiver, sendDirectMessageMutation ]);
+
+    const sendHandler = useCallback(event => {
+        event.preventDefault();
+
+        if(receiverType === "CONTACT") {
+            sendDirectMessage();
+        }
+    }, [ receiverType, sendDirectMessage])
     
     const contactListMemo = useMemo(() => {
-        return getFriendshipsList().map((contact, index) => (
-            <MenuItem key={contact.username} className="" value={contact.username} >
-                <div className={classNames("flex items-center w-full")}>
-                    <Avatar 
-                        className="h-[25px] text-base w-[25px]"
-                        src={contact.image ? `http://localhost:5000/${contact.image}` : ""}>
-                        { contact.image ? "" :getInitialsNameLetters(contact.name) }
-                    </Avatar>
-                    <Typography 
-                        className={classNames("font-semibold grow ml-3 max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap")} 
-                        component="h2">
-                        { contact.name }
-                    </Typography>
-                    <CircleIcon className={classNames("text-[.5rem]", contact.isOnline ? "text-green-500" : "text-red-500")} />
-                </div>
-            </MenuItem>
-        ))
-    }, [ getFriendshipsList ]);
+        return getFriendshipsList()
+            .filter(contact => contact.username !== directContact)
+            .map((contact, index) => (
+                <MenuItem key={contact.username} className="" value={contact.username} >
+                    <div className={classNames("flex items-center w-full")}>
+                        <Avatar 
+                            className="h-[25px] text-base w-[25px]"
+                            src={contact.image ? `http://localhost:5000/${contact.image}` : ""}>
+                            { contact.image ? "" :getInitialsNameLetters(contact.name) }
+                        </Avatar>
+                        <Typography 
+                            className={classNames("font-semibold grow ml-3 max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap")} 
+                            component="h2">
+                            { contact.name }
+                        </Typography>
+                        <CircleIcon className={classNames("text-[.5rem]", contact.isOnline ? "text-green-500" : "text-red-500")} />
+                    </div>
+                </MenuItem>
+            )
+        );
+    }, [ directContact, getFriendshipsList ]);
 
     return (
         <Dialog
@@ -85,7 +118,7 @@ const ForwardMessageContainer = () => {
                     required
                     variant="outlined"
                     select
-                    value={receiverName}
+                    value={receiver}
                     onChange={onChangeHandler}
                     fullWidth
                 >{ receiverType === 'CONTACT' ? contactListMemo : <></> }
@@ -101,9 +134,9 @@ const ForwardMessageContainer = () => {
                     </Button> 
                     <Button 
                         variant="contained"
-                        type="button"
+                        type=""
                         className={classNames("capitalize ml-4 px-6 hover:opacity-70")}
-                        onClick={() => {}}>
+                        onClick={sendHandler}>
                         Send
                     </Button>   
                 </div>
