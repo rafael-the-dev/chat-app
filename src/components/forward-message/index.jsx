@@ -6,8 +6,8 @@ import classNames from "classnames";
 import ContactCard from "./components/User"
 import { AppContext } from "src/context/AppContext"
 
-const ForwardMessageContainer = () => {
-    const { getFriendshipsList, openForwardMessageDialog, setOpenForwardMessageDialog } = useContext(AppContext);
+const ForwardMessageContainer = ({ open, closeDialog }) => {
+    const { getFriendshipsList } = useContext(AppContext);
 
     const [ receiverName, setReceiverName ] = useState('');
     const [ receiverType, setReceiverType ] = useState('CONTACT');
@@ -17,9 +17,6 @@ const ForwardMessageContainer = () => {
         return getFriendshipsList().map((contact, index) => <ContactCard key={index} { ...contact } />)
     }, [ getFriendshipsList ]);
 
-    const closeDialog = useCallback(() => {
-        setOpenForwardMessageDialog(false)
-    }, [ setOpenForwardMessageDialog ]);
 
     const radioChangeHandler = useCallback(event => {
         setReceiverType(event.target.value);
@@ -32,7 +29,7 @@ const ForwardMessageContainer = () => {
 
     return (
         <Dialog
-            open={openForwardMessageDialog}
+            open={open}
             onClose={closeDialog}
             aria-describedby="session-dialog-description"
         >
