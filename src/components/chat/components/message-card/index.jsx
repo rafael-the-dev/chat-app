@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { AppContext } from 'src/context/AppContext';
 import { LoginContext } from 'src/context/LoginContext';
+import { ForwardMessage } from 'src/context';
 
 import { useMutation } from "@apollo/client"
 
@@ -29,6 +30,7 @@ const ReadIcon = ({ isLoggedUser, isRead }) => {
 const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, sender, text }) => {
     const { loggedUser } = useContext(LoginContext)
     const { getInitialsNameLetters, getUsersList, serverPublicURL } = useContext(AppContext);
+    const { setOpenForwardMessageDialog } = useContext(ForwardMessage);
 
     const deleteMutation = useMutation(DELETE_DIRECT_MESSAGE)
 
@@ -45,7 +47,10 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, s
         setAnchorEl(event.currentTarget);
     }, []);
 
-    const forwardHandler = useCallback(() => {}, []);
+    const forwardHandler = useCallback(() => {
+        setAnchorEl(null);
+        setOpenForwardMessageDialog(true);
+    }, [ setOpenForwardMessageDialog ])
 
     const deleteHandler = useCallback(() => {
         const deleteMessage = deleteMutation[0];

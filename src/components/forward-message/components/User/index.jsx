@@ -6,25 +6,19 @@ import { getInitialsNameLetters } from "src/helpers"
 
 const UserContainer = ({ image, isOnline, name, username }) => {
     return (
-        <MenuItem value={username} 
-            className={classNames()}>
-            <div className={classNames("flex items-center")}>
+        <MenuItem className="" value={username}>
+            <div className={classNames("flex items-center w-full")}>
                 <Avatar 
-                    src={image ? `http://localhost:5000/${image}` : ""} 
-                    className="text-base">
+                    className="h-[25px] text-base w-[25px]"
+                    src={image ? `http://localhost:5000/${image}` : ""}>
                     { image ? "" :getInitialsNameLetters(name) }
                 </Avatar>
-                <div className="flex flex-col grow ml-3">
-                    <Typography 
-                        className={classNames("font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap")} 
-                        component="h2">
-                        { name }
-                    </Typography>
-                    <Typography className={classNames("mt-1")}>
-                        @{ username }
-                    </Typography>
-                </div>
-                <CircleIcon className={classNames(isOnline ? "text-green-500" : "text-red-500")} />
+                <Typography 
+                    className={classNames("font-semibold grow ml-3 max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap")} 
+                    component="h2">
+                    { name }
+                </Typography>
+                <CircleIcon className={classNames("text-[.5rem]", isOnline ? "text-green-500" : "text-red-500")} />
             </div>
         </MenuItem>
     );

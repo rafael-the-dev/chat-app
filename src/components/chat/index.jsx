@@ -1,6 +1,9 @@
 import { useRouter } from "next/router"
-import { useMemo } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 
+import { ForwardMessage } from "src/context";
+
+import ForwardMessageDialog from "src/components/forward-message"
 import DirectChat from "./components/DirectChat"
 import Home from "./components/Home"
 
@@ -8,8 +11,13 @@ const Container = () => {
     const router = useRouter();
     const { page } = router.query;
 
+    const { openForwardMessageDialog, setOpenForwardMessageDialog } = useContext(ForwardMessage);
+
+    const closeForwardMessageDialog = useCallback(() => setOpenForwardMessageDialog(false), [ setOpenForwardMessageDialog ])
+
     const directChat = useMemo(() => <DirectChat />, []);
-    const home = useMemo(() => <Home />, [])
+    const home = useMemo(() => <Home />, []);
+    const forwardMessageDialog = useMemo(() => <ForwardMessageDialog />, [])
     
     const selectedPage = useMemo(() => {
         switch(page) {
@@ -25,6 +33,7 @@ const Container = () => {
     return (
         <>
             { selectedPage }
+            { forwardMessageDialog }
         </>
     );
 };
