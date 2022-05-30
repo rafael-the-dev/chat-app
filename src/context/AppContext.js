@@ -23,7 +23,8 @@ export const AppContextProvider = ({ children }) => {
     const serverPublicURL = useRef("http://localhost:5000")
     const [ isLoading, setIsLoading ] = useState(false);
     const [ feedbacksList, setFeedbackList ] = useState([]);
-    const [ error, setError ] = useState({ hasError: false, errorMessage: "" })
+    const [ error, setError ] = useState({ hasError: false, errorMessage: "" });
+    const [ openForwardMessageDialog, setOpenForwardMessageDialog ] = useState(false)
 
     const startLoading = useCallback(() => setIsLoading(true), [])
     const stopLoading = useCallback(() => setIsLoading(false), [])
@@ -242,8 +243,8 @@ export const AppContextProvider = ({ children }) => {
         <AppContext.Provider 
             value={{ ...error.hasError, errorHandler, feedbacksList, getDirectChats, getFriendshipInvitationsList, 
                 getInitialsNameLetters, getBgColors, getFriendshipsList, getUsersList, 
-                isLoading, setFeedbackList, serverPublicURL,
-            startLoading, stopLoading }}>
+                isLoading, openForwardMessageDialog, setFeedbackList, serverPublicURL,
+            startLoading, stopLoading, setOpenForwardMessageDialog }}>
             { children }
         </AppContext.Provider>
     );

@@ -34,3 +34,22 @@ export const getOnlyDate = (user_time) => {
   return formatedDate;
 };
 
+export const getInitialsNameLetters = name => {
+  let result = "";
+
+  if (name && typeof name === "string") {
+    let splittedName = name.split(" ");
+
+    if (splittedName.length === 0) {
+      splittedName = name.split("-");
+    }
+
+    if (splittedName.length > 2) {
+      result = splittedName[0].charAt(0) + splittedName[splittedName.length - 1].charAt(0);
+    } else {
+      splittedName.forEach((item) => (result += item.charAt(0)));
+    }
+  }
+  return result;
+};
+
