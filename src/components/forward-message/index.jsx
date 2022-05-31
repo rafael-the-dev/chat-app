@@ -1,5 +1,6 @@
 import { Avatar, Alert, Button, Dialog, DialogContent, FormControl, FormControlLabel, FormLabel,
     MenuItem, RadioGroup, Radio, Typography, TextField } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 import { useCallback, useContext, useMemo, useRef, useState } from "react";
 
 import CircleIcon from '@mui/icons-material/Circle';
@@ -59,6 +60,7 @@ const ForwardMessageContainer = () => {
         const send = sendDirectMessageMutation[0];
         closeAlert(successAlert)();
         closeAlert(errorAlert)();
+        setIsLoading(true);
 
 
         send({ variables: {
@@ -66,11 +68,13 @@ const ForwardMessageContainer = () => {
             onCompleted(data) {
                 console.log(data)
                 openAlert(successAlert)()
+                setIsLoading(false);
             },
             onError(err) {
                 console.log(err)
-                closeAlert(successAlert)()
-                openAlert(errorAlert)()
+                closeAlert(successAlert)();
+                openAlert(errorAlert)();
+                setIsLoading(false);
             }
         })
     }, [ closeAlert, messageVariables, openAlert, receiver, sendDirectMessageMutation ]);
@@ -168,7 +172,7 @@ const ForwardMessageContainer = () => {
                         type=""
                         className={classNames("capitalize ml-4 px-6 hover:opacity-70")}
                         onClick={sendHandler}>
-                        Send
+                        { isLoading ? <CircularProgress className="text-slate-100" size={25} /> : "Send" }
                     </Button>   
                 </div>
             </DialogContent>
