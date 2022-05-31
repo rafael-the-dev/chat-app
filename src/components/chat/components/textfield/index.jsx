@@ -1,19 +1,21 @@
 import { IconButton } from "@mui/material"
 import { useRouter } from "next/router"
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { Typography } from "@mui/material"
 import classNames from "classnames"
 
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import SendIcon from '@mui/icons-material/Send';
 
+import { ChatContext } from "src/context";
 import RepliedMessage from "./components/replied-message"
 
 
 const TextfieldContainer = ({ sendHandler }) => {
     const router = useRouter();
     const { page } = router.query;
-
+    
+    const { repliedMessage } = useContext(ChatContext);
 
     const [ canISubmit, setCanISubmit ] = useState(false);
     const inputRef = useRef(null);
@@ -24,7 +26,7 @@ const TextfieldContainer = ({ sendHandler }) => {
         setCanISubmit(Boolean(value));
     }, []);
 
-    const repliedMessage = useMemo(() => <RepliedMessage />, [])
+    const repliedMessageMemo = useMemo(() => <RepliedMessage />, [])
 
     const emojiButtonMemo = useMemo(() => (
         <IconButton type="button">
@@ -50,11 +52,14 @@ const TextfieldContainer = ({ sendHandler }) => {
     const submitHandler = useCallback(event => {
         event.preventDefault();
         sendHandler({ inputRef })
-    }, [ sendHandler ])
+    }, [ sendHandler ]);
+
+    const hasRepliedMessage = useMemo(() => Object.keys(repliedMessage).length > 0, [ repliedMessage ]);
 
     return (
-        <div className={classNames("bottom-20 flex flex-col fixed items-stretch w-full z-10 bg-cyan-300 py-2")}>
-            { repliedMessage }
+        <div className={classNames(`bottom-20 flex flex-col fixed items-stretch w-full z-10`,
+            { "bg-cyan-300 py-2": hasRepliedMessage })}>
+            { hasRepliedMessage && repliedMessageMemo }
             <form 
                 className="bg-cyan-300 flex items-center w-full"
                 onSubmit={submitHandler}>

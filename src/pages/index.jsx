@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 import Chat from 'src/components/chat'
 import Friendships from 'src/components/Friendship'
 import { FriendshipContextProvider } from 'src/context/FriendshipContext';
-import { ForwardMessageProvider } from 'src/context';
+import { ChatContextProvider, ForwardMessageProvider } from 'src/context';
 
 const Home = () => {
     const router = useRouter();
@@ -24,7 +24,7 @@ const Home = () => {
         //console.log("")
         switch(tab) {
             case 'chat': {
-                return <ForwardMessageProvider>{ chatMemo }</ForwardMessageProvider>;
+                return <ForwardMessageProvider><ChatContextProvider>{ chatMemo }</ChatContextProvider></ForwardMessageProvider>;
             }
             case 'friends': {
                 return <FriendshipContextProvider>{ friendshipsMemo }</FriendshipContextProvider>

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { AppContext } from 'src/context/AppContext';
 import { LoginContext } from 'src/context/LoginContext';
-import { ForwardMessage } from 'src/context';
+import { ChatContext, ForwardMessage } from 'src/context';
 
 import { useMutation } from "@apollo/client"
 
@@ -28,10 +28,11 @@ const ReadIcon = ({ isLoggedUser, isRead }) => {
     );
 };
 
-const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isRead, image, sender, text }) => {
+const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isRead, image, message, sender, text }) => {
     const { loggedUser } = useContext(LoginContext)
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     const { addMessageVariables, setOpenForwardMessageDialog, setDirectContact } = useContext(ForwardMessage);
+    const { setRepliedMessage } = useContext(ChatContext);
 
     const deleteMutation = useMutation(DELETE_DIRECT_MESSAGE)
 
@@ -47,6 +48,11 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isR
     const handleClick = useCallback((event) => {
         setAnchorEl(event.currentTarget);
     }, []);
+
+    const replyHandler = useCallback(() => {
+        handleClose();
+        setRepliedMessage(message);
+    }, [ handleClose, message, setRepliedMessage ])
 
     const forwardHandler = useCallback(() => {
         addMessageVariables({
@@ -125,6 +131,16 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isR
                     }}
                 >
                     <List className={classNames("py-0 w-[170px]")}>
+                        <ListItem 
+                            disablePadding 
+                            onClick={replyHandler} 
+                            className={classNames()}>
+                            <ListItemButton>
+                                <ListItemText 
+                                    primary="Reply" 
+                                />
+                            </ListItemButton>
+                        </ListItem>
                         <ListItem 
                             disablePadding 
                             onClick={forwardHandler} 
