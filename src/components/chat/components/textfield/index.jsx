@@ -1,9 +1,13 @@
 import { IconButton } from "@mui/material"
 import { useRouter } from "next/router"
 import { useCallback, useMemo, useRef, useState } from 'react'
+import { Typography } from "@mui/material"
+import classNames from "classnames"
 
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import SendIcon from '@mui/icons-material/Send';
+
+import RepliedMessage from "./components/replied-message"
 
 
 const TextfieldContainer = ({ sendHandler }) => {
@@ -19,6 +23,8 @@ const TextfieldContainer = ({ sendHandler }) => {
 
         setCanISubmit(Boolean(value));
     }, []);
+
+    const repliedMessage = useMemo(() => <RepliedMessage />, [])
 
     const emojiButtonMemo = useMemo(() => (
         <IconButton type="button">
@@ -47,13 +53,16 @@ const TextfieldContainer = ({ sendHandler }) => {
     }, [ sendHandler ])
 
     return (
-        <form 
-            className="bg-cyan-300 flex items-center fixed bottom-20 w-full z-10"
-            onSubmit={submitHandler}>
-            { emojiButtonMemo }
-            { inputMemo }
-            { submitButtonMemo }
-        </form>
+        <div className={classNames("bottom-20 flex flex-col fixed items-stretch w-full z-10 bg-cyan-300 py-2")}>
+            { repliedMessage }
+            <form 
+                className="bg-cyan-300 flex items-center w-full"
+                onSubmit={submitHandler}>
+                { emojiButtonMemo }
+                { inputMemo }
+                { submitButtonMemo }
+            </form>
+        </div>
     );
 };
 
