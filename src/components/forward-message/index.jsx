@@ -1,13 +1,12 @@
-import { Avatar, Button, Dialog, DialogActions, DialogContent, FormControl, FormControlLabel, FormLabel,
+import { Avatar, Alert, Button, Dialog, DialogContent, FormControl, FormControlLabel, FormLabel,
     MenuItem, RadioGroup, Radio, Typography, TextField } from "@mui/material";
-import { useCallback, useContext, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useRef, useState } from "react";
 
 import CircleIcon from '@mui/icons-material/Circle';
 import { getInitialsNameLetters } from "src/helpers"
 import classNames from "classnames";
 import classes from "./styles.module.css"
 
-import ContactCard from "./components/User"
 import { AppContext } from "src/context/AppContext"
 import { ForwardMessage } from "src/context"
 import { useMutation } from "@apollo/client";
@@ -24,6 +23,9 @@ const ForwardMessageContainer = () => {
     const [ receiverType, setReceiverType ] = useState('CONTACT');
     const [ isLoading, setIsLoading ] = useState(false);
 
+    const successAlert = useRef(null);
+    const errorAlert = useRef(null);
+
     const closeDialog = useCallback(() => setOpenForwardMessageDialog(false), [ setOpenForwardMessageDialog ])
 
     const radioChangeHandler = useCallback(event => {
@@ -35,22 +37,43 @@ const ForwardMessageContainer = () => {
         setReceiver(event.target.value);
     }, []);
 
+    const isValidElement = useCallback((element) => {
+        return (Boolean(element) && Boolean(element.current));
+    }, [])
+
+    const openAlert = useCallback(element => () => {
+        if(isValidElement(element)) {
+            element.current.classList.add("h-auto", "mb-2");
+            element.current.classList.remove("h-0", "opacity-0")
+        }
+    }, [ isValidElement ]);
+
+    const closeAlert = useCallback(element => () => {
+        if(isValidElement(element)) {
+            element.current.classList.remove("h-auto", "mb-2")
+            element.current.classList.add("h-0", "opacity-0")
+        }
+    }, [ isValidElement ])
+
     const sendDirectMessage = useCallback(() => {
         const send = sendDirectMessageMutation[0];
-
-        console.log()
+        closeAlert(successAlert)();
+        closeAlert(errorAlert)();
 
 
         send({ variables: {
             messageInput: { ...messageVariables.current, destinatary: receiver } },
             onCompleted(data) {
                 console.log(data)
+                openAlert(successAlert)()
             },
             onError(err) {
                 console.log(err)
+                closeAlert(successAlert)()
+                openAlert(errorAlert)()
             }
         })
-    }, [ messageVariables, receiver, sendDirectMessageMutation ]);
+    }, [ closeAlert, messageVariables, openAlert, receiver, sendDirectMessageMutation ]);
 
     const sendHandler = useCallback(event => {
         event.preventDefault();
@@ -91,6 +114,14 @@ const ForwardMessageContainer = () => {
             onClose={closeDialog}
         >
             <DialogContent>
+                <Alert className="h-0 opacity-0" ref={successAlert} severity="success" color="info" 
+                    onClose={closeAlert(successAlert)}>
+                    Message forwarded!
+                </Alert>
+                <Alert className="h-0 opacity-0" color="error"ref={errorAlert} severity="error" 
+                    onClose={closeAlert(errorAlert)}>
+                    Message not forwarded!
+                </Alert>
                 <FormControl fullWidth component="fieldset" 
                     className={classNames("flex items-center")}>
                     <FormLabel component="legend" className={classNames("font-bold w-auto")}>Forward to a</FormLabel>
