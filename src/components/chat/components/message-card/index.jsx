@@ -7,6 +7,7 @@ import { ForwardMessage } from 'src/context';
 
 import { useMutation } from "@apollo/client"
 
+import ShortcutIcon from '@mui/icons-material/Shortcut';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
@@ -27,9 +28,9 @@ const ReadIcon = ({ isLoggedUser, isRead }) => {
     );
 };
 
-const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, sender, text }) => {
+const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isRead, image, sender, text }) => {
     const { loggedUser } = useContext(LoginContext)
-    const { getInitialsNameLetters, getUsersList, serverPublicURL } = useContext(AppContext);
+    const { getUsersList, serverPublicURL } = useContext(AppContext);
     const { addMessageVariables, setOpenForwardMessageDialog, setDirectContact } = useContext(ForwardMessage);
 
     const deleteMutation = useMutation(DELETE_DIRECT_MESSAGE)
@@ -58,7 +59,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, s
         setDirectContact(dest);
         setAnchorEl(null);
         setOpenForwardMessageDialog(true);
-    }, [ addMessageVariables, dest, image, text, setOpenForwardMessageDialog ])
+    }, [ addMessageVariables, dest, image, setDirectContact, text, setOpenForwardMessageDialog ])
 
     const deleteHandler = useCallback(() => {
         const deleteMessage = deleteMutation[0];
@@ -93,6 +94,9 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isRead, image, s
                     src={`${serverPublicURL.current}/${destinatary.image}`}
                 />
                 <div className={classNames("", { "ml-3": loggedUser.username !== sender})}>
+                    { isForwarded && <Typography className="flex items-center text-xs text-slate-500">
+                        <ShortcutIcon /> forwarded
+                    </Typography> }
                     <div className={classNames("flex flex-col min-w-[120px] pt-1 pb-3 px-4 rounded-2xl", 
                         loggedUser.username !== sender ? "other-message rounded-bl-none": "user-message rounded-br-none",
                         isDeleted ? "deleted-message" : "")}>
