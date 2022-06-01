@@ -9,7 +9,7 @@ import moment from 'moment'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
 
-import { LoginContext } from "src/context/LoginContext"
+import { ChatContext, LoginContext } from "src/context"
 import { useDirectChatQuery, useUserQuery } from "src/hooks"
 import { getOnlyDate } from "src/helpers"
 
@@ -25,6 +25,7 @@ const DirectChatContainer = () => {
     const readDirectMessageMutation = useMutation(READ_DIRECT_MESSAGE);
 
     const { loggedUser } = useContext(LoginContext)
+    const { repliedMessage, setRepliedMessage } = useContext(ChatContext);
 
     const destinataryResult = useUserQuery({ dest, loggedUser });
     const { data } = useDirectChatQuery({ dest, id, loggedUser, users: [ dest, loggedUser.username ] });
@@ -75,7 +76,11 @@ const DirectChatContainer = () => {
             const scrollHeight = mainRef.current.scrollHeight;
             mainRef.current.scroll({ behavior: "smooth", top: scrollHeight })
         }
-    }, [ data ])
+    }, [ data ]);
+    
+    const hasRepliedMessage = useMemo(() => {
+        return Object.keys(repliedMessage).length > 0 && repliedMessage.isDirectChat;
+    }, [ repliedMessage ]);
     
     const sendDirectMessage = useCallback(({ inputRef }) => {
         const send = sendDirectMessageMutation[0];
@@ -86,18 +91,19 @@ const DirectChatContainer = () => {
                 destinatary: destinataryRef.current,
                 image: "",
                 isForwarded: false,
-                reply: "",
+                reply: hasRepliedMessage ? repliedMessage.ID : "",
                 text: inputRef.current.value
             }},
             onCompleted() {
                 inputRef.current.value = "";
+                setRepliedMessage({});
             },
             onError(err) {
                 console.log(err)
             }
         })
 
-    }, [ sendDirectMessageMutation ]);
+    }, [ hasRepliedMessage, repliedMessage, setRepliedMessage, sendDirectMessageMutation ]);
 
     const textfieldContainer = useMemo(() => <TextfieldContainer sendHandler={sendDirectMessage} />, [ sendDirectMessage ]);
 

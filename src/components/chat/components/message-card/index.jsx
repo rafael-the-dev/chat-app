@@ -14,6 +14,7 @@ import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
+import RepliedMessage from "../replied-message"
 import { DELETE_DIRECT_MESSAGE } from "src/graphql/mutations"
 import { getDate } from "src/helpers"
 
@@ -28,7 +29,7 @@ const ReadIcon = ({ isLoggedUser, isRead }) => {
     );
 };
 
-const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isRead, image, message, sender, text }) => {
+const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isRead, image, message, reply, sender, text }) => {
     const { loggedUser } = useContext(LoginContext)
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     const { addMessageVariables, setOpenForwardMessageDialog, setDirectContact } = useContext(ForwardMessage);
@@ -51,7 +52,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isR
 
     const replyHandler = useCallback(() => {
         handleClose();
-        setRepliedMessage(message);
+        setRepliedMessage({ ...message, isDirectChat: true });
     }, [ handleClose, message, setRepliedMessage ])
 
     const forwardHandler = useCallback(() => {
@@ -109,6 +110,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isR
                         <IconButton disabled={isDeleted} className="p-0 self-end" onClick={handleClick}>
                             <MoreHorizIcon />
                         </IconButton>
+                        { reply !== null && <RepliedMessage { ...message } /> }
                         <Typography>
                             { isDeleted ? "This message was deleted" : text }
                         </Typography>
