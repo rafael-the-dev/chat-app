@@ -1,5 +1,6 @@
 import { Avatar, IconButton, List, ListItem, ListItemButton, ListItemText, Popover, Typography } from '@mui/material'
 import classNames from 'classnames';
+import Image from "next/image"
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { AppContext } from 'src/context/AppContext';
 import { LoginContext } from 'src/context/LoginContext';
@@ -93,6 +94,8 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isR
         return {};
     }, [ getUsersList, sender ]);
 
+    const myLoader = ({ src }) => `${serverPublicURL.current}/${image}`;
+
     return (
         <article 
             className={classNames("flex mb-4 w-full", loggedUser.username === sender ? "justify-end" : "")}
@@ -113,6 +116,17 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isR
                             <MoreHorizIcon />
                         </IconButton>
                         { reply !== null && <RepliedMessage { ...reply } /> }
+                        { image && (
+                            <div className="h-[100px] relative w-full">
+                                <Image 
+                                    alt=""
+                                    className="object-contain"
+                                    loader={myLoader}
+                                    layout="fill"
+                                    src={`${serverPublicURL.current}/${image}`}
+                                />
+                            </div>
+                        )}
                         <Typography>
                             { isDeleted ? "This message was deleted" : text }
                         </Typography>

@@ -27,6 +27,7 @@ const TextfieldContainer = ({ sendHandler }) => {
 
     const inputRef = useRef(null);
     const fileRef = useRef(null);
+    const imageRef = useRef(null);
 
     const deleteImage = useCallback(() => {
         setFile({ image: null, url: "" });
@@ -51,13 +52,14 @@ const TextfieldContainer = ({ sendHandler }) => {
         if(inputFile) {
            const reader = new FileReader();
 
-            reader.onload = event => {
+            reader.onload = event => { 
+                imageRef.current = inputFile;
                setFile({ image: inputFile, url: event.target.result })
             };
 
            reader.readAsDataURL(inputFile);
         }
-    }, []);
+    }, [ imageRef ]);
 
     const toggleExpanded = useCallback(() =>  setExpanded(b => !b), []);
 
@@ -116,15 +118,16 @@ const TextfieldContainer = ({ sendHandler }) => {
     ), [ expanded, imageButtonClickHandler ])
 
     const submitButtonMemo = useMemo(() => (
-        <IconButton type="submit" disabled={!canISubmit}>
+        <IconButton type="submit" disabled={!canISubmit && !file.image}>
             <SendIcon className="hover:text-cyan-600" />
         </IconButton>
-    ), [ canISubmit ])
+    ), [ canISubmit, file ])
     
 
     const submitHandler = useCallback(event => {
         event.preventDefault();
-        sendHandler({ inputRef })
+        sendHandler({ inputRef, imageRef })
+        setCanISubmit(false)
     }, [ sendHandler ]);
 
     const hasRepliedMessage = useMemo(() => Object.keys(repliedMessage).length > 0, [ repliedMessage ]);

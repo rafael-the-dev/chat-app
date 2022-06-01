@@ -82,14 +82,14 @@ const DirectChatContainer = () => {
         return Object.keys(repliedMessage).length > 0 && repliedMessage.isDirectChat;
     }, [ repliedMessage ]);
     
-    const sendDirectMessage = useCallback(({ inputRef }) => {
+    const sendDirectMessage = useCallback(({ inputRef, imageRef }) => {
         const send = sendDirectMessageMutation[0];
 
         send({ variables: {
             messageInput: {
                 chatID: chatIDRef.current,
                 destinatary: destinataryRef.current,
-                image: "",
+                image: imageRef.current,
                 isForwarded: false,
                 reply: hasRepliedMessage ? repliedMessage.ID : "",
                 text: inputRef.current.value
