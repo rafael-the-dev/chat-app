@@ -1,10 +1,13 @@
-import { IconButton } from "@mui/material"
+import { Collapse, IconButton } from "@mui/material"
 import { useRouter } from "next/router"
 import { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { Typography } from "@mui/material"
 import classNames from "classnames"
 
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import PhotoIcon from '@mui/icons-material/Photo';
 import SendIcon from '@mui/icons-material/Send';
 
 import { ChatContext } from "src/context";
@@ -17,6 +20,7 @@ const TextfieldContainer = ({ sendHandler }) => {
     
     const { repliedMessage } = useContext(ChatContext);
 
+    const [ expanded, setExpanded ] = useState(false);
     const [ canISubmit, setCanISubmit ] = useState(false);
     const inputRef = useRef(null);
 
@@ -26,13 +30,15 @@ const TextfieldContainer = ({ sendHandler }) => {
         setCanISubmit(Boolean(value));
     }, []);
 
+    const toggleExpanded = useCallback(() =>  setExpanded(b => !b), []);
+
     const repliedMessageMemo = useMemo(() => <RepliedMessage />, [])
 
     const emojiButtonMemo = useMemo(() => (
-        <IconButton type="button">
-            <InsertEmoticonIcon className="hover:text-cyan-600" />
+        <IconButton type="button" onClick={toggleExpanded}>
+            { expanded ? <CloseIcon  className="hover:text-cyan-600" /> : <AddIcon className="hover:text-cyan-600" /> }
         </IconButton>
-    ),[])
+    ),[ expanded, toggleExpanded ])
 
     const inputMemo = useMemo(() => (
         <input 
@@ -41,6 +47,19 @@ const TextfieldContainer = ({ sendHandler }) => {
                 ref={inputRef}
             />
     ), [ changeHandler ]);
+
+    const collapseMemo = useMemo(() => (
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <div className="bg-cyan-300 flex items-center flex-wrap">
+                <IconButton className="mr-1 ">
+                    <InsertEmoticonIcon  className="hover:text-cyan-600" />
+                </IconButton>
+                <IconButton>
+                    <PhotoIcon  className="hover:text-cyan-600" />
+                </IconButton>
+            </div>
+        </Collapse>
+    ), [ expanded ])
 
     const submitButtonMemo = useMemo(() => (
         <IconButton type="submit" disabled={!canISubmit}>
@@ -67,6 +86,7 @@ const TextfieldContainer = ({ sendHandler }) => {
                 { inputMemo }
                 { submitButtonMemo }
             </form>
+            { collapseMemo }
         </div>
     );
 };

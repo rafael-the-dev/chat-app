@@ -45,6 +45,7 @@ const Container = ({ image, name, username }) => {
     return (
         <article className={classNames(classes.card, `flex items-center py-2 last:border-0`)}>
             <Avatar 
+                imgProps={{ loading: "lazy" }}
                 src={image ? `http://localhost:5000/${image}` : ""}
                 style={{ backgroundColor: image ? "transparent" : getBgColors()[username] }} 
                 className="text-base">

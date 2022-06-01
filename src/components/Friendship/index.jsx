@@ -126,8 +126,7 @@ const Container = () => {
                             onClick={listItemClickHandler(filterOptions.current.search)} 
                             className={classNames()}>
                             <ListItemButton>
-                                <ListItemText 
-                                    classes={{}} 
+                                <ListItemText  
                                     primary="Search Friends" 
                                 />
                                 { searchFriendsFilter === filterOptions.current.search && (
@@ -142,8 +141,7 @@ const Container = () => {
                             onClick={listItemClickHandler(filterOptions.current.invitations)} 
                             className={classNames()}>
                             <ListItemButton>
-                                <ListItemText 
-                                    classes={{}} 
+                                <ListItemText  
                                     primary="Friendship Invitations" 
                                 />
                                 { searchFriendsFilter === filterOptions.current.invitations && (
