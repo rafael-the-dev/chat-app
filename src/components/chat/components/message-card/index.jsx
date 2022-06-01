@@ -94,7 +94,9 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isR
     }, [ getUsersList, sender ]);
 
     return (
-        <article className={classNames("flex mb-4 w-full", loggedUser.username === sender ? "justify-end" : "")}>
+        <article 
+            className={classNames("flex mb-4 w-full", loggedUser.username === sender ? "justify-end" : "")}
+            data-id={ID}>
             <div className={classNames("flex items-end")}>
                 <Avatar 
                     className={classNames("mb-4", { "hidden": loggedUser.username === sender })}
@@ -110,7 +112,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isR
                         <IconButton disabled={isDeleted} className="p-0 self-end" onClick={handleClick}>
                             <MoreHorizIcon />
                         </IconButton>
-                        { reply !== null && <RepliedMessage { ...message } /> }
+                        { reply !== null && <RepliedMessage { ...reply } /> }
                         <Typography>
                             { isDeleted ? "This message was deleted" : text }
                         </Typography>
