@@ -20,7 +20,15 @@ export const useUsersQuery = (loggedUser) => {
                 if (!subscriptionData.data || !Boolean(loggedUser)) return prev;
 
                 const user = subscriptionData.data.userCreated;
-                const users = prev.users ? [ user, ...prev.users ] : [ user ];
+                let users = prev.users ? [ ...prev.users ] : [];
+
+                const userIndex = users.findIndex(registeredUser => registeredUser.username === user.username);
+
+                if(userIndex !== -1) {
+                    users[userIndex] = user;
+                } else {
+                    users = [ user, ...users ];
+                }
 
                 return Object.assign({}, prev, {
                     users

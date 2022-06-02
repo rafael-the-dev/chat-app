@@ -73,6 +73,7 @@ export const GET_FRIENDSHIPS = gql`
     query getFriendships {
         friendships {
             image
+            isOnline
             name
             username
         }
@@ -80,9 +81,10 @@ export const GET_FRIENDSHIPS = gql`
 `;
 
 export const GET_USER = gql`
-    query getUsers($username: String!) {
+    query getUser($username: String!) {
         user(username: $username) {
             image
+            isOnline
             name
             username
         }
@@ -93,6 +95,7 @@ export const GET_USERS = gql`
     query getUsers {
         users {
             image
+            isOnline
             name
             username
         }

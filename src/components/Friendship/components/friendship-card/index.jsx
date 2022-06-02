@@ -67,6 +67,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                 >
                     <Avatar 
                         className="h-[50px] text-base w-[50px]"
+                        imgProps={{ loading: "lazy" }}
                         src={image ? `http://localhost:5000/${image}` : ""}
                         style={{ backgroundColor: image ? "transparent" : getBgColors()[username] }}>
                         { image ? "" :getInitialsNameLetters(name) }

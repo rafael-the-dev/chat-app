@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from "react"
-import { Avatar, Typography } from "@mui/material";
+import { Avatar, Badge, Typography } from "@mui/material";
 import classNames from "classnames";
 import { useRouter } from 'next/router'
 
@@ -17,13 +17,11 @@ library.add(faCheckDouble);
 
 const MessageCard = ({ image, ID, messages, users }) => {
     const { loggedUser } = useContext(LoginContext)
-    const { getBgColors, getUsersList } = useContext(AppContext)
+    const { getUsersList } = useContext(AppContext)
 
     const destinatary = useMemo(() => {
         const name = users[0] === loggedUser.username ? users[1] : users[0];
         const result = getUsersList().find(item => item.username === name);
-
-        console.log(users, name, loggedUser)
 
         if(result) return result;
         return {};
@@ -49,10 +47,22 @@ const MessageCard = ({ image, ID, messages, users }) => {
         <article 
             className={classNames(classes.card, "flex items-center px-5 py-2 last:border-0")}
             onClick={clickHandler}>
-            <Avatar 
-                src={`http://localhost:5000/${destinatary.image}`}
-                className="text-base"
-            />
+            <Badge
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                color="secondary"
+
+                classes={{ badge: classNames("bottom-[5px] right-[5px]", destinatary.isOnline ? "bg-green-500" : "bg-red-500") }}
+                variant="dot"
+            >
+                <Avatar 
+                    className="text-base"
+                    imgProps={{ loading: "lazy" }}
+                    src={`http://localhost:5000/${destinatary.image}`}
+                />
+            </Badge>
             <div className="flex flex-col grow items-stretch ml-3">
                 <Typography 
                     className={classNames("flex items-center justify-between")} 

@@ -162,7 +162,7 @@ const DirectChatContainer = () => {
                         <Typography 
                             className="mt-1 text-slate-300" 
                             component="p">
-                            online
+                            { destinatary.isOnline ? "online" : "offline" }
                         </Typography>
                     </div>
                 </div>
