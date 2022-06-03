@@ -49,6 +49,7 @@ export const USER_CREATED_SUBSCRIPTION = gql`
     subscription UserCreated {
         userCreated {
             image
+            isOnline
             name
             username
         }

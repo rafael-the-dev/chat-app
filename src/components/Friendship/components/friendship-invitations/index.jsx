@@ -13,13 +13,13 @@ const FriendshipInvitations = () => {
     const { filterOptions, searchFriendsFilter } = useContext(FriendshipContext)
     
     return (
-        <div className={classNames("px-5 mt-6", { 'hidden': searchFriendsFilter !== filterOptions.current.invitations })}>
+        <ul className={classNames("list-none px-5 mt-6", { 'hidden': searchFriendsFilter !== filterOptions.current.invitations })}>
             {
                 getFriendshipInvitationsList().map((item, index) => (
                     <Card key={index} { ...item } />
                 ))
             }
-        </div>
+        </ul>
     );
 };
 

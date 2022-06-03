@@ -44,10 +44,11 @@ const MessageCard = ({ image, ID, messages, users }) => {
     if(messages.length === 0) return <></>;
 
     return (
-        <Link href={`/?tab=chat&page=direct-chat&dest=${destinatary.username}`}>
-            <a onClick={clickHandler}>
-                <article 
-                    className={classNames(classes.card, "flex items-center px-5 py-2 last:border-0")}>
+        <li className={classNames(classes.card, "w-full last:border-0")}>
+            <Link href={`/?tab=chat&page=direct-chat&dest=${destinatary.username}`}>
+                <a 
+                    className={classNames("flex items-center px-5 py-2 w-full")}
+                    onClick={clickHandler}>
                     <Badge
                         anchorOrigin={{
                             vertical: 'bottom',
@@ -88,9 +89,9 @@ const MessageCard = ({ image, ID, messages, users }) => {
                             </Typography> }
                         </div>
                     </div>
-                </article>
-            </a>
-        </Link>
+                </a>
+            </Link>
+        </li>
     );
 };
 

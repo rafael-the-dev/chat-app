@@ -35,10 +35,12 @@ const DirectChatHome = () => {
     }, [ getDirectChats ])
     
     return (
-        <div className={classNames("pt-4", { "hidden": chatTab !== "DIRECT_CHAT" })}>
-            {
-                directChats.map((item, index) => <MessageCard key={index} { ...item } />)
-            }
+        <div className={classNames({ "hidden": chatTab !== "DIRECT_CHAT" })}>
+            <ul className={classNames("list-none pt-4")}>
+                {
+                    directChats.map((item, index) => <MessageCard key={index} { ...item } />)
+                }
+            </ul>
             <Link href="/?tab=friends&amp;redirect=friends">
                 <a>
                     <IconButton className="bg-cyan-700 bottom-[5rem] fixed right-3 text-slate-100 z-10 

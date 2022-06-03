@@ -43,7 +43,7 @@ const Container = ({ image, name, username }) => {
     }, [ sendInvitationMutation, username ])
     
     return (
-        <article className={classNames(classes.card, `flex items-center py-2 last:border-0`)}>
+        <li className={classNames(classes.card, `flex items-center py-2 last:border-0`)}>
             <Avatar 
                 imgProps={{ loading: "lazy" }}
                 src={image ? `http://localhost:5000/${image}` : ""}
@@ -102,7 +102,7 @@ const Container = ({ image, name, username }) => {
                     </Button>    
                 </DialogActions>
             </Dialog>
-        </article>
+        </li>
     );
 };
 

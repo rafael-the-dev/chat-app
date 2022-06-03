@@ -58,7 +58,7 @@ const FriendshipInvitaitonCard = ({ description, ID, datetime, image, sender }) 
     }, [ ID, rejectMutation ])
 
     return (
-        <article className={classNames(classes.card, `flex flex-col pt-3 pb-2 last:border-0`)}>
+        <li className={classNames(classes.card, `flex flex-col pt-3 pb-2 last:border-0`)}>
                 <div className="flex items-center">
                     <Avatar 
                         className="h-[50px] text-base w-[50px]"
@@ -114,7 +114,7 @@ const FriendshipInvitaitonCard = ({ description, ID, datetime, image, sender }) 
                         </Collapse>
                     </>
                 )}
-        </article>
+        </li>
     );
 };
 

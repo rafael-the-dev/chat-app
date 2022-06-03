@@ -25,7 +25,6 @@ const Container = ({ className }) => {
         <div className={classNames({ 'hidden': tab !== 'SEARCH_FRIENDS' })}>
             { searchListMemo }
             { friendshipInvitationsMemo }
-            
         </div>
     );
 };

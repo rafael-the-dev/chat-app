@@ -17,11 +17,11 @@ const Container = () => {
     }, [ searchKey, getUsersList, tab ]);
 
     return (
-        <div className={classNames({ "hidden": searchFriendsFilter !== filterOptions.current.search }, "px-5 pt-6")}>
+        <ul className={classNames({ "hidden": searchFriendsFilter !== filterOptions.current.search }, "list-none px-5 pt-6")}>
             {
                 filterList?.map((item, index) => <FriendCard key={index} { ...item } />)
             }
-        </div>
+        </ul>
     );
 };
 

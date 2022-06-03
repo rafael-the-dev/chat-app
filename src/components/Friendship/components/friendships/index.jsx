@@ -17,11 +17,11 @@ const FriendshipsContainer = () => {
     }, [ searchKey, getFriendshipsList, tab ]);
 
     return (
-        <div className={classNames("mt-4 px-5", { 'hidden': tab !== 'FRIENDS' })}>
+        <ul className={classNames("mt-4 px-5", { 'hidden': tab !== 'FRIENDS' })}>
             {
                 filterList?.map((item, index) => <Card key={index} { ...item } /> )
             }
-        </div>
+        </ul>
     );
 };
 

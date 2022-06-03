@@ -53,7 +53,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
 
 
     return (
-        <article className={classNames(classes.card, `flex flex-col pt-3 pb-2 last:border-0`)}>
+        <li className={classNames(classes.card, `flex flex-col pt-3 pb-2 last:border-0`)}>
             <div className="flex items-center">
                 <Badge
                     anchorOrigin={{
@@ -140,7 +140,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                     </ListItem>
                 </List>
             </Popover>
-        </article>
+        </li>
     );
 };
 
