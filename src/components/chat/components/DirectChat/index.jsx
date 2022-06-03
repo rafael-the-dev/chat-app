@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 import { IconButton, Typography } from "@mui/material"
 import { useMutation } from "@apollo/client"
 import moment from 'moment'
+import classNames from 'classnames'
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
@@ -137,9 +138,10 @@ const DirectChatContainer = () => {
             }
         }
     }, [ data, hasUnreadMessages, makeMessagesAsRead, loggedUser ]);
-
+    
     return (
-        <div className="flex flex-col grow h-screen items-stretch pb-[5rem]">
+        <div 
+            className={classNames("flex flex-col grow h-screen items-stretch pb-[5rem]")}>
             <Head>
                 <meta name="theme-color" content="#2597BB" />
                 <title>{ destinatary.name } | Chat</title>

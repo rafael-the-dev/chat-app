@@ -1,5 +1,7 @@
 import { useContext, useMemo } from "react"
 import { AppContext } from "src/context/AppContext";
+import { ChatContext } from "src/context"
+import classNames from 'classnames'
 
 //import { LoginContext } from "src/context/LoginContext"
 //import { useDirectChatsQuery } from "src/hooks"
@@ -8,6 +10,7 @@ import MessageCard from "./components/message-card"
 
 const DirectChatHome = () => {
     const { getDirectChats } = useContext(AppContext);
+    const { chatTab,  } = useContext(ChatContext);
 
     const directChats = useMemo(() => {
         if(getDirectChats()) {
@@ -26,7 +29,7 @@ const DirectChatHome = () => {
     }, [ getDirectChats ])
     
     return (
-        <div className="pt-4">
+        <div className={classNames("pt-4", { "hidden": chatTab !== "DIRECT_CHAT" })}>
             {
                 directChats.map((item, index) => <MessageCard key={index} { ...item } />)
             }

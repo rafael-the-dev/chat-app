@@ -1,24 +1,28 @@
-import { useCallback, useContext, useMemo, useState } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 import { Avatar, Button, Typography } from '@mui/material'
 import Head from 'next/head';
 import classNames from "classnames"
 import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from 'src/context/AppContext';
+import { ChatContext } from 'src/context';
 
 import DirectChatsHome from "../DirectChatHome"
+import GroupChat from "../group-chat-home"
 
 const Home = () => {
     const { user } = useContext(LoginContext)
     const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
-    const [ chatTab, setChatTab ] = useState("DIRECT_CHAT");
+    const { chatTab, setChatTab } = useContext(ChatContext)
 
-    const clickHandler = useCallback(prop => () => setChatTab(prop), []);
+
+    const clickHandler = useCallback(prop => () => setChatTab(prop), [ setChatTab ]);
 
     const classesToggler = useCallback((key, tab) => {
         return `py-2 rounded-none w-1/2 ${tab === key ? "bg-gray-500" : "bg-gray-400 text-black"}`
     }, [ ]);
 
-    const directChatsMemo = useMemo(() => <DirectChatsHome />, [])
+    const directChatsMemo = useMemo(() => <DirectChatsHome />, []);
+    const groupChatMemo = useMemo(() => <GroupChat />, [])
 
     return (
         <>
@@ -51,9 +55,7 @@ const Home = () => {
                     </Button>
                 </div>
                 { directChatsMemo }
-                {
-
-                }
+                { groupChatMemo }
             </main>
         </>
     );
