@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { REVALIDATE_TOKEN, VALIDATE_TOKEN } from "src/graphql/mutations"
+import { LOGOUT, REVALIDATE_TOKEN, VALIDATE_TOKEN } from "src/graphql/mutations"
 import { useRouter } from 'next/router'
 
 export const LoginContext = createContext();
@@ -9,6 +9,7 @@ LoginContext.displayName = "LoginContext";
 export const LoginContextProvider = ({ children }) => {
     const validateToken = useMutation(VALIDATE_TOKEN);
     const revalidateTokenMutation = useMutation(REVALIDATE_TOKEN);
+    const logoutMutation = useMutation(LOGOUT);
     const isFirstRender = useRef(true);
 
     const [ user, setUser ] = useState(null);
@@ -68,12 +69,20 @@ export const LoginContextProvider = ({ children }) => {
     
     const router = useRouter();
     const logout = useCallback(() => {
-        localStorage.setItem("__chat-app--token", JSON.stringify({ expiresIn: 0, token: ""}))
-        setUser(null);
-        if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)
-        if(dialogTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
-        router.push("/login")
-    }, [ router ]);
+        const logout = logoutMutation[0];
+        logout({
+            onCompleted() {
+                localStorage.setItem("__chat-app--token", JSON.stringify({ expiresIn: 0, token: ""}))
+                setUser(null);
+                if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)
+                if(dialogTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
+                router.push("/login")
+            },
+            onError(error) {
+                console.log(error)
+            }
+        })
+    }, [ logoutMutation, router ]);
     
     const verifyExpirationTime = useCallback(() => {
         const { expiresIn } = getToken();
@@ -94,9 +103,11 @@ export const LoginContextProvider = ({ children }) => {
             onCompleted(data) {
                 //console.log(data)
                 if(data) {
+                    if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)
+                    if(verificationTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
+
                     expiresIn = data.revalidateToken.expiresIn;
                     token = data.revalidateToken.token;
-                    console.log(data)
                     localStorage.setItem("__chat-app--token", JSON.stringify({ expiresIn, token }))
         
                     const MS_PER_MINUTE = 60000;

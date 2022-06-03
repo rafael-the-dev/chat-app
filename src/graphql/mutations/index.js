@@ -66,6 +66,12 @@ export const LOGIN = gql`
     }
 `;
 
+export const LOGOUT = gql`
+    mutation Logout {
+        logout
+    }
+`;
+
 export const REVALIDATE_TOKEN = gql`
     mutation RevalidateToken {
         revalidateToken {
