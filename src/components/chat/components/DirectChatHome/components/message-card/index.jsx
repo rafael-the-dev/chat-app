@@ -2,6 +2,7 @@ import { useCallback, useContext, useMemo } from "react"
 import { Avatar, Badge, Typography } from "@mui/material";
 import classNames from "classnames";
 import { useRouter } from 'next/router'
+import Link from "next/link"
 
 import { getDate } from "src/helpers"
 
@@ -38,56 +39,58 @@ const MessageCard = ({ image, ID, messages, users }) => {
 
     const router = useRouter();
     const clickHandler = useCallback(() => {
-        router.push(`/?tab=chat&page=direct-chat&dest=${destinatary.username}`)
-    }, [ destinatary, router ])
+    }, [  ])
 
     if(messages.length === 0) return <></>;
 
     return (
-        <article 
-            className={classNames(classes.card, "flex items-center px-5 py-2 last:border-0")}
-            onClick={clickHandler}>
-            <Badge
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                }}
-                color="secondary"
+        <Link href={`/?tab=chat&page=direct-chat&dest=${destinatary.username}`}>
+            <a onClick={clickHandler}>
+                <article 
+                    className={classNames(classes.card, "flex items-center px-5 py-2 last:border-0")}>
+                    <Badge
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        color="secondary"
 
-                classes={{ badge: classNames("bottom-[5px] right-[5px]", destinatary.isOnline ? "bg-green-500" : "bg-red-500") }}
-                variant="dot"
-            >
-                <Avatar 
-                    className="text-base"
-                    imgProps={{ loading: "lazy" }}
-                    src={`http://localhost:5000/${destinatary.image}`}
-                />
-            </Badge>
-            <div className="flex flex-col grow items-stretch ml-3">
-                <Typography 
-                    className={classNames("flex items-center justify-between")} 
-                    component="h2">
-                    <span className="font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap">
-                        { destinatary.name }
-                    </span>
-                    <span className="text-xs">
-                        { getDate(new Date(parseInt(messages[messages.length - 1].createdAt))) }
-                    </span>
-                </Typography>
-                <div className="flex items-center justify-between mt-1">
-                    <Typography className={classNames("flex items-center max-w-[220px] overflow-hidden text-sm text-ellipsis whitespace-nowrap")}>
-                        <FontAwesomeIcon 
-                            className={classNames("mr-2", messages[messages.length - 1].isRead ? "text-cyan-500" : "text-slate-300")}
-                            icon="fa-solid fa-check-double" 
+                        classes={{ badge: classNames("bottom-[5px] right-[5px]", destinatary.isOnline ? "bg-green-500" : "bg-red-500") }}
+                        variant="dot"
+                    >
+                        <Avatar 
+                            className="text-base"
+                            imgProps={{ loading: "lazy" }}
+                            src={`http://localhost:5000/${destinatary.image}`}
                         />
-                        { messages[messages.length - 1].text }
-                    </Typography>
-                    { countUnreadMessages > 0 && <Typography className="text-cyan-500">
-                        { countUnreadMessages }x
-                    </Typography> }
-                </div>
-            </div>
-        </article>
+                    </Badge>
+                    <div className="flex flex-col grow items-stretch ml-3">
+                        <Typography 
+                            className={classNames("flex items-center justify-between")} 
+                            component="h2">
+                            <span className="font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap">
+                                { destinatary.name }
+                            </span>
+                            <span className="text-xs">
+                                { getDate(new Date(parseInt(messages[messages.length - 1].createdAt))) }
+                            </span>
+                        </Typography>
+                        <div className="flex items-center justify-between mt-1">
+                            <Typography className={classNames("flex items-center max-w-[220px] overflow-hidden text-sm text-ellipsis whitespace-nowrap")}>
+                                <FontAwesomeIcon 
+                                    className={classNames("mr-2", messages[messages.length - 1].isRead ? "text-cyan-500" : "text-slate-300")}
+                                    icon="fa-solid fa-check-double" 
+                                />
+                                { messages[messages.length - 1].text }
+                            </Typography>
+                            { countUnreadMessages > 0 && <Typography className="text-cyan-500">
+                                { countUnreadMessages }x
+                            </Typography> }
+                        </div>
+                    </div>
+                </article>
+            </a>
+        </Link>
     );
 };
 

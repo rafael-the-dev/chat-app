@@ -3,6 +3,12 @@ import { AppContext } from "src/context/AppContext";
 import { ChatContext } from "src/context"
 import classNames from 'classnames'
 
+import Link from "next/link"
+
+import { IconButton } from "@mui/material"
+
+import MessageIcon from '@mui/icons-material/Message';
+
 //import { LoginContext } from "src/context/LoginContext"
 //import { useDirectChatsQuery } from "src/hooks"
 
@@ -33,6 +39,14 @@ const DirectChatHome = () => {
             {
                 directChats.map((item, index) => <MessageCard key={index} { ...item } />)
             }
+            <Link href="/?tab=friends&amp;redirect=friends">
+                <a>
+                    <IconButton className="bg-cyan-700 bottom-[5rem] fixed right-3 text-slate-100 z-10 
+                    hover:bg-red-500 hover:text-slate-300">
+                        <MessageIcon className="text" />
+                    </IconButton>
+                </a>
+            </Link>
         </div>
     );
 };

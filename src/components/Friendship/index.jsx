@@ -1,10 +1,12 @@
-import { useCallback, useContext, useMemo, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Avatar, Button, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Popover, Typography } from '@mui/material'
 import Head from 'next/head';
 import classNames from "classnames"
 import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from "src/context/AppContext";
 import { FriendshipContext } from "src/context/FriendshipContext";
+
+import { useRouter } from "next/router"
 
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SearchIcon from '@mui/icons-material/Search';
@@ -14,6 +16,9 @@ import SearchFriendsContainer from "./components/search-friends"
 import FriendshipContainer from "./components/friendships"
 
 const Container = () => {
+    const router = useRouter();
+    const { redirect } = router.query;
+
     const { loggedUser } = useContext(LoginContext)
     const { filterOptions, searchFriendsFilter, setSearchFriendsFilter, setSearchKey, setTab, tab  } = useContext(FriendshipContext)
     const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
@@ -60,6 +65,20 @@ const Container = () => {
     const handleClick = useCallback((event) => {
         setAnchorEl(event.currentTarget);
     }, []);
+
+    useEffect(() => {
+        if(redirect && ["friends"].includes(redirect)) {
+            switch(redirect) {
+                case "friends": {
+                    setTab("FRIENDS")
+                    return;
+                }
+                default: {
+                    return;
+                }
+            }
+        }
+    }, [ redirect, setTab ])
 
     return (
         <>
