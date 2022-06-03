@@ -1,15 +1,20 @@
 import { Alert, Button, Dialog, DialogContent, TextField, Typography } from "@mui/material"
 import { useCallback, useContext, useRef, useState } from "react"
 import classNames from 'classnames'
+import { useMutation } from "@apollo/client"
 
 import classes from "./styles.module.css"
 
+import { CREATE_NEW_GROUP } from "src/graphql/mutations"
 import { ChatContext } from "src/context"
 
 const CreateGroupModal = () => {
     const { openCreateGroupDialog, setOpenCreateGroupDialog } = useContext(ChatContext);
+    const createGroupMutation = useMutation(CREATE_NEW_GROUP);
 
     const [ groupName, setGroupName ] = useState("");
+    const groupNameRef = useRef("");
+    const groupDescriptionRef = useRef(null);
     const successAlert = useRef(null);
     const errorAlert = useRef(null);
 
@@ -33,15 +38,39 @@ const CreateGroupModal = () => {
         }
     }, [ isValidElement ]);
 
-    const nameChangeHandler = useCallback(event => setGroupName(event.target.value), [])
+    const nameChangeHandler = useCallback(event => {
+        const value = event.target.value;
+        groupNameRef.current = value;
+        setGroupName(value);
+    }, [])
 
     const createGroup = useCallback(() => {
-        //openAlert(errorAlert)()
-    }, [  ])
+        closeAlert(successAlert)();
+        closeAlert(errorAlert)();
+
+        const createGroup = createGroupMutation[0];
+
+        createGroup({
+            variables: {
+                group: {
+                    description: groupDescriptionRef.current.value,
+                    name: groupNameRef.current
+                }
+            },
+            onCompleted(data) {
+                openAlert(successAlert)();
+                console.log(data)
+            },
+            onError(error) {
+                openAlert(errorAlert)();
+                console.log(error);
+            }
+        })
+    }, [ closeAlert, createGroupMutation, openAlert ])
 
     return (
         <Dialog
-            aria-describedby="session-dialog-description"
+            aria-labelledby="dialog-title"
             classes={{ paper: classNames("", classes.dialogPaper) }}
             open={openCreateGroupDialog}
             onClose={closeDialog}
@@ -59,7 +88,8 @@ const CreateGroupModal = () => {
                     <fieldset>
                         <Typography
                             className="font-bold mb-3 text-2xl "
-                            component="legend">
+                            component="legend"
+                            id="dialog-title">
                             Create new group
                         </Typography>
                         <TextField 
@@ -74,6 +104,7 @@ const CreateGroupModal = () => {
                         <TextField 
                             fullWidth
                             id="group-description" 
+                            inputRef={groupDescriptionRef}
                             label="Description" 
                             variant="outlined" 
                         />

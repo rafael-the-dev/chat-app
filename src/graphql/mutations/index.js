@@ -18,6 +18,14 @@ export const CREATE_NEW_USER = gql`
     }
 `;
 
+export const CREATE_NEW_GROUP = gql`
+    mutation CreateGroup($group: GroupInput!) {
+        createGroup(group: $group) {
+            ID
+        }
+    }
+`;
+
 export const DELETE_DIRECT_MESSAGE = gql`
     mutation DeleteDirectMessage($chatID: String!, $destinatary: String!, $messageID: String) {
         deleteDirectMessage(chatID: $chatID, destinatary: $destinatary, messageID: $messageID) {
