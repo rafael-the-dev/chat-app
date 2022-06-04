@@ -112,7 +112,7 @@ export const LoginContextProvider = ({ children }) => {
         
                     const MS_PER_MINUTE = 60000;
                     const durationInMinutes = 5;
-                    const myEndDateTime = new Date(expiresIn * 1000);
+                    const myEndDateTime = new Date((expiresIn * 1000) - (2 * MS_PER_MINUTE));
                     const myStartDate = new Date(myEndDateTime - durationInMinutes * MS_PER_MINUTE);
                     setOpenRefreshTokenDialog(false);
 
@@ -136,7 +136,7 @@ export const LoginContextProvider = ({ children }) => {
 
         const MS_PER_MINUTE = 60000;
         const durationInMinutes = 5;
-        const myEndDateTime = new Date(expiresIn * 1000);
+        const myEndDateTime = new Date((expiresIn * 1000) - (2 * MS_PER_MINUTE));
         const myStartDate = new Date(myEndDateTime - durationInMinutes * MS_PER_MINUTE);
 
         dialogTimeoutRef.current  = setTimeout(() => setOpenRefreshTokenDialog(true), myStartDate - Date.now());
