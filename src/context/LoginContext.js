@@ -86,8 +86,9 @@ export const LoginContextProvider = ({ children }) => {
     
     const verifyExpirationTime = useCallback(() => {
         const { expiresIn } = getToken();
-
-        if(Date.now() > new Date(expiresIn * 1000)) {
+        const MS_PER_MINUTE = 60000;
+        
+        if(Date.now() > new Date((expiresIn * 1000) - (2 * MS_PER_MINUTE))) {
             logout();
         }
     }, [ getToken, logout ])

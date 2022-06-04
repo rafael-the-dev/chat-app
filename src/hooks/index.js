@@ -4,5 +4,6 @@ import { useFriendshipsInvitationsQuery } from "./useFriendshipsInvitationsQuery
 import { useFriendshipsQuery } from "./useFriendshipsQuery";
 import { useDirectChatQuery } from "./useDirectChatQuery";
 import { useDirectChatsQuery } from "./useDirectChatsQuery";
+import { useGroupsQuery } from "./useGroupsQuery";
 
-export { useDirectChatQuery, useDirectChatsQuery, useUserQuery, useUsersQuery, useFriendshipsQuery, useFriendshipsInvitationsQuery };
+export { useDirectChatQuery, useDirectChatsQuery, useGroupsQuery, useUserQuery, useUsersQuery, useFriendshipsQuery, useFriendshipsInvitationsQuery };

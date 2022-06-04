@@ -87,7 +87,6 @@ export const AppContextProvider = ({ children }) => {
         }
 
         if(friendshipsData) {
-            console.log(friendshipsData)
             properties = { ...properties, friendships: friendshipsData.friendships };
         }
         const directChatsData = directChatsResult.data;
@@ -149,95 +148,6 @@ export const AppContextProvider = ({ children }) => {
             }
         })
     }, [ addError ]);
-
-    //const subscription = useSubscription(GET_FEEDBACKS__SUBSCRIPTION)
-    //const { subscribeToMore, ...result } = useQuery(GET_FEEDBACKS);
-
-    /*const updateAllFeedbacks = useCallback((newFeedback) => {
-        //console.log("hello rt")
-        subscribeToMore({
-            document: GET_FEEDBACKS__SUBSCRIPTION,
-            updateQuery: (prev, { subscriptionData }) => {
-                console.log(prev)
-                if (!subscriptionData.data) return prev;
-                const newFeedItem = subscriptionData.data.feedbackCreated;
-                console.log(prev);
-
-                return Object.assign({}, prev, {
-                    feedbacks: [ newFeedItem, ...prev.feedbacks ]
-                });
-            }
-        });
-    }, [ subscribeToMore ])*/
-
-    /*useEffect(() => {
-        subscribeToMore({
-            document: GET_FEEDBACK__SUBSCRIPTION,
-            variables: { id: "null" },
-            updateQuery: (prev, { subscriptionData }) => {
-                if (!subscriptionData.data) return prev;
-
-                const feedbacks = [ ...prev.feedbacks ];
-                const feedback = subscriptionData.data.feedbackUpdated;
-                const index = feedbacks.findIndex(element => element.ID === feedback.ID);
-                feedbacks[index] = feedback;
-
-                return Object.assign({}, prev, {
-                    feedbacks
-                });
-            }
-        });
-    }, [ subscribeToMore ]); */
-
-    /*useEffect(() => {
-        subscribeToMore({
-            document: DELETE_FEEDBACK_SUBSCRIPTION,
-            updateQuery: (prev, { subscriptionData }) => {
-                if (!subscriptionData.data) return prev;
-
-                const feedback = subscriptionData.data.feedbackDeleted;
-                const feedbacks = [ ...prev.feedbacks.filter(item => item.ID !== feedback.ID) ];
-
-                return Object.assign({}, prev, {
-                    feedbacks
-                });
-            }
-        });
-    }, [ subscribeToMore ]);
-
-    useEffect(() => {
-        updateAllFeedbacks();
-    }, [ updateAllFeedbacks ]);*/
-
- 
-    /*useEffect(() => {
-        const data = result.data;
-        console.log(result)
-        if(data) {
-            let usersColors = {};
-            data.users.forEach(item => {
-                if(!Object.keys(usersColors).includes(item.username)) {
-                    usersColors = { ...usersColors, [item.username]: getColor() }
-                }
-            });
-            
-            setUserProperties(userOldProperties => ({ ...userOldProperties, usersColors, usersList: data.users }));
-        }
-    }, [ getColor, result ]);*/
-
-    /*useEffect(() => {
-       subscribeToMore({
-            document: GET_FEEDBACKS__SUBSCRIPTION,
-            updateQuery: (prev, { subscriptionData }) => {
-                if (!subscriptionData.data) return prev;
-                const newFeedItem = subscriptionData.data.feedbackCreated;
-
-                return Object.assign({}, prev, {
-                feedbacks: [...prev.feedbacks, newFeedItem ]
-                });
-            }
-        })
-    }, [ subscribeToMore ])*/
 
     return (
         <AppContext.Provider 

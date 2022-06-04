@@ -53,6 +53,23 @@ export const GET_DIRECTS_CHAT = gql`
     }
 `;
 
+export const GET_GROUPS = gql`
+    query GetGroups {
+        groups {
+            ID
+            image
+            name
+            messages {
+                createdAt
+                ID
+                isDeleted
+                isRead
+                text
+            }
+        }
+    }
+`;
+
 export const GET_FRIENDSHIPS_INVITATIONS = gql`
     query getFriendshipsInvitations {
         friendshipInvitations {

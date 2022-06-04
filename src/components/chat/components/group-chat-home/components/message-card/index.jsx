@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from "react"
-import { Avatar, Badge, Typography } from "@mui/material";
+import { Avatar, Typography } from "@mui/material";
 import classNames from "classnames";
 import { useRouter } from 'next/router'
 import Link from "next/link"
@@ -16,67 +16,52 @@ import { AppContext } from "src/context/AppContext"
 
 library.add(faCheckDouble);
 
-const MessageCard = ({ image, ID, messages, users }) => {
+const MessageCard = ({ image, ID, messages, name }) => {
     const { loggedUser } = useContext(LoginContext)
     const { getUsersList } = useContext(AppContext)
 
-    const destinatary = useMemo(() => {
-        const name = users[0] === loggedUser.username ? users[1] : users[0];
-        const result = getUsersList().find(item => item.username === name);
-
-        if(result) return result;
-        return {};
-    }, [ getUsersList, loggedUser, users ]);
-
     const countUnreadMessages = useMemo(() => {
         return messages.reduce((previousValue, currentMessage) => {
-            if((currentMessage.sender === destinatary.username) && !(currentMessage.isRead)) {
+            if((currentMessage.sender !== loggedUser.username) && !(currentMessage.isRead)) {
                 return previousValue + 1;
             }
             return previousValue;
         }, 0);
-    }, [ destinatary, messages ]);
+    }, [ loggedUser, messages ]);
+
+    const lastMessageDate = useMemo(() => {
+        return messages.length > 1 ? getDate(new Date(parseInt(messages[messages.length - 1].createdAt))) : "";
+    }, [ messages ]);
 
     const router = useRouter();
     const clickHandler = useCallback(() => {
     }, [  ])
 
-    if(messages.length === 0) return <></>;
+    //if(messages.length === 0) return <></>;
 
     return (
         <li className={classNames(classes.card, "w-full last:border-0")}>
-            <Link href={`/?tab=chat&page=direct-chat&dest=${destinatary.username}`}>
+            <Link href={`/?tab=chat&page=group-chat&id=${ID}`}>
                 <a 
                     className={classNames("flex items-center px-5 py-2 text-black w-full")}
                     onClick={clickHandler}>
-                    <Badge
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
-                        }}
-                        color="secondary"
-
-                        classes={{ badge: classNames("bottom-[5px] right-[5px]", destinatary.isOnline ? "bg-green-500" : "bg-red-500") }}
-                        variant="dot"
-                    >
-                        <Avatar 
-                            className="text-base"
-                            imgProps={{ loading: "lazy" }}
-                            src={`http://localhost:5000/${destinatary.image}`}
-                        />
-                    </Badge>
+                    <Avatar 
+                        className="text-base"
+                        imgProps={{ loading: "lazy" }}
+                        src={`http://localhost:5000/${image}`}
+                    />
                     <div className="flex flex-col grow items-stretch ml-3">
                         <Typography 
                             className={classNames("flex items-center justify-between")} 
                             component="h2">
                             <span className="font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap">
-                                { destinatary.name }
+                                { name }
                             </span>
                             <span className="text-xs">
-                                { getDate(new Date(parseInt(messages[messages.length - 1].createdAt))) }
+                                { lastMessageDate }
                             </span>
                         </Typography>
-                        <div className="flex items-center justify-between mt-1">
+                        { messages.length > 1 && <div className="flex items-center justify-between mt-1">
                             <Typography className={classNames("flex items-center max-w-[220px] overflow-hidden text-sm text-ellipsis whitespace-nowrap")}>
                                 <FontAwesomeIcon 
                                     className={classNames("mr-2", messages[messages.length - 1].isRead ? "text-cyan-500" : "text-slate-300")}
@@ -87,7 +72,7 @@ const MessageCard = ({ image, ID, messages, users }) => {
                             { countUnreadMessages > 0 && <Typography className="text-cyan-500">
                                 { countUnreadMessages }x
                             </Typography> }
-                        </div>
+                        </div>}
                     </div>
                 </a>
             </Link>

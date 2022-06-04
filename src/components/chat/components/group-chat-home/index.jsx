@@ -7,16 +7,22 @@ import AddIcon from '@mui/icons-material/Add';
 import { ChatContext } from "src/context"
 
 import CreateGroupDialog from "../create-group-modal"
+import MessageCard from "./components/message-card"
 
 const GroupChat = () => {
-    const { chatTab, setOpenCreateGroupDialog } = useContext(ChatContext);
-
+    const { chatTab, groups, setOpenCreateGroupDialog } = useContext(ChatContext);
+    
     const createGroupDialog = useMemo(() => <CreateGroupDialog />, []);
 
     const openCreateGroupDialog = useCallback(() => setOpenCreateGroupDialog(true), [ setOpenCreateGroupDialog ]);
 
     return (
         <div className={classNames({ "hidden": chatTab !== "GROUP_CHAT"})}>
+            <ul className={classNames("list-none pt-4")}>
+                {
+                    groups.map((item, index) => <MessageCard key={index} { ...item } />)
+                }
+            </ul>
             { createGroupDialog }
             <IconButton className="bg-cyan-700 bottom-[5rem] fixed right-3 text-slate-100 z-10 
                 hover:bg-red-500 hover:text-slate-300"

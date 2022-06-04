@@ -112,7 +112,6 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                         className={classNames()}>
                         <ListItemButton onClick={toggleExpanded(true)}>
                             <ListItemText 
-                                classes={classNames("Direct chat")} 
                                 primary="Quick message" 
                             />
                         </ListItemButton>
