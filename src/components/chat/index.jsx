@@ -5,6 +5,7 @@ import { ForwardMessage } from "src/context";
 
 import ForwardMessageDialog from "src/components/forward-message"
 import DirectChat from "./components/DirectChat"
+import GroupChat from "./components/group-chat"
 import Home from "./components/Home"
 
 const Container = () => {
@@ -16,6 +17,7 @@ const Container = () => {
     const closeForwardMessageDialog = useCallback(() => setOpenForwardMessageDialog(false), [ setOpenForwardMessageDialog ])
 
     const directChat = useMemo(() => <DirectChat />, []);
+    const groupChat = useMemo(() => <GroupChat />, [])
     const home = useMemo(() => <Home />, []);
     const forwardMessageDialog = useMemo(() => <ForwardMessageDialog />, [])
     
@@ -24,11 +26,14 @@ const Container = () => {
             case "direct-chat": {
                 return directChat;
             }
+            case "group-chat": {
+                return groupChat;
+            }
             default: {
                 return home;
             }
         }
-    }, [ directChat, home, page ])
+    }, [ directChat, groupChat, home, page ])
 
     return (
         <>

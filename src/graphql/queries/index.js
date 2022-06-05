@@ -53,6 +53,24 @@ export const GET_DIRECTS_CHAT = gql`
     }
 `;
 
+export const GET_GROUP_CHAT = gql`
+    query GetGroupChat($ID: String!) {
+        group(ID: $ID) {
+            createdAt
+            ID
+            image
+            name
+            messages {
+                createdAt
+                ID
+                isDeleted
+                isRead
+                text
+            }
+        }
+    }
+`;
+
 export const GET_GROUPS = gql`
     query GetGroups {
         groups {
