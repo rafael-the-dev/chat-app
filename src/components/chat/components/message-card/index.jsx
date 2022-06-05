@@ -54,8 +54,8 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
 
     const replyHandler = useCallback(() => {
         handleClose();
-        setRepliedMessage({ ...message, isDirectChat: true });
-    }, [ handleClose, message, setRepliedMessage ])
+        setRepliedMessage({ ...message, isDirectChat });
+    }, [ handleClose, isDirectChat, message, setRepliedMessage ])
 
     const forwardHandler = useCallback(() => {
         addMessageVariables({

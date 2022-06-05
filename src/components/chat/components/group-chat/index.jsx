@@ -73,7 +73,7 @@ const GroupChatContainer = () => {
     }, [ data ]);
     
     const hasRepliedMessage = useMemo(() => {
-        return Object.keys(repliedMessage).length > 0 && repliedMessage.isDirectChat;
+        return Object.keys(repliedMessage).length > 0 && !repliedMessage.isDirectChat;
     }, [ repliedMessage ]);
     
     const sendGroupMessage = useCallback(({ inputRef, imageRef }) => {
