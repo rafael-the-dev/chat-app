@@ -56,15 +56,28 @@ export const GET_DIRECTS_CHAT = gql`
 export const GET_GROUP_CHAT = gql`
     query GetGroupChat($ID: String!) {
         group(ID: $ID) {
-            createdAt
             ID
+            admin
+            createdAt
+            description
             image
             name
+            members
             messages {
                 createdAt
                 ID
                 isDeleted
+                isForwarded
+                image
                 isRead
+                reply {
+                    createdAt
+                    ID
+                    image
+                    sender
+                    text
+                }
+                sender
                 text
             }
         }
