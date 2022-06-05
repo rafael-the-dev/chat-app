@@ -22,7 +22,7 @@ const GroupChatContainer = () => {
     const router = useRouter();
     const { id } = router.query;
 
-    //const sendGroupMessageMutation = useMutation(SEND_GROUP_MESSAGE);
+    const sendGroupMessageMutation = useMutation(SEND_GROUP_MESSAGE);
     //const readDirectMessageMutation = useMutation(READ_DIRECT_MESSAGE);
 
     const { loggedUser } = useContext(LoginContext)
@@ -76,13 +76,12 @@ const GroupChatContainer = () => {
         return Object.keys(repliedMessage).length > 0 && repliedMessage.isDirectChat;
     }, [ repliedMessage ]);
     
-    const sendDirectMessage = useCallback(({ inputRef, imageRef }) => {
-        /*const send = sendGroupMessageMutation[0];
+    const sendGroupMessage = useCallback(({ inputRef, imageRef }) => {
+        const send = sendGroupMessageMutation[0];
 
         send({ variables: {
             messageInput: {
-                chatID: chatIDRef.current,
-                destinatary: destinataryRef.current,
+                groupID: chatIDRef.current,
                 image: imageRef.current,
                 isForwarded: false,
                 reply: hasRepliedMessage ? repliedMessage.ID : "",
@@ -95,11 +94,11 @@ const GroupChatContainer = () => {
             onError(err) {
                 console.log(err)
             }
-        })*/
+        })
 
-    }, [ hasRepliedMessage, repliedMessage, setRepliedMessage ]);
+    }, [ hasRepliedMessage, repliedMessage, setRepliedMessage, sendGroupMessageMutation ]);
 
-    const textfieldContainer = useMemo(() => <TextfieldContainer sendHandler={sendDirectMessage} />, [ sendDirectMessage ]);
+    const textfieldContainer = useMemo(() => <TextfieldContainer sendHandler={sendGroupMessage} />, [ sendGroupMessage ]);
 
     const isDateChanged = useCallback(date => { 
         const convertedDay = moment(new Date(parseInt(date))).format("D MM YYYY");

@@ -133,6 +133,32 @@ export const SEND_DIRECT_MESSAGE = gql`
     }
 `;
 
+export const SEND_GROUP_MESSAGE = gql`
+    mutation SendGroupMessage($messageInput: GroupMessageInput!) {
+        sendGroupMessage(messageInput: $messageInput) {
+            ID
+            createdAt
+            messages {
+                createdAt
+                ID
+                isDeleted
+                isForwarded
+                image
+                isRead
+                reply {
+                    createdAt
+                    ID
+                    image
+                    sender
+                    text
+                }
+                sender
+                text
+            }
+        }
+    }
+`;
+
 export const VALIDATE_TOKEN = gql`
     mutation ValidateToken($token: String!) {
         validateToken(token: $token) {
