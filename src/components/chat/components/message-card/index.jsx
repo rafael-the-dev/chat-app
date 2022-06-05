@@ -16,27 +16,28 @@ import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import RepliedMessage from "../replied-message"
-import { DELETE_DIRECT_MESSAGE } from "src/graphql/mutations"
+import { DELETE_DIRECT_MESSAGE, DELETE_GROUP_MESSAGE } from "src/graphql/mutations"
 import { getDate } from "src/helpers"
 
 library.add(faCheckDouble);
 
-const ReadIcon = ({ isLoggedUser, isRead }) => {
+const ReadIcon = ({ isDeleted, isLoggedUser, isRead }) => {
     return (
         <FontAwesomeIcon 
-            className={classNames(isLoggedUser ? "ml-2" : "mr-2", isRead ? "text-cyan-500" : "text-slate-500")}
+            className={classNames(isLoggedUser ? "ml-2" : "mr-2", isRead ? "text-cyan-500" : "text-slate-500", { "hidden": isDeleted })}
             icon="fa-solid fa-check-double" 
         />
     );
 };
 
-const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isRead, image, message, reply, sender, text }) => {
+const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, isForwarded, isRead, image, message, reply, sender, text }) => {
     const { loggedUser } = useContext(LoginContext)
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     const { addMessageVariables, setOpenForwardMessageDialog, setDirectContact } = useContext(ForwardMessage);
     const { setRepliedMessage } = useContext(ChatContext);
 
     const deleteMutation = useMutation(DELETE_DIRECT_MESSAGE)
+    const deleteGroupMessageMutation = useMutation(DELETE_GROUP_MESSAGE);
 
     const [ anchorEl, setAnchorEl] = useState(null);
 
@@ -87,6 +88,23 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isR
         })
     }, [ chatIDRef, deleteMutation, dest, handleClose, ID ])
 
+    const groupMessageDeleteHandler = useCallback(() => {
+        const deleteMessage = deleteGroupMessageMutation[0];
+
+        deleteMessage({ 
+            variables: {
+                groupID: chatIDRef.current,
+                messageID: ID
+            },
+            onCompleted() {
+                handleClose();
+            },
+            onError(error) {
+                console.log(error)
+            }
+        });
+    }, [ chatIDRef, deleteGroupMessageMutation, handleClose, ID ])
+
     const destinatary = useMemo(() => {
         const result = getUsersList()?.find(item => item.username === sender);
 
@@ -132,9 +150,9 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isR
                         </Typography>
                     </div>
                     <Typography className={classNames("mt-[4px] text-xs text-slate-300", loggedUser.username !== sender ? "" : "text-right")}>
-                        { sender !== loggedUser.username && <ReadIcon isRead={isRead}  /> }
+                        { sender !== loggedUser.username && <ReadIcon isDeleted={isDeleted} isRead={isRead}  /> }
                         { getDate(new Date(parseInt(createdAt))) } 
-                        { sender === loggedUser.username && <ReadIcon isLoggedUser isRead={isRead} /> }
+                        { sender === loggedUser.username && <ReadIcon  isDeleted={isDeleted} isLoggedUser isRead={isRead} /> }
                     </Typography>
                 </div>
                 <Popover
@@ -171,7 +189,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isForwarded, isR
                         </ListItem>
                         <ListItem 
                             disablePadding 
-                            onClick={deleteHandler} 
+                            onClick={ isDirectChat ? deleteHandler : groupMessageDeleteHandler} 
                             className={classNames()}>
                             <ListItemButton disabled={ sender !== loggedUser.username }>
                                 <ListItemText 

@@ -187,11 +187,11 @@ const DirectChatContainer = () => {
                                                     { getOnlyDate(new Date(parseInt(item.createdAt))) }
                                                 </Typography>
                                             </div>
-                                            <MessageCard { ...item } chatIDRef={chatIDRef} dest={dest} message={item} />
+                                            <MessageCard { ...item } chatIDRef={chatIDRef} isDirectChat dest={dest} message={item} />
                                         </div>
                                     );
                                 }
-                                return <MessageCard key={index} { ...item } chatIDRef={chatIDRef} dest={dest} message={item} />
+                                return <MessageCard key={index} { ...item } chatIDRef={chatIDRef} isDirectChat dest={dest} message={item} />
                             })
                         }
                     </div>

@@ -52,6 +52,14 @@ export const DELETE_DIRECT_MESSAGE = gql`
     }
 `;
 
+export const DELETE_GROUP_MESSAGE = gql`
+    mutation DeleteGroupMessage($groupID: String!, $messageID: String) {
+        deleteGroupMessage(groupID: $groupID, messageID: $messageID) {
+            ID
+        }
+    }
+`;
+
 export const LOGIN = gql`
     mutation Login($username: String!, $password: String!) {
         login(username: $username, password: $password) {
