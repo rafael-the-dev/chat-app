@@ -89,6 +89,12 @@ export const GET_GROUPS = gql`
         groups {
             ID
             image
+            invitations {
+                createdAt
+                ID
+                sender
+                target
+            }
             name
             messages {
                 createdAt
@@ -131,6 +137,13 @@ export const GET_FRIENDSHIPS = gql`
 export const GET_USER = gql`
     query getUser($username: String!) {
         user(username: $username) {
+            groupsInvitations {
+                ID
+                createdAt
+                name
+                groupID
+                sender
+            }
             image
             isOnline
             name

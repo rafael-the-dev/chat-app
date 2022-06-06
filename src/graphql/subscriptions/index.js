@@ -48,9 +48,17 @@ export const FRIENDSHIP_INVITATION_ACCEPTED = gql`
 export const USER_CREATED_SUBSCRIPTION = gql`
     subscription UserCreated {
         userCreated {
+            groupsInvitations {
+                ID
+                createdAt
+                name
+                groupID
+                sender
+            }
             image
             isOnline
             name
+            username
             username
         }
     }
