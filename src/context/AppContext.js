@@ -25,10 +25,11 @@ export const AppContextProvider = ({ children }) => {
     const [ feedbacksList, setFeedbackList ] = useState([]);
     const [ error, setError ] = useState({ hasError: false, errorMessage: "" });
     const [ openForwardMessageDialog, setOpenForwardMessageDialog ] = useState(false)
+    const groupsListRef = useRef([]);
 
     const startLoading = useCallback(() => setIsLoading(true), [])
     const stopLoading = useCallback(() => setIsLoading(false), [])
-
+    //const addGroups =  useCallback(list => groupsListRef.current = list, []);
     const addError = useCallback(({ hasError, errorMessage }) => setError({ hasError, errorMessage }), []);
 
     //const [ userProperties, setUserProperties ] = useState({ usersColors: {}, usersList: [], });
@@ -101,6 +102,7 @@ export const AppContextProvider = ({ children }) => {
 
     const getBgColors = useCallback(() => userProperties.usersColors, [ userProperties ]);
     const getDirectChats = useCallback(() => userProperties.directChats, [ userProperties ]);
+    //const getGroupsList = useCallback(() => groupsListRef.current, []);
     const getFriendshipsList = useCallback(() => userProperties.friendships, [ userProperties ]);
     const getFriendshipInvitationsList = useCallback(() => userProperties.friendshipInvitations, [ userProperties ]);
     const getUsersList = useCallback(() => userProperties.usersList, [ userProperties ]);

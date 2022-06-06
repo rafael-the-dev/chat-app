@@ -24,7 +24,7 @@ const Home = () => {
         //console.log("")
         switch(tab) {
             case 'chat': {
-                return <ForwardMessageProvider><ChatContextProvider>{ chatMemo }</ChatContextProvider></ForwardMessageProvider>;
+                return <ChatContextProvider><ForwardMessageProvider>{ chatMemo }</ForwardMessageProvider></ChatContextProvider>;
             }
             case 'friends': {
                 return <FriendshipContextProvider>{ friendshipsMemo }</FriendshipContextProvider>

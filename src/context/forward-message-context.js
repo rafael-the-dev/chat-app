@@ -6,7 +6,7 @@ ForwardMessage.displayName = "ForwardMessage";
 export const ForwardMessageProvider = ({ children }) => {
     const [ openForwardMessageDialog, setOpenForwardMessageDialog ] = useState(false);
     const [ directContact, setDirectContact ] = useState("");
-    const [ forwardDetails, setForwardDetails ] = useState({ directContact: "", group: {} });
+    const [ forwardDetails, setForwardDetails ] = useState({ directContact: "", group: "" });
     const messageVariables = useRef({});
 
     const addMessageVariables = useCallback((variables) => messageVariables.current = variables, []);

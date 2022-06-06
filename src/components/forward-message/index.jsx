@@ -9,12 +9,13 @@ import classNames from "classnames";
 import classes from "./styles.module.css"
 
 import { AppContext } from "src/context/AppContext"
-import { ForwardMessage } from "src/context"
+import { ChatContext, ForwardMessage } from "src/context"
 import { useMutation } from "@apollo/client";
 import { SEND_DIRECT_MESSAGE, SEND_GROUP_MESSAGE } from "src/graphql/mutations";
 
 const ForwardMessageContainer = () => {
-    const { getFriendshipsList } = useContext(AppContext);
+    const { groups } = useContext(ChatContext);
+    const { getFriendshipsList, getGroupsList } = useContext(AppContext);
     const { forwardDetails, messageVariables, openForwardMessageDialog, setOpenForwardMessageDialog } = useContext(ForwardMessage);
 
     
@@ -63,30 +64,37 @@ const ForwardMessageContainer = () => {
         setIsLoading(true);
 
         sendMessage({ variables: {
-            messageInput: { ...messageVariables.current, ...properties } },
+            messageInput: { ...properties } },
             onCompleted(data) {
-                console.log(data)
                 openAlert(successAlert)()
                 setIsLoading(false);
             },
             onError(err) {
-                console.log(err)
                 closeAlert(successAlert)();
                 openAlert(errorAlert)();
                 setIsLoading(false);
             }
         })
-    }, [ closeAlert, messageVariables, openAlert ])
+    }, [ closeAlert, openAlert ])
 
     const sendDirectMessage = useCallback(() => {
         const sendMessage = sendDirectMessageMutation[0];
-        sendMessageHelper({ properties: { destinatary: receiver }, sendMessage });
-    }, [ receiver, sendDirectMessageMutation, sendMessageHelper ]);
+        sendMessageHelper({ properties: { ...messageVariables.current, destinatary: receiver }, sendMessage });
+    }, [ messageVariables, receiver, sendDirectMessageMutation, sendMessageHelper ]);
 
     const sendGroupMessage = useCallback(() => {
         const sendMessage = sendGroupMessageMutation[0];
-        sendMessageHelper({ properties: { groupID: receiver }, sendMessage });
-    }, [ receiver, sendMessageHelper, sendGroupMessageMutation ])
+        
+        const properties = { 
+            groupID: receiver,
+            image: messageVariables.current.image,
+            isForwarded: messageVariables.current.isForwarded,
+            reply: messageVariables.current.reply,
+            text: messageVariables.current.text
+        };
+        
+        sendMessageHelper({ properties, sendMessage });
+    }, [ messageVariables, receiver, sendMessageHelper, sendGroupMessageMutation ])
 
     const sendHandler = useCallback(event => {
         event.preventDefault();
@@ -120,6 +128,28 @@ const ForwardMessageContainer = () => {
             )
         );
     }, [ forwardDetails, getFriendshipsList ]);
+
+    const groupsListMemo = useMemo(() => {
+        return groups
+            .filter(group => group.ID !== forwardDetails.group)
+            .map(group => (
+                <MenuItem key={group.ID} className="" value={group.ID} >
+                    <div className={classNames("flex items-center w-full")}>
+                        <Avatar 
+                            className="h-[25px] text-base w-[25px]"
+                            src={group.image ? `http://localhost:5000/${group.image}` : ""}>
+                            { group.image ? "" :getInitialsNameLetters(group.name) }
+                        </Avatar>
+                        <Typography 
+                            className={classNames("font-semibold grow ml-3 max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap")} 
+                            component="h2">
+                            { group.name }
+                        </Typography>
+                    </div>
+                </MenuItem>
+            )
+        );
+    }, [ forwardDetails, groups ]);
 
     return (
         <Dialog
@@ -167,7 +197,7 @@ const ForwardMessageContainer = () => {
                     value={receiver}
                     onChange={onChangeHandler}
                     fullWidth
-                >{ receiverType === 'CONTACT' ? contactListMemo : <></> }
+                >{ receiverType === 'CONTACT' ? contactListMemo : groupsListMemo }
                 </TextField>
                 <div className="flex justify-end mt-4">
                     <Button 
