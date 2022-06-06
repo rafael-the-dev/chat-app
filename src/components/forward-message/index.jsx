@@ -11,14 +11,15 @@ import classes from "./styles.module.css"
 import { AppContext } from "src/context/AppContext"
 import { ForwardMessage } from "src/context"
 import { useMutation } from "@apollo/client";
-import { SEND_DIRECT_MESSAGE } from "src/graphql/mutations";
+import { SEND_DIRECT_MESSAGE, SEND_GROUP_MESSAGE } from "src/graphql/mutations";
 
 const ForwardMessageContainer = () => {
     const { getFriendshipsList } = useContext(AppContext);
-    const { directContact, messageVariables, openForwardMessageDialog, setOpenForwardMessageDialog } = useContext(ForwardMessage);
+    const { forwardDetails, messageVariables, openForwardMessageDialog, setOpenForwardMessageDialog } = useContext(ForwardMessage);
 
     
     const sendDirectMessageMutation = useMutation(SEND_DIRECT_MESSAGE);
+    const sendGroupMessageMutation = useMutation(SEND_GROUP_MESSAGE);
 
     const [ receiver, setReceiver ] = useState('');
     const [ receiverType, setReceiverType ] = useState('CONTACT');
@@ -54,17 +55,15 @@ const ForwardMessageContainer = () => {
             element.current.classList.remove("h-auto", "mb-2")
             element.current.classList.add("h-0", "opacity-0")
         }
-    }, [ isValidElement ])
+    }, [ isValidElement ]);
 
-    const sendDirectMessage = useCallback(() => {
-        const send = sendDirectMessageMutation[0];
+    const sendMessageHelper = useCallback(({ properties, sendMessage }) => {
         closeAlert(successAlert)();
         closeAlert(errorAlert)();
         setIsLoading(true);
 
-
-        send({ variables: {
-            messageInput: { ...messageVariables.current, destinatary: receiver } },
+        sendMessage({ variables: {
+            messageInput: { ...messageVariables.current, ...properties } },
             onCompleted(data) {
                 console.log(data)
                 openAlert(successAlert)()
@@ -77,19 +76,31 @@ const ForwardMessageContainer = () => {
                 setIsLoading(false);
             }
         })
-    }, [ closeAlert, messageVariables, openAlert, receiver, sendDirectMessageMutation ]);
+    }, [ closeAlert, messageVariables, openAlert ])
+
+    const sendDirectMessage = useCallback(() => {
+        const sendMessage = sendDirectMessageMutation[0];
+        sendMessageHelper({ properties: { destinatary: receiver }, sendMessage });
+    }, [ receiver, sendDirectMessageMutation, sendMessageHelper ]);
+
+    const sendGroupMessage = useCallback(() => {
+        const sendMessage = sendGroupMessageMutation[0];
+        sendMessageHelper({ properties: { groupID: receiver }, sendMessage });
+    }, [ receiver, sendMessageHelper, sendGroupMessageMutation ])
 
     const sendHandler = useCallback(event => {
         event.preventDefault();
 
         if(receiverType === "CONTACT") {
             sendDirectMessage();
+        } else {
+            sendGroupMessage();
         }
-    }, [ receiverType, sendDirectMessage])
+    }, [ receiverType, sendDirectMessage, sendGroupMessage ])
     
     const contactListMemo = useMemo(() => {
         return getFriendshipsList()
-            .filter(contact => contact.username !== directContact)
+            .filter(contact => contact.username !== forwardDetails.directContact)
             .map((contact, index) => (
                 <MenuItem key={contact.username} className="" value={contact.username} >
                     <div className={classNames("flex items-center w-full")}>
@@ -108,7 +119,7 @@ const ForwardMessageContainer = () => {
                 </MenuItem>
             )
         );
-    }, [ directContact, getFriendshipsList ]);
+    }, [ forwardDetails, getFriendshipsList ]);
 
     return (
         <Dialog
