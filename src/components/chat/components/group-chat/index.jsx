@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/client"
 import moment from 'moment'
 import classNames from 'classnames'
 
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
 
@@ -17,6 +18,7 @@ import { getOnlyDate } from "src/helpers"
 import { READ_DIRECT_MESSAGE, SEND_GROUP_MESSAGE } from "src/graphql/mutations"
 import { GET_DIRECTS_CHAT } from "src/graphql/queries"
 import MessageCard from '../message-card'
+import InviteUserButton from "./components/InviteUser"
 
 const GroupChatContainer = () => {
     const router = useRouter();
@@ -64,6 +66,8 @@ const GroupChatContainer = () => {
         if(chatDetails.createdAt) return moment(new Date(parseInt(chatDetails.createdAt))).format("DD-MM-YYYY");
         return "";
     }, [ chatDetails ]);
+
+    const inviteUserButton = useMemo(() => <InviteUserButton />, [])
 
     useEffect(() => {
         if(Boolean(data) && mainRef.current) {
@@ -138,7 +142,7 @@ const GroupChatContainer = () => {
                 <meta name="theme-color" content="#2597BB" />
                 <title>{ chatDetails.name } | Chat</title>
             </Head>
-            <header className="bg-cyan-700 py-2 fixed left-0 top-0 w-full z-10">
+            <header className="bg-cyan-700 py-2 pr-2 fixed flex items-center justify-between left-0 top-0 w-full z-10">
                 <div className="flex items-center">
                     <Link href="/?tab=chat">
                         <a>
@@ -159,6 +163,9 @@ const GroupChatContainer = () => {
                             { chatDetails.isOnline ? "online" : "offline" }
                         </Typography>
                     </div>
+                </div>
+                <div>
+                    { inviteUserButton }
                 </div>
             </header>
             <main className="flex h-full items-stretch flex-col chat__main" ref={mainRef}>
