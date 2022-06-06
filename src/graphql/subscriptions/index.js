@@ -48,6 +48,17 @@ export const FRIENDSHIP_INVITATION_ACCEPTED = gql`
 export const USER_CREATED_SUBSCRIPTION = gql`
     subscription UserCreated {
         userCreated {
+            image
+            isOnline
+            name
+            username
+        }
+    }
+`;
+
+export const USER_UPDATED_SUBSCRIPTION = gql`
+    subscription UserUpdated($username: String!) {
+        userUpdated(username: $username) {
             groupsInvitations {
                 ID
                 createdAt
@@ -58,7 +69,6 @@ export const USER_CREATED_SUBSCRIPTION = gql`
             image
             isOnline
             name
-            username
             username
         }
     }
