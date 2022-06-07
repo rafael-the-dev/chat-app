@@ -11,7 +11,9 @@ import classes from "./styles.module.css"
 import { AppContext } from "src/context/AppContext"
 import { ChatContext, ForwardMessage } from "src/context"
 import { useMutation } from "@apollo/client";
+
 import { SEND_DIRECT_MESSAGE, SEND_GROUP_MESSAGE } from "src/graphql/mutations";
+import { closeAlert, openAlert } from "src/helpers/alert"
 
 const ForwardMessageContainer = () => {
     const { groups } = useContext(ChatContext);
@@ -40,24 +42,6 @@ const ForwardMessageContainer = () => {
         setReceiver(event.target.value);
     }, []);
 
-    const isValidElement = useCallback((element) => {
-        return (Boolean(element) && Boolean(element.current));
-    }, [])
-
-    const openAlert = useCallback(element => () => {
-        if(isValidElement(element)) {
-            element.current.classList.add("h-auto", "mb-2");
-            element.current.classList.remove("h-0", "opacity-0")
-        }
-    }, [ isValidElement ]);
-
-    const closeAlert = useCallback(element => () => {
-        if(isValidElement(element)) {
-            element.current.classList.remove("h-auto", "mb-2")
-            element.current.classList.add("h-0", "opacity-0")
-        }
-    }, [ isValidElement ]);
-
     const sendMessageHelper = useCallback(({ properties, sendMessage }) => {
         closeAlert(successAlert)();
         closeAlert(errorAlert)();
@@ -75,7 +59,7 @@ const ForwardMessageContainer = () => {
                 setIsLoading(false);
             }
         })
-    }, [ closeAlert, openAlert ])
+    }, [ ])
 
     const sendDirectMessage = useCallback(() => {
         const sendMessage = sendDirectMessageMutation[0];

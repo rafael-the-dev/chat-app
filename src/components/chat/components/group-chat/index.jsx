@@ -67,7 +67,7 @@ const GroupChatContainer = () => {
         return "";
     }, [ chatDetails ]);
 
-    const inviteUserButton = useMemo(() => <InviteUserButton />, [])
+    const inviteUserButton = useMemo(() => <InviteUserButton groupName={chatDetails.name} />, [ chatDetails ])
 
     useEffect(() => {
         if(Boolean(data) && mainRef.current) {
