@@ -5,13 +5,17 @@ import classNames from "classnames"
 import CircularProgress from '@mui/material/CircularProgress';
 
 
-const SendButton = () => {
+const SendButton = ({ disabled, list }) => {
     const [ isLoading, setIsLoading ] = useState(false);
 
-    const sendHandler = useCallback(() => {}, [])
+    const sendHandler = useCallback(event => {
+        event.preventDefault();
+        console.log(list)
+    }, [ list ])
 
     return (
         <Button 
+            disabled={disabled}
             variant="contained"
             type=""
             className={classNames("capitalize ml-4 px-6 hover:opacity-70")}
