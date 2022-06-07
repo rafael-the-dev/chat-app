@@ -1,5 +1,5 @@
 import { Alert, Button, Dialog, DialogContent, IconButton, Typography } from "@mui/material"
-import { useCallback, useContext, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import classNames from "classnames";
 
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -16,15 +16,15 @@ const InviteUser = ({ group }) => {
     const { getFriendshipsList } = useContext(AppContext);
 
     const [ open, setOpen ] = useState(false);
-    
+    const [ list, setList ] = useState([]);
+    const targetList = useRef([]);
 
     const successAlert = useRef(null);
     const errorAlert = useRef(null);
 
-    console.log("invi")
+    const toggleDialog = useCallback(prop => () => setOpen(prop), [ setOpen ]);
 
-
-    const toggleDialog = useCallback(prop => () => setOpen(prop), [ setOpen ])
+    useEffect(() => { targetList.current = list }, [ list ]);
 
     return (
         <>
@@ -66,7 +66,14 @@ const InviteUser = ({ group }) => {
                                 {
                                     getFriendshipsList()
                                         .filter(friend => !group.members.includes(friend.username))
-                                        .map(friend => <Checkbox key={friend.username} { ...friend} />)
+                                        .map(friend => (
+                                            <Checkbox 
+                                                key={friend.username} 
+                                                list={list}
+                                                setList={setList} 
+                                                { ...friend } 
+                                            />)
+                                        )
                                 }
                             </div>
                             <div className="flex justify-end mt-4">
