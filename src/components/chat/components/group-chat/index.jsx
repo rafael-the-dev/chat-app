@@ -59,7 +59,7 @@ const GroupChatContainer = () => {
 
             return data.group;
         }
-        return { messages: [] };
+        return { messages: [], members: [] };
     }, [ data ]);
 
     const friendshipDate = useMemo(() => {
@@ -67,7 +67,7 @@ const GroupChatContainer = () => {
         return "";
     }, [ chatDetails ]);
 
-    const inviteUserButton = useMemo(() => <InviteUserButton groupName={chatDetails.name} />, [ chatDetails ])
+    const inviteUserButton = useMemo(() => <InviteUserButton group={chatDetails} />, [ chatDetails ])
 
     useEffect(() => {
         if(Boolean(data) && mainRef.current) {

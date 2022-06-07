@@ -12,7 +12,7 @@ import Checkbox from "./components/checkbox"
 import SendButton from "./components/send-button"
 
 
-const InviteUser = ({ groupName }) => {
+const InviteUser = ({ group }) => {
     const { getFriendshipsList } = useContext(AppContext);
 
     const [ open, setOpen ] = useState(false);
@@ -60,11 +60,13 @@ const InviteUser = ({ groupName }) => {
                                 className="font-bold mb-4 text-xl"
                                 component="legend"
                                 >
-                                Invite friends to { groupName } group
+                                Invite friends to { group.name } group
                             </Typography>
                             <div>
                                 {
-                                    getFriendshipsList().map(friend => <Checkbox key={friend.username} { ...friend} />)
+                                    getFriendshipsList()
+                                        .filter(friend => !group.members.includes(friend.username))
+                                        .map(friend => <Checkbox key={friend.username} { ...friend} />)
                                 }
                             </div>
                             <div className="flex justify-end mt-4">
