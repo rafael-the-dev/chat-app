@@ -1,5 +1,5 @@
 import { Alert, Button, Dialog, DialogContent, Typography } from "@mui/material"
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useId, useRef, useState } from 'react'
 import classNames from "classnames";
 import { useMutation } from "@apollo/client"
 
@@ -17,6 +17,8 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
 
     const sendMutation = useMutation(SEND_GROUP_INVITATION);
 
+    const id = useRef(1);
+
     const [ list, setList ] = useState([]);
     const targetList = useRef([]);
 
@@ -32,6 +34,7 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
             },
             onCompleted() {
                 openAlert(successAlert)();
+                id.current = id.current + 1;
                 setList([]);
                 if(successCallback) {
                     successCallback()
@@ -45,7 +48,7 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
                 console.log(error);
             }
         })
-    }, [])
+    }, [ sendMutation ])
 
     const sendHandler = useCallback(({ errorCallback, successCallback }) => {
         
@@ -105,7 +108,7 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
                                     .map(friend => (
                                         <Checkbox  
                                             { ...friend } 
-                                            key={friend.username} 
+                                            key={`${id.current}-${friend.username}`} 
                                             list={list}
                                             setList={setList}
                                         />)

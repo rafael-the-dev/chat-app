@@ -1,16 +1,17 @@
 import { Avatar, Checkbox, Typography } from "@mui/material"
 import classNames from 'classnames'
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 const UserCheckbox = ({ image, list, name, setList, username }) => {
     const checkedRef = useRef(false);
+    const checkboxRef = useRef(null);
 
     const onChangeHandler = useCallback(event => {
         const value = event.target.value;
         const isChecked = event.target.checked;
-
+        
         setList(oldList => {
             if(oldList.length < 3 && isChecked) {
                 if(!oldList.includes(value)) {
@@ -27,7 +28,7 @@ const UserCheckbox = ({ image, list, name, setList, username }) => {
             }
 
         })
-    }, [ setList ])
+    }, [ setList ]);
 
     return (
         <label 
@@ -45,6 +46,7 @@ const UserCheckbox = ({ image, list, name, setList, username }) => {
             <Checkbox 
                 disabled={list.length >= 3 && !checkedRef.current}
                 id={`${username}-checkbox`}
+                inputRef={checkboxRef}
                 value={username}
                 { ...label } 
                 onChange={onChangeHandler}
