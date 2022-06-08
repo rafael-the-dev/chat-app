@@ -1,9 +1,8 @@
-import { Alert, Button, Dialog, DialogContent, Typography } from "@mui/material"
+import { Button, Dialog, DialogContent, Typography } from "@mui/material"
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import classNames from "classnames";
 import { useMutation } from "@apollo/client"
 
-import { closeAlert, openAlert } from "src/helpers/alert"
 import classes from "./styles.module.css"
 import { AppContext } from "src/context";
 
@@ -11,6 +10,7 @@ import Checkbox from "../checkbox"
 import SendButton from "../send-button"
 
 import { SEND_GROUP_INVITATION } from "src/graphql/mutations"
+import Alert from "../feedback-alert"
 
 const DialogContainer = ({ group, open, toggleDialog }) => {
     const { getFriendshipsList } = useContext(AppContext);
@@ -20,51 +20,70 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
     const id = useRef(1);
 
     const [ list, setList ] = useState([]);
+    const [ alerts, setAlerts ] = useState([]);
     const targetList = useRef([]);
 
-    const successAlert = useRef(null);
-    const errorAlert = useRef(null);
+    const listLength = useRef(0);
+    const alertsList = useRef([]);
+    const alertCounter = useRef(0);
 
-    const sendHelper = useCallback(({ groupInvitation, errorCallback, successCallback }) => {
+    const sendHelper = useCallback(async ({ errorCallback, groupInvitation, index, successCallback }) => {
         const send = sendMutation[0];
+        const alertID = `${alertCounter.current}-${groupInvitation.target}`;
 
-        send({
-            variables: {
-                groupInvitation
-            },
-            onCompleted() {
-                openAlert(successAlert)();
-                id.current = id.current + 1;
-                setList([]);
-                if(successCallback) {
-                    successCallback()
-                }
-            },
-            onError(error) {
-                openAlert(errorAlert)();
+        const updateList = () => {
+            if((index + 1) === listLength.current) {
                 if(errorCallback) {
                     errorCallback()
                 }
-                console.log(error);
+                id.current = id.current + 1;
+                setAlerts(alertsList.current)
+                setList([]);
             }
-        })
+        }
+
+        return new Promise((resolve, reject) => {
+            send({
+                variables: {
+                    groupInvitation
+                },
+                onCompleted() {
+                    alertsList.current.push(<Alert key={alertID} target={groupInvitation.target} />)
+                    updateList()
+                    resolve();
+                },
+                onError(error) {
+                    alertsList.current.push(<Alert hasError key={alertID} target={groupInvitation.target} />);
+                    updateList()
+                    reject(error);
+                }
+            })
+
+        });
     }, [ sendMutation ])
 
-    const sendHandler = useCallback(({ errorCallback, successCallback }) => {
-        
-        closeAlert(errorAlert)();
-        closeAlert(successAlert)();
+    const sendHandler = useCallback(async ({ errorCallback, successCallback }) => {
+        listLength.current = targetList.current.length;
+        alertCounter.current = alertCounter.current + 1;
+        alertsList.current = [];
 
-        targetList.current.forEach(async target => {
-            await sendHelper({ 
-                errorCallback, 
-                groupInvitation: {
-                    groupID: group.ID,
-                    target
-                },
-                successCallback
-            })
-        })
+        for(let i = 0; i < targetList.current.length; i++) {
+            const target = targetList.current[i];
+
+            try {
+                await sendHelper({ 
+                    errorCallback, 
+                    groupInvitation: {
+                        groupID: group.ID,
+                        target
+                    },
+                    index: i,
+                    successCallback
+                })
+            } catch(error) {
+                console.error(error)
+            }
+        }
     }, [ group, sendHelper ])
 
     useEffect(() => { targetList.current = list }, [ list ]);
@@ -77,22 +96,7 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
             onClose={toggleDialog(false)}
         >
             <DialogContent>
-                <Alert 
-                    className="h-0 opacity-0"
-                    color="info" 
-                    ref={successAlert} 
-                    severity="success"  
-                    onClose={closeAlert(successAlert)}>
-                    Invitation sent!
-                </Alert>
-                <Alert 
-                    className="h-0 opacity-0" 
-                    color="error"
-                    ref={errorAlert} 
-                    severity="error" 
-                    onClose={closeAlert(errorAlert)}>
-                    Invitation not sent!
-                </Alert>
+                { alerts }
                 <form>
                     <fieldset>
                         <Typography 
