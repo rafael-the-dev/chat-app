@@ -18,23 +18,16 @@ export const useUserQuery = () => {
                 variables: { username },
                 updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data || !Boolean(user)) return prev;
-                    console.log("UPDATED", subscriptionData); return prev;
-                    //const user = subscriptionData.data.userCreated;
-                    /*const users = prev.users ? [ user, ...prev.users ] : [ user ];
+
+                    const updatedUser = subscriptionData.data.userUpdated;
 
                     return Object.assign({}, prev, {
-                        users
-                    });*/
+                        user: { ...updatedUser }
+                    });
                 }
             });
         }
     }, [ user, username, subscribeToMore ]);
-  
-    useEffect(() => {
-        //if(result.data) {
-            //setData(result.data);
-       // }
-    }, [  ]);
   
     return { data, loading, error };
 };
