@@ -5,13 +5,20 @@ import classNames from "classnames"
 import CircularProgress from '@mui/material/CircularProgress';
 
 
-const SendButton = ({ disabled, list }) => {
+
+const SendButton = ({ disabled, handler }) => {
     const [ isLoading, setIsLoading ] = useState(false);
 
     const sendHandler = useCallback(event => {
         event.preventDefault();
-        console.log(list)
-    }, [ list ])
+        setIsLoading(true);
+
+        handler({
+            errorCallback: () => setIsLoading(false),
+            successCallback: () => setIsLoading(false)
+        })
+
+    }, [ handler ])
 
     return (
         <Button 

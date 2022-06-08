@@ -167,6 +167,12 @@ export const SEND_GROUP_MESSAGE = gql`
     }
 `;
 
+export const SEND_GROUP_INVITATION = gql`
+    mutation SendGroupInvitation($groupInvitation: GroupInvitationInput!) {
+        sendGroupInvitation(invitation: $groupInvitation)
+    }
+`;
+
 export const VALIDATE_TOKEN = gql`
     mutation ValidateToken($token: String!) {
         validateToken(token: $token) {

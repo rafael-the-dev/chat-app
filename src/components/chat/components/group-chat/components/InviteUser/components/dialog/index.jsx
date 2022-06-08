@@ -1,6 +1,7 @@
 import { Alert, Button, Dialog, DialogContent, Typography } from "@mui/material"
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import classNames from "classnames";
+import { useMutation } from "@apollo/client"
 
 import { closeAlert, openAlert } from "src/helpers/alert"
 import classes from "./styles.module.css"
@@ -9,14 +10,59 @@ import { AppContext } from "src/context";
 import Checkbox from "../checkbox"
 import SendButton from "../send-button"
 
+import { SEND_GROUP_INVITATION } from "src/graphql/mutations"
+
 const DialogContainer = ({ group, open, toggleDialog }) => {
     const { getFriendshipsList } = useContext(AppContext);
+
+    const sendMutation = useMutation(SEND_GROUP_INVITATION);
 
     const [ list, setList ] = useState([]);
     const targetList = useRef([]);
 
     const successAlert = useRef(null);
     const errorAlert = useRef(null);
+
+    const sendHelper = useCallback(({ groupInvitation, errorCallback, successCallback }) => {
+        const send = sendMutation[0];
+
+        send({
+            variables: {
+                groupInvitation
+            },
+            onCompleted() {
+                openAlert(successAlert)();
+                setList([]);
+                if(successCallback) {
+                    successCallback()
+                }
+            },
+            onError(error) {
+                openAlert(errorAlert)();
+                if(errorCallback) {
+                    errorCallback()
+                }
+                console.log(error);
+            }
+        })
+    }, [])
+
+    const sendHandler = useCallback(({ errorCallback, successCallback }) => {
+        
+        closeAlert(errorAlert)();
+        closeAlert(successAlert)();
+
+        targetList.current.forEach(async target => {
+            await sendHelper({ 
+                errorCallback, 
+                groupInvitation: {
+                    groupID: group.ID,
+                    target
+                },
+                successCallback
+            })
+        })
+    }, [ group, sendHelper ])
 
     useEffect(() => { targetList.current = list }, [ list ]);
 
@@ -34,7 +80,7 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
                     ref={successAlert} 
                     severity="success"  
                     onClose={closeAlert(successAlert)}>
-                    Message forwarded!
+                    Invitation sent!
                 </Alert>
                 <Alert 
                     className="h-0 opacity-0" 
@@ -42,7 +88,7 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
                     ref={errorAlert} 
                     severity="error" 
                     onClose={closeAlert(errorAlert)}>
-                    Message not forwarded!
+                    Invitation not sent!
                 </Alert>
                 <form>
                     <fieldset>
@@ -75,7 +121,7 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
                                 onClick={toggleDialog(false)}>
                                 Cancel
                             </Button> 
-                            <SendButton disabled={list.length === 0} list={targetList} />
+                            <SendButton disabled={list.length === 0} handler={sendHandler} />
                         </div>
                     </fieldset>
                 </form>
