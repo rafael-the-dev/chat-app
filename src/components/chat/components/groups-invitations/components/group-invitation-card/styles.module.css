@@ -1,0 +1,7 @@
+.card {
+    border-bottom: 1px solid #bcb8b866;
+}
+
+.iconRotate {
+    transform: rotate(180deg);
+}
