@@ -1,5 +1,6 @@
-import { useCallback, useContext, useMemo } from 'react'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
 import { Avatar, Button, Typography } from '@mui/material'
+import { useRouter } from "next/router"
 import Head from 'next/head';
 import classNames from "classnames"
 import { LoginContext } from 'src/context/LoginContext';
@@ -14,6 +15,8 @@ const Home = () => {
     const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
     const { chatTab, setChatTab } = useContext(ChatContext)
 
+    const router = useRouter();
+    const { subtab } = router.query;
 
     const clickHandler = useCallback(prop => () => setChatTab(prop), [ setChatTab ]);
 
@@ -22,7 +25,23 @@ const Home = () => {
     }, [ ]);
 
     const directChatsMemo = useMemo(() => <DirectChatsHome />, []);
-    const groupChatMemo = useMemo(() => <GroupChat />, [])
+    const groupChatMemo = useMemo(() => <GroupChat />, []);
+
+    useEffect(() => {
+        switch(subtab) {
+            case "direct-chat": {
+                setChatTab("DIRECT_CHAT")
+                return;
+            }
+            case "group-chat": {
+                setChatTab("GROUP_CHAT")
+                return;
+            }
+            default: {
+                return;
+            }
+        }
+    }, [ subtab, setChatTab ])
 
     return (
         <>

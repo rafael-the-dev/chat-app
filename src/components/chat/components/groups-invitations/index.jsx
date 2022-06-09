@@ -2,6 +2,7 @@ import { Avatar, Button, Typography } from "@mui/material"
 import classNames from "classnames"
 import { useContext, useId } from "react"
 import Head from 'next/head';
+import Link from "next/link"
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -32,10 +33,14 @@ const GroupsInvitations = () => {
             </header>
             <div className="pt-16 pb-20 scroll-smooth">
                 <div className="pl-2 pt-2">
-                    <Button
-                        startIcon={<ArrowBackIcon className="" />}>
-                        Back
-                    </Button>
+                    <Link href="/?tab=chat&amp;subtab=group-chat">
+                        <a>
+                            <Button
+                                startIcon={<ArrowBackIcon className="" />}>
+                                Back
+                            </Button>
+                        </a>
+                    </Link>
                 </div>
                 <ul className="pt-2 pb-6">
                     {
