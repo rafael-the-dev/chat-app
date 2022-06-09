@@ -1,14 +1,9 @@
-import { Avatar, IconButton, Typography } from "@mui/material"
+import { Avatar, Typography } from "@mui/material"
 import classNames from "classnames"
 import classes from './styles.module.css'
-import { useMutation } from "@apollo/client"
-
-import CloseIcon from '@mui/icons-material/Close';
-import CheckIcon from '@mui/icons-material/Check';
 
 import RejectButton from "./components/reject-button"
-
-import { REJECT_GROUP_INVITATION } from "src/graphql/mutations"
+import AcceptButton from "./components/accept-button"
 
 const GroupsInvitations = ({ groupID, ID, image, name, sender }) => {
     
@@ -34,11 +29,7 @@ const GroupsInvitations = ({ groupID, ID, image, name, sender }) => {
                 </div>
                 <div className="flex items-center">
                     <RejectButton groupID={groupID} ID={ID} />
-                    <IconButton 
-                        className="border border-solid border-cyan-500 bg-cyan-500 ml-2 p-[.2rem] 
-                        hover:bg-transparent">
-                        <CheckIcon className="text-white text-[1.4rem] hover:text-cyan-500" />
-                    </IconButton>
+                    <AcceptButton />
                 </div>
             </div>
         </li>
