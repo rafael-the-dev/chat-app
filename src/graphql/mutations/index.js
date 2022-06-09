@@ -106,6 +106,12 @@ export const REJECT_FRIENDSHIP_INVITATION = gql`
     }
 `;
 
+export const REJECT_GROUP_INVITATION = gql`
+    mutation RejectGroupInvitation($groupID: String!, $ID: String!) {
+        rejectGroupInvitation(groupID: $groupID, ID: $ID)
+    }
+`;
+
 export const SEND_FRIENDSHIP_INVITATION = gql`
     mutation SendFriendshipInvitation($targetUsername: String!, $description: String) {
         sendFriendshipInvitation(targetUsername: $targetUsername, description: $description) {
