@@ -1,6 +1,6 @@
-import { Avatar, Button, IconButton, Typography } from "@mui/material"
+import { Avatar, Button, Typography } from "@mui/material"
 import classNames from "classnames"
-import { useContext } from "react"
+import { useContext, useId } from "react"
 import Head from 'next/head';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -12,12 +12,14 @@ const GroupsInvitations = () => {
     const { loggedUser } = useContext(LoginContext)
     const { getGroupsInvitations, serverPublicURL } = useContext(AppContext);
 
+    const id = useId();
+
     return (
         <>
             <Head>
                 <title>Chat</title>
             </Head>
-            <header className="bg-cyan-700 flex items-center justify-between px-5 py-2">
+            <header className="bg-cyan-700 flex fixed items-center justify-between px-5 py-2 top-0 left-0 w-full z-10">
                 <Typography
                     className="font-bold text-slate-100 text-2xl uppercase" 
                     component="h1">
@@ -28,17 +30,17 @@ const GroupsInvitations = () => {
                     src={loggedUser.image ? `${serverPublicURL.current}/${loggedUser.image}` : ""}>
                 </Avatar>
             </header>
-            <div>
+            <div className="pt-16 pb-20 scroll-smooth">
                 <div className="pl-2 pt-2">
                     <Button
                         startIcon={<ArrowBackIcon className="" />}>
                         Back
                     </Button>
                 </div>
-                <ul className="pt-4 pb-6 px-5">
+                <ul className="pt-2 pb-6">
                     {
-                        getGroupsInvitations().map(group => (
-                            <Card key={group.ID} { ...group } />
+                        getGroupsInvitations().map((group, index) => (
+                            <Card key={`${id}-${index}`} { ...group } />
                         ))
                     }
                 </ul>
