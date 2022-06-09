@@ -6,27 +6,12 @@ import { useMutation } from "@apollo/client"
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 
+import RejectButton from "./components/reject-button"
+
 import { REJECT_GROUP_INVITATION } from "src/graphql/mutations"
 
 const GroupsInvitations = ({ groupID, ID, image, name, sender }) => {
-    const rejectGroupInvitationMutation = useMutation(REJECT_GROUP_INVITATION);
-
-    console.log(groupID, ID)
-
-    const rejectHandler = () => {
-        const rejectInvitation = rejectGroupInvitationMutation[0];
-
-        rejectInvitation({
-            variables: {
-                groupID,
-                ID
-            },
-            onError(error) {
-                console.log(error)
-            }
-        })
-    };
-
+    
     return (
         <li className={classNames(classes.container, "last:border-b-0")}>
             <div className={classNames(classes.card, "flex items-center justify-between py-2 px-5")}>
@@ -48,11 +33,7 @@ const GroupsInvitations = ({ groupID, ID, image, name, sender }) => {
                     </div>
                 </div>
                 <div className="flex items-center">
-                    <IconButton 
-                        className="border border-solid border-red-500 p-[.2rem] hover:bg-red-500"
-                        onClick={rejectHandler}>
-                        <CloseIcon className="text-red-500 text-[1.4rem] hover:text-white" />
-                    </IconButton>
+                    <RejectButton groupID={groupID} ID={ID} />
                     <IconButton 
                         className="border border-solid border-cyan-500 bg-cyan-500 ml-2 p-[.2rem] 
                         hover:bg-transparent">
