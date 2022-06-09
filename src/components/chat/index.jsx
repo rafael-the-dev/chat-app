@@ -38,7 +38,7 @@ const Container = () => {
                 return home;
             }
         }
-    }, [ directChat, groupChat, home, page ])
+    }, [ directChat, groupChat, groupsInvitationsMemo, home, page ])
 
     return (
         <>

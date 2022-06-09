@@ -21,7 +21,7 @@ const GroupsInvitations = ({ image, name, sender }) => {
                         { name }
                     </Typography>
                     <Typography className="max-w-[230px] text-sm text-slate-500" component="p">
-                        { sender }
+                        @{ sender }
                     </Typography>
                 </div>
             </div>
