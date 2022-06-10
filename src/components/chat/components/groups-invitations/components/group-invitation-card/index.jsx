@@ -29,7 +29,7 @@ const GroupsInvitations = ({ groupID, ID, image, name, sender }) => {
                 </div>
                 <div className="flex items-center">
                     <RejectButton groupID={groupID} ID={ID} />
-                    <AcceptButton />
+                    <AcceptButton groupID={groupID} ID={ID} />
                 </div>
             </div>
         </li>

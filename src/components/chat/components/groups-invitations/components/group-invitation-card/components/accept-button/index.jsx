@@ -5,17 +5,17 @@ import { useCallback, useState } from "react"
 
 import CheckIcon from '@mui/icons-material/Check';
 
-import { REJECT_GROUP_INVITATION } from "src/graphql/mutations"
+import { ACCEPT_GROUP_INVITATION } from "src/graphql/mutations"
 
 const AcceptButton = ({ groupID, ID }) => {
-    const rejectGroupInvitationMutation = useMutation(REJECT_GROUP_INVITATION);
+    const rejectGroupInvitationMutation = useMutation(ACCEPT_GROUP_INVITATION);
     const [ isLoading, setIsLoading ] = useState(false)
 
     const acceptHandler = useCallback(() => {
-        const rejectInvitation = rejectGroupInvitationMutation[0];
+        const acceptInvitation = rejectGroupInvitationMutation[0];
         setIsLoading(true);
 
-        rejectInvitation({
+        acceptInvitation({
             variables: {
                 groupID,
                 ID

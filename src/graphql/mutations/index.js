@@ -9,6 +9,12 @@ export const ACCEPT_FRIENDSHIP_INVITATION = gql`
     }
 `;
 
+export const ACCEPT_GROUP_INVITATION = gql`
+    mutation AcceptGroupInvitation($groupID: String!, $ID: String!) {
+        acceptGroupInvitation(groupID: $groupID, ID: $ID)
+    }
+`;
+
 export const CREATE_NEW_USER = gql`
     mutation CreateUser($user: UserInput!) {
         registerUser(user: $user) {
