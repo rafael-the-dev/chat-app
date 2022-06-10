@@ -45,6 +45,37 @@ export const FRIENDSHIP_INVITATION_ACCEPTED = gql`
     }
 `;
 
+export const GROUP_UPDATED = gql`
+    subscription GroupUpdated($id: String!) {
+        groupUpdated(id: $id) {
+            ID
+            admin
+            createdAt
+            description
+            image
+            name
+            members
+            messages {
+                createdAt
+                ID
+                isDeleted
+                isForwarded
+                image
+                isRead
+                reply {
+                    createdAt
+                    ID
+                    image
+                    sender
+                    text
+                }
+                sender
+                text
+            }
+        }
+    }
+`;
+
 export const USER_CREATED_SUBSCRIPTION = gql`
     subscription UserCreated {
         userCreated {
