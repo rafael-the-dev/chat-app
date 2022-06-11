@@ -7,7 +7,6 @@ import { useMutation } from "@apollo/client"
 import moment from 'moment'
 import classNames from 'classnames'
 
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
 
@@ -15,7 +14,7 @@ import { ChatContext, LoginContext } from "src/context"
 import { useGroupChatQuery, useUserQuery } from "src/hooks"
 import { getOnlyDate } from "src/helpers"
 
-import { READ_DIRECT_MESSAGE, SEND_GROUP_MESSAGE } from "src/graphql/mutations"
+import { READ_GROUP_MESSAGE, SEND_GROUP_MESSAGE } from "src/graphql/mutations"
 import { GET_DIRECTS_CHAT } from "src/graphql/queries"
 import MessageCard from '../message-card'
 import InviteUserButton from "./components/InviteUser"
@@ -25,9 +24,9 @@ const GroupChatContainer = () => {
     const { id } = router.query;
 
     const sendGroupMessageMutation = useMutation(SEND_GROUP_MESSAGE);
-    //const readDirectMessageMutation = useMutation(READ_DIRECT_MESSAGE);
+    const readGroupMessageMutation = useMutation(READ_GROUP_MESSAGE);
 
-    const { loggedUser } = useContext(LoginContext)
+    const { loggedUser, user } = useContext(LoginContext)
     const { repliedMessage, setRepliedMessage } = useContext(ChatContext);
 
     //const destinataryResult = useUserQuery({ id, loggedUser });
@@ -38,8 +37,8 @@ const GroupChatContainer = () => {
     const mainRef = useRef(null);
 
 
-    /*const makeMessagesAsRead = useCallback((chatID) => {
-        const readMessage = readDirectMessageMutation[0];
+    const makeMessagesAsRead = useCallback((chatID) => {
+        const readMessage = readGroupMessageMutation[0];
 
         readMessage({
             variables: {
@@ -49,7 +48,7 @@ const GroupChatContainer = () => {
                 console.log(error);
             }
         })
-    }, [ readDirectMessageMutation ])*/
+    }, [ readGroupMessageMutation ]);
 
     const currentDate = useRef("");
     const chatDetails = useMemo(() => {
@@ -116,24 +115,25 @@ const GroupChatContainer = () => {
 
     const hasUnreadMessages = useCallback((messages, username) => {
         return messages.find(message => {
-            if(message.sender !== username && !message.isRead) {
-                return true;
+            if(message.sender !== username) {
+                const checkUnreadMessage = message.isRead.find(report => report.username === username && !report.isRead);
+
+                return checkUnreadMessage ? true : false;
             }
 
             return false;
         })
     }, [])
 
-    /*useEffect(() => {
-        const hasUser = Boolean(loggedUser);
+    useEffect(() => {
+        const hasUser = Boolean(user);
         const hasData = Boolean(data);
         if(hasUser && hasData) {
-            if(hasUnreadMessages(data.directChat.messages, loggedUser.username)) {
-                makeMessagesAsRead(data.directChat.ID);
-
+            if(hasUnreadMessages(data.group.messages, user.username)) {
+                makeMessagesAsRead(data.group.ID);
             }
         }
-    }, [ data, hasUnreadMessages, makeMessagesAsRead, loggedUser ]);*/
+    }, [ data, hasUnreadMessages, makeMessagesAsRead, user ]);
     
     return (
         <div 

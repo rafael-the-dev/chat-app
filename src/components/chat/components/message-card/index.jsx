@@ -19,6 +19,8 @@ import RepliedMessage from "../replied-message"
 import { DELETE_DIRECT_MESSAGE, DELETE_GROUP_MESSAGE } from "src/graphql/mutations"
 import { getDate } from "src/helpers"
 
+import IsReadCard from "./components/is-read-card"
+
 library.add(faCheckDouble);
 
 const ReadIcon = ({ isDeleted, isLoggedUser, isRead }) => {
@@ -111,6 +113,12 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
         if(result) return result;
         return {};
     }, [ getUsersList, sender ]);
+    
+
+    const isReadIcon = (isLoggedUser) => {
+        return isDirectChat ? <ReadIcon isDeleted={isDeleted} isLoggedUser={isLoggedUser} isRead={isRead}  /> : (
+            <IsReadCard isDeleted={isDeleted} isLoggedUser={isLoggedUser} message={message} isRead={isRead} /> )
+    };
 
     const myLoader = ({ src }) => `${serverPublicURL.current}/${image}`;
 
@@ -150,9 +158,9 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
                         </Typography>
                     </div>
                     <Typography className={classNames("mt-[4px] text-xs text-slate-300", loggedUser.username !== sender ? "" : "text-right")}>
-                        { sender !== loggedUser.username && <ReadIcon isDeleted={isDeleted} isRead={isRead}  /> }
+                        { sender !== loggedUser.username && isReadIcon(false) }
                         { getDate(new Date(parseInt(createdAt))) } 
-                        { sender === loggedUser.username && <ReadIcon  isDeleted={isDeleted} isLoggedUser isRead={isRead} /> }
+                        { sender === loggedUser.username && isReadIcon(true) }
                     </Typography>
                 </div>
                 <Popover

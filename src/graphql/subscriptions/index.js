@@ -61,7 +61,10 @@ export const GROUP_UPDATED = gql`
                 isDeleted
                 isForwarded
                 image
-                isRead
+                isRead {
+                    isRead
+                    username
+                }
                 reply {
                     createdAt
                     ID

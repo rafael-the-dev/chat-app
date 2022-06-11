@@ -69,7 +69,10 @@ export const GET_GROUP_CHAT = gql`
                 isDeleted
                 isForwarded
                 image
-                isRead
+                isRead {
+                    isRead
+                    username
+                }
                 reply {
                     createdAt
                     ID
@@ -100,7 +103,10 @@ export const GET_GROUPS = gql`
                 createdAt
                 ID
                 isDeleted
-                isRead
+                isRead {
+                    isRead
+                    username
+                }
                 text
             }
         }

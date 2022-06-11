@@ -103,6 +103,14 @@ export const READ_DIRECT_MESSAGE = gql`
     }
 `;
 
+export const READ_GROUP_MESSAGE = gql`
+    mutation ReadGroupMessage($chatID: String!) {
+        readGroupMessage(chatID: $chatID) {
+            ID
+        }
+    }
+`;
+
 export const REJECT_FRIENDSHIP_INVITATION = gql`
     mutation RejectFriendshipInvitation($id: String!) {
         rejectFriendshipInvitation(id: $id) {
@@ -164,7 +172,10 @@ export const SEND_GROUP_MESSAGE = gql`
                 isDeleted
                 isForwarded
                 image
-                isRead
+                isRead {
+                    isRead
+                    username
+                }
                 reply {
                     createdAt
                     ID
