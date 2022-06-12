@@ -1,5 +1,5 @@
-import { useContext, useEffect, useMemo, useState } from 'react'
-import { useQuery, useLazyQuery, useSubscription } from "@apollo/client"
+import { useContext, useEffect, useMemo } from 'react'
+import { useLazyQuery, useSubscription } from "@apollo/client"
 import { LoginContext } from "src/context/LoginContext"
 
 import { GET_FRIENDSHIPS } from 'src/graphql/queries';
@@ -11,13 +11,6 @@ export const useFriendshipsQuery = (loggedUser) => {
 
     const subscription = useSubscription(FRIENDSHIP_INVITATION_ACCEPTED, { variables: { id: username }})
     const [ getFriendshipsList, { data, loading, error, subscribeToMore } ] = useLazyQuery(GET_FRIENDSHIPS)
-    //const { subscribeToMore, ...result } = useQuery(GET_FRIENDSHIPS);
-
-    //const [ data, setData ] = useState(null);
-    //const [ loading, setLoading ] = useState(false);
-    //const [ error, setError ] = useState(null);
-
-    //console.log(result)
 
     useEffect(() => {
         if(Boolean(user)) {

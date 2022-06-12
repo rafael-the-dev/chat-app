@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 import { useLazyQuery, useSubscription } from "@apollo/client"
 import { LoginContext } from "src/context/LoginContext"
 
@@ -11,10 +11,6 @@ export const useFriendshipsInvitationsQuery = (loggedUser) => {
     const subscription = useSubscription(FRIENDSHIP_INVITATION_SENT, { variables: { id: username }})
     
     const [ getFriendshipsInvitations, { data, loading, error, subscribeToMore } ]  = useLazyQuery(GET_FRIENDSHIPS_INVITATIONS);
-
-    //const [ data, setData ] = useState(null);
-    //const [ loading, setLoading ] = useState(false);
-    //const [ error, setError ] = useState(null);
 
     useEffect(() => {
         if(Boolean(user)) {
