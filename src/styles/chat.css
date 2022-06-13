@@ -8,3 +8,8 @@
 .deleted-message {
     background-color: rgba(197, 197, 29, .7) !important;
 }
+
+
+aside.emoji-picker-react {
+    width: 100% !important;
+}

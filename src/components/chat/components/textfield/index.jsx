@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Typography } from "@mui/material"
 import classNames from "classnames"
+import Picker from 'emoji-picker-react';
 
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,7 +14,7 @@ import SendIcon from '@mui/icons-material/Send';
 
 import { ChatContext } from "src/context";
 import RepliedMessage from "./components/replied-message"
-
+import EmojisButton from "./components/emoji-button"
 
 const TextfieldContainer = ({ sendHandler }) => {
     const router = useRouter();
@@ -24,6 +25,7 @@ const TextfieldContainer = ({ sendHandler }) => {
     const [ expanded, setExpanded ] = useState(false);
     const [ file, setFile ] = useState({ image: null, url: "" });
     const [ canISubmit, setCanISubmit ] = useState(false);
+    const [ openEmojis, setOpenEmojis ] = useState(false);
 
     const inputRef = useRef(null);
     const fileRef = useRef(null);
@@ -96,6 +98,10 @@ const TextfieldContainer = ({ sendHandler }) => {
         />
     ), [ fileChangeHandler ]);*/
 
+    const onEmojiClick = (event, emojiObject) => {
+        //setChosenEmoji(emojiObject);
+    };
+
     const inputMemo = useMemo(() => (
         <input 
                 className="bg-transparent grow p-2 text-base focus:outline-cyan-600"
@@ -107,15 +113,18 @@ const TextfieldContainer = ({ sendHandler }) => {
     const collapseMemo = useMemo(() => (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
             <div className="bg-cyan-300 flex items-center flex-wrap">
-                <IconButton className="mr-1 ">
+                <IconButton className="mr-1 " onClick={() => setOpenEmojis(b => !b)}>
                     <InsertEmoticonIcon  className="hover:text-cyan-600" />
                 </IconButton>
                 <IconButton onClick={imageButtonClickHandler}>
                     <PhotoIcon  className="hover:text-cyan-600" />
                 </IconButton>
             </div>
+            <Collapse in={openEmojis} timeout="auto" unmountOnExit>
+                <Picker onEmojiClick={onEmojiClick} />
+            </Collapse>
         </Collapse>
-    ), [ expanded, imageButtonClickHandler ])
+    ), [ expanded, imageButtonClickHandler, openEmojis ])
 
     const submitButtonMemo = useMemo(() => (
         <IconButton type="submit" disabled={!canISubmit && !file.image}>
