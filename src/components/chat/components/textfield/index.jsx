@@ -89,19 +89,6 @@ const TextfieldContainer = ({ sendHandler }) => {
         </IconButton>
     ),[ expanded, toggleExpanded ]);
 
-    /*const imageInput = useMemo(() => (
-        <input 
-            className="hidden" 
-            ref={fileRef} 
-            type="file" 
-            onChange={fileChangeHandler} 
-        />
-    ), [ fileChangeHandler ]);*/
-
-    const onEmojiClick = (event, emojiObject) => {
-        //setChosenEmoji(emojiObject);
-    };
-
     const inputMemo = useMemo(() => (
         <input 
                 className="bg-transparent grow p-2 text-base focus:outline-cyan-600"
@@ -109,6 +96,12 @@ const TextfieldContainer = ({ sendHandler }) => {
                 ref={inputRef}
             />
     ), [ changeHandler ]);
+
+    
+
+    const onEmojiClick = (event, emojiObject) => {
+        inputRef.current.value = inputRef.current.value + emojiObject.emoji;
+    };
 
     const collapseMemo = useMemo(() => (
         <Collapse in={expanded} timeout="auto" unmountOnExit>

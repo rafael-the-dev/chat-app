@@ -16,8 +16,10 @@ import { getOnlyDate } from "src/helpers"
 
 import { READ_GROUP_MESSAGE, SEND_GROUP_MESSAGE } from "src/graphql/mutations"
 import { GET_DIRECTS_CHAT } from "src/graphql/queries"
+
 import MessageCard from '../message-card'
 import InviteUserButton from "./components/InviteUser"
+import Menu from "./components/options"
 
 const GroupChatContainer = () => {
     const router = useRouter();
@@ -66,7 +68,8 @@ const GroupChatContainer = () => {
         return "";
     }, [ chatDetails ]);
 
-    const inviteUserButton = useMemo(() => <InviteUserButton group={chatDetails} />, [ chatDetails ])
+    const inviteUserButton = useMemo(() => <InviteUserButton group={chatDetails} />, [ chatDetails ]);
+    const menuButton = useMemo(() => <Menu />, [])
 
     useEffect(() => {
         if(Boolean(data) && mainRef.current) {
@@ -164,8 +167,9 @@ const GroupChatContainer = () => {
                         </Typography>
                     </div>
                 </div>
-                <div>
+                <div className="flex items-center">
                     { inviteUserButton }
+                    { menuButton }
                 </div>
             </header>
             <main className="flex h-full items-stretch flex-col chat__main" ref={mainRef}>
