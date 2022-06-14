@@ -27,7 +27,7 @@ const Container = () => {
     const [ anchorEl, setAnchorEl] = useState(null);
     const inputRef = useRef(null);
 
-    const clickHandler = useCallback(prop => () => setTab(prop), []);
+    const clickHandler = useCallback(prop => () => setTab(prop), [ setTab ]);
 
     const friendsContainer = useMemo(() => <FriendshipContainer />, []);
     const searchFriendsContainer = useMemo(() => <SearchFriendsContainer />, []);

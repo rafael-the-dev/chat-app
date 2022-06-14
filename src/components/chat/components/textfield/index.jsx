@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Typography } from "@mui/material"
 import classNames from "classnames"
-import Picker from 'emoji-picker-react';
+//import Picker from 'emoji-picker-react';
 
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
@@ -14,7 +14,11 @@ import SendIcon from '@mui/icons-material/Send';
 
 import { ChatContext } from "src/context";
 import RepliedMessage from "./components/replied-message"
-import EmojisButton from "./components/emoji-button"
+
+import dynamic from "next/dynamic";
+const NoSSREmojiPicker = dynamic(() => import("emoji-picker-react"), {
+  ssr: false,
+});
 
 const TextfieldContainer = ({ sendHandler }) => {
     const router = useRouter();
@@ -114,7 +118,7 @@ const TextfieldContainer = ({ sendHandler }) => {
                 </IconButton>
             </div>
             <Collapse in={openEmojis} timeout="auto" unmountOnExit>
-                <Picker onEmojiClick={onEmojiClick} />
+                <NoSSREmojiPicker onEmojiClick={onEmojiClick} />
             </Collapse>
         </Collapse>
     ), [ expanded, imageButtonClickHandler, openEmojis ])
