@@ -161,9 +161,9 @@ const GroupChatContainer = () => {
                             { chatDetails.name }
                         </Typography>
                         <Typography 
-                            className="mt-1 text-slate-300" 
+                            className="mt-1 text-slate-300 text-ellipsis overflow-hidden whitespace-nowrap w-[200px]" 
                             component="p">
-                            { chatDetails.isOnline ? "online" : "offline" }
+                            { chatDetails.members.filter(member => loggedUser.username !== member).join(", ") }
                         </Typography>
                     </div>
                 </div>
