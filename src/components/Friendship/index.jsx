@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { Avatar, Button, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Popover, Typography } from '@mui/material'
+import { Avatar, Button, Hidden, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Popover, Typography } from '@mui/material'
 import Head from 'next/head';
 import classNames from "classnames"
 import { LoginContext } from 'src/context/LoginContext';
@@ -85,18 +85,20 @@ const Container = () => {
             <Head>
                 <title>Friends</title>
             </Head>
-            <header className="bg-cyan-700 flex items-center justify-between px-5 py-2">
-                <Typography
-                    className="font-bold text-slate-100 text-2xl uppercase" 
-                    component="h1">
-                    Chat app
-                </Typography>
-                <Avatar 
-                    className={classNames({ "bg-cyan-500": !Boolean(loggedUser.image) })}
-                    src={loggedUser.image ? `${serverPublicURL.current}/${loggedUser.image}` : ""}>
-                    { loggedUser.image ? "" : getInitialsNameLetters(loggedUser ? loggedUser.name : "" ) }
-                </Avatar>
-            </header>
+            <Hidden mdUp>
+                <header className="bg-cyan-700 flex items-center justify-between px-5 py-2">
+                    <Typography
+                        className="font-bold text-slate-100 text-2xl uppercase" 
+                        component="h1">
+                        Chat app
+                    </Typography>
+                    <Avatar 
+                        className={classNames({ "bg-cyan-500": !Boolean(loggedUser.image) })}
+                        src={loggedUser.image ? `${serverPublicURL.current}/${loggedUser.image}` : ""}>
+                        { loggedUser.image ? "" : getInitialsNameLetters(loggedUser ? loggedUser.name : "" ) }
+                    </Avatar>
+                </header>
+            </Hidden>
             <main>
                 <div className={classNames("flex pla")}>
                     <Button 
@@ -111,7 +113,7 @@ const Container = () => {
                     </Button>
                 </div>
                 <form 
-                    className={classNames("border border-solid border-slate-200 flex items-center px-2 py-1")}
+                    className={classNames("bg-white border border-solid border-slate-200 flex items-center px-2 py-1")}
                     onSubmit={searchHandler}>
                     <IconButton className={classNames({ 'hidden': tab !== "SEARCH_FRIENDS" })} onClick={handleClick} type="button">
                         <FilterAltIcon />

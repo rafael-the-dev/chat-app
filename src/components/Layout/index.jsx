@@ -51,7 +51,7 @@ const Container = ({ children }) => {
     }, [ isLogged ])
 
     useEffect(() => {
-        if([ 'friends' ].includes(tab)) {
+        if([ ].includes(tab)) {
             rootRef.current.classList.add("remove-root-bg")
         } else {
             rootRef.current.classList.remove("remove-root-bg")
@@ -72,8 +72,10 @@ const Container = ({ children }) => {
                 </Alert>
             </Collapse>
             <div id="root" ref={rootRef}>
-                { children }
-                { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
+                <div className='h-ful sub-root'>
+                    { children }
+                    { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
+                </div>
             </div>
             <Dialog
                 open={openRefreshTokenDialog && ![ '/login', '/signup' ].includes(pathname)}

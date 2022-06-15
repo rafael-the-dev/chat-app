@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
 import { useCallback, useContext, useMemo } from 'react'
+import { Hidden } from "@mui/material"
 
 import { ForwardMessage } from "src/context";
 
@@ -35,14 +36,23 @@ const Container = () => {
                 return groupsInvitationsMemo;
             }
             default: {
-                return home;
+                return (
+                    <Hidden mdUp>
+                        { home }
+                    </Hidden>
+                );
             }
         }
     }, [ directChat, groupChat, groupsInvitationsMemo, home, page ])
 
     return (
         <>
-            { selectedPage }
+            <Hidden mdDown>
+                <Home />
+            </Hidden>
+            <Hidden mdUp>
+                { selectedPage }
+            </Hidden>
             { forwardMessageDialog }
         </>
     );

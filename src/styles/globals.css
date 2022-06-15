@@ -30,9 +30,12 @@ a {
 
 @media screen  and (min-width: 900px){
   #root {
-      align-items: flex-start;
-      display: flex;
-      justify-content: space-between;
-      padding: 3rem 10%;
+    display: flex;
+    padding-left: 50px;
+  }
+
+  .sub-root {
+    box-shadow: 0px 43px 50px 9px rgb(0 0 0 / 6%);
+    width: 450px;
   }
 }

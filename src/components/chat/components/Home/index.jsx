@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react'
-import { Avatar, Button, Typography } from '@mui/material'
+import { Avatar, Button, Hidden, Typography } from '@mui/material'
 import { useRouter } from "next/router"
 import Head from 'next/head';
 import classNames from "classnames"
@@ -48,18 +48,20 @@ const Home = () => {
             <Head>
                 <title>Chat</title>
             </Head>
-            <header className="bg-cyan-700 flex items-center justify-between px-5 py-2">
-                <Typography
-                    className="font-bold text-slate-100 text-2xl uppercase" 
-                    component="h1">
-                    Chat app
-                </Typography>
-                <Avatar 
-                    className={classNames({ "bg-cyan-500": !Boolean(user?.image) })}
-                    src={user?.image ? `${serverPublicURL.current}/${user.image}` : ""}>
-                    { user?.image ? "" : getInitialsNameLetters(user ? user.name : "" ) }
-                </Avatar>
-            </header>
+            <Hidden mdUp>
+                <header className="bg-cyan-700 flex items-center justify-between px-5 py-2">
+                    <Typography
+                        className="font-bold text-slate-100 text-2xl uppercase" 
+                        component="h1">
+                        Chat app
+                    </Typography>
+                    <Avatar
+                        className={classNames({ "bg-cyan-500": !Boolean(user?.image) })}
+                        src={user?.image ? `${serverPublicURL.current}/${user.image}` : ""}>
+                        { user?.image ? "" : getInitialsNameLetters(user ? user.name : "" ) }
+                    </Avatar>
+                </header>
+            </Hidden>
             <main>
                 <div className={classNames("flex pla")}>
                     <Button 
