@@ -22,6 +22,14 @@ export const DELETE_GROUP_MESSAGE = gql`
     }
 `;
 
+export const LEAVE_GROUP = gql`
+    mutation LeaveGroup($groupID: String!, $isRemoved: Boolean!, $removedUser: String!) {
+        leaveGroup(groupID: $groupID, isRemoved: $isRemoved, removedUser: $removedUser) {
+            ID
+        }
+    }
+`;
+
 export const REJECT_GROUP_INVITATION = gql`
     mutation RejectGroupInvitation($groupID: String!, $ID: String!) {
         rejectGroupInvitation(groupID: $groupID, ID: $ID)

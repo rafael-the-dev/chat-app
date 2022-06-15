@@ -69,7 +69,7 @@ const GroupChatContainer = () => {
     }, [ chatDetails ]);
 
     const inviteUserButton = useMemo(() => <InviteUserButton group={chatDetails} />, [ chatDetails ]);
-    const menuButton = useMemo(() => <Menu />, [])
+    const menuButton = useMemo(() => <Menu groupID={chatIDRef} />, [])
 
     useEffect(() => {
         if(Boolean(data) && mainRef.current) {
@@ -161,7 +161,7 @@ const GroupChatContainer = () => {
                             { chatDetails.name }
                         </Typography>
                         <Typography 
-                            className="mt-1 text-slate-300 text-ellipsis overflow-hidden whitespace-nowrap w-[200px]" 
+                            className="mt-1 text-slate-300 text-sm text-ellipsis overflow-hidden whitespace-nowrap w-[200px]" 
                             component="p">
                             { chatDetails.members.filter(member => loggedUser.username !== member).join(", ") }
                         </Typography>
