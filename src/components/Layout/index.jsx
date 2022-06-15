@@ -7,6 +7,9 @@ import globalStyles from "src/styles/global-styles.module.css"
 
 import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from 'src/context/AppContext';
+import { ChatContextProvider, ForwardMessageProvider } from 'src/context';
+
+import Chat from "../chat-panel-md"
 import Footer from 'src/components/Footer';
 
 const Container = ({ children }) => {
@@ -18,6 +21,7 @@ const Container = ({ children }) => {
     const { errorMessage, hasError, isLoading } = useContext(AppContext)
 
     const rootRef = useRef(null);
+    const chatMemo = useMemo(() => <Chat />)
 
     const isLogged = useMemo(() => (![ '/login', '/signup' ].includes(pathname)) && user !== null, [ pathname, user ])
     const pathnameRef = useRef("");
@@ -76,6 +80,7 @@ const Container = ({ children }) => {
                     { children }
                     { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
                 </div>
+                { chatMemo }
             </div>
             <Dialog
                 open={openRefreshTokenDialog && ![ '/login', '/signup' ].includes(pathname)}

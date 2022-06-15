@@ -34,7 +34,7 @@ const GroupChat = () => {
             </ul>
             { createGroupDialog }
             <IconButton className="bg-cyan-700 bottom-[5rem] fixed right-3 text-slate-100 z-10 
-                hover:bg-red-500 hover:text-slate-300"
+                hover:bg-red-500 hover:text-slate-300 md:absolute md:bottom-8 md:right-4"
                 onClick={openCreateGroupDialog}>
                 <AddIcon className="text" />
             </IconButton>

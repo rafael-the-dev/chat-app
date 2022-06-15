@@ -139,7 +139,7 @@ const TextfieldContainer = ({ sendHandler }) => {
     const hasRepliedMessage = useMemo(() => Object.keys(repliedMessage).length > 0, [ repliedMessage ]);
 
     return (
-        <div className={classNames(`bottom-20 flex flex-col fixed items-stretch w-full z-10`,
+        <div className={classNames(`bottom-20 flex flex-col fixed items-stretch w-full z-10 md:absolute md:bottom-3`,
             { "bg-cyan-300 py-2": hasRepliedMessage })}>
             <Collapse in={Boolean(file.image)} timeout="auto" unmountOnExit>
                 { imageMemo }

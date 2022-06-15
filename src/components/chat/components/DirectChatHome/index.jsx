@@ -42,8 +42,8 @@ const DirectChatHome = () => {
                 }
             </ul>
             <Link href="/?tab=friends&amp;redirect=friends">
-                <a>
-                    <IconButton className="bg-cyan-700 bottom-[5rem] fixed right-3 text-slate-100 z-10 
+                <a className="bottom-[5rem] fixed right-3 z-10 md:absolute md:bottom-8 md:right-4">
+                    <IconButton className="bg-cyan-700 text-slate-100 z-10 
                     hover:bg-red-500 hover:text-slate-300">
                         <MessageIcon className="text" />
                     </IconButton>

@@ -62,7 +62,7 @@ const Home = () => {
                     </Avatar>
                 </header>
             </Hidden>
-            <main>
+            <main className='h-full md:relative'>
                 <div className={classNames("flex pla")}>
                     <Button 
                         className={classNames(classesToggler("DIRECT_CHAT", chatTab))}

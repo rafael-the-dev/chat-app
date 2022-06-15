@@ -141,12 +141,12 @@ const DirectChatContainer = () => {
     
     return (
         <div 
-            className={classNames("flex flex-col grow h-screen items-stretch pb-[5rem]")}>
+            className={classNames("flex flex-col grow h-screen items-stretch pb-[5rem] md:relative md:w-full")}>
             <Head>
                 <meta name="theme-color" content="#2597BB" />
                 <title>{ destinatary.name } | Chat</title>
             </Head>
-            <header className="bg-cyan-700 py-2 fixed left-0 top-0 w-full z-10">
+            <header className="bg-cyan-700 py-2 fixed left-0 top-0 w-full z-10 md:absolute">
                 <div className="flex items-center">
                     <Link href="/?tab=chat">
                         <a>
@@ -170,7 +170,7 @@ const DirectChatContainer = () => {
                 </div>
             </header>
             <main className="flex h-full items-stretch flex-col chat__main" ref={mainRef}>
-                <div className="grow pt-4">
+                <div className="grow pt-4 px-6">
                     <div>
                         <Typography className="text-center" component="h2">
                             Friends since<br />{ friendshipDate }

@@ -16,7 +16,6 @@ import { AppContextProvider } from 'src/context/AppContext';
 import client from 'src/graphql/apollo-client';
 import { LoginContextProvider } from 'src/context/LoginContext';
 import { SubscriptionContextProvider } from 'src/context/SubscriptionContext';
-//"@apollo/client": "latest",
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
