@@ -4,8 +4,6 @@ import classNames from "classnames"
 
 import CircularProgress from '@mui/material/CircularProgress';
 
-
-
 const SendButton = ({ disabled, handler }) => {
     const [ isLoading, setIsLoading ] = useState(false);
 

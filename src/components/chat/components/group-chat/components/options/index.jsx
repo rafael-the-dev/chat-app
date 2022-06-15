@@ -1,17 +1,17 @@
-import { useCallback, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { IconButton, List, ListItem, ListItemButton, ListItemText, Popover } from "@mui/material"
 import classNames from "classnames"
-import { useMutation } from "@apollo/client"
+//import { useMutation } from "@apollo/client"
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-import { LEAVE_GROUP } from "src/graphql/mutations"
-import { useContext } from "react";
-import { LoginContext } from "src/context";
+import LeaveGroupButton from "./components/leave-group"
+
+//import { useContext } from "react";
+//import { LoginContext } from "src/context";
 
 const Menu = ({ groupID }) => {
-    const { loggedUser } = useContext(LoginContext)
-    const leaveGroupMutation = useMutation(LEAVE_GROUP);
+    //const { loggedUser } = useContext(LoginContext)
 
     const [ anchorEl, setAnchorEl] = useState(null);
 
@@ -26,20 +26,12 @@ const Menu = ({ groupID }) => {
     const openPopover = Boolean(anchorEl);
     const id = openPopover ? 'group-menu-popover' : undefined;
 
-    const leaveGroupHandler = useCallback(() => {
-        const leaveGroup = leaveGroupMutation[0];
-
-        leaveGroup({ 
-            variables: {
-                groupID: groupID.current,
-                isRemoved: false,
-                removedUser: loggedUser.username
-            },
-            onError(error) {
-                console.error(error)
-            }
-        })
-    }, [ groupID, leaveGroupMutation, loggedUser ]);
+    const leaveGroupButton = useMemo(() => (
+        <LeaveGroupButton 
+            closePopover={handleClose} 
+            groupID={groupID} 
+        />
+    ), [ groupID, handleClose ])
 
     return (
         <>
@@ -58,17 +50,7 @@ const Menu = ({ groupID }) => {
                 }}
             >
                 <List className={classNames("py-0 w-[200px]")}>
-                    <ListItem 
-                        disablePadding 
-                        onClick={leaveGroupHandler} 
-                        className={classNames()}>
-                        <ListItemButton>
-                            <ListItemText  
-                                className="text-red-500"
-                                primary="Leave group" 
-                            />
-                        </ListItemButton>
-                    </ListItem>
+                    { leaveGroupButton }
                 </List>
             </Popover>
         </>
