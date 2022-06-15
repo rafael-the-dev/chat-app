@@ -60,6 +60,9 @@ export const GET_GROUP_CHAT = gql`
             admin
             createdAt
             description
+            invitations {
+                target
+            }
             image
             name
             members

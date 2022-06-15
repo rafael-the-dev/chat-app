@@ -11,6 +11,7 @@ import SendButton from "../send-button"
 
 import { SEND_GROUP_INVITATION } from "src/graphql/mutations"
 import Alert from "../feedback-alert"
+import { useMemo } from "react";
 
 const DialogContainer = ({ group, open, toggleDialog }) => {
     const { getFriendshipsList } = useContext(AppContext);
@@ -26,6 +27,14 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
     const listLength = useRef(0);
     const alertsList = useRef([]);
     const alertCounter = useRef(0);
+
+    const avalableUsers = useMemo(() => {
+        return getFriendshipsList()
+            .filter(friend => !group.members.includes(friend.username))
+            .filter(friend => {
+                return !Boolean(group.invitations.find(invitation => invitation.target === friend.username))
+            })
+    }, [ getFriendshipsList, group ])
 
     const sendHelper = useCallback(async ({ errorCallback, groupInvitation, index, successCallback }) => {
         const send = sendMutation[0];
@@ -107,16 +116,17 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
                         </Typography>
                         <div>
                             {
-                                getFriendshipsList()
-                                    .filter(friend => !group.members.includes(friend.username))
-                                    .map(friend => (
-                                        <Checkbox  
-                                            { ...friend } 
-                                            key={`${id.current}-${friend.username}`} 
-                                            list={list}
-                                            setList={setList}
-                                        />)
-                                    )
+                                avalableUsers.map(friend => (
+                                    <Checkbox  
+                                        { ...friend } 
+                                        key={`${id.current}-${friend.username}`} 
+                                        list={list}
+                                        setList={setList}
+                                    />)
+                                )
+                            }
+                            {
+                                avalableUsers.length === 0 && <Typography component="label">You have invited all your friends!</Typography>
                             }
                         </div>
                         <div className="flex justify-end mt-4">

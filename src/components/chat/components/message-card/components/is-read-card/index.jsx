@@ -13,7 +13,7 @@ library.add(faCheckDouble);
 
 const Card = ({ isDeleted, isLoggedUser, isRead, message }) => {
     const [ anchorEl, setAnchorEl] = useState(null);
-    console.log(isRead)
+    
     const counterID = useId();
 
     const onHoverHandler = useCallback(event => {

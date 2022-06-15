@@ -67,7 +67,7 @@ const GroupChatContainer = () => {
         if(chatDetails.createdAt) return moment(new Date(parseInt(chatDetails.createdAt))).format("DD-MM-YYYY");
         return "";
     }, [ chatDetails ]);
-
+    
     const inviteUserButton = useMemo(() => <InviteUserButton group={chatDetails} />, [ chatDetails ]);
     const menuButton = useMemo(() => <Menu groupID={chatIDRef} />, [])
 

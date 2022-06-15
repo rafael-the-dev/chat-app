@@ -52,6 +52,9 @@ export const GROUP_UPDATED = gql`
             admin
             createdAt
             description
+            invitations {
+                target
+            }
             image
             name
             members
