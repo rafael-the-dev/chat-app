@@ -15,6 +15,7 @@ import 'src/styles/tailwind.css'
 import { AppContextProvider } from 'src/context/AppContext';
 import client from 'src/graphql/apollo-client';
 import { LoginContextProvider } from 'src/context/LoginContext';
+import { SubscriptionContextProvider } from 'src/context/SubscriptionContext';
 //"@apollo/client": "latest",
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -30,17 +31,19 @@ function MyApp(props) {
             </Head>
             <ApolloProvider client={client}>
                 <LoginContextProvider>
-                    <AppContextProvider>
-                        <CacheProvider value={emotionCache}>
-                            <ThemeProvider theme={theme}>
-                                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                                <CssBaseline />
-                                <Layout>
-                                    <Component {...pageProps} />
-                                </Layout>
-                            </ThemeProvider>
-                        </CacheProvider>
-                    </AppContextProvider>
+                    <SubscriptionContextProvider>
+                        <AppContextProvider>
+                            <CacheProvider value={emotionCache}>
+                                <ThemeProvider theme={theme}>
+                                    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                                    <CssBaseline />
+                                    <Layout>
+                                        <Component {...pageProps} />
+                                    </Layout>
+                                </ThemeProvider>
+                            </CacheProvider>
+                        </AppContextProvider>
+                    </SubscriptionContextProvider>
                 </LoginContextProvider>
             </ApolloProvider>
         </>
