@@ -76,11 +76,8 @@ const Container = ({ children }) => {
                 </Alert>
             </Collapse>
             <div id="root" ref={rootRef}>
-                <div className='h-ful sub-root'>
                     { children }
                     { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
-                </div>
-                { chatMemo }
             </div>
             <Dialog
                 open={openRefreshTokenDialog && ![ '/login', '/signup' ].includes(pathname)}

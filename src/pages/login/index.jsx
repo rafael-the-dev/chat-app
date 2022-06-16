@@ -125,7 +125,7 @@ const Container = () => {
                         />
                     </div>
                     <div 
-                        className={classNames("flex flex-col sm:flex-row-reverse sm:items-center mt-6")}>
+                        className={classNames("flex flex-col sm:items-center mt-6")}>
                         <Typography component="p" className="ml-4 text-sm">
                             don't you have an account? 
                             <Link href="/signup">
@@ -137,7 +137,7 @@ const Container = () => {
                             </Link>
                         </Typography>
                         <Button 
-                            className="bg-cyan-500 mt-6 py-3 sm:mt-0 rounded-2xl text-base "
+                            className="bg-cyan-500 mt-6 py-3 rounded-2xl text-base w-full"
                             variant="contained"
                             type="submit"
                         >Submit

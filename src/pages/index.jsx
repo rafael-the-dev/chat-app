@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 
 import Chat from 'src/components/chat'
 import Friendships from 'src/components/Friendship'
+import ChatPanel from "src/components/chat-panel-md";
+
 import { FriendshipContextProvider } from 'src/context/FriendshipContext';
 import { ChatContextProvider, ForwardMessageProvider } from 'src/context';
 
@@ -19,6 +21,7 @@ const Home = () => {
 
     const chatMemo = useMemo(() => <Chat />, [])
     const friendshipsMemo = useMemo(() => <Friendships />, [])
+    const chatPanelMemo = useMemo(() => <ChatPanel />, [])
 
     const tabComponent = useMemo(() => {
         //console.log("")
@@ -37,7 +40,10 @@ const Home = () => {
 
     return (
         <>
-            { tabComponent }
+            <div className='h-ful sub-root'>
+                { tabComponent }
+            </div>
+            { chatPanelMemo }
         </>
     );
     
