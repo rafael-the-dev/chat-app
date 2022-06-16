@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { Avatar, Hidden, IconButton } from '@mui/material'
+import { Hidden, IconButton } from '@mui/material'
 
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
@@ -10,6 +10,7 @@ import classes from './styles.module.css'
 import { useRouter } from 'next/router'
 
 import ChatTab from "./components/chat-tab"
+import Avatar from "../logged-user-avatar"
 import { useContext } from 'react';
 import { AppContext, LoginContext } from 'src/context';
 
@@ -53,15 +54,9 @@ const Footer = () => {
             </Hidden>
             <Hidden mdDown>
                 <aside className={classNames(classes.aside, `bg-white fixed flex flex-col  h-full justify-between
-                    items-center left-0 top-0 md:pb-2 w-[50px]`)}>
+                    items-center left-0 top-0 md:pb-2 w-[60px]`)}>
                     { navigation() }
-                    <Hidden>
-                        <Avatar
-                            className={classNames({ "bg-cyan-500": !Boolean(user?.image) })}
-                            src={user?.image ? `${serverPublicURL.current}/${user.image}` : ""}>
-                            { user?.image ? "" : getInitialsNameLetters(user ? user.name : "" ) }
-                        </Avatar>
-                    </Hidden>
+                    <Avatar />
                 </aside>
             </Hidden>
         </>

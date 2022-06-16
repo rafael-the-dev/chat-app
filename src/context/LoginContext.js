@@ -69,8 +69,8 @@ export const LoginContextProvider = ({ children }) => {
     
     const router = useRouter();
     const logout = useCallback(() => {
-        const logout = logoutMutation[0];
-        logout({
+        const logoutUser = logoutMutation[0];
+        logoutUser({
             onCompleted() {
                 localStorage.setItem("__chat-app--token", JSON.stringify({ expiresIn: 0, token: ""}))
                 setUser(null);

@@ -31,7 +31,7 @@ a {
 @media screen  and (min-width: 900px){
   #root {
     display: flex;
-    padding-left: 50px;
+    padding-left: 60px;
   }
 
   .sub-root {
