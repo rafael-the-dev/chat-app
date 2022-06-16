@@ -28,7 +28,7 @@ const DirectChatContainer = () => {
     const { loggedUser } = useContext(LoginContext)
     const { repliedMessage, setRepliedMessage } = useContext(ChatContext);
 
-    const destinataryResult = useUserQuery({ dest, loggedUser });
+    const destinataryResult = useUserQuery(dest);
     const { data } = useDirectChatQuery({ dest, id, loggedUser, users: [ dest, loggedUser.username ] });
 
     const chatIDRef = useRef("");
@@ -42,6 +42,8 @@ const DirectChatContainer = () => {
         }
         return {};
     }, [ destinataryResult ]);
+
+    console.log(dest, destinatary);
 
     const makeMessagesAsRead = useCallback((chatID) => {
         const readMessage = readDirectMessageMutation[0];

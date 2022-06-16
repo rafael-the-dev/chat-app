@@ -1,3 +1,9 @@
 .dialogPaper {
     width: 85%;
 }
+
+@media screen and (min-width: 900px) {
+    .dialogPaper {
+        width: 366px;
+    }
+}

@@ -5,9 +5,10 @@ import { LoginContext } from "src/context"
 import { GET_USER } from 'src/graphql/queries';
 import { USER_UPDATED_SUBSCRIPTION } from 'src/graphql/subscriptions';
 
-export const useUserQuery = () => {
+export const useUserQuery = (dest) => {
     const { user } = useContext(LoginContext)
-    const username = useMemo(() => user ? user.username : "", [ user ]);
+    const username = useMemo(() => dest ? dest : "", [ dest ]);
+
     const subscription = useSubscription(USER_UPDATED_SUBSCRIPTION, { variables: { username }})
     const [ getUser, { data, loading, error, subscribeToMore } ] = useLazyQuery(GET_USER, { variables: { username }});
 

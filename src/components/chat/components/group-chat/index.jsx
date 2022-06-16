@@ -140,12 +140,13 @@ const GroupChatContainer = () => {
     
     return (
         <div 
-            className={classNames("flex flex-col grow h-screen items-stretch pb-[5rem]")}>
+            className={classNames("flex flex-col grow h-screen items-stretch pb-[5rem] md:relative")}>
             <Head>
                 <meta name="theme-color" content="#2597BB" />
                 <title>{ chatDetails.name } | Chat</title>
             </Head>
-            <header className="bg-cyan-700 py-2 pr-2 fixed flex items-center justify-between left-0 top-0 w-full z-10">
+            <header className="bg-cyan-700 py-2 pr-2 fixed flex items-center justify-between left-0 top-0 
+                w-full z-10 md:absolute">
                 <div className="flex items-center">
                     <Link href="/?tab=chat">
                         <a>
@@ -179,7 +180,7 @@ const GroupChatContainer = () => {
                             { friendshipDate }
                         </Typography>
                     </div>
-                    <div className="flex flex-col items-stretch px-4 pt-6">
+                    <div className="flex flex-col items-stretch px-4 pt-6 md:px-6">
                         {
                             chatDetails.messages.map((item, index) => {
                                 if(isDateChanged(item.createdAt)) {
