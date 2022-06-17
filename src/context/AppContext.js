@@ -14,6 +14,7 @@ export const AppContextProvider = ({ children }) => {
     const [ error, setError ] = useState({ hasError: false, errorMessage: "" });
     const [ openForwardMessageDialog, setOpenForwardMessageDialog ] = useState(false)
     const groupsListRef = useRef([]);
+    const groupDetails = useRef(null);
 
     const startLoading = useCallback(() => setIsLoading(true), [])
     const stopLoading = useCallback(() => setIsLoading(false), [])
@@ -60,7 +61,7 @@ export const AppContextProvider = ({ children }) => {
 
     return (
         <AppContext.Provider 
-            value={{ ...error.hasError, errorHandler, feedbacksList, getDirectChats, getFriendshipInvitationsList, 
+            value={{ ...error.hasError, errorHandler, feedbacksList, groupDetails, getDirectChats, getFriendshipInvitationsList, 
             getInitialsNameLetters, getBgColors, getFriendshipsList, getGroupsInvitations, getUsersList, 
             isLoading, openForwardMessageDialog, setFeedbackList, serverPublicURL,
             startLoading, stopLoading, setOpenForwardMessageDialog }}>

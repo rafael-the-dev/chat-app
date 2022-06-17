@@ -11,7 +11,7 @@ import classes from "./styles.module.css"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
 
-import { ChatContext, LoginContext } from "src/context"
+import { AppContext, ChatContext, LoginContext } from "src/context"
 import { useGroupChatQuery } from "src/hooks"
 import { getOnlyDate } from "src/helpers"
 
@@ -31,6 +31,7 @@ const GroupChatContainer = () => {
 
     const { loggedUser, user } = useContext(LoginContext)
     const { repliedMessage, setRepliedMessage } = useContext(ChatContext);
+    const { groupDetails } = useContext(AppContext)
 
     //const destinataryResult = useUserQuery({ id, loggedUser });
     const { data } = useGroupChatQuery({ id, loggedUser });
@@ -58,11 +59,12 @@ const GroupChatContainer = () => {
         if(data) {
             currentDate.current = "";
             chatIDRef.current = data.group.ID;
+            groupDetails.current = data.group;
 
             return data.group;
         }
         return { messages: [], members: [] };
-    }, [ data ]);
+    }, [ data, groupDetails ]);
 
     const friendshipDate = useMemo(() => {
         if(chatDetails.createdAt) return moment(new Date(parseInt(chatDetails.createdAt))).format("DD-MM-YYYY");

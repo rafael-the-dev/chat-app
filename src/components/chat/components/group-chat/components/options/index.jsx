@@ -1,9 +1,10 @@
 import { useCallback, useMemo, useState } from "react"
-import { IconButton, List, ListItem, ListItemButton, ListItemText, Popover } from "@mui/material"
+import { IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Popover } from "@mui/material"
 import classNames from "classnames"
-//import { useMutation } from "@apollo/client"
+import { useRouter } from "next/router"
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import LeaveGroupButton from "./components/leave-group"
 
@@ -12,6 +13,7 @@ import LeaveGroupButton from "./components/leave-group"
 
 const Menu = ({ groupID }) => {
     //const { loggedUser } = useContext(LoginContext)
+    const router = useRouter();
 
     const [ anchorEl, setAnchorEl] = useState(null);
 
@@ -33,6 +35,12 @@ const Menu = ({ groupID }) => {
         />
     ), [ groupID, handleClose ])
 
+    const groupDetailsHandler = useCallback(() => {
+        const { asPath } = router;
+        handleClose();
+        router.push(`${asPath}&gd=${groupID.current}`)
+    }, [ groupID, handleClose, router ]);
+
     return (
         <>
             <IconButton className="" onClick={handleClick}>
@@ -50,6 +58,16 @@ const Menu = ({ groupID }) => {
                 }}
             >
                 <List className={classNames("py-0 w-[200px]")}>
+                <ListItem 
+                    disablePadding 
+                    onClick={groupDetailsHandler}>
+                    <ListItemButton>
+                        <ListItemText  
+                            className=""
+                            primary="Details" 
+                        />
+                    </ListItemButton>
+                </ListItem>
                     { leaveGroupButton }
                 </List>
             </Popover>
