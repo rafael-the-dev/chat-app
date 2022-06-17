@@ -15,7 +15,7 @@ import { ChatContextProvider, ForwardMessageProvider } from 'src/context';
 
 const Home = () => {
     const router = useRouter();
-    const { tab } = router.query;
+    const { gd, tab } = router.query;
 
     //const { feedbacksList, getInitialsNameLetters } = useContext(AppContext);
     //const { logout, user } = useContext(LoginContext);

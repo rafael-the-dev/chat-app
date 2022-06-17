@@ -1,44 +1,57 @@
-import { Avatar, Drawer, Typography } from "@mui/material"
-import { useCallback, useContext, useEffect, useMemo, useState } from "react"
-import { useRouter } from "next/router"
+import { Avatar, Drawer, IconButton, Typography } from "@mui/material"
+import { useContext, useMemo } from "react"
 import classNames from "classnames"
 import classes from "./styles.module.css"
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import { AppContext } from "src/context";
 
-const GroupDetails = () => {
-    const router = useRouter();
-    const { gd } = router.query;
-
-    const { groupDetails } = useContext(AppContext)
-    const [ open, setOpen ] = useState(false);
+const GroupDetails = ({ close, group, openDrawer }) => {
+    const { serverPublicURL } = useContext(AppContext)
 
     const details = useMemo(() => {
-        if(Boolean(groupDetails.current) && Boolean(gd)) return groupDetails.current;
+        if(Boolean(openDrawer) && Boolean(group)) return group;
 
-        return { admin: "", name: "", members: [] };
-    }, [ gd, groupDetails ]);
+        return { admin: "", image: "", name: "", members: [] };
+    }, [ openDrawer, group ]);
 
-    const close = useCallback(() => setOpen(false), [])
+    /*const close = () => {
+        /*console.log("onClose")
+        const { pathname } = router;
+        let query = `${pathname}?tab=${router.query.tab}`;
+        Object.entries(router.query).forEach(tuple => {
+            const key = tuple[0];
+            const value = tuple[1];
 
-    useEffect(() => {
-        if(Boolean(groupDetails.current) && Boolean(gd)) {
-            setOpen(true);
-        }
-    }, [ gd, groupDetails ])
+            if(key !== "tab" && key !== "gd") {
+                query += `&${key}=${value}`;
+            }
+        });
+
+        groupDetails.current = null;
+        //openDrawer(false);
+    };//, [ router ])*/
 
     return (
         <Drawer
             anchor="right"
-            open={open}
+            id="group-details-drawer"
+            open={openDrawer}
             onClose={close}
             classes={{ paper: classes.drawerPaper, root: classes.drawerRoot }}
             >
-            <div className={classNames("flex flex-col h-full items-center px-5 py-8", classes.drawerContent)}>
+            <div className={classNames("flex flex-col h-full items-center px-5")}>
+                <div className="-ml-4 mb-8 pt-3 w-full">
+                    <IconButton onClick={close}>
+                        <ArrowBackIcon />
+                    </IconButton>
+                </div>
                 <Avatar 
                     alt={details.name}
                     className=""
                     imgProps={{ loading: "lazy" }}
-                    src={`${details.image}`}
+                    src={details.image ? `${serverPublicURL.current}/${details.image}` : ""}
                 />
                 <Typography 
                     className="font-bold text-xl"

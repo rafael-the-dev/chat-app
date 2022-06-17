@@ -24,7 +24,7 @@ import Sidebar from "./components/sidebar"
 
 const GroupChatContainer = () => {
     const router = useRouter();
-    const { id } = router.query;
+    const { id, gd } = router.query;
 
     const sendGroupMessageMutation = useMutation(SEND_GROUP_MESSAGE);
     const readGroupMessageMutation = useMutation(READ_GROUP_MESSAGE);
@@ -59,12 +59,11 @@ const GroupChatContainer = () => {
         if(data) {
             currentDate.current = "";
             chatIDRef.current = data.group.ID;
-            groupDetails.current = data.group;
 
             return data.group;
         }
         return { messages: [], members: [] };
-    }, [ data, groupDetails ]);
+    }, [ data ]);
 
     const friendshipDate = useMemo(() => {
         if(chatDetails.createdAt) return moment(new Date(parseInt(chatDetails.createdAt))).format("DD-MM-YYYY");
@@ -72,7 +71,7 @@ const GroupChatContainer = () => {
     }, [ chatDetails ]);
     
     const inviteUserButton = useMemo(() => <InviteUserButton group={chatDetails} />, [ chatDetails ]);
-    const menuButton = useMemo(() => <Menu groupID={chatIDRef} />, [])
+    const menuButton = useMemo(() => <Menu group={chatDetails} groupID={chatIDRef} />, [ chatDetails ])
 
     useEffect(() => {
         if(Boolean(data) && mainRef.current) {
