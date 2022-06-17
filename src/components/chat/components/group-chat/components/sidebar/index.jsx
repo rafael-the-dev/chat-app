@@ -8,10 +8,8 @@ import classes from "./styles.module.css"
 const Sidebar = ({ group }) => {
     const id = useId();
 
-    console.log(group.members)
-
     return (
-        <aside className={classNames(classes.sidebar, `px-3 pt-4`)}>
+        <aside className={classNames(classes.sidebar, `h-full px-3 pt-4 pb-32 overflow-y-auto`)}>
             <section className={classNames(classes.adminsSection, `border-b border-solid`)}>
                 <Typography 
                     component="h2" 
