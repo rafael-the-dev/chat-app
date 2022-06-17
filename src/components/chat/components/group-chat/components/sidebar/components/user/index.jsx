@@ -2,6 +2,7 @@ import { Avatar, Typography } from "@mui/material"
 import { useContext, useMemo } from "react"
 import classNames from 'classnames';
 
+import classes from "./styles.module.css"
 import { AppContext } from "src/context"
 
 import CircleIcon from '@mui/icons-material/Circle';
@@ -28,7 +29,7 @@ const User = ({ username }) => {
                 component="h2">
                 { groupMember.name }
             </Typography>
-            <CircleIcon className={classNames("text-[.5rem]", groupMember.isOnline ? "text-green-500" : "text-red-500")} />
+            <CircleIcon className={classNames(classes.availabilityIcon, groupMember.isOnline ? "text-green-500" : "text-red-500")} />
         </li>
     );
 };
