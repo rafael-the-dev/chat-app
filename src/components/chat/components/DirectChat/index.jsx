@@ -2,7 +2,7 @@ import Head from "next/head"
 import Link from "next/link"
 import React, { useCallback, useContext, useEffect, useMemo, useRef } from "react"
 import { useRouter } from "next/router"
-import { IconButton, Typography } from "@mui/material"
+import { Hidden, IconButton, Typography } from "@mui/material"
 import { useMutation } from "@apollo/client"
 import moment from 'moment'
 import classNames from 'classnames'
@@ -15,8 +15,8 @@ import { useDirectChatQuery, useUserQuery } from "src/hooks"
 import { getOnlyDate } from "src/helpers"
 
 import { READ_DIRECT_MESSAGE, SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
-import { GET_DIRECTS_CHAT } from "src/graphql/queries"
 import MessageCard from '../message-card'
+import Sidebar from "./components/sidebar"
 
 const DirectChatContainer = () => {
     const router = useRouter();
@@ -143,63 +143,68 @@ const DirectChatContainer = () => {
     
     return (
         <div 
-            className={classNames("flex flex-col grow h-screen items-stretch pb-[5rem] md:relative md:w-full")}>
+            className={classNames("flex grow items-stretch h-screen")}>
             <Head>
                 <meta name="theme-color" content="#2597BB" />
                 <title>{ destinatary.name } | Chat</title>
             </Head>
-            <header className="bg-cyan-700 py-2 fixed left-0 top-0 w-full z-10 md:absolute">
-                <div className="flex items-center">
-                    <Link href="/?tab=chat">
-                        <a>
-                            <IconButton>
-                                <ArrowBackIcon className="text-slate-100" />
-                            </IconButton>
-                        </a>
-                    </Link>
-                    <div className="flex flex-col">
-                        <Typography 
-                            className="text-slate-100" 
-                            component="h1">
-                            { destinatary.name }
-                        </Typography>
-                        <Typography 
-                            className="mt-1 text-slate-300" 
-                            component="p">
-                            { destinatary.isOnline ? "online" : "offline" }
-                        </Typography>
+            <div className="flex flex-col grow items-stretch pb-[5rem] md:relative">
+                <header className="bg-cyan-700 py-2 fixed left-0 top-0 w-full z-10 md:absolute">
+                    <div className="flex items-center">
+                        <Link href="/?tab=chat">
+                            <a>
+                                <IconButton>
+                                    <ArrowBackIcon className="text-slate-100" />
+                                </IconButton>
+                            </a>
+                        </Link>
+                        <div className="flex flex-col">
+                            <Typography 
+                                className="text-slate-100" 
+                                component="h1">
+                                { destinatary.name }
+                            </Typography>
+                            <Typography 
+                                className="mt-1 text-slate-300" 
+                                component="p">
+                                { destinatary.isOnline ? "online" : "offline" }
+                            </Typography>
+                        </div>
                     </div>
-                </div>
-            </header>
-            <main className="flex h-full items-stretch flex-col chat__main" ref={mainRef}>
-                <div className="grow pt-4 px-6">
-                    <div>
-                        <Typography className="text-center" component="h2">
-                            Friends since<br />{ friendshipDate }
-                        </Typography>
-                    </div>
-                    <div className="flex flex-col items-stretch px-4 pt-6">
-                        {
-                            chatDetails.messages.map((item, index) => {
-                                if(isDateChanged(item.createdAt)) {
-                                    return (
-                                        <div className="flex flex-col items-stretch" key={index}>
-                                            <div className="flex justify-center mb-4">
-                                                <Typography className="font-semibold">
-                                                    { getOnlyDate(new Date(parseInt(item.createdAt))) }
-                                                </Typography>
+                </header>
+                <main className="flex h-full items-stretch flex-col chat__main" ref={mainRef}>
+                    <div className="grow pt-4 px-6">
+                        <div>
+                            <Typography className="text-center" component="h2">
+                                Friends since<br />{ friendshipDate }
+                            </Typography>
+                        </div>
+                        <div className="flex flex-col items-stretch px-4 pt-6">
+                            {
+                                chatDetails.messages.map((item, index) => {
+                                    if(isDateChanged(item.createdAt)) {
+                                        return (
+                                            <div className="flex flex-col items-stretch" key={index}>
+                                                <div className="flex justify-center mb-4">
+                                                    <Typography className="font-semibold">
+                                                        { getOnlyDate(new Date(parseInt(item.createdAt))) }
+                                                    </Typography>
+                                                </div>
+                                                <MessageCard { ...item } chatIDRef={chatIDRef} isDirectChat dest={dest} message={item} />
                                             </div>
-                                            <MessageCard { ...item } chatIDRef={chatIDRef} isDirectChat dest={dest} message={item} />
-                                        </div>
-                                    );
-                                }
-                                return <MessageCard key={index} { ...item } chatIDRef={chatIDRef} isDirectChat dest={dest} message={item} />
-                            })
-                        }
+                                        );
+                                    }
+                                    return <MessageCard key={index} { ...item } chatIDRef={chatIDRef} isDirectChat dest={dest} message={item} />
+                                })
+                            }
+                        </div>
                     </div>
-                </div>
-                { textfieldContainer }
-            </main>
+                    { textfieldContainer }
+                </main>
+            </div>
+            <Hidden mdDown>
+                <Sidebar group={chatDetails} />
+            </Hidden>
         </div>
     );
 };

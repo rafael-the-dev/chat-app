@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import { useId } from "react"
 import classNames from "classnames"
 
-import UserCard from "./components/user"
+import UserCard from "src/components/chat/components/user-card"
 import classes from "./styles.module.css"
 
 const Sidebar = ({ group }) => {
