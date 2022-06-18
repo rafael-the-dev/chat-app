@@ -7,6 +7,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { AppContext } from "src/context";
 
+import Card from "./components/card"
+
 const GroupDetails = ({ close, group, openDrawer }) => {
     const { serverPublicURL } = useContext(AppContext)
 
@@ -16,23 +18,6 @@ const GroupDetails = ({ close, group, openDrawer }) => {
         return { admin: "", image: "", name: "", members: [] };
     }, [ openDrawer, group ]);
 
-    /*const close = () => {
-        /*console.log("onClose")
-        const { pathname } = router;
-        let query = `${pathname}?tab=${router.query.tab}`;
-        Object.entries(router.query).forEach(tuple => {
-            const key = tuple[0];
-            const value = tuple[1];
-
-            if(key !== "tab" && key !== "gd") {
-                query += `&${key}=${value}`;
-            }
-        });
-
-        groupDetails.current = null;
-        //openDrawer(false);
-    };//, [ router ])*/
-
     return (
         <Drawer
             anchor="right"
@@ -41,8 +26,8 @@ const GroupDetails = ({ close, group, openDrawer }) => {
             onClose={close}
             classes={{ paper: classes.drawerPaper, root: classes.drawerRoot }}
             >
-            <div className={classNames("flex flex-col h-full items-center px-5")}>
-                <div className="-ml-4 mb-8 pt-3 w-full">
+            <div className={classNames("flex flex-col h-full items-center")}>
+                <div className="mb-8 pt-3 w-full">
                     <IconButton onClick={close}>
                         <ArrowBackIcon />
                     </IconButton>
@@ -63,9 +48,11 @@ const GroupDetails = ({ close, group, openDrawer }) => {
                     component="p">
                     { details.description }
                 </Typography>
-                <ul>
+                <ul className="mt-6 w-full">
                     {
-
+                        details.members.map(member => (
+                            <Card key={member} admin={details.admin} username={member} />
+                        ))
                     }
                 </ul>
             </div>

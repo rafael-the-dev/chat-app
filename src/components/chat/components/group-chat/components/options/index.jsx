@@ -1,16 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Popover } from "@mui/material"
+import { useCallback, useMemo, useState } from "react"
+import { IconButton, List, ListItem, ListItemButton, ListItemText, Popover } from "@mui/material"
 import classNames from "classnames"
-import { useRouter } from "next/router"
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import SettingsIcon from '@mui/icons-material/Settings';
 
 import LeaveGroupButton from "./components/leave-group"
 import GroupDetails from "src/components/group-details"
-
-//import { useContext } from "react";
-//import { LoginContext } from "src/context";
 
 const Menu = ({ group, groupID }) => {
     console.log("hello rafael tivane")
@@ -43,14 +38,6 @@ const Menu = ({ group, groupID }) => {
     const groupDetailsHandler = useCallback(() => {
         setProperties(props => ({ ...props, anchorEl: null, openGroupDetailsDrawer: true }));
     }, [ ]);
-
-    /*useEffect(() => {
-        if(!openPopover && openGroupDetails.current) {
-            openGroupDetails.current = false;
-            const { asPath } = router;
-            router.push(`${asPath}&gd=${groupID.current}`)
-        }
-    }, [ groupID, openPopover, router ])*/
 
     return (
         <>
