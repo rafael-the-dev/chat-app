@@ -8,7 +8,6 @@ import LeaveGroupButton from "./components/leave-group"
 import GroupDetails from "src/components/group-details"
 
 const Menu = ({ group, groupID }) => {
-    console.log("hello rafael tivane")
     const [ properties, setProperties ] = useState({ anchorEl: null, openGroupDetailsDrawer: false })
     const { anchorEl, openGroupDetailsDrawer } = properties;
 
@@ -26,7 +25,6 @@ const Menu = ({ group, groupID }) => {
 
     const openPopover = Boolean(anchorEl);
     const id = openPopover ? 'group-menu-popover' : undefined;
-    console.log(openPopover, id)
 
     const leaveGroupButton = useMemo(() => (
         <LeaveGroupButton 

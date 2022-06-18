@@ -33,12 +33,12 @@ const Card = ({ admin, username }) => {
                     />
                     <div className="flex flex-col grow items-stretch ml-3">
                         <Typography 
-                            className={classNames("")} 
+                            className={classNames("overflow-hidden text-ellipsis whitespace-nowrap w-[200px]")} 
                             component="h3">
                             { userDetails.name }
                         </Typography>
                         <Typography 
-                            className={classNames("")} 
+                            className={classNames("text-sm overflow-hidden text-ellipsis whitespace-nowrap w-[200px]")} 
                             component="p">
                             { userDetails.username }
                         </Typography>
