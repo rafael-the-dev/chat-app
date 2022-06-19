@@ -5,7 +5,7 @@ import classes from "./styles.module.css"
 
 import Button from "../send-button"
 
-const Form = () => {
+const Form = ({ username }) => {
     const [ value, setValue ] = useState("");
 
     const changeHandler = useCallback(event => setValue(event.target.value), [])
@@ -23,7 +23,7 @@ const Form = () => {
     return (
         <form className="mt-3">
             { textField }
-            <Button value={value} />
+            <Button username={username} value={value} />
         </form>
     );
 };

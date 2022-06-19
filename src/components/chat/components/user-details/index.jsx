@@ -30,7 +30,7 @@ const UserDetails = ({ clickHandler, username }) => {
         return { image: "", name: "", username: "" }
     }, [getUsersList,  username ]);
 
-    const form = useMemo(() => <Form />, []);
+    const form = useMemo(() => <Form username={userDetails.username} />, []);
 
     const handleClose = useCallback(event => {
         event.stopPropagation();
