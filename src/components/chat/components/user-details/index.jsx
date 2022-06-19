@@ -4,13 +4,13 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
-import { AppContext } from "src/context";
+import { AppContext, LoginContext } from "src/context";
 
 import Form from "./components/form"
 
 const UserDetails = ({ clickHandler, username }) => {
     const { getUsersList, serverPublicURL } = useContext(AppContext);
-    //const { loggedUser } = useContext(LoginContext)
+    const { loggedUser } = useContext(LoginContext)
     const [ anchorEl, setAnchorEl ] = useState(null);
 
     const openPopover = Boolean(anchorEl);
@@ -38,8 +38,12 @@ const UserDetails = ({ clickHandler, username }) => {
     }, []);
 
     useEffect(() => {
-        clickHandler.current = event => setAnchorEl(event.currentTarget);
-    }, [ clickHandler ])
+        clickHandler.current = event => {
+            if(loggedUser.username !== username) {
+                setAnchorEl(event.currentTarget);
+            }
+        }
+    }, [ clickHandler, loggedUser, username ])
 
     return (
         <Popover
