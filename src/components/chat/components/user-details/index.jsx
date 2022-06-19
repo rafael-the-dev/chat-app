@@ -6,6 +6,8 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 import { AppContext } from "src/context";
 
+import Form from "./components/form"
+
 const UserDetails = ({ clickHandler, username }) => {
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     //const { loggedUser } = useContext(LoginContext)
@@ -28,6 +30,8 @@ const UserDetails = ({ clickHandler, username }) => {
         return { image: "", name: "", username: "" }
     }, [getUsersList,  username ]);
 
+    const form = useMemo(() => <Form />, []);
+
     const handleClose = useCallback(event => {
         event.stopPropagation();
         setAnchorEl(null);
@@ -36,8 +40,6 @@ const UserDetails = ({ clickHandler, username }) => {
     useEffect(() => {
         clickHandler.current = event => setAnchorEl(event.currentTarget);
     }, [ clickHandler ])
-
-    console.log(openPopover, anchorEl)
 
     return (
         <Popover
@@ -52,14 +54,13 @@ const UserDetails = ({ clickHandler, username }) => {
             }}
         >
             <article className="flex">
-                <div className="h-[170px] relative w-[170px]">
                     <Image 
                         alt={userDetails.name}
-                        layout="fill"
+                        height={170}
                         loader={myLoader}
                         src={userDetails.image ? `${serverPublicURL.current}/${userDetails.image}` : imageURL }
+                        width={170}
                     />
-                </div>
                 <div className="p-2">
                     <div className="flex items-center justify-between">
                         <div>
@@ -78,6 +79,7 @@ const UserDetails = ({ clickHandler, username }) => {
                             <PersonAddAltIcon className="text-cyan-500" />
                         </IconButton>
                     </div>
+                    { form }
                 </div>
             </article>
         </Popover>
