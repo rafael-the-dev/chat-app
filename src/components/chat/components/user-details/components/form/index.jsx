@@ -1,7 +1,9 @@
-import { Button, TextField } from "@mui/material"
+import { TextField } from "@mui/material"
 import { useCallback, useMemo, useState } from "react"
 
 import classes from "./styles.module.css"
+
+import Button from "../send-button"
 
 const Form = () => {
     const [ value, setValue ] = useState("");
@@ -21,12 +23,7 @@ const Form = () => {
     return (
         <form className="mt-3">
             { textField }
-            <Button
-                className="mt-3"
-                disabled={!Boolean(value.trim())}
-                variant="contained">
-                Send
-            </Button>
+            <Button value={value} />
         </form>
     );
 };
