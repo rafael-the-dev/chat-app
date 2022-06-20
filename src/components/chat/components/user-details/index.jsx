@@ -15,7 +15,7 @@ const UserDetails = ({ clickHandler, username }) => {
 
     const openPopover = Boolean(anchorEl);
     const id = openPopover ? `${username}-details-popover` : undefined;
-    
+
     const imageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfgJ0SYGF5qAueA_nbIYvUB58DCZ2KG-DkYA&usqp=CAU";
 
     const myLoader=({src})=>{
@@ -63,6 +63,7 @@ const UserDetails = ({ clickHandler, username }) => {
                         height={170}
                         loader={myLoader}
                         src={userDetails.image ? `${serverPublicURL.current}/${userDetails.image}` : imageURL }
+                        unoptimized={true}
                         width={170}
                     />
                 <div className="p-2">
