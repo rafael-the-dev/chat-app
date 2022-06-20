@@ -57,6 +57,7 @@ export const SEND_DIRECT_MESSAGE = gql`
                 sender
                 text
             }
+            users
         }
     }
 `;
