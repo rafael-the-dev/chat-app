@@ -20,7 +20,7 @@ const DirectChatHome = () => {
 
     const directChats = useMemo(() => {
         if(getDirectChats()) {
-            const chats = [ ...getDirectChats() ];
+            const chats = [ ...getDirectChats().filter(chat => chat.messages.length > 0) ];
 
             const sortedData = chats.sort((a, b) => {
                 const aDate = new Date(parseInt(a.messages[a.messages.length - 1].createdAt));

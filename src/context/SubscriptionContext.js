@@ -9,7 +9,7 @@ SubscriptionContext.displayName = "SubscriptionContext";
 export const SubscriptionContextProvider = ({ children }) => {
     const { loggedUser } = useContext(LoginContext);
 
-    const userResult = useUserQuery();
+    const userResult = useUserQuery(loggedUser.username);
     const result = useUsersQuery(loggedUser);
     const friendshipsResult = useFriendshipsQuery(loggedUser);
     const friendshipInvitationsResult = useFriendshipsInvitationsQuery(loggedUser);
