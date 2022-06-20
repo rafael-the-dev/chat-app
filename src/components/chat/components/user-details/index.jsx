@@ -9,13 +9,13 @@ import { AppContext, LoginContext } from "src/context";
 import Form from "./components/form"
 
 const UserDetails = ({ clickHandler, username }) => {
-    const { getUsersList, serverPublicURL } = useContext(AppContext);
+    const { getFriendshipInvitationsList, getUsersList, serverPublicURL } = useContext(AppContext);
     const { loggedUser } = useContext(LoginContext)
     const [ anchorEl, setAnchorEl ] = useState(null);
 
     const openPopover = Boolean(anchorEl);
     const id = openPopover ? `${username}-details-popover` : undefined;
-
+    
     const imageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfgJ0SYGF5qAueA_nbIYvUB58DCZ2KG-DkYA&usqp=CAU";
 
     const myLoader=({src})=>{
@@ -28,7 +28,7 @@ const UserDetails = ({ clickHandler, username }) => {
         if(result) return result;
 
         return { image: "", name: "", username: "" }
-    }, [getUsersList,  username ]);
+    }, [ getUsersList,  username ]);
 
     const form = useMemo(() => <Form username={userDetails.username} />, []);
 
