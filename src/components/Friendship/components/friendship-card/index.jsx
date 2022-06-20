@@ -14,6 +14,7 @@ import { REJECT_FRIENDSHIP_INVITATION } from "src/graphql/mutations";
 import { GET_FRIENDSHIPS_INVITATIONS } from "src/graphql/queries";
 
 import Input from "./components/Input"
+import DeleteFriendshipListItem from "./components/delete-friendship"
 
 const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
     const router = useRouter();
@@ -50,7 +51,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
     }, [ router, username ]);
 
     const inputMemo = useMemo(() => <Input closeInput={toggleExpanded(false)} />, [ toggleExpanded ])
-
+    const deleteFriendshipListItem = useMemo(() => <DeleteFriendshipListItem username={username} />, [ username ])
 
     return (
         <li className={classNames(classes.card, `flex flex-col pt-3 pb-2 last:border-0`)}>
@@ -126,17 +127,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                             />
                         </ListItemButton>
                     </ListItem>
-                    <ListItem 
-                        disablePadding 
-                        onClick={listItemClickHandler()} 
-                        className={classNames()}>
-                        <ListItemButton>
-                            <ListItemText 
-                                className={classNames('text-red-500')} 
-                                primary="Delete" 
-                            />
-                        </ListItemButton>
-                    </ListItem>
+                    { deleteFriendshipListItem }
                 </List>
             </Popover>
         </li>

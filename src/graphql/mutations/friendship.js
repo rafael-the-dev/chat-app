@@ -9,6 +9,12 @@ export const ACCEPT_FRIENDSHIP_INVITATION = gql`
     }
 `;
 
+export const DELETE_FRIENDSHIP = gql`
+    mutation DeleteFriendship($username: String!) {
+        deleteFriendship(username: $username)
+    }
+`;
+
 export const REJECT_FRIENDSHIP_INVITATION = gql`
     mutation RejectFriendshipInvitation($id: String!) {
         rejectFriendshipInvitation(id: $id) {
