@@ -9,7 +9,7 @@ import { AppContext, LoginContext } from "src/context";
 import Form from "./components/form"
 
 const UserDetails = ({ clickHandler, username }) => {
-    const { getFriendshipInvitationsList, getUsersList, serverPublicURL } = useContext(AppContext);
+    const { getFriendshipsList, getFriendshipInvitationsList, getUsersList, serverPublicURL } = useContext(AppContext);
     const { loggedUser } = useContext(LoginContext)
     const [ anchorEl, setAnchorEl ] = useState(null);
 
@@ -30,7 +30,12 @@ const UserDetails = ({ clickHandler, username }) => {
         return { image: "", name: "", username: "" }
     }, [ getUsersList,  username ]);
 
-    const form = useMemo(() => <Form username={userDetails.username} />, []);
+    const isMyFriend = useMemo(() => {
+        const result = getFriendshipsList().find(user => user.username === username);
+        return Boolean(result);
+    }, [ getFriendshipsList, username ]);
+
+    const form = useMemo(() => <Form username={userDetails.username} />, [ userDetails ]);
 
     const handleClose = useCallback(event => {
         event.stopPropagation();
@@ -80,9 +85,9 @@ const UserDetails = ({ clickHandler, username }) => {
                                 @{ userDetails.username }
                             </Typography>
                         </div>
-                        <IconButton>
+                        { !isMyFriend && <IconButton>
                             <PersonAddAltIcon className="text-cyan-500" />
-                        </IconButton>
+                        </IconButton> }
                     </div>
                     { form }
                 </div>

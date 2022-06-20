@@ -62,7 +62,7 @@ const SendButton = ({ handler, inputRef, setValue, username, value }) => {
                 console.error(error);
             }
         })
-    }, [ chatID, inputRef, sendMutation, username ]);
+    }, [ chatID, inputRef, setValue, sendMutation, username ]);
 
     useEffect(() => {
         valueRef.current = value;
