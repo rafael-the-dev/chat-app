@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useMemo, useRef } from 'react'
 
-import { useDirectChatsQuery, useUserQuery, useUsersQuery, useFriendshipsQuery, useFriendshipsInvitationsQuery } from 'src/hooks';
+import { useDirectChatsQuery, useLoggedUserQuery, useUsersQuery, useFriendshipsQuery, useFriendshipsInvitationsQuery } from 'src/hooks';
 import { LoginContext } from './LoginContext';
 
 export const SubscriptionContext = createContext();
@@ -9,11 +9,13 @@ SubscriptionContext.displayName = "SubscriptionContext";
 export const SubscriptionContextProvider = ({ children }) => {
     const { loggedUser } = useContext(LoginContext);
 
-    const userResult = useUserQuery(loggedUser.username);
+    //const userResult = useUserQuery(loggedUser.username);
+    const userResult = useLoggedUserQuery();
     const result = useUsersQuery(loggedUser);
-    const friendshipsResult = useFriendshipsQuery(loggedUser);
-    const friendshipInvitationsResult = useFriendshipsInvitationsQuery(loggedUser);
-    const directChatsResult = useDirectChatsQuery({ loggedUser });
+    const { subscribeToMore } = userResult;
+    const friendshipsResult = useFriendshipsQuery({ subscribeToMore });
+    const friendshipInvitationsResult = useFriendshipsInvitationsQuery({ subscribeToMore });
+    const directChatsResult = useDirectChatsQuery({ subscribeToMore });
 
     //const groupsListRef = useRef([]);
     const userOldProperties = useRef({ 
@@ -53,8 +55,6 @@ export const SubscriptionContextProvider = ({ children }) => {
     
     const userProperties = useMemo(() => {
         const data = result.data;
-        const friendshipInvitationsData = friendshipInvitationsResult.data;
-        const friendshipsData = friendshipsResult.data;
         const userData = userResult.data;
 
         let properties = {};
@@ -72,26 +72,13 @@ export const SubscriptionContextProvider = ({ children }) => {
         }
 
         if(userData) {
-            properties = { ...properties, groupsInvitations: userData.user.groupsInvitations };   
-        }
-        
-        if(friendshipInvitationsData) {
-            properties = { ...properties, friendshipInvitations: friendshipInvitationsData.friendshipInvitations };
-        }
-
-        if(friendshipsData) {
-            properties = { ...properties, friendships: friendshipsData.friendships };
-        }
-
-        const directChatsData = directChatsResult.data;
-        if(directChatsData) {
-            properties = { ...properties, directChats: directChatsData.directChats };
+            properties = { ...properties, ...userData.loggedUser };   
         }
 
         const newUserProperties = { ...userOldProperties.current, ...properties };
         userOldProperties.current = newUserProperties;
         return newUserProperties;
-    }, [ directChatsResult, friendshipsResult, friendshipInvitationsResult, getColor, result, userResult ]);
+    }, [ getColor, result, userResult ]);
 
     const getBgColors = useCallback(() => userProperties.usersColors, [ userProperties ]);
     const getDirectChats = useCallback(() => userProperties.directChats, [ userProperties ]);

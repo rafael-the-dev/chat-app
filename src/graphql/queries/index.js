@@ -143,6 +143,73 @@ export const GET_FRIENDSHIPS = gql`
     }
 `;
 
+export const GET_LOGGED_USER_DETAILS = gql`
+    query getLoggedUserDetails {
+        loggedUser {
+            directChats {
+                ID
+                datetime
+                messages {
+                    createdAt
+                    ID
+                    isDeleted
+                    isForwarded
+                    image
+                    isRead
+                    reply {
+                        createdAt
+                        ID
+                        image
+                        sender
+                        text
+                    }
+                    sender
+                    text
+                }
+                users
+            }
+            friendships {
+                image
+                isOnline
+                name
+                username
+            }
+            groups {
+                ID
+                image
+                invitations {
+                    createdAt
+                    ID
+                    sender
+                    target
+                }
+                name
+                messages {
+                    createdAt
+                    ID
+                    isDeleted
+                    isRead {
+                        isRead
+                        username
+                    }
+                    text
+                }
+            }
+            groupsInvitations {
+                ID
+                createdAt
+                name
+                groupID
+                sender
+            }
+            image
+            isOnline
+            name
+            username
+        }
+    }
+`;
+
 export const GET_USER = gql`
     query getUser($username: String!) {
         user(username: $username) {

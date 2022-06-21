@@ -5,12 +5,12 @@ import { LoginContext } from "src/context/LoginContext"
 import { GET_FRIENDSHIPS } from 'src/graphql/queries';
 import { FRIENDSHIP_INVITATION_ACCEPTED } from 'src/graphql/subscriptions';
 
-export const useFriendshipsQuery = (loggedUser) => {
-    const { user } = useContext(LoginContext);
+export const useFriendshipsQuery = ({ subscribeToMore }) => {
+    const { loggedUser, user } = useContext(LoginContext);
     const username = useMemo(() => loggedUser ? loggedUser.username : "", [ loggedUser ]);
 
     const subscription = useSubscription(FRIENDSHIP_INVITATION_ACCEPTED, { variables: { id: username }})
-    const [ getFriendshipsList, { data, loading, error, subscribeToMore } ] = useLazyQuery(GET_FRIENDSHIPS)
+    //const [ getFriendshipsList, { data, loading, error, subscribeToMore } ] = useLazyQuery(GET_FRIENDSHIPS)
 
     useEffect(() => {
         if(Boolean(user)) {
@@ -25,7 +25,8 @@ export const useFriendshipsQuery = (loggedUser) => {
 
                     if(user.username === friendshipStatus.sender.username) friendships.push(friendshipStatus.receiver);
                     else friendships.push(friendshipStatus.sender);
-
+                    console.log(prev)
+                    console.log(friendships)
                     return Object.assign({}, prev, {
                         friendships
                     });
@@ -33,16 +34,8 @@ export const useFriendshipsQuery = (loggedUser) => {
             });
         }
     }, [ user, subscribeToMore, username ]); 
-
-    
   
-    useEffect(() => {
-        if(Boolean(user)) {
-            //getFriendshipsList()
-        }
-    }, [ getFriendshipsList, user ]);
-  
-    return { data, loading, error };
+    //return { data, loading, error };
 };
 
 export default useFriendshipsQuery;
