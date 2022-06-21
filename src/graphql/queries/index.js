@@ -174,6 +174,17 @@ export const GET_LOGGED_USER_DETAILS = gql`
                 name
                 username
             }
+            friendshipInvitations {
+                ID
+                active
+                description
+                datetime
+                sender {
+                    image
+                    name
+                    username
+                }
+            }
             groups {
                 ID
                 image
