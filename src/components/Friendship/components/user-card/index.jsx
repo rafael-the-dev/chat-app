@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import classes from './styles.module.css'
 import { useMutation} from "@apollo/client"
+import CircularProgress from '@mui/material/CircularProgress';
 
 import Input from "./components/input"
 
@@ -15,17 +16,18 @@ const Container = ({ image, name, username }) => {
     const sendInvitationMutation = useMutation(SEND_FRIENDSHIP_INVITATION);
 
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
-    const [ open, setOpen ] = useState(false);
-    const [ expanded, setExpanded ] = useState(false);
+    const [ states, setStates ] = useState({ expanded: false, isLoading: false, open: false })
+    const { expanded, isLoading, open } = states;
     const valueRef = useRef("");
 
-    const toggleDialog = useCallback(prop => () => setOpen(prop), []);
-    const toggleExpand = useCallback(() => setExpanded(b => !b), []);
+    const toggleDialog = useCallback(prop => () => setStates(props => ({ ...props, open: prop })), []);
+    const toggleExpand = useCallback(() => setStates(props => ({ ...props, expanded: !props.expanded })), []);
 
     const input = useMemo(() => <Input valueRef={valueRef} />, []);
 
     const sendInvitationHandler = useCallback(() => {
         const send = sendInvitationMutation[0];
+        setStates(props => ({ ...props, isLoading: true }))
 
         send({ variables: 
             {
@@ -34,10 +36,11 @@ const Container = ({ image, name, username }) => {
             },
             onCompleted() {
                 valueRef.current = "";
-                setExpanded(false);
+                setStates(props => ({ ...props, isLoading: false, expanded: false }))
             },
             onError(err) {
-                console.log(err)
+                console.log(err);
+                setStates(props => ({ ...props, isLoading: false, expanded: false }))
             }
         })
     }, [ sendInvitationMutation, username ])
@@ -98,7 +101,7 @@ const Container = ({ image, name, username }) => {
                         type="button"
                         className={classNames("capitalize ml-2 sm:mr-4 hover:bg-red-500", )}
                         onClick={sendInvitationHandler}>
-                        Send
+                        { isLoading ? <CircularProgress className="text-blue-600" size={22} /> : "Send" }
                     </Button>    
                 </DialogActions>
             </Dialog>
