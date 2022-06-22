@@ -12,18 +12,18 @@ import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useMutation } from "@apollo/client";
 import { ACCEPT_FRIENDSHIP_INVITATION, REJECT_FRIENDSHIP_INVITATION } from "src/graphql/mutations";
-import { GET_FRIENDSHIPS_INVITATIONS } from "src/graphql/queries";
+import { GET_LOGGED_USER_DETAILS } from "src/graphql/queries";
 
 const FriendshipInvitaitonCard = ({ description, ID, datetime, image, sender }) => {
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
     const [ expanded, setExpanded ] = useState(false);
 
     const acceptFriendshipMutation = useMutation(ACCEPT_FRIENDSHIP_INVITATION, { 
-        refetchQueries: [ GET_FRIENDSHIPS_INVITATIONS ]
+        refetchQueries: [ GET_LOGGED_USER_DETAILS ]
     });
 
     const rejectMutation = useMutation(REJECT_FRIENDSHIP_INVITATION, { 
-        refetchQueries: [ GET_FRIENDSHIPS_INVITATIONS ]
+        refetchQueries: [ GET_LOGGED_USER_DETAILS ]
     });
     
     const toggleExpanded = useCallback(() => setExpanded(b => !b), []);

@@ -20,7 +20,8 @@ export const useFriendshipsQuery = ({ subscribeToMore }) => {
 
                     const friendshipStatus = subscriptionData.data.friendshipInvitationAccepted;
                     const friendships = [ ...prev.loggedUser.friendships ];
-
+                    console.log(friendshipStatus)
+                    console.log(friendships)
                     if(user.username === friendshipStatus.sender.username) friendships.push(friendshipStatus.receiver);
                     else friendships.push(friendshipStatus.sender);
                     

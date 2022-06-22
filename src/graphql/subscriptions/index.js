@@ -32,12 +32,14 @@ export const FRIENDSHIP_INVITATION_ACCEPTED = gql`
             ID
             receiver {
                 image
+                isOnline
                 name
                 username
             }
             status
             sender {
                 image
+                isOnline
                 name
                 username
             }
