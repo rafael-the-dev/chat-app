@@ -19,12 +19,17 @@ export const useFriendshipsQuery = ({ subscribeToMore }) => {
                     if (!subscriptionData.data || !Boolean(user)) return prev;
 
                     const friendshipStatus = subscriptionData.data.friendshipInvitationAccepted;
-                    const friendships = [ ...prev.loggedUser.friendships ];
-                    console.log(friendshipStatus)
-                    console.log(friendships)
-                    if(user.username === friendshipStatus.sender.username) friendships.push(friendshipStatus.receiver);
-                    else friendships.push(friendshipStatus.sender);
-                    
+                    let friendships = [ ...prev.loggedUser.friendships ];
+
+                    if(friendshipStatus.status === "DELETED") {
+                        friendships = [ ...friendships.filter(friend => {
+                            return (friend.username !== friendshipStatus.sender.username) && (friend.username !== friendshipStatus.receiver.username)
+                        })]
+                    } else {
+                        if(user.username === friendshipStatus.sender.username) friendships.push(friendshipStatus.receiver);
+                        else friendships.push(friendshipStatus.sender);
+                    }
+
                     return Object.assign({}, prev, {
                         loggedUser: { ...prev.loggedUser, friendships }
                     });
