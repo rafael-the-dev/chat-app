@@ -1,4 +1,4 @@
-import { Avatar, IconButton, Typography } from "@mui/material";
+import { Alert, Avatar, IconButton, Typography } from "@mui/material";
 import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText } from '@mui/material';
 import { useCallback, useContext, useMemo, useRef, useState } from "react";
 import { AppContext } from "src/context/AppContext";
@@ -10,6 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import Input from "./components/input"
 
+import { closeAlert, openAlert } from "src/helpers/alert"
 import { SEND_FRIENDSHIP_INVITATION } from "src/graphql/mutations"
 
 const Container = ({ image, name, username }) => {
@@ -18,6 +19,9 @@ const Container = ({ image, name, username }) => {
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
     const [ states, setStates ] = useState({ expanded: false, isLoading: false, open: false })
     const { expanded, isLoading, open } = states;
+
+    const successAlert = useRef(null);
+    const errorAlert = useRef(null);
     const valueRef = useRef("");
 
     const toggleDialog = useCallback(prop => () => setStates(props => ({ ...props, open: prop })), []);
@@ -36,10 +40,12 @@ const Container = ({ image, name, username }) => {
             },
             onCompleted() {
                 valueRef.current = "";
+                openAlert(successAlert)();
                 setStates(props => ({ ...props, isLoading: false, expanded: false }))
             },
             onError(err) {
                 console.log(err);
+                openAlert(errorAlert)();
                 setStates(props => ({ ...props, isLoading: false, expanded: false }))
             }
         })
@@ -79,6 +85,23 @@ const Container = ({ image, name, username }) => {
                     Invite { name }
                 </DialogTitle>
                 <DialogContent id="friendship-invitation-dialog-description">
+                    <Alert 
+                        className="hidden mb-3" 
+                        color="error"
+                        ref={errorAlert} 
+                        severity="error" 
+                        onClose={closeAlert(errorAlert)}>
+                        Invitation to { name } not sent!
+                    </Alert>
+                    <Alert 
+                        className="hidden mb-3"
+                        color="info" 
+                        ref={successAlert} 
+                        severity="success"  
+                        onClose={closeAlert(successAlert)}
+                    >
+                        { name } was successfully invited!
+                    </Alert>
                     <DialogContentText id="session-dialog-description">
                         You can add a description to personalize your invitation to 
                         <span className="font-bold ml-2">{username}</span>.
@@ -101,7 +124,7 @@ const Container = ({ image, name, username }) => {
                         type="button"
                         className={classNames("capitalize ml-2 sm:mr-4 hover:bg-red-500", )}
                         onClick={sendInvitationHandler}>
-                        { isLoading ? <CircularProgress className="text-blue-600" size={22} /> : "Send" }
+                        { isLoading ? <CircularProgress className="text-white" size={22} /> : "Send" }
                     </Button>    
                 </DialogActions>
             </Dialog>
