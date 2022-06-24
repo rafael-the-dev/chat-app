@@ -17,7 +17,7 @@ const Container = ({ children }) => {
     const { pathname } = router;
     const { tab } = router.query;
 
-    const { openRefreshTokenDialog, revalidateToken, setOpenRefreshTokenDialog, user } = useContext(LoginContext)
+    const { dialogTimeoutRef, openRefreshTokenDialog, revalidateToken, setOpenRefreshTokenDialog, user } = useContext(LoginContext)
     const { errorMessage, hasError, isLoading } = useContext(AppContext)
 
     const rootRef = useRef(null);
@@ -26,7 +26,12 @@ const Container = ({ children }) => {
     const isLogged = useMemo(() => (![ '/login', '/signup' ].includes(pathname)) && user !== null, [ pathname, user ])
     const pathnameRef = useRef("");
     
-    const closeDialog = useCallback(() => { setOpenRefreshTokenDialog(false)}, [ setOpenRefreshTokenDialog ])
+    const closeDialog = useCallback(() => { 
+        if(dialogTimeoutRef.current) {
+            clearInterval(dialogTimeoutRef.current)
+        }
+        setOpenRefreshTokenDialog(false);
+    }, [ dialogTimeoutRef, setOpenRefreshTokenDialog ])
 
     useEffect(() => {
         if(pathname !== pathnameRef.current) {
@@ -61,7 +66,7 @@ const Container = ({ children }) => {
             rootRef.current.classList.remove("remove-root-bg")
         }
     }, [ tab ])
-
+    console.log(openRefreshTokenDialog)
     //if(!isLogged) return <></>;
 
     return (

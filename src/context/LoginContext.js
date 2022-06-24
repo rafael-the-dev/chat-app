@@ -17,6 +17,7 @@ export const LoginContextProvider = ({ children }) => {
     
     const dialogTimeoutRef = useRef(null);
     const verificationTimeoutRef = useRef(null);
+    const canICheckToken = useRef(true);
 
     const loggedUser = useMemo(() => {
         if(user) return user;
@@ -70,16 +71,21 @@ export const LoginContextProvider = ({ children }) => {
     const router = useRouter();
     const logout = useCallback(() => {
         const logoutUser = logoutMutation[0];
+
+        const exit = () => {
+            localStorage.setItem("__chat-app--token", JSON.stringify({ expiresIn: 0, token: ""}))
+            setUser(null);
+            if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)
+            if(verificationTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
+            router.push("/login");
+        };
+
         logoutUser({
             onCompleted() {
-                localStorage.setItem("__chat-app--token", JSON.stringify({ expiresIn: 0, token: ""}))
-                setUser(null);
-                if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)
-                if(dialogTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
-                router.push("/login")
+                exit();
             },
             onError(error) {
-                console.log(error)
+                exit();
             }
         })
     }, [ logoutMutation, router ]);
@@ -87,8 +93,8 @@ export const LoginContextProvider = ({ children }) => {
     const verifyExpirationTime = useCallback(() => {
         const { expiresIn } = getToken();
         const MS_PER_MINUTE = 60000;
-        
-        if(Date.now() > new Date((expiresIn * 1000) - (2 * MS_PER_MINUTE))) {
+
+        if(Date.now() >= new Date((expiresIn * 1000) - (2 * MS_PER_MINUTE))) {
             logout();
         }
     }, [ getToken, logout ])
@@ -145,16 +151,15 @@ export const LoginContextProvider = ({ children }) => {
     }, [ getToken, verifyExpirationTime ])
     
     useEffect(() => {
-        
-        if(user !== null) checkExpirationToken()
+        if(user !== null) checkExpirationToken();
         return () => {
             if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)
-            if(dialogTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
+            if(verificationTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
         };
     }, [ user, checkExpirationToken ]);
 
     return (
-        <LoginContext.Provider value={{ addUser, loggedUser, logout, openRefreshTokenDialog, revalidateToken, 
+        <LoginContext.Provider value={{ addUser, dialogTimeoutRef, loggedUser, logout, openRefreshTokenDialog, revalidateToken, 
             setOpenRefreshTokenDialog, user }}>
             { children }
         </LoginContext.Provider>
