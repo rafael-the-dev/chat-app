@@ -1,6 +1,4 @@
-import { useCallback, useContext, useState } from 'react'
-import { Avatar, Button, Typography } from '@mui/material'
-import Head from 'next/head';
+import { useContext, } from 'react'
 import classNames from "classnames"
 
 import { AppContext } from "src/context/AppContext";

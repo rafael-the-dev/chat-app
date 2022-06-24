@@ -1,7 +1,7 @@
-import { Alert, Avatar, IconButton, Typography } from "@mui/material";
+import { Alert, Avatar, Chip, IconButton, Typography } from "@mui/material";
 import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText } from '@mui/material';
 import { useCallback, useContext, useMemo, useRef, useState } from "react";
-import { AppContext } from "src/context/AppContext";
+import { AppContext, LoginContext } from "src/context";
 import classNames from 'classnames'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import classes from './styles.module.css'
@@ -12,11 +12,13 @@ import Input from "./components/input"
 
 import { closeAlert, openAlert } from "src/helpers/alert"
 import { SEND_FRIENDSHIP_INVITATION } from "src/graphql/mutations"
+import { GET_LOGGED_USER_DETAILS } from "src/graphql/queries"
 
 const Container = ({ image, name, username }) => {
-    const sendInvitationMutation = useMutation(SEND_FRIENDSHIP_INVITATION);
+    const sendInvitationMutation = useMutation(SEND_FRIENDSHIP_INVITATION, { refetchQueries: [ GET_LOGGED_USER_DETAILS ]});
 
-    const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
+    const { getFriendshipInvitationsList, getInitialsNameLetters, getBgColors } = useContext(AppContext);
+    const { loggedUser } = useContext(LoginContext)
     const [ states, setStates ] = useState({ expanded: false, isLoading: false, open: false })
     const { expanded, isLoading, open } = states;
 
@@ -28,6 +30,13 @@ const Container = ({ image, name, username }) => {
     const toggleExpand = useCallback(() => setStates(props => ({ ...props, expanded: !props.expanded })), []);
 
     const input = useMemo(() => <Input valueRef={valueRef} />, []);
+
+    const hasInvitationSent = useMemo(() => {
+        return getFriendshipInvitationsList().find(invitation => {
+            const filters = [ username, loggedUser.username ];
+            return filters.includes(invitation.sender.username) && filters.includes(invitation.target.username);
+        })
+    }, [ getFriendshipInvitationsList, loggedUser, username ])
 
     const sendInvitationHandler = useCallback(() => {
         const send = sendInvitationMutation[0];
@@ -72,11 +81,17 @@ const Container = ({ image, name, username }) => {
                     @{ username }
                 </Typography>
             </div>
-            <IconButton 
-                className="ml-3"
-                onClick={toggleDialog(true)}>
-                <PersonAddIcon className="opacity-80 text-blue-600" />
-            </IconButton>
+            {
+                hasInvitationSent ? (
+                    <Chip color="primary" label="pending" variant="outlined" />
+                ) : (
+                    <IconButton 
+                        className="ml-3"
+                        onClick={toggleDialog(true)}>
+                        <PersonAddIcon className="opacity-80 text-blue-600" />
+                    </IconButton>
+                )
+            }
             <Dialog
                 open={open}
                 onClose={toggleDialog(false)}
