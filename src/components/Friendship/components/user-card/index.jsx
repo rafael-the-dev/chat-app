@@ -31,6 +31,8 @@ const Container = ({ image, name, username }) => {
 
     const sendInvitationHandler = useCallback(() => {
         const send = sendInvitationMutation[0];
+        closeAlert(errorAlert)();
+        closeAlert(successAlert)();
         setStates(props => ({ ...props, isLoading: true }))
 
         send({ variables: 

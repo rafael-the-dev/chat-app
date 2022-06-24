@@ -184,6 +184,11 @@ export const GET_LOGGED_USER_DETAILS = gql`
                     name
                     username
                 }
+                target {
+                    image
+                    name
+                    username
+                }
             }
             groups {
                 ID

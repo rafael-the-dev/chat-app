@@ -125,6 +125,11 @@ export const FRIENDSHIP_INVITATION_SENT = gql`
                 name
                 username
             }
+            target {
+                image
+                name
+                username
+            }
         }
     }
 `;
