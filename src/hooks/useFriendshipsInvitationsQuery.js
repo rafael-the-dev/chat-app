@@ -19,7 +19,11 @@ export const useFriendshipsInvitationsQuery = ({ subscribeToMore }) => {
                     if (!subscriptionData.data || !Boolean(user)) return prev;
                     
                     const invitation = subscriptionData.data.friendshipInvitationSent;
-                    let friendshipInvitations = [ invitation, ...prev.loggedUser.friendshipInvitations.filter(item => item.sender.username !== invitation.sender.username) ];
+                    let friendshipInvitations = [ ...prev.loggedUser.friendshipInvitations.filter(item => item.sender.username !== invitation.sender.username) ];
+                    
+                    if(invitation.active) {
+                        friendshipInvitations = [ invitation, ...friendshipInvitations ];
+                    }
                     
                     return Object.assign({}, prev, {
                         loggedUser: { ...prev.loggedUser, friendshipInvitations }
