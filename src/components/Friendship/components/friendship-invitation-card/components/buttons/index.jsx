@@ -6,14 +6,11 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMutation } from "@apollo/client";
 import { ACCEPT_FRIENDSHIP_INVITATION, REJECT_FRIENDSHIP_INVITATION } from "src/graphql/mutations";
-import { GET_LOGGED_USER_DETAILS } from "src/graphql/queries";
 
 const AcceptButton = ({ ID }) => {
     const acceptFriendshipMutation = useMutation(ACCEPT_FRIENDSHIP_INVITATION);
 
-    const rejectMutation = useMutation(REJECT_FRIENDSHIP_INVITATION, { 
-        refetchQueries: [ GET_LOGGED_USER_DETAILS ]
-    });
+    const rejectMutation = useMutation(REJECT_FRIENDSHIP_INVITATION);
 
     const [ loading, setLoading ] = useState({ acceptButton: false, rejectButton: false });
 
