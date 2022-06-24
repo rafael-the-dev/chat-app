@@ -9,9 +9,7 @@ import { ACCEPT_FRIENDSHIP_INVITATION, REJECT_FRIENDSHIP_INVITATION } from "src/
 import { GET_LOGGED_USER_DETAILS } from "src/graphql/queries";
 
 const AcceptButton = ({ ID }) => {
-    const acceptFriendshipMutation = useMutation(ACCEPT_FRIENDSHIP_INVITATION, { 
-        refetchQueries: [ GET_LOGGED_USER_DETAILS ]
-    });
+    const acceptFriendshipMutation = useMutation(ACCEPT_FRIENDSHIP_INVITATION);
 
     const rejectMutation = useMutation(REJECT_FRIENDSHIP_INVITATION, { 
         refetchQueries: [ GET_LOGGED_USER_DETAILS ]
