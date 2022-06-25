@@ -12,10 +12,9 @@ import Input from "./components/input"
 
 import { closeAlert, openAlert } from "src/helpers/alert"
 import { SEND_FRIENDSHIP_INVITATION } from "src/graphql/mutations"
-import { GET_LOGGED_USER_DETAILS } from "src/graphql/queries"
 
 const Container = ({ image, name, username }) => {
-    const sendInvitationMutation = useMutation(SEND_FRIENDSHIP_INVITATION, { refetchQueries: [ GET_LOGGED_USER_DETAILS ]});
+    const sendInvitationMutation = useMutation(SEND_FRIENDSHIP_INVITATION);
 
     const { getFriendshipInvitationsList, getInitialsNameLetters, getBgColors } = useContext(AppContext);
     const { loggedUser } = useContext(LoginContext)
