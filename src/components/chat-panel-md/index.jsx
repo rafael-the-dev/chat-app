@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { ChatContextProvider, ForwardMessageProvider } from 'src/context';
+import classNames from "classnames"
 
 import DirectChat from "src/components/chat/components/DirectChat";
 import GroupChat from "src/components/chat/components/group-chat";
@@ -29,7 +30,7 @@ const ChatPanel = () => {
     return (
         <ChatContextProvider>
             <ForwardMessageProvider>
-                <div className="grow">
+                <div className={classNames("grow", { "hidden": !Boolean(page)})}>
                     { selectedPage }
                 </div>
             </ForwardMessageProvider>
