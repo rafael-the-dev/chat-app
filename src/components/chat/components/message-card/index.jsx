@@ -1,4 +1,4 @@
-import { Avatar, IconButton, List, ListItem, ListItemButton, ListItemText, Popover, Typography } from '@mui/material'
+import { IconButton, List, ListItem, ListItemButton, ListItemText, Popover, Typography } from '@mui/material'
 import classNames from 'classnames';
 import Image from "next/image"
 import { useCallback, useContext, useMemo, useState } from 'react';
@@ -20,6 +20,7 @@ import { DELETE_DIRECT_MESSAGE, DELETE_GROUP_MESSAGE } from "src/graphql/mutatio
 import { getDate } from "src/helpers"
 
 import IsReadCard from "./components/is-read-card"
+import Avatar from "./components/avatar"
 
 library.add(faCheckDouble);
 
@@ -127,10 +128,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
             className={classNames("flex mb-4 w-full", loggedUser.username === sender ? "justify-end" : "")}
             data-id={ID}>
             <div className={classNames("flex items-end")}>
-                <Avatar 
-                    className={classNames("mb-4", { "hidden": loggedUser.username === sender })}
-                    src={`${serverPublicURL.current}/${destinatary.image}`}
-                />
+                <Avatar destinatary={destinatary} isDirectChat={isDirectChat} sender={sender} />
                 <div className={classNames("", { "ml-3": loggedUser.username !== sender})}>
                     { isForwarded && <Typography className="flex items-center text-xs text-slate-500">
                         <ShortcutIcon /> forwarded

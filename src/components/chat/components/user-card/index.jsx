@@ -11,13 +11,7 @@ import UserDetails from "../user-details"
 
 const User = ({ username }) => {
     const { getInitialsNameLetters, getUsersList } = useContext(AppContext);
-    const [ anchorEl, setAnchorEl ] = useState(null);
     const clickHandler = useRef(null);
-
-    /*const handleClose = useCallback(() => {
-        setAnchorEl(null);
-    }, []);*/
-    //const clickHandler = useCallback(event => setAnchorEl(event.currentTarget), [])
 
     const groupMember = useMemo(() => {
         const result = getUsersList().find(user => user.username === username);
@@ -35,7 +29,7 @@ const User = ({ username }) => {
 
     return (
         <li 
-            className={classNames("flex items-centerv mb-3 w-full last:mb-0")}
+            className={classNames("flex items-centerv mb-3 w-full last:mb-0 hover:cursor-pointer")}
             onClick={openPopover}>
             <Avatar 
                 className="h-[25px] text-base w-[25px]"

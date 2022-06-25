@@ -1,0 +1,33 @@
+import { Avatar } from "@mui/material"
+import { useCallback, useContext, useRef } from "react"
+import classNames from "classnames"
+import { AppContext, LoginContext } from "src/context";
+
+import UserDetails from "src/components/chat/components/user-details"
+
+const AvatarContainer = ({ destinatary, isDirectChat, sender }) => {
+    const { loggedUser } = useContext(LoginContext);
+    const { serverPublicURL } = useContext(AppContext);
+
+    const clickHandler = useRef(null);
+
+    const openPopover = useCallback(event => {
+        event.stopPropagation();
+        if(clickHandler.current && !Boolean(isDirectChat)) {
+            clickHandler.current(event);
+        }
+    }, [ isDirectChat ]);
+
+    return (
+        <>
+            <Avatar 
+                className={classNames("mb-4 hover:cursor-pointer", { "hidden": loggedUser.username === sender })}
+                onClick={openPopover}
+                src={`${serverPublicURL.current}/${destinatary.image}`}
+            />
+            <UserDetails clickHandler={clickHandler} username={destinatary.username} />
+        </>
+    );
+};
+
+export default AvatarContainer;
