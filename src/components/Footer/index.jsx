@@ -24,7 +24,7 @@ const Footer = () => {
 
     const navigation = () => (
         <nav className={classNames(classes.navbar, `bg-white flex justify-between py-2 px-2 w-full
-            md:flex-col  md:shadow-none`)}>
+            md:flex-col  md:shadow-none dark:bg-stone-900`)}>
             <IconButton onClick={clickHandler()}>
                 <HomeIcon className={classNames("text-3xl", `${tab === undefined && !isSettingPage() ? "text-red-500" : "text-cyan-500" }`)} />
             </IconButton>
@@ -46,13 +46,13 @@ const Footer = () => {
     return (
         <>
             <Hidden mdUp>
-                <footer className={classNames(`bottom-0 fixed w-full`)}>
+                <footer className={classNames(`bottom-0 fixed w-full dark:bg-stone-900`)}>
                     { navigation() }
                 </footer>
             </Hidden>
             <Hidden mdDown>
                 <aside className={classNames(classes.aside, `bg-white fixed flex flex-col  h-full justify-between
-                    items-center left-0 top-0 md:pb-2 w-[60px]`)}>
+                    items-center left-0 top-0 md:pb-2 w-[60px] dark:bg-stone-900`)}>
                     { navigation() }
                     <Avatar />
                 </aside>

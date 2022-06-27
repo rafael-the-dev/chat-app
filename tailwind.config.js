@@ -2,7 +2,8 @@ module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
-  ],
+  ],  
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -24,6 +25,11 @@ module.exports = {
           300: "#BB255B",
           500: "#BB255B",
           600: "#B80C0C"
+        },
+        stone: {
+          600: "#393A4B",
+          500: "#25273D",
+          900: "#0d0e1a"
         }
       },
       fontSize: {

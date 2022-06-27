@@ -65,12 +65,15 @@ const InvitationDialog = ({ name, openDialog, username }) => {
 
     return (
         <Dialog
+            classes={{ paper: "dark:bg-stone-500"}}
             open={open}
             onClose={toggleDialog(false)}
             aria-labelledby="friendship-invitation-dialog-title"
             aria-describedby="friendship-invitation-dialog-description"
         >
-            <DialogTitle id="friendship-invitation-dialog-title">
+            <DialogTitle 
+                className='dark:text-slate-200'
+                id="friendship-invitation-dialog-title">
                 Invite { name }
             </DialogTitle>
             <DialogContent id="friendship-invitation-dialog-description">
@@ -83,7 +86,7 @@ const InvitationDialog = ({ name, openDialog, username }) => {
                     Invitation to { name } not sent!
                 </Alert>
                 <Alert 
-                    className="hidden mb-3"
+                    className="hidden mb-"
                     color="info" 
                     ref={successAlert} 
                     severity="success"  
@@ -91,7 +94,9 @@ const InvitationDialog = ({ name, openDialog, username }) => {
                 >
                     { name } was successfully invited!
                 </Alert>
-                <DialogContentText id="session-dialog-description">
+                <DialogContentText 
+                    className="dark:text-slate-400"
+                    id="session-dialog-description">
                     You can add a description to personalize your invitation to 
                     <span className="font-bold ml-2">{username}</span>.
                 </DialogContentText>
