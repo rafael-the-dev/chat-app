@@ -1,12 +1,13 @@
 import Image from "next/image"
 import { Chip, IconButton, Popover, Typography } from "@mui/material"
-import { useCallback, useContext, useEffect, useMemo, useState } from "react"
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 import { AppContext, LoginContext } from "src/context";
 
 import Form from "./components/form"
+import Dialog from "src/components/Friendship/components/user-card/components/dialog"
 
 const UserDetails = ({ clickHandler, username }) => {
     const { getFriendshipsList, getFriendshipInvitationsList, getUsersList, serverPublicURL } = useContext(AppContext);
@@ -48,6 +49,14 @@ const UserDetails = ({ clickHandler, username }) => {
         event.stopPropagation();
         setAnchorEl(null);
     }, []);
+
+    const openDialog = useRef(null);
+    const openDialogHandler = useCallback(() => {
+        if(openDialog.current) {
+            openDialog.current();
+        }
+    }, [])
+
 
     useEffect(() => {
         clickHandler.current = event => {
@@ -92,13 +101,14 @@ const UserDetails = ({ clickHandler, username }) => {
                                 @{ userDetails.username }
                             </Typography>
                         </div>
-                        { !isMyFriend && <IconButton>
+                        { !isMyFriend && !hasInvitationSent && <IconButton onClick={openDialogHandler}>
                             <PersonAddAltIcon className="text-cyan-500" />
                         </IconButton> }
                         { hasInvitationSent && <Chip color="primary" label="pending" variant="outlined" /> }
                     </div>
                     { form }
                 </div>
+                <Dialog name={userDetails.name} openDialog={openDialog} username={username}  />
             </article>
         </Popover>
     );
