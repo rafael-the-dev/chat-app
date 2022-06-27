@@ -8,7 +8,7 @@ const SettingsContainer = () => {
     const { pathname } = router;
 
     const classesToggler = useCallback((key, tab) => {
-        return `py-2 rounded-none w-1/2 ${tab === key ? "bg-gray-500" : "bg-gray-400 text-black"}`
+        return `bg-transition py-2 rounded-none w-1/2 ${tab === key ? "bg-gray-500 dark:bg-gray-900" : "bg-gray-400 text-black dark:bg-gray-500"}`
     }, [ ]);
 
     const clickHandler = useCallback(prop => () => router.push(prop), [ router ])

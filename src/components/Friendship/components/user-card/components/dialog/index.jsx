@@ -65,7 +65,7 @@ const InvitationDialog = ({ name, openDialog, username }) => {
 
     return (
         <Dialog
-            classes={{ paper: "dark:bg-stone-500"}}
+            classes={{ paper: "bg-transition dark:bg-stone-500"}}
             open={open}
             onClose={toggleDialog(false)}
             aria-labelledby="friendship-invitation-dialog-title"

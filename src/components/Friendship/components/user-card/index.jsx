@@ -37,11 +37,11 @@ const Container = ({ image, name, username }) => {
             </Avatar>
             <div className="flex flex-col grow ml-3">
                 <Typography 
-                    className={classNames("font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-300")} 
+                    className={classNames("font-semibold max-w-[230px] overflow-hidden text-transition text-ellipsis whitespace-nowrap dark:text-slate-300")} 
                     component="h2">
                     { name }
                 </Typography>
-                <Typography className={classNames("mt-1 dark:text-slate-500")}>
+                <Typography className={classNames("mt-1 text-transition dark:text-slate-500")}>
                     @{ username }
                 </Typography>
             </div>

@@ -12,6 +12,14 @@ a {
   min-height: 100vh;
 }
 
+.bg-transition {
+  transition: background 1s ease-in;
+}
+
+.text-transition {
+  transition: color 1s ease-in;
+}
+
 .remove-root-padding {
   padding: 0 !important;
 }
