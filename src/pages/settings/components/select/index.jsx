@@ -1,7 +1,9 @@
 import { MenuItem, TextField } from "@mui/material"
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useContext, useMemo, useState } from "react"
 import CheckIcon from '@mui/icons-material/Check';
 import { styled } from '@mui/material/styles';
+
+import { ThemeContext } from "src/context/ThemeContext"
 
 const CustomTextfield = styled(TextField)({
     '.dark & label': {
@@ -32,19 +34,21 @@ const CustomTextfield = styled(TextField)({
 })
 
 const SelectContianer = () => {
-    const [ font, setFont ] = useState();
+    const { addFontFamily, fontFamily } = useContext(ThemeContext)
 
-    const fonts = useMemo(() => {
+    const fonts = useMemo(() => { //"Roboto", "", ""
         return [
-            { label: "Roboto", value: "roboto" },
-            { label: "Serif", value: "serif" },
-            { label: "Sans SERIF", value: "sans-serif" }
+            { label: "Arial", value: "Arial" },
+            { label: "Roboto", value: "Roboto" },
+            { label: "Helvetica", value: "Helvetica" },
+            { label: "Nunito", value: "Nunito" },
+            { label: 'Gemunu Libre', value: 'Gemunu Libre' }
         ];
     }, [])
 
     const handleChange = useCallback((event) => {
-        setFont(event.target.value);
-    }, []);
+        addFontFamily(event.target.value);
+    }, [ addFontFamily ]);
 
     return (
         <div className="mt-4 px-4">
@@ -53,7 +57,7 @@ const SelectContianer = () => {
                 fullWidth
                 id="outlined-select-currency"
                 label="Select font family"
-                value={font}
+                value={fontFamily}
                 onChange={handleChange}
                 select
                 SelectProps={{
@@ -72,7 +76,7 @@ const SelectContianer = () => {
                         <span>
                             { option.label }
                         </span>
-                        { font === option.value && <CheckIcon /> }
+                        { fontFamily === option.value && <CheckIcon /> }
                     </MenuItem>
                 ))}
             </CustomTextfield>

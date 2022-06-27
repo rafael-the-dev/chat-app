@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Head from 'next/head';
-import { ThemeProvider } from '@mui/material/styles';
+//import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
 import { theme } from 'src/material-ui/theme';
@@ -8,10 +8,13 @@ import createEmotionCache from 'src/material-ui/createEmotionCache';
 import { ApolloProvider } from "@apollo/client"
 
 import Layout from 'src/components/Layout';
+import ThemeProvider from "src/material-ui/ThemeProvider"
+
 import 'src/styles/reset.css'
 import 'src/styles/globals.css'
 import 'src/styles/chat.css'
 import 'src/styles/tailwind.css'
+
 import { AppContextProvider } from 'src/context/AppContext';
 import client from 'src/graphql/apollo-client';
 import { LoginContextProvider } from 'src/context/LoginContext';
@@ -33,17 +36,17 @@ function MyApp(props) {
                 <LoginContextProvider>
                     <SubscriptionContextProvider>
                         <AppContextProvider>
-                            <CacheProvider value={emotionCache}>
-                                <ThemeProvider theme={theme}>
-                                    <ThemeContextProvider>
+                            <ThemeContextProvider>
+                                <CacheProvider value={emotionCache}>
+                                    <ThemeProvider theme={theme}>
                                         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                                         <CssBaseline />
                                         <Layout>
                                             <Component {...pageProps} />
                                         </Layout>
-                                    </ThemeContextProvider>
-                                </ThemeProvider>
-                            </CacheProvider>
+                                    </ThemeProvider>
+                                </CacheProvider>
+                            </ThemeContextProvider>
                         </AppContextProvider>
                     </SubscriptionContextProvider>
                 </LoginContextProvider>
