@@ -11,24 +11,22 @@ import { useRouter } from 'next/router'
 
 import ChatTab from "./components/chat-tab"
 import Avatar from "../logged-user-avatar"
-import { useContext } from 'react';
-import { AppContext, LoginContext } from 'src/context';
 
 const Footer = () => {
     const router = useRouter();
     const { pathname } = router;
     const { tab } = router.query;
 
-    const { user } = useContext(LoginContext);
-    const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
+    const isSettingPage = () => pathname === "/settings" || pathname === "/profile";
 
-    const clickHandler = prop => () => router.push(`${pathname}${prop ? `?tab=${prop}` : "" }`);
+    const clickHandler = prop => () => router.push(`/${prop ? `?tab=${prop}` : "" }`);
+    const settingHandler = () => router.push("/settings")
 
     const navigation = () => (
         <nav className={classNames(classes.navbar, `bg-white flex justify-between py-2 px-2 w-full
             md:flex-col  md:shadow-none`)}>
             <IconButton onClick={clickHandler()}>
-                <HomeIcon className={classNames("text-3xl", `${tab === undefined ? "text-red-500" : "text-cyan-500" }`)} />
+                <HomeIcon className={classNames("text-3xl", `${tab === undefined && !isSettingPage() ? "text-red-500" : "text-cyan-500" }`)} />
             </IconButton>
             <IconButton onClick={clickHandler("friends")}>
                 <PeopleAltIcon 
@@ -39,8 +37,8 @@ const Footer = () => {
             <IconButton onClick={clickHandler("notifications")}>
                 <NotificationsIcon className={classNames("text-3xl", `${tab === "notifications" ? "text-red-500" : "text-cyan-500" }`)} />
             </IconButton>
-            <IconButton onClick={clickHandler("settings")}>
-                <SettingsIcon className={classNames("text-3xl", `${tab === "settings" ? "text-red-500" : "text-cyan-500" }`)} />
+            <IconButton onClick={settingHandler}>
+                <SettingsIcon className={classNames("text-3xl", `${isSettingPage() ? "text-red-500" : "text-cyan-500" }`)} />
             </IconButton>
         </nav>
     );
