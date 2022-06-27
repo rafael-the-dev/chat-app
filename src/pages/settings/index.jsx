@@ -7,6 +7,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 import Tabs from "src/components/settings-tabs"
+import Select from "./components/select"
 
 import { ThemeContext } from "src/context/ThemeContext"
 
@@ -38,6 +39,7 @@ const SettingsContainer = () => {
                         </IconButton>
                     </div>
                 </div>
+                <Select />
             </div>
         </>
     );
