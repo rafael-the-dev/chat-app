@@ -1,5 +1,5 @@
 import { Alert, Button, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText } from '@mui/material';
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import classNames from "classnames"
 import { useMutation} from "@apollo/client"
 import CircularProgress from '@mui/material/CircularProgress';
@@ -8,9 +8,13 @@ import { closeAlert, openAlert } from "src/helpers/alert"
 
 import Input from "../input"
 import { SEND_FRIENDSHIP_INVITATION } from "src/graphql/mutations"
+import { AppContext, LoginContext } from 'src/context';
 
 const InvitationDialog = ({ name, openDialog, username }) => {
     const sendInvitationMutation = useMutation(SEND_FRIENDSHIP_INVITATION);
+
+    const { getFriendshipInvitationsList } = useContext(AppContext);
+    const { loggedUser } = useContext(LoginContext)
 
     const [ states, setStates ] = useState({ expanded: false, isLoading: false, open: false })
     const { expanded, isLoading, open } = states;
@@ -20,6 +24,13 @@ const InvitationDialog = ({ name, openDialog, username }) => {
     const valueRef = useRef("");
 
     const input = useMemo(() => <Input valueRef={valueRef} />, []);
+
+    const hasInvitationSent = useMemo(() => {
+        return getFriendshipInvitationsList().find(invitation => {
+            const filters = [ username, loggedUser.username ];
+            return filters.includes(invitation.sender.username) && filters.includes(invitation.target.username);
+        })
+    }, [ getFriendshipInvitationsList, loggedUser, username ]);
 
     const toggleDialog = useCallback(prop => () => setStates(props => ({ ...props, open: prop })), []);
     const toggleExpand = useCallback(() => setStates(props => ({ ...props, expanded: !props.expanded })), []);
@@ -98,9 +109,10 @@ const InvitationDialog = ({ name, openDialog, username }) => {
                     { expanded ? "cancel" : "Add a description" }
                 </Button> 
                 <Button 
+                    className={classNames("capitalize ml-2 sm:mr-4 hover:bg-red-500", )}
+                    disabled={hasInvitationSent}
                     variant="contained"
                     type="button"
-                    className={classNames("capitalize ml-2 sm:mr-4 hover:bg-red-500", )}
                     onClick={sendInvitationHandler}>
                     { isLoading ? <CircularProgress className="text-white" size={22} /> : "Send" }
                 </Button>    
