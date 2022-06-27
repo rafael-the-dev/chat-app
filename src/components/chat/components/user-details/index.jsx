@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { IconButton, Popover, Typography } from "@mui/material"
+import { Chip, IconButton, Popover, Typography } from "@mui/material"
 import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
@@ -34,6 +34,13 @@ const UserDetails = ({ clickHandler, username }) => {
         const result = getFriendshipsList().find(user => user.username === username);
         return Boolean(result);
     }, [ getFriendshipsList, username ]);
+
+    const hasInvitationSent = useMemo(() => {
+        return getFriendshipInvitationsList().find(invitation => {
+            const filters = [ username, loggedUser.username ];
+            return filters.includes(invitation.sender.username) && filters.includes(invitation.target.username);
+        })
+    }, [ getFriendshipInvitationsList, loggedUser, username ])
 
     const form = useMemo(() => <Form username={userDetails.username} />, [ userDetails ]);
 
@@ -88,6 +95,7 @@ const UserDetails = ({ clickHandler, username }) => {
                         { !isMyFriend && <IconButton>
                             <PersonAddAltIcon className="text-cyan-500" />
                         </IconButton> }
+                        { hasInvitationSent && <Chip color="primary" label="pending" variant="outlined" /> }
                     </div>
                     { form }
                 </div>
