@@ -9,14 +9,13 @@ import Chat from 'src/components/chat'
 import Friendships from 'src/components/Friendship'
 import ChatPanel from "src/components/chat-panel-md";
 import GroupDetails from "src/components/group-details"
-import Feed from "src/components/feed"
 
 import { FriendshipContextProvider } from 'src/context/FriendshipContext';
 import { ChatContextProvider, ForwardMessageProvider } from 'src/context';
 
 const Home = () => {
     const router = useRouter();
-    const { page, tab } = router.query;
+    const { tab } = router.query;
 
     //const { feedbacksList, getInitialsNameLetters } = useContext(AppContext);
     //const { logout, user } = useContext(LoginContext);
@@ -25,7 +24,6 @@ const Home = () => {
     const friendshipsMemo = useMemo(() => <Friendships />, [])
     const chatPanelMemo = useMemo(() => <ChatPanel />, [])
     const groupDetails = useMemo(() => <GroupDetails />, [])
-    const feed = useMemo(() => <Feed />, [])
 
     const tabComponent = useMemo(() => {
         //console.log("")
@@ -47,7 +45,6 @@ const Home = () => {
             <div className='h-ful sub-root'>
                 { tabComponent }
             </div>
-            { !Boolean(page) && feed }
             { chatPanelMemo }
             { groupDetails }
         </>

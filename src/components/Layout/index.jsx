@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
-import { Alert, AlertTitle, Collapse, LinearProgress } from "@mui/material"
+import { Alert, AlertTitle, Collapse, Hidden, LinearProgress } from "@mui/material"
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import classNames from 'classnames'
 import globalStyles from "src/styles/global-styles.module.css"
@@ -11,17 +11,19 @@ import { ChatContextProvider, ForwardMessageProvider } from 'src/context';
 
 import Chat from "../chat-panel-md"
 import Footer from 'src/components/Footer';
+import Feed from "src/components/feed"
 
 const Container = ({ children }) => {
     const router = useRouter();
     const { pathname } = router;
-    const { tab } = router.query;
+    const { page, tab } = router.query;
 
     const { dialogTimeoutRef, openRefreshTokenDialog, revalidateToken, setOpenRefreshTokenDialog, user } = useContext(LoginContext)
     const { errorMessage, hasError, isLoading } = useContext(AppContext)
 
     const rootRef = useRef(null);
     const chatMemo = useMemo(() => <Chat />)
+    const feed = useMemo(() => <Hidden mdDown><Feed /></Hidden>, [])
 
     const isLogged = useMemo(() => (![ '/login', '/signup' ].includes(pathname)) && user !== null, [ pathname, user ])
     const pathnameRef = useRef("");
@@ -82,6 +84,7 @@ const Container = ({ children }) => {
             </Collapse>
             <div id="root" ref={rootRef}>
                     { children }
+                    { Boolean(user) && !Boolean(page) && feed }
                     { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
             </div>
             <Dialog

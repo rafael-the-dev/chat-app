@@ -4,7 +4,7 @@ import { Button } from "@mui/material"
 import { useState } from "react";
 import Tabs from "src/components/settings-tabs"
 
-const SettingsContainer = () => {
+const ProfileContainer = () => {
     return (
         <>
             <div className="h-ful sub-root">
@@ -14,4 +14,4 @@ const SettingsContainer = () => {
     );
 };
 
-export default SettingsContainer;
+export default ProfileContainer;
