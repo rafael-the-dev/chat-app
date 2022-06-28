@@ -112,12 +112,12 @@ const TextfieldContainer = ({ sendHandler }) => {
 
     const collapseMemo = useMemo(() => (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <div className="bg-cyan-300 flex items-center flex-wrap">
+            <div className="bg-cyan-300 flex items-center flex-wrap dark:bg-stone-600">
                 <IconButton className="mr-1 " onClick={() => setOpenEmojis(b => !b)}>
-                    <InsertEmoticonIcon  className="hover:text-cyan-600" />
+                    <InsertEmoticonIcon  className="dark:text-slate-300 dark:hover:text-cyan-600 hover:text-cyan-600" />
                 </IconButton>
                 <IconButton onClick={imageButtonClickHandler}>
-                    <PhotoIcon  className="hover:text-cyan-600" />
+                    <PhotoIcon  className="dark:text-slate-300 dark:hover:text-cyan-600 hover:text-cyan-600" />
                 </IconButton>
             </div>
             <Collapse in={openEmojis} timeout="auto" unmountOnExit>

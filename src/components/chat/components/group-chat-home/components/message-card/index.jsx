@@ -40,7 +40,7 @@ const MessageCard = ({ image, ID, messages, name }) => {
     //if(messages.length === 0) return <></>;
 
     return (
-        <li className={classNames(classes.card, "w-full last:border-0")}>
+        <li className={classNames(classes.card, "w-full last:border-0 dark:hover:bg-stone-600")}>
             <Link href={`/?tab=chat&page=group-chat&id=${ID}`}>
                 <a 
                     className={classNames("flex items-center px-5 py-2 text-black w-full")}
@@ -52,17 +52,17 @@ const MessageCard = ({ image, ID, messages, name }) => {
                     />
                     <div className="flex flex-col grow items-stretch ml-3">
                         <Typography 
-                            className={classNames("flex items-center justify-between")} 
+                            className={classNames("flex items-center justify-between ")} 
                             component="h2">
-                            <span className="font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap">
+                            <span className="font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-400">
                                 { name }
                             </span>
-                            <span className="text-xs">
+                            <span className="text-xs dark:text-slate-500">
                                 { lastMessageDate }
                             </span>
                         </Typography>
                         { messages.length > 1 && <div className="flex items-center justify-between mt-1">
-                            <Typography className={classNames("flex items-center max-w-[220px] overflow-hidden text-sm text-ellipsis whitespace-nowrap")}>
+                            <Typography className={classNames("flex items-center max-w-[220px] overflow-hidden text-sm text-ellipsis whitespace-nowrap dark:text-slate-500")}>
                                 <FontAwesomeIcon 
                                     className={classNames("mr-2", messages[messages.length - 1].isRead ? "text-cyan-500" : "text-slate-300")}
                                     icon="fa-solid fa-check-double" 
