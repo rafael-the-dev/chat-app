@@ -12,7 +12,7 @@ const Sidebar = () => {
     const id = useId();
 
     return (
-        <aside className={classNames(classes.sidebar, `h-full px-3 pt-4 pb-32 overflow-y-auto`)}>
+        <aside className={classNames(classes.sidebar, `h-full px-3 pt-4 pb-32 overflow-y-auto dark:bg-stone-500`)}>
             <section>
                 <Typography 
                     component="h2" 

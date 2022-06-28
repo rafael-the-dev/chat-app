@@ -42,7 +42,7 @@ const Home = () => {
 
     return (
         <>
-            <div className='h-ful sub-root'>
+            <div className='h-ful sub-root dark:bg-stone-500'>
                 { tabComponent }
             </div>
             { chatPanelMemo }

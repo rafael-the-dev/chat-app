@@ -148,8 +148,8 @@ const DirectChatContainer = () => {
                 <meta name="theme-color" content="#2597BB" />
                 <title>{ destinatary.name } | Chat</title>
             </Head>
-            <div className="flex flex-col grow items-stretch pb-[5rem] md:relative">
-                <header className="bg-cyan-700 py-2 fixed left-0 top-0 w-full z-10 md:absolute">
+            <div className="flex flex-col grow items-stretch pb-[5rem] md:relative dark:bg-stone-500 dark:md:bg-stone-600">
+                <header className="bg-cyan-700 py-2 fixed left-0 top-0 w-full z-10 md:absolute dark:bg-stone-900 dark:md:bg-stone-600 dark:shadow-sm">
                     <div className="flex items-center">
                         <Link href="/?tab=chat">
                             <a>
@@ -172,7 +172,7 @@ const DirectChatContainer = () => {
                         </div>
                     </div>
                 </header>
-                <main className="flex h-full items-stretch flex-col chat__main" ref={mainRef}>
+                <main className="flex h-full items-stretch flex-col chat__main dark:bg-stone-600" ref={mainRef}>
                     <div className="grow pt-4 px-6">
                         <div>
                             <Typography className="text-center" component="h2">

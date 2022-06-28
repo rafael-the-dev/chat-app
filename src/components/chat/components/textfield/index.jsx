@@ -88,8 +88,11 @@ const TextfieldContainer = ({ sendHandler }) => {
     ), [ deleteImage, file ]);
 
     const optionsButtonMemo = useMemo(() => (
-        <IconButton type="button" onClick={toggleExpanded}>
-            { expanded ? <CloseIcon  className="text-red-500 hover:text-cyan-600" /> : <AddIcon className="hover:text-cyan-600" /> }
+        <IconButton 
+            className={classNames({ "text-red-500 dark:text-slate-300": expanded }, "hover:text-cyan-600 dark:text-slate-300", )}
+            type="button" 
+            onClick={toggleExpanded}>
+            { expanded ? <CloseIcon  className=" " /> : <AddIcon className="hover:text-cyan-600 dark" /> }
         </IconButton>
     ),[ expanded, toggleExpanded ]);
 
@@ -125,7 +128,7 @@ const TextfieldContainer = ({ sendHandler }) => {
 
     const submitButtonMemo = useMemo(() => (
         <IconButton type="submit" disabled={!canISubmit && !file.image}>
-            <SendIcon className="hover:text-cyan-600" />
+            <SendIcon className="hover:text-cyan-600 dark:text-slate-300" />
         </IconButton>
     ), [ canISubmit, file ])
     
@@ -139,14 +142,15 @@ const TextfieldContainer = ({ sendHandler }) => {
     const hasRepliedMessage = useMemo(() => Object.keys(repliedMessage).length > 0, [ repliedMessage ]);
 
     return (
-        <div className={classNames(`bottom-20 flex flex-col fixed items-stretch w-full z-10 md:absolute md:bottom-3`,
+        <div className={classNames(`bottom-20 flex flex-col fixed items-stretch w-full z-10 md:absolute 
+            md:bottom-3 dark:bg-stone-500 dark:md:bg-stone-600`,
             { "bg-cyan-300 py-2": hasRepliedMessage })}>
             <Collapse in={Boolean(file.image)} timeout="auto" unmountOnExit>
                 { imageMemo }
             </Collapse>
             { hasRepliedMessage && repliedMessageMemo }
             <form 
-                className="bg-cyan-300 flex items-center w-full"
+                className="bg-cyan-300 flex items-center w-full dark:bg-stone-500 dark:md:bg-stone-600"
                 onSubmit={submitHandler}>
                 { optionsButtonMemo }
                 { inputMemo }
