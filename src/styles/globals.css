@@ -7,6 +7,23 @@ a {
   text-decoration: none;
 }
 
+.dark ::-webkit-scrollbar {
+  width: 10px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background-color: #0d0e1a; 
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
 #root {
   background-color: #F2F4FF;
   min-height: 100vh;

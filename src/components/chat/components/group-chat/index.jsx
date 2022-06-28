@@ -176,7 +176,7 @@ const GroupChatContainer = () => {
                         { menuButton }
                     </div>
                 </header>
-                <main className="flex h-full items-stretch flex-col chat__main dark:bg-stone-600" ref={mainRef}>
+                <main className="flex h-full items-stretch flex-col chat__main scroll-bar dark:bg-stone-600" ref={mainRef}>
                     <div className="grow pt-4">
                         <div>
                             <Typography className="text-center" component="h2">
