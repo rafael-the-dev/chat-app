@@ -77,15 +77,15 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                 <div className="flex flex-col grow ml-3">
                     <div className="flex justify-between">
                         <Typography 
-                            className={classNames("font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap")} 
+                            className={classNames("font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-300")} 
                             component="h2">
                             { name }
                         </Typography>
-                        <IconButton className="p-0" onClick={handleClick}>
+                        <IconButton className="p-0 dark:text-slate-400" onClick={handleClick}>
                             <MoreHorizIcon />
                         </IconButton>
                     </div>
-                    <div className="flex items-center justify-between mt-1">
+                    <div className="flex items-center justify-between mt-1 dark:text-slate-500">
                         <Typography className={classNames()}>
                             @{ username }
                         </Typography>
@@ -106,11 +106,11 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                     horizontal: 'left',
                 }}
             >
-                <List className={classNames("pt-0 w-[230px]")}>
+                <List className={classNames("pt-0 w-[230px] dark:bg-stone-900")}>
                     <ListItem 
                         disablePadding 
                         onClick={listItemClickHandler()} 
-                        className={classNames()}>
+                        className={classNames("dark:hover:bg-stone-500 dark:text-slate-400")}>
                         <ListItemButton onClick={toggleExpanded(true)}>
                             <ListItemText 
                                 primary="Quick message" 
@@ -120,7 +120,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                     <ListItem 
                         disablePadding 
                         onClick={goToChatClickHandler} 
-                        className={classNames()}>
+                        className={classNames("dark:hover:bg-stone-500 dark:text-slate-400")}>
                         <ListItemButton>
                             <ListItemText 
                                 primary="Go to chat" 

@@ -84,7 +84,7 @@ const Container = ({ children }) => {
             </Collapse>
             <div id="root" ref={rootRef}>
                     { children }
-                    { Boolean(user) && !Boolean(page) && feed }
+                    { ![ '/login', '/signup' ].includes(pathname) && Boolean(user) && !Boolean(page) && feed }
                     { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
             </div>
             <Dialog

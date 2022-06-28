@@ -11,7 +11,7 @@ const Input = ({ closeInput }) => {
     const onChangeHandler = useCallback(event => setValue(event.target.value), [])
 
     return (
-        <form className="bg-cyan-300 flex items-center mt-3 mb-1 py-1">
+        <form className="bg-cyan-300 flex items-center mt-3 mb-1 py-1 dark:bg-stone-400">
             <input 
                 className="bg-transparent border-0 grow outline-none py-1 px-3 text-base"
                 placeholder="Insert quick message"

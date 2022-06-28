@@ -34,7 +34,7 @@ const DeleteFriendshipListItem = ({ username }) => {
         <ListItem 
             disablePadding 
             onClick={clickHandler} 
-            className={classNames()}>
+            className={classNames("dark:hover:bg-stone-500")}>
             <ListItemButton>
                 { isLoading && (
                     <ListItemIcon>

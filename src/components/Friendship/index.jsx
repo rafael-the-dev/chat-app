@@ -33,7 +33,7 @@ const Container = () => {
     const searchFriendsContainer = useMemo(() => <SearchFriendsContainer />, []);
 
     const classesToggler = useCallback((key, tab) => {
-        return `py-2 rounded-none w-1/2 ${tab === key ? "bg-gray-500" : "bg-gray-400 text-black"}`
+        return `py-2 rounded-none w-1/2 ${tab === key ? "bg-gray-500 dark:bg-gray-900" : "bg-gray-400 text-black dark:bg-gray-500"}`
     }, [ ]);
 
     const searchHandler = useCallback(event => {
@@ -113,13 +113,13 @@ const Container = () => {
                     </Button>
                 </div>
                 <form 
-                    className={classNames("bg-white border border-solid border-slate-200 flex items-center px-2 py-1")}
+                    className={classNames("bg-white border border-solid border-slate-200 flex items-center px-2 py-1 dark:bg-stone-400 dark:border-0")}
                     onSubmit={searchHandler}>
                     <IconButton className={classNames({ 'hidden': tab !== "SEARCH_FRIENDS" })} onClick={handleClick} type="button">
                         <FilterAltIcon />
                     </IconButton>
                     <input 
-                        className={classNames("border-0 grow text-base outline-none py-3", { 'pl-4': tab !== "SEARCH_FRIENDS" })}
+                        className={classNames("border-0 grow text-base outline-none py-3 dark:bg-stone-400", { 'pl-4': tab !== "SEARCH_FRIENDS" })}
                         placeholder="search username"
                         ref={inputRef}
                         onChange={onChangeHandler}
