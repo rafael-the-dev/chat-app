@@ -141,7 +141,7 @@ const Container = () => {
     const profileImageMemo = useMemo(() => <Image imageRef={imageRef} />, [])
 
     const nameMemo = useMemo(() => (
-        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg`)}>
+        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg dark:bg-stone-400`)}>
             <Input 
                 id="name-textfield"
                 placeholder="Name"
@@ -152,7 +152,7 @@ const Container = () => {
     ), []);
 
     const usernameMemo = useMemo(() => (
-        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg`)}>
+        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg dark:bg-stone-400`)}>
             <Input 
                 id="username-textfield"
                 error={hasUsernameError}
@@ -165,7 +165,7 @@ const Container = () => {
     ), [  hasUsernameError, inputChangeHandler, setUsername ]);
 
     const passwordMemo = useMemo(() => (
-        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg`)}>
+        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg dark:bg-stone-400`)}>
             <Input 
                 id="password-textfield"
                 error={hasPasswordError}
@@ -179,7 +179,7 @@ const Container = () => {
     ), [ hasPasswordError, inputChangeHandler ]);
 
     const comfirmPasswordMemo = useMemo(() => (
-        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg`)}>
+        <div className={classNames(`bg-cyan-300 flex items-center mt-4 px-3 rounded-lg dark:bg-stone-400`)}>
             <Input 
                 error={hasComfirmPasswordError}
                 id="confirm-password-textfield"
@@ -193,9 +193,9 @@ const Container = () => {
     ), [ hasComfirmPasswordError, inputChangeHandler ]);
 
     return (
-        <div className="min-h-screen flex items-center justify-center w-full px-5 md:px-0">
+        <div className="min-h-screen flex items-center justify-center w-full px-5 md:px-0 dark:bg-stone-500">
             <Paper 
-                className={classNames(classes.loginContainer, `px-5 py-8 rounded-2xl w-full md:px-6`)}
+                className={classNames(classes.loginContainer, `px-5 py-8 rounded-2xl w-full md:px-6 dark:bg-stone-900`)}
                 component="form"
                 elavation={0}
                 onSubmit={onSubmitHandler}>
@@ -215,7 +215,7 @@ const Container = () => {
                 </fieldset>
                 <div 
                     className={classNames("flex flex-col items-center mt-4")}>
-                    <Typography component="p" className="ml-4 text-center text-sm">
+                    <Typography component="p" className="ml-4 text-center text-sm dark:text-slate-400">
                         do you have an account? 
                         <Link href="/login">
                             <a className={classNames(classes.signUpLink, "ml-2 text-blue-700 uppercase underline hover:opacity-90")}>

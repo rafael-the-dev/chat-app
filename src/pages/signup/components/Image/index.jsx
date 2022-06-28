@@ -58,7 +58,7 @@ const Image = ({ imageRef }) => {
                     ref={avatarRef}
                     src={emptyImage.current}
                 /> 
-                <AccountCircleIcon className={classNames("text-8xl", { 'hidden': Boolean(file) })} />
+                <AccountCircleIcon className={classNames("text-8xl dark:text-slate-400", { 'hidden': Boolean(file) })} />
                 <IconButton 
                     className={classNames("absolute p-[2px] text-base text-slate-100", Boolean(file) ? 'bg-red-500 right-[-2px] bottom-[-2px] hover:bg-red-300' : "bg-cyan-600 bottom-[4px] right-[4px] hover:bg-cyan-500" )} 
                     onClick={clickHandler}>
