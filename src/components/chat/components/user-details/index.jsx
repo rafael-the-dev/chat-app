@@ -78,7 +78,7 @@ const UserDetails = ({ clickHandler, username }) => {
                 horizontal: 'left',
             }}
         >
-            <article className="flex">
+            <article className="flex dark:bg-stone-900">
                     <Image 
                         alt={userDetails.name}
                         height={170}
@@ -91,12 +91,12 @@ const UserDetails = ({ clickHandler, username }) => {
                     <div className="flex items-center justify-between">
                         <div>
                             <Typography
-                                className="font-bold overflow-hidden text-xl text-ellipsis whitespace-nowrap w-[200px]"
+                                className="font-bold overflow-hidden text-xl text-ellipsis whitespace-nowrap w-[200px] dark:text-slate-300"
                                 component="h3">
                                 { userDetails.name }
                             </Typography>
                             <Typography 
-                                className="text-sm overflow-hidden text-ellipsis whitespace-nowrap w-[200px]" 
+                                className="text-sm overflow-hidden text-ellipsis whitespace-nowrap w-[200px] dark:text-slate-400" 
                                 component="p">
                                 @{ userDetails.username }
                             </Typography>

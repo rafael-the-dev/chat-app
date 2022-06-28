@@ -16,7 +16,7 @@ const Sidebar = () => {
             <section>
                 <Typography 
                     component="h2" 
-                    className="font-bold text-xl">
+                    className="font-bold text-xl dark:text-slate-300">
                     Friends
                 </Typography>
                 <ul className="pt-4">

@@ -2,10 +2,18 @@ import { Button } from "@mui/material"
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import CircularProgress from '@mui/material/CircularProgress';
 import { useMutation } from "@apollo/client"
+import { styled } from '@mui/material/styles';
 
 import { AppContext } from "src/context";
 import { SEND_DIRECT_MESSAGE } from "src/graphql/mutations";
 import { useEffect } from "react";
+
+const CustomButton = styled(Button)({
+    '.dark &.Mui-disabled': {
+        backgroundColor: "#5f6368",
+        color: '#cbd5e1',
+    }
+})
 
 const SendButton = ({ handler, inputRef, setValue, username, value }) => {
     const { getDirectChats, getFriendshipsList } = useContext(AppContext);
@@ -73,12 +81,12 @@ const SendButton = ({ handler, inputRef, setValue, username, value }) => {
     }, [ handler, submitHandler ])
 
     return (
-        <Button
+        <CustomButton
             className="mt-3"
             disabled={canISubmit}
             variant="contained">
             { isLoading ? <CircularProgress className="text-slate-100" size={25} /> : "Send" }
-        </Button>
+        </CustomButton>
     );
 };
 

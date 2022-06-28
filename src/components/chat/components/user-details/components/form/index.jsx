@@ -1,9 +1,25 @@
 import { TextField } from "@mui/material"
 import { useCallback, useMemo, useRef, useState } from "react"
+import { styled } from '@mui/material/styles';
 
 import classes from "./styles.module.css"
 
 import Button from "../send-button"
+
+const CustomTextfield = styled(TextField)({
+    '.dark & label': {
+        color: '#cbd5e1',
+    },
+    '.dark & .MuiOutlinedInput-root': {
+        color: '#cbd5e1',
+        '& fieldset': {
+            borderColor: '#1e40af',
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: '#0d9488',
+        },
+    },
+})
 
 const Form = ({ username }) => {
     const [ value, setValue ] = useState("");
@@ -16,8 +32,8 @@ const Form = ({ username }) => {
     }, [])
 
     const textField = useMemo(() => (
-        <TextField 
-            className="py-0"
+        <CustomTextfield 
+            className="py-0 dark:text-slate-300"
             classes={{ root: classes.textfieldRoot }}
             fullWidth
             inputRef={inputRef}

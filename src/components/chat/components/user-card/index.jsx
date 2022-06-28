@@ -37,7 +37,7 @@ const User = ({ username }) => {
                 { groupMember.image ? "" :getInitialsNameLetters(groupMember.name) }
             </Avatar>
             <Typography 
-                className={classNames("font-semibold grow ml-3 max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap")} 
+                className={classNames("font-semibold grow ml-3 max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-400")} 
                 component="h2">
                 { groupMember.name }
             </Typography>
