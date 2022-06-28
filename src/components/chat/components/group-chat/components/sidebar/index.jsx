@@ -9,11 +9,11 @@ const Sidebar = ({ group }) => {
     const id = useId();
 
     return (
-        <aside className={classNames(classes.sidebar, `h-full px-3 pt-4 pb-32 overflow-y-auto`)}>
+        <aside className={classNames(classes.sidebar, `h-full px-3 pt-4 pb-32 overflow-y-auto  dark:bg-stone-500`)}>
             <section className={classNames(classes.adminsSection, `border-b border-solid`)}>
                 <Typography 
                     component="h2" 
-                    className="font-bold text-xl">
+                    className="font-bold text-xl dark:text-slate-300">
                     Admins
                 </Typography>
                 <ul className="pt-3 pb-4">
@@ -22,7 +22,7 @@ const Sidebar = ({ group }) => {
             </section>
             <section className="pt-4">
                 <Typography 
-                    className="font-semibold"
+                    className="font-semibold dark:text-slate-400"
                     component="h2">
                     Others
                 </Typography>

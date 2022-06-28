@@ -147,9 +147,9 @@ const GroupChatContainer = () => {
                 <meta name="theme-color" content="#2597BB" />
                 <title>{ chatDetails.name } | Chat</title>
             </Head>
-            <div className="flex flex-col grow items-stretch pb-[5rem] md:relative">
+            <div className="flex flex-col grow items-stretch pb-[5rem] md:relative dark:md:bg-stone-600">
                 <header className="bg-cyan-700 py-2 pr-2 fixed flex items-center justify-between left-0 top-0 
-                    w-full z-10 md:absolute">
+                    w-full z-10 md:absolute dark:md:bg-stone-600">
                     <div className="flex items-center">
                         <Link href="/?tab=chat">
                             <a>
@@ -176,7 +176,7 @@ const GroupChatContainer = () => {
                         { menuButton }
                     </div>
                 </header>
-                <main className="flex h-full items-stretch flex-col chat__main" ref={mainRef}>
+                <main className="flex h-full items-stretch flex-col chat__main dark:bg-stone-600" ref={mainRef}>
                     <div className="grow pt-4">
                         <div>
                             <Typography className="text-center" component="h2">
