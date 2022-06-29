@@ -22,25 +22,27 @@ const Footer = () => {
     const isSettingPage = () => pathname === "/settings" || pathname === "/profile";
 
     const clickHandler = prop => () => router.push(`/${prop ? `?tab=${prop}` : "" }`);
-    const settingHandler = () => router.push("/settings")
+    const settingHandler = () => router.push("/settings");
+
+    const getClasses = isTrue => isTrue ? "text-red-500" : "text-cyan-500";
 
     const navigation = () => (
         <nav className={classNames(classes.navbar, `bg-white flex justify-between py-2 px-2 w-full
             md:flex-col  md:shadow-none bg-transition dark:bg-stone-900`)}>
             <IconButton onClick={clickHandler()}>
-                <HomeIcon className={classNames("text-3xl", `${tab === undefined && !isSettingPage() ? "text-red-500" : "text-cyan-500" }`)} />
+                <HomeIcon className={classNames("text-3xl", getClasses(tab === undefined && !isSettingPage()))} />
             </IconButton>
-            <IconButton onClick={clickHandler("friends")}>
+            <Link href="friendships">
                 <PeopleAltIcon 
-                    className={classNames("text-3xl", `${tab === "friends" ? "text-red-500" : "text-cyan-500" }`)} 
+                    className={classNames("text-3xl", getClasses(pathname === "friendships"))} 
                 />
-            </IconButton>
+            </Link>
             <ChatTab tab={pathname} />
             <IconButton onClick={clickHandler("notifications")}>
-                <NotificationsIcon className={classNames("text-3xl", `${tab === "notifications" ? "text-red-500" : "text-cyan-500" }`)} />
+                <NotificationsIcon className={classNames("text-3xl", getClasses(tab === "notifications"))} />
             </IconButton>
             <Link href="/settings">
-                <SettingsIcon className={classNames("text-3xl", `${isSettingPage() ? "text-red-500" : "text-cyan-500" }`)} />
+                <SettingsIcon className={classNames("text-3xl", getClasses(isSettingPage()))} />
             </Link>
         </nav>
     );

@@ -25,7 +25,7 @@ const Home = () => {
     const chatPanelMemo = useMemo(() => <ChatPanel />, [])
     const groupDetails = useMemo(() => <GroupDetails />, [])
 
-    const tabComponent = useMemo(() => {
+    /*const tabComponent = useMemo(() => {
         //console.log("")
         switch(tab) {
             case 'chat': {
@@ -38,12 +38,12 @@ const Home = () => {
                 return <><h1 className="text-red-500">Welcome to my chat app</h1></>
             }
         }
-    }, [ chatMemo, friendshipsMemo, tab ])
+    }, [ chatMemo, friendshipsMemo, tab ])*/
 
     return (
         <>
             <div className='h-ful sub-root dark:bg-stone-500'>
-                { tabComponent }
+            <h1 className="text-red-500">Welcome to my chat app</h1>
             </div>
             { chatPanelMemo }
             { groupDetails }

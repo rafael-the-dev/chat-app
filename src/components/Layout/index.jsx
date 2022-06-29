@@ -7,9 +7,7 @@ import globalStyles from "src/styles/global-styles.module.css"
 
 import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from 'src/context/AppContext';
-import { ChatContextProvider, ForwardMessageProvider } from 'src/context';
 
-import Chat from "../chat-panel-md"
 import Footer from 'src/components/Footer';
 import Feed from "src/components/feed"
 
@@ -22,7 +20,6 @@ const Container = ({ children }) => {
     const { errorMessage, hasError, isLoading } = useContext(AppContext)
 
     const rootRef = useRef(null);
-    const chatMemo = useMemo(() => <Chat />)
     const feed = useMemo(() => <Hidden mdDown><Feed /></Hidden>, [])
 
     const isLogged = useMemo(() => (![ '/login', '/signup' ].includes(pathname)) && user !== null, [ pathname, user ])
@@ -48,7 +45,7 @@ const Container = ({ children }) => {
     }, [ isLogged, pathname, router, user ]);
 
     useEffect(() => {
-        if(isLogged) { //[ '/login', '/signup' ].includes(pathname)
+        if(isLogged) { 
             if(rootRef.current !== null) {
                 rootRef.current.classList.remove("remove-root-padding")
             }
@@ -69,7 +66,6 @@ const Container = ({ children }) => {
         }
     }, [ tab ])
     console.log(openRefreshTokenDialog)
-    //if(!isLogged) return <></>;
 
     return (
         <>
@@ -88,12 +84,13 @@ const Container = ({ children }) => {
                     { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
             </div>
             <Dialog
+                classes={{ paper: classNames("dark:bg-stone-500") }}
                 open={openRefreshTokenDialog && ![ '/login', '/signup' ].includes(pathname)}
                 onClose={closeDialog}
                 aria-describedby="session-dialog-description"
             >
                 <DialogContent>
-                    <DialogContentText id="session-dialog-description">
+                    <DialogContentText className="dark:text-slate-300" id="session-dialog-description">
                         Your session will expire in 5 minutes, do you want to keep logged in?
                     </DialogContentText>
                 </DialogContent>
