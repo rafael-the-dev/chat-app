@@ -11,6 +11,8 @@ import { useRouter } from 'next/router'
 
 import ChatTab from "./components/chat-tab"
 import Avatar from "../logged-user-avatar"
+import Link from "./components/link"
+
 
 const Footer = () => {
     const router = useRouter();
@@ -33,13 +35,13 @@ const Footer = () => {
                     className={classNames("text-3xl", `${tab === "friends" ? "text-red-500" : "text-cyan-500" }`)} 
                 />
             </IconButton>
-            <ChatTab clickHandler={clickHandler} tab={tab} />
+            <ChatTab tab={pathname} />
             <IconButton onClick={clickHandler("notifications")}>
                 <NotificationsIcon className={classNames("text-3xl", `${tab === "notifications" ? "text-red-500" : "text-cyan-500" }`)} />
             </IconButton>
-            <IconButton onClick={settingHandler}>
+            <Link href="/settings">
                 <SettingsIcon className={classNames("text-3xl", `${isSettingPage() ? "text-red-500" : "text-cyan-500" }`)} />
-            </IconButton>
+            </Link>
         </nav>
     );
 

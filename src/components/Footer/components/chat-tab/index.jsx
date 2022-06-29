@@ -9,9 +9,11 @@ import { faComment } from '@fortawesome/free-solid-svg-icons'
 import { LoginContext } from "src/context/LoginContext"
 import { AppContext } from "src/context/AppContext"
 
+import Link from "../link"
+
 library.add(faComment);
 
-const ChatTab = ({ clickHandler, tab }) => {
+const ChatTab = ({ tab }) => {
     const { loggedUser } = useContext(LoginContext)
     const { getDirectChats } = useContext(AppContext)
 
@@ -32,7 +34,7 @@ const ChatTab = ({ clickHandler, tab }) => {
     }, [ getDirectChats, loggedUser ])
 
     return (
-        <IconButton onClick={clickHandler("chat")}>
+        <Link href="/chat">
             <Badge 
                 badgeContent={unreadMessagesLength} 
                 classes={{ badge: classNames("text-slate-100",  tab === "chat" ? "bg-cyan-500" : "bg-red-500" ) }}>
@@ -41,7 +43,7 @@ const ChatTab = ({ clickHandler, tab }) => {
                     icon="fa-solid comment fa-comment" 
                 />
             </Badge>
-        </IconButton>
+        </Link>
     );
 };
 

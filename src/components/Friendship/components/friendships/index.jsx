@@ -19,7 +19,7 @@ const FriendshipsContainer = () => {
     return (
         <ul className={classNames("mt-4 px-5", { 'hidden': tab !== 'FRIENDS' })}>
             {
-                filterList?.map((item, index) => <Card key={item.username} { ...item } /> )
+                tab === 'FRIENDS' && filterList?.map((item, index) => <Card key={item.username} { ...item } /> )
             }
         </ul>
     );
