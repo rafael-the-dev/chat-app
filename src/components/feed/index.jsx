@@ -1,12 +1,34 @@
+import { Button, Hidden, Paper } from "@mui/material"
 
 import AdBanner from "./components/ad-banner"
 import KnownPeople from "./components/known-people"
+import Avatar from "../logged-user-avatar"
+import Input from "./components/search-input"
 
 const Feed = () => {
     return (
-        <div className="flex grow items-stretch pr-8 bg-transition dark:bg-stone-900">
-            <div className="grow"></div>
-            <aside className="flex flex-col items-stretch pt-8 pb-6 w-[300px]">
+        <div className="flex grow items-stretch pt-8 pr-8 bg-transition dark:bg-stone-900">
+            <div className="grow px-6">
+                <Paper className="flex items-center justify-between px-3 py-2 rounded-xl dark:bg-stone-500">
+                    <div className="flex">
+                        <Button
+                            className="rounded-lg"
+                            variant="contained">
+                            add new post
+                        </Button>
+                        <Button className="border border-solid border-blue-600 ml-3 rounded-lg text-blue-600">
+                            Filter
+                        </Button>
+                    </div>
+                    <div className="flex grow justify-end ml-3">
+                        <Input />
+                        <Hidden mdUp>
+                            <Avatar />
+                        </Hidden>
+                    </div>
+                </Paper>
+            </div>
+            <aside className="flex flex-col items-stretch pb-6 w-[300px]">
                 <KnownPeople />
                 <AdBanner />
             </aside>

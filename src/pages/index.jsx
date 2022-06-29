@@ -42,9 +42,6 @@ const Home = () => {
 
     return (
         <>
-            <div className='h-ful sub-root dark:bg-stone-500'>
-            <h1 className="text-red-500">Welcome to my chat app</h1>
-            </div>
             { chatPanelMemo }
             { groupDetails }
         </>
