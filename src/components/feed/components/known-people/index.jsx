@@ -35,7 +35,7 @@ const KnownPeople = () => {
     console.log("list", list)
 
     return (
-        <section  className={classNames(classes.root, `bg-transition h-[300px] max-h-[330px] mb-6 pt-3 rounded-xl dark:bg-stone-500`)}>
+        <section className={classNames(classes.root, `bg-transition h-[300px] max-h-[330px] mb-6 pt-3 rounded-xl dark:bg-stone-500`)}>
             <Typography
                 className="font-bold text-transition dark:text-slate-200"
                 component="h2">

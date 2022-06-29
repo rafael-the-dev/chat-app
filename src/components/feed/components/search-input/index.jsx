@@ -12,14 +12,14 @@ const SearchInput = () => {
     const toggleState = useCallback(() => setOpen(b => !b), [])//rounded-2xl
 
     return (
-        <div className={classNames(styles.transition,"flex items-center rounded-full dark:bg-stone-400", { "grow pl-3 pr-1": open })}>
+        <div className={classNames(styles.transition,"bg-transition bg-slate-300 flex items-center rounded-full dark:bg-stone-400", { "grow pl-3 pr-1": open })}>
             <input 
                 className={classNames(styles.transition, "bg-transparent border-0 outline-none h-0 w-0", { "h-6 grow": open }, { "hidden": !open })} 
                 placeholder="search..."
             />
             <IconButton
                 onClick={toggleState}>
-                { open ? <CloseIcon /> : <SearchIcon /> }
+                { open ? <CloseIcon className="text-red-500" /> : <SearchIcon /> }
             </IconButton>
         </div>
     );
