@@ -7,6 +7,7 @@ import AdBanner from "./components/ad-banner"
 import KnownPeople from "./components/known-people"
 import Avatar from "../logged-user-avatar"
 import Input from "./components/search-input"
+import AddPost from "./components/add-post"
 
 const Feed = () => {
     return (
@@ -15,11 +16,7 @@ const Feed = () => {
                 <Paper className={classNames(classes.postsPanel, `bg-transition flex items-center 
                     justify-between px-3 py-2 rounded-xl shadow-none dark:bg-stone-500`)}>
                     <div className="flex">
-                        <Button
-                            className="rounded-lg"
-                            variant="contained">
-                            add new post
-                        </Button>
+                        <AddPost />
                         <Button className="border border-solid border-blue-600 ml-3 rounded-lg text-blue-600">
                             Filter
                         </Button>
