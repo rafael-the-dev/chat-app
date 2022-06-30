@@ -1,5 +1,5 @@
-import { Button, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from "@mui/material"
-import { useCallback, useMemo, useRef, useState } from "react"
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@mui/material"
+import { useCallback, useMemo, useRef, useState, useTransition } from "react"
 import { styled } from "@mui/material/styles";
 
 import classNames from "classnames"
@@ -8,6 +8,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import ImageIcon from '@mui/icons-material/Image';
 
 import Image from "src/components/image-collapse"
+import TextField from "./components/textfield"
+
+const CustomButton = styled(Button)({
+    ".dark &.Mui-disabled": {
+        backgroundColor: "#78716c"
+    }
+})
 
 const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;
@@ -33,15 +40,10 @@ const BootstrapDialogTitle = (props) => {
     );
 };
 
-const CustomTextfield = styled(TextField)({
-    ".dark & .MuiOutlinedInput-input": {
-        color: "#94a3b8"
-    }
-})
-
 const CreatePost = () => {
     const [ open, setOpen ] = useState(false);
     const [ file, setFile ] = useState({ image: null, url: "" });
+    const [ value, setValue ] = useState("")
 
     const inputRef = useRef(null);
     const fileRef = useRef(null);
@@ -52,6 +54,7 @@ const CreatePost = () => {
     }, []);
 
     const imageMemo = useMemo(() => <Image deleteImage={deleteImage} file={file} />, [ deleteImage, file ]);
+    const textFieldMemo = useMemo(() => <TextField file={file} ref={inputRef} />, [ file ])
 
     const switchState = useCallback(prop =>  setOpen(prop), []);
     const handleClose = useCallback(() => setOpen(false), []);
@@ -94,14 +97,7 @@ const CreatePost = () => {
                 </BootstrapDialogTitle>
                 <DialogContent className="px-0">
                     { imageMemo }
-                    <CustomTextfield 
-                        className={classNames({ "mt-3": Boolean(file.image) }, `dark:border-cyan-800 
-                        dark:bg-stone-900 dark:text-slate-300`)}
-                        fullWidth
-                        multiline
-                        placeholder={Boolean(file.image) ? "Add image's caption" : "what do you want to talk about?" }
-                        rows={Boolean(file.image) ? 2 : 5}
-                    />
+                    { textFieldMemo }
                     <input 
                         className="hidden" 
                         ref={fileRef} 
@@ -122,13 +118,14 @@ const CreatePost = () => {
                             onClick={handleClose}>
                             Close 
                         </Button> 
-                        <Button 
+                        <CustomButton 
+                            disabled={!Boolean(file.image) && !Boolean(value.trim())}
                             variant="contained"
                             type="button"
                             className={classNames("border capitalize ml-3 px-8 hover:bg-transparent hover:border-solid hover:text-blue-500 hover:border-blue-500")}
                             onClick={() => {}}>
                             post
-                        </Button>   
+                        </CustomButton>   
                     </div> 
                 </DialogActions>
             </Dialog>
