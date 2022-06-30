@@ -12,7 +12,7 @@ const CustomTextfield = styled(TextField)({
 const TextfieldContainer = forwardRef(({ file, setInputValue }, ref) => {
     const [ properties, setProperties ] = useState({ hasError: false, value: "" });
     const [ _, startTransition ] = useTransition();
-    const maxCharacteresLength = useRef(20);
+    const maxCharacteresLength = useRef(600);
 
     const { hasError, value } = properties;
 
@@ -21,9 +21,9 @@ const TextfieldContainer = forwardRef(({ file, setInputValue }, ref) => {
         startTransition(() => {
             setProperties(currentProperties => {
                 if(currentProperties.value.length === 0) {
-                    //return inputValue;
+                    setInputValue.current?.(inputValue);
                 } else if(currentProperties.value.length > 0 && inputValue.length === 0) {
-                    //return inputValue;
+                    setInputValue.current?.(inputValue);
                 }
 
                 if(inputValue.length > maxCharacteresLength.current) {

@@ -9,12 +9,7 @@ import ImageIcon from '@mui/icons-material/Image';
 
 import Image from "src/components/image-collapse"
 import TextField from "./components/textfield"
-
-const CustomButton = styled(Button)({
-    ".dark &.Mui-disabled": {
-        backgroundColor: "#78716c"
-    }
-})
+import SendButton from "./components/send-button"
 
 const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;
@@ -43,18 +38,27 @@ const BootstrapDialogTitle = (props) => {
 const CreatePost = () => {
     const [ open, setOpen ] = useState(false);
     const [ file, setFile ] = useState({ image: null, url: "" });
-    const [ value, setValue ] = useState("")
+    const [ value, setValue ] = useState("");
 
     const inputRef = useRef(null);
     const fileRef = useRef(null);
     const imageRef = useRef(null);
+    const setButtonValue = useRef(null);
 
     const deleteImage = useCallback(() => {
         setFile({ image: null, url: "" });
     }, []);
 
     const imageMemo = useMemo(() => <Image deleteImage={deleteImage} file={file} />, [ deleteImage, file ]);
-    const textFieldMemo = useMemo(() => <TextField file={file} ref={inputRef} />, [ file ])
+    const textFieldMemo = useMemo(() => (
+        <TextField 
+            file={file} 
+            ref={inputRef} 
+            setInputValue={setButtonValue} 
+        />
+    ), [ file ]);
+
+    const sendButton = useMemo(() => <SendButton file={file} setButtonValue={setButtonValue} />, [ file ])
 
     const switchState = useCallback(prop =>  setOpen(prop), []);
     const handleClose = useCallback(() => setOpen(false), []);
@@ -118,14 +122,7 @@ const CreatePost = () => {
                             onClick={handleClose}>
                             Close 
                         </Button> 
-                        <CustomButton 
-                            disabled={!Boolean(file.image) && !Boolean(value.trim())}
-                            variant="contained"
-                            type="button"
-                            className={classNames("border capitalize ml-3 px-8 hover:bg-transparent hover:border-solid hover:text-blue-500 hover:border-blue-500")}
-                            onClick={() => {}}>
-                            post
-                        </CustomButton>   
+                        { sendButton }
                     </div> 
                 </DialogActions>
             </Dialog>
