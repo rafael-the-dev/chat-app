@@ -1,3 +1,8 @@
+
+.transition {
+    transition: all ease-in 1s;
+}
+
 .postsPanel {
     background: #cccccc45;
     padding: 0.5rem 1rem;
@@ -5,4 +10,11 @@
 
 .postsContainer {
     height: 83vh;
+}
+
+@media screen and (min-width: 992px) {
+    .rootHomePage {
+        padding-left: 7%;
+        padding-right: 7%;
+    }
 }

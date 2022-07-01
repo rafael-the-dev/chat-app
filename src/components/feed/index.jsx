@@ -1,6 +1,7 @@
 import { Button, Hidden, Paper } from "@mui/material"
 import classNames from "classnames"
 import { useContext, useId } from "react"
+import { useRouter } from "next/router"
 
 import classes from "./styles.module.css"
 
@@ -14,14 +15,18 @@ import Card from "./components/post"
 import { AppContext } from "src/context"
 
 const Feed = () => {
+    const router = useRouter();
+    const { pathname } = router;
+
     const { getPosts } = useContext(AppContext);
 
     const id = useId();
 
     return (
-        <div className="flex grow items-stretch pt-8 pr-8 bg-transitionV h-screen dark:bg-stone-900">
-            <div className="grow px-6">
-                <Paper className={classNames(classes.postsPanel, `bg-transition flex items-center 
+        <div className={classNames(classes.transition, `flex grow items-stretch pt-8 bg-transitionV h-screen 
+            dark:bg-stone-900`, pathname === "/" ? [classes.rootHomePage] : " pr-8")}>
+            <div className={classNames(pathname === "/" ? "pl-0 pr-16" : "px-6", "grow")}>
+                <Paper className={classNames(classes.transition, classes.postsPanel, `bg-transition flex items-center 
                     justify-between px-3 py-2 rounded-xl shadow-none dark:bg-stone-500`)}>
                     <div className="flex">
                         <AddPost />
