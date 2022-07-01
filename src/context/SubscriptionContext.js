@@ -26,6 +26,7 @@ export const SubscriptionContextProvider = ({ children }) => {
         friendshipInvitations: [], 
         groupsInvitations: [],
         usersColors: {}, 
+        posts: [],
         usersList: []
     });
 
@@ -79,7 +80,7 @@ export const SubscriptionContextProvider = ({ children }) => {
 
         const postsData = postsResult.data;
         if(postsData) {
-            console.log("posts data", postsData)
+            properties = { ...properties, posts: postsData.posts };
         }
 
         const newUserProperties = { ...userOldProperties.current, ...properties };
@@ -93,11 +94,12 @@ export const SubscriptionContextProvider = ({ children }) => {
     const getFriendshipInvitationsList = useCallback(() => userProperties.friendshipInvitations, [ userProperties ]);
     const getUsersList = useCallback(() => userProperties.usersList, [ userProperties ]);
     const getGroupsInvitations = useCallback(() => userProperties.groupsInvitations, [ userProperties ]);
+    const getPosts = useCallback(() => userProperties.posts, [ userProperties ]);
 
     return (
         <SubscriptionContext.Provider 
             value={{ getBgColors, getDirectChats, getFriendshipsList, getFriendshipInvitationsList, getUsersList,
-                getGroupsInvitations}}>
+                getGroupsInvitations, getPosts }}>
             { children }
         </SubscriptionContext.Provider>
     );
