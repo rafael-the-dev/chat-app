@@ -1,23 +1,25 @@
 import { useCallback, useContext, useMemo } from "react";
 import Image from "next/image"
-import { Avatar, IconButton, Paper, Typography } from "@mui/material"
+import { Avatar, CardMedia, IconButton, Paper, Typography } from "@mui/material"
 import classNames from "classnames"
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faComment } from '@fortawesome/free-solid-svg-icons'
 
-import { AppContext } from "src/context"
+import { AppContext, LoginContext } from "src/context"
+
+import Options from "./components/options"
 
 library.add(faComment);
 
 const Post = ({ author, description, image }) => {
 
     const { getUsersList, serverPublicURL } = useContext(AppContext);
+    const { loggedUser } = useContext(LoginContext)
 
     const authorDetails = useMemo(() => {
         const result = getUsersList().find(user => user.username === author);
@@ -31,42 +33,51 @@ const Post = ({ author, description, image }) => {
 
     return (
         <Paper 
-            className="flex flex-col items-stretch mb-4 pb-1 px-4 pt-3 rounded-lg w-full last:mb-0"
+            className="flex flex-col items-stretch mb-4 px-4 py-3 rounded-xl w-full last:mb-0"
             elevation={0}>
-            <header className="flex items-center">
-                <Avatar 
-                    alt={authorDetails.name}
-                    className="h-[30px] w-[30px]"
-                    src={authorDetails.image}
-                />
-                <div className=" ml-3">
-                    <Typography 
-                        className="font-bold text-sm"
-                        component="h2">
-                        { authorDetails.name }
-                    </Typography>
-                    <Typography 
-                        className="text-xs"
-                        component="p">
-                        12:00 PM
-                    </Typography>
+            <header className="flex items-center justify-between">
+                <div className="flex items-center">
+                    <Avatar 
+                        alt={authorDetails.name}
+                        className="h-[30px] w-[30px]"
+                        src={`${serverPublicURL.current}/${authorDetails.image}`}
+                    />
+                    <div className=" ml-3">
+                        <Typography 
+                            className="font-bold text-sm"
+                            component="h2">
+                            { authorDetails.name }
+                        </Typography>
+                        <Typography 
+                            className="text-xs"
+                            component="p">
+                            12:00 PM
+                        </Typography>
+                    </div>
                 </div>
+                <Options author={author} />
             </header>
-            { image && <div className="h-[300px] relative w-full">
-                <Image 
+            { image && <div className="h-[300px] mt-3 relative w-full">
+                <CardMedia
+                    component="img"
+                    height="194"
+                    image={`${serverPublicURL.current}/${image}`}
+                    alt="Paella dish"
+                />
+                {/*<Image 
                     alt={description}
                     className="object-contain"
                     loader={myLoader}
                     layout="fill"
                     src={`${serverPublicURL.current}/${image}`}
-                />
+                />*/}
             </div>}
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
                     <IconButton>
                         <FavoriteBorderIcon />
                     </IconButton>
-                    <IconButton className="ml-2">
+                    <IconButton className="">
                         <FontAwesomeIcon 
                             className={classNames("text-2xl")} 
                             icon="fa-solid comment fa-comment" 
@@ -77,6 +88,13 @@ const Post = ({ author, description, image }) => {
                     <BookmarkBorderIcon />
                 </IconButton>
             </div>
+            { description && (
+                <Typography 
+                    className="px-3 text-slate-600"
+                    component="p">
+                    { description }
+                </Typography>
+            )}
         </Paper>
     );
 };

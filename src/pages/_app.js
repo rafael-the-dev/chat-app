@@ -14,6 +14,7 @@ import 'src/styles/reset.css'
 import 'src/styles/globals.css'
 import 'src/styles/chat.css'
 import 'src/styles/tailwind.css'
+import '@fortawesome/fontawesome-svg-core/styles.css'
 
 import { AppContextProvider } from 'src/context/AppContext';
 import client from 'src/graphql/apollo-client';

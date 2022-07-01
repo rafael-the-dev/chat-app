@@ -4,41 +4,34 @@ import { useLazyQuery, useSubscription } from "@apollo/client"
 import { LoginContext } from "src/context"
 
 import { GET_POSTS } from 'src/graphql/queries';
-import { USER_CREATED_SUBSCRIPTION } from 'src/graphql/subscriptions';
+import { POST_ADDED_SUBSCRIPTION } from 'src/graphql/subscriptions';
 
-export const usePostsQuery = (loggedUser) => {
+export const usePostsQuery = () => {
     const { user } = useContext(LoginContext)
 
-    //const subscription = useSubscription(USER_CREATED_SUBSCRIPTION)
+    useSubscription(POST_ADDED_SUBSCRIPTION)
     const [ getPosts, { data, loading, error, subscribeToMore } ] = useLazyQuery(GET_POSTS);
 
-    /*useEffect(() => {
-        subscribeToMore({
-            document: USER_CREATED_SUBSCRIPTION,
-            updateQuery: (prev, { subscriptionData }) => {
-                if (!subscriptionData.data || !Boolean(loggedUser)) return prev;
+    useEffect(() => {
+        if(user) {
+            subscribeToMore({
+                document: POST_ADDED_SUBSCRIPTION,
+                updateQuery: (prev, { subscriptionData }) => {
+                    if (!subscriptionData.data || !Boolean(user)) return prev;
 
-                const user = subscriptionData.data.userCreated;
-                let users = prev.users ? [ ...prev.users ] : [];
+                    const post = subscriptionData.data.postAdded;
+                    let posts = prev.posts ? [ post, ...prev.posts ] : [ post ];
 
-                const userIndex = users.findIndex(registeredUser => registeredUser.username === user.username);
-
-                if(userIndex !== -1) {
-                    users[userIndex] = user;
-                } else {
-                    users = [ user, ...users ];
+                    return Object.assign({}, prev, {
+                        posts
+                    });
                 }
-
-                return Object.assign({}, prev, {
-                    users
-                });
-            }
-        });
-    }, [ loggedUser, subscribeToMore ]); */
+            });
+        }
+    }, [ subscribeToMore, user ]); 
   
     useEffect(() => {
         if(user) {
-            console.log("getting posts...")
             getPosts();
         }
     }, [ getPosts, user ]);

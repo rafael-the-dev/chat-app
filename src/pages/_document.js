@@ -18,6 +18,7 @@ export default class MyDocument extends Document {
           />
           <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"></link>
           <link href="https://fonts.googleapis.com/css2?family=Gemunu+Libre:wght@300;400;500;600;700&display=swap" rel="stylesheet"></link>
+          <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"></link>
           {/* Inject MUI styles first to match with the prepend: true configuration. */}
           {this.props.emotionStyleTags}
         </Head>
