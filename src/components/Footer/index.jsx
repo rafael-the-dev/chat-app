@@ -22,26 +22,25 @@ const Footer = () => {
     const isSettingPage = () => pathname === "/settings" || pathname === "/profile";
 
     const clickHandler = prop => () => router.push(`/${prop ? `?tab=${prop}` : "" }`);
-    const settingHandler = () => router.push("/settings");
 
     const getClasses = isTrue => isTrue ? "text-red-500" : "text-cyan-500";
 
     const navigation = () => (
         <nav className={classNames(classes.navbar, `bg-white flex justify-between py-2 px-2 w-full
             md:flex-col  md:shadow-none bg-transition dark:bg-stone-900`)}>
-            <IconButton onClick={clickHandler()}>
-                <HomeIcon className={classNames("text-3xl", getClasses(tab === undefined && !isSettingPage()))} />
-            </IconButton>
+            <Link href="/">
+                <HomeIcon className={classNames("text-3xl", getClasses(pathname === '/' && !isSettingPage()))} />
+            </Link>
             <Link href="friendships">
                 <PeopleAltIcon 
-                    className={classNames("text-3xl", getClasses(pathname === "friendships"))} 
+                    className={classNames("text-3xl", getClasses(pathname === "/friendships"))} 
                 />
             </Link>
-            <ChatTab tab={pathname} />
-            <IconButton onClick={clickHandler("notifications")}>
-                <NotificationsIcon className={classNames("text-3xl", getClasses(tab === "notifications"))} />
-            </IconButton>
-            <Link href="/settings">
+            <ChatTab getClasses={getClasses} pathname={pathname} tab={pathname} />
+            <Link href="notifications">
+                <NotificationsIcon className={classNames("text-3xl", getClasses(tab === "/notifications"))} />
+            </Link>
+            <Link href="settings">
                 <SettingsIcon className={classNames("text-3xl", getClasses(isSettingPage()))} />
             </Link>
         </nav>

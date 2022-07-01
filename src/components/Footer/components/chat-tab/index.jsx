@@ -13,7 +13,7 @@ import Link from "../link"
 
 library.add(faComment);
 
-const ChatTab = ({ tab }) => {
+const ChatTab = ({ getClasses, pathname, tab }) => {
     const { loggedUser } = useContext(LoginContext)
     const { getDirectChats } = useContext(AppContext)
 
@@ -34,12 +34,12 @@ const ChatTab = ({ tab }) => {
     }, [ getDirectChats, loggedUser ])
 
     return (
-        <Link href="/chat">
+        <Link href="chat">
             <Badge 
                 badgeContent={unreadMessagesLength} 
                 classes={{ badge: classNames("text-slate-100",  tab === "chat" ? "bg-cyan-500" : "bg-red-500" ) }}>
                 <FontAwesomeIcon 
-                    className={classNames("text-2xl", `${tab === "chat" ? "text-red-500" : "text-cyan-500" }`)} 
+                    className={classNames("text-2xl", getClasses(pathname === "/chat"))} 
                     icon="fa-solid comment fa-comment" 
                 />
             </Badge>
