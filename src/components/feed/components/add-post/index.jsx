@@ -1,6 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@mui/material"
-import { useCallback, useMemo, useRef, useState, useTransition } from "react"
-import { styled } from "@mui/material/styles";
+import { useCallback, useMemo, useRef, useState } from "react"
 
 import classNames from "classnames"
 
@@ -38,7 +37,6 @@ const BootstrapDialogTitle = (props) => {
 const CreatePost = () => {
     const [ open, setOpen ] = useState(false);
     const [ file, setFile ] = useState({ image: null, url: "" });
-    const [ value, setValue ] = useState("");
 
     const inputRef = useRef(null);
     const fileRef = useRef(null);
@@ -58,7 +56,13 @@ const CreatePost = () => {
         />
     ), [ file ]);
 
-    const sendButton = useMemo(() => <SendButton file={file} setButtonValue={setButtonValue} />, [ file ])
+    const sendButton = useMemo(() => (
+        <SendButton 
+            file={file} 
+            inputRef={inputRef} 
+            setButtonValue={setButtonValue} 
+        />
+    ), [ file ]);
 
     const switchState = useCallback(prop =>  setOpen(prop), []);
     const handleClose = useCallback(() => setOpen(false), []);

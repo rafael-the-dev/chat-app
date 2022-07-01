@@ -17,7 +17,7 @@ const TextfieldContainer = forwardRef(({ file, setInputValue }, ref) => {
     const { hasError, value } = properties;
 
     const inputChangeHandler = useCallback(event => {
-        const inputValue = event.target.value.trim();
+        const inputValue = event.target.value;
         startTransition(() => {
             setProperties(currentProperties => {
                 if(currentProperties.value.length === 0) {
@@ -44,6 +44,7 @@ const TextfieldContainer = forwardRef(({ file, setInputValue }, ref) => {
                 dark:bg-stone-900 dark:text-slate-300`)}
                 error={hasError}
                 fullWidth
+                inputRef={ref}
                 multiline
                 onChange={inputChangeHandler}
                 placeholder={Boolean(file.image) ? "Add image's caption" : "what do you want to talk about?" }
