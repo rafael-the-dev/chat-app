@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useId, useState, useTransition } from "react"
+import { useCallback, useContext, useEffect, useId, useRef, useState, useTransition } from "react"
 import classNames from "classnames"
 import classes from "./styles.module.css"
 import { Button } from "@mui/material"
@@ -12,6 +12,8 @@ const PostsContainer = () => {
     const [ isPending, startTransition ] = useTransition();
     const id = useId();
 
+    const postsContainerRef = useRef(null);
+
     const { hasNewPosts, loading } = buttonProperties;
 
     const { getPosts } = useContext(AppContext);
@@ -21,6 +23,7 @@ const PostsContainer = () => {
         setTimeout(() => {
             setPosts(getPosts());
             startTransition(() => {
+                postsContainerRef.current?.scrollTo({ behavior: "smooth", top: 0 })
                 setButtonProperties({ hasNewPosts: false, loading: false });
             });
         }, 1500)
@@ -49,7 +52,8 @@ const PostsContainer = () => {
             </Button>
             <ul 
                 className={classNames(classes.postsContainer, "overflow-y-auto",
-                hasNewPosts ? "mt-8" : "mt-6")}>
+                hasNewPosts ? "mt-8" : "mt-6")}
+                ref={postsContainerRef}>
                 {
                     posts.map(post => <Card key={`${id}-${post.ID}`} { ...post } />)
                 }
