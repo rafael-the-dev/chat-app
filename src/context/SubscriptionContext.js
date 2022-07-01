@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useRef } from 'react'
 
-import { useDirectChatsQuery, useLoggedUserQuery, useUsersQuery, useFriendshipsQuery, useFriendshipsInvitationsQuery } from 'src/hooks';
+import { useDirectChatsQuery, useLoggedUserQuery, useUsersQuery, useFriendshipsQuery, 
+    useFriendshipsInvitationsQuery, usePostsQuery } from 'src/hooks';
 import { LoginContext } from './LoginContext';
 
 export const SubscriptionContext = createContext();
@@ -16,6 +17,7 @@ export const SubscriptionContextProvider = ({ children }) => {
     const friendshipsResult = useFriendshipsQuery({ subscribeToMore });
     const friendshipInvitationsResult = useFriendshipsInvitationsQuery({ subscribeToMore });
     const directChatsResult = useDirectChatsQuery({ subscribeToMore });
+    const postsResult = usePostsQuery();
 
     //const groupsListRef = useRef([]);
     const userOldProperties = useRef({ 
@@ -75,10 +77,15 @@ export const SubscriptionContextProvider = ({ children }) => {
             properties = { ...properties, ...userData.loggedUser };   
         }
 
+        const postsData = postsResult.data;
+        if(postsData) {
+            console.log("posts data", postsData)
+        }
+
         const newUserProperties = { ...userOldProperties.current, ...properties };
         userOldProperties.current = newUserProperties;
         return newUserProperties;
-    }, [ getColor, result, userResult ]);
+    }, [ getColor, result, postsResult, userResult ]);
 
     const getBgColors = useCallback(() => userProperties.usersColors, [ userProperties ]);
     const getDirectChats = useCallback(() => userProperties.directChats, [ userProperties ]);

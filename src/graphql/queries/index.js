@@ -226,6 +226,35 @@ export const GET_LOGGED_USER_DETAILS = gql`
     }
 `;
 
+export const GET_POSTS = gql`
+    query getPosts {
+        posts {
+            author
+            createdAt
+            comments {
+                ID
+                content
+                createdAt
+                replies {
+                    ID
+                    content 
+                    createdAt
+                    replyingTo
+                    username
+                }
+                username
+            }
+            description
+            ID
+            image
+            likes {
+                username
+            }
+            tags
+        }
+    }
+`;
+
 export const GET_USER = gql`
     query getUser($username: String!) {
         user(username: $username) {
