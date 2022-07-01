@@ -1,6 +1,6 @@
 import { useContext, useMemo } from "react"
 import classNames from "classnames"
-import { Badge, IconButton } from "@mui/material"
+import { Badge } from "@mui/material"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -20,7 +20,6 @@ const ChatTab = ({ getClasses, pathname, tab }) => {
     const unreadMessagesLength = useMemo(() => {
         if(getDirectChats()) {
             const chats = [ ...getDirectChats() ];
-            console.log(chats)
             return chats.reduce((prevChatValue, currentChat) => {
                 return prevChatValue + currentChat.messages.reduce((prevValue, currentMessage) => {
                     if(currentMessage.sender !== loggedUser.username && !currentMessage.isRead) {
