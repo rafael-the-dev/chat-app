@@ -26,7 +26,6 @@ export const SubscriptionContextProvider = ({ children }) => {
         friendshipInvitations: [], 
         groupsInvitations: [],
         usersColors: {}, 
-        posts: [],
         usersList: []
     });
 
@@ -78,15 +77,20 @@ export const SubscriptionContextProvider = ({ children }) => {
             properties = { ...properties, ...userData.loggedUser };   
         }
 
-        const postsData = postsResult.data;
-        if(postsData) {
-            properties = { ...properties, posts: postsData.posts };
-        }
-
         const newUserProperties = { ...userOldProperties.current, ...properties };
         userOldProperties.current = newUserProperties;
         return newUserProperties;
-    }, [ getColor, result, postsResult, userResult ]);
+    }, [ getColor, result, userResult ]);
+
+    const posts = useMemo(() => {
+        const postsData = postsResult.data;
+
+        if(postsData) {
+            return postsData.posts;
+        }
+
+        return [];
+    }, [ postsResult ])
 
     const getBgColors = useCallback(() => userProperties.usersColors, [ userProperties ]);
     const getDirectChats = useCallback(() => userProperties.directChats, [ userProperties ]);
@@ -94,7 +98,7 @@ export const SubscriptionContextProvider = ({ children }) => {
     const getFriendshipInvitationsList = useCallback(() => userProperties.friendshipInvitations, [ userProperties ]);
     const getUsersList = useCallback(() => userProperties.usersList, [ userProperties ]);
     const getGroupsInvitations = useCallback(() => userProperties.groupsInvitations, [ userProperties ]);
-    const getPosts = useCallback(() => userProperties.posts, [ userProperties ]);
+    const getPosts = useCallback(() => posts, [ posts ]);
 
     return (
         <SubscriptionContext.Provider 

@@ -8,10 +8,6 @@
     padding: 0.5rem 1rem;
 }
 
-.postsContainer {
-    height: 83vh;
-}
-
 @media screen and (min-width: 992px) {
     .rootHomePage {
         padding-left: 7%;

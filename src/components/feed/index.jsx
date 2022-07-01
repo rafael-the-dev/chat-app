@@ -1,6 +1,5 @@
 import { Button, Hidden, Paper } from "@mui/material"
 import classNames from "classnames"
-import { useContext, useId } from "react"
 import { useRouter } from "next/router"
 
 import classes from "./styles.module.css"
@@ -10,17 +9,11 @@ import KnownPeople from "./components/known-people"
 import Avatar from "../logged-user-avatar"
 import Input from "./components/search-input"
 import AddPost from "./components/add-post"
-import Card from "./components/post"
-
-import { AppContext } from "src/context"
+import Posts from "./components/posts-container"
 
 const Feed = () => {
     const router = useRouter();
     const { pathname } = router;
-
-    const { getPosts } = useContext(AppContext);
-
-    const id = useId();
 
     return (
         <div className={classNames(classes.transition, `flex grow items-stretch pt-8 bg-transitionV h-screen 
@@ -41,11 +34,7 @@ const Feed = () => {
                         </Hidden>
                     </div>
                 </Paper>
-                <ul className={classNames(classes.postsContainer, "mt-6 overflow-y-auto")}>
-                    {
-                        getPosts().map(post => <Card key={`${id}-${post.ID}`} { ...post } />)
-                    }
-                </ul>
+                <Posts />
             </div>
             <aside className="flex flex-col items-stretch pb-6 w-[300px]">
                 <KnownPeople />
