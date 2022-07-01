@@ -14,7 +14,7 @@ const CustomButton = styled(Button)({
     }
 })
 
-const SendButton = ({ file, inputRef, setButtonValue }) => {
+const SendButton = ({ file, inputRef, onError, onSubmit, onSucess, setButtonValue }) => {
     const [ value, setValue ] = useState("");
     const [ isLoading, setIsLoading ] = useState(false);
 
@@ -22,6 +22,7 @@ const SendButton = ({ file, inputRef, setButtonValue }) => {
 
     const sendHandler = useCallback(() => {
         setIsLoading(true);
+        onSubmit();
 
         const send = addPostMutation[0];
 
@@ -35,13 +36,15 @@ const SendButton = ({ file, inputRef, setButtonValue }) => {
             },
             onCompleted() {
                 setIsLoading(false);
+                onSucess();
             },
             onError(error) {
                 console.error(error)
                 setIsLoading(false);
+                onError();
             }
         })
-    }, [ addPostMutation, file, inputRef ])
+    }, [ addPostMutation, file, inputRef, onError, onSubmit, onSucess ])
 
     useEffect(() => {
         setButtonValue.current = setValue;

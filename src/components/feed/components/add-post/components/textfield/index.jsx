@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material"
 import { styled } from "@mui/material/styles";
-import { forwardRef, useCallback, useMemo, useRef, useState, useTransition } from "react"
+import { forwardRef, useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react"
 import classNames from "classnames"
 
 const CustomTextfield = styled(TextField)({
@@ -9,7 +9,7 @@ const CustomTextfield = styled(TextField)({
     }
 })
 
-const TextfieldContainer = forwardRef(({ file, setInputValue }, ref) => {
+const TextfieldContainer = forwardRef(({ file, setInputValue, setTextfieldValue }, ref) => {
     const [ properties, setProperties ] = useState({ hasError: false, value: "" });
     const [ _, startTransition ] = useTransition();
     const maxCharacteresLength = useRef(600);
@@ -35,7 +35,11 @@ const TextfieldContainer = forwardRef(({ file, setInputValue }, ref) => {
         })
     }, []);
 
-    const leftCharacteres = useMemo(() => maxCharacteresLength.current - value.length, [ value ])
+    const leftCharacteres = useMemo(() => maxCharacteresLength.current - value.length, [ value ]);
+
+    useEffect(() => {
+        setTextfieldValue.current = () => setProperties({ hasError: false, value: "" });
+    }, [ setTextfieldValue ])
 
     return (
         <>

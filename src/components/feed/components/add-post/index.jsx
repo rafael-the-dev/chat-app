@@ -1,5 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@mui/material"
-import { useCallback, useMemo, useRef, useState } from "react"
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@mui/material"
+import { useCallback, useMemo, useRef, useState, useTransition } from "react"
 
 import classNames from "classnames"
 
@@ -9,6 +9,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import Image from "src/components/image-collapse"
 import TextField from "./components/textfield"
 import SendButton from "./components/send-button"
+import { closeAlert, openAlert } from "src/helpers/alert"
 
 const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;
@@ -37,14 +38,33 @@ const BootstrapDialogTitle = (props) => {
 const CreatePost = () => {
     const [ open, setOpen ] = useState(false);
     const [ file, setFile ] = useState({ image: null, url: "" });
+    const [ isPending, startTransition ] = useTransition();
 
+    const successAlert = useRef(null);
+    const errorAlert = useRef(null);
     const inputRef = useRef(null);
     const fileRef = useRef(null);
     const imageRef = useRef(null);
     const setButtonValue = useRef(null);
+    const setTextfieldValue = useRef(null);
 
     const deleteImage = useCallback(() => {
         setFile({ image: null, url: "" });
+    }, []);
+
+    const onSubmit = useCallback(() => {
+        closeAlert(errorAlert)();
+        closeAlert(successAlert)();
+    }, [])
+
+    const onError = useCallback(() => {
+        openAlert(errorAlert)();
+    }, [])
+
+    const onSucess = useCallback(() => {
+        openAlert(successAlert)();
+        setTextfieldValue.current?.();
+        startTransition(() => setFile({ image: null, url: "" }));
     }, []);
 
     const imageMemo = useMemo(() => <Image deleteImage={deleteImage} file={file} />, [ deleteImage, file ]);
@@ -53,6 +73,7 @@ const CreatePost = () => {
             file={file} 
             ref={inputRef} 
             setInputValue={setButtonValue} 
+            setTextfieldValue={setTextfieldValue}
         />
     ), [ file ]);
 
@@ -60,9 +81,12 @@ const CreatePost = () => {
         <SendButton 
             file={file} 
             inputRef={inputRef} 
+            onError={onError}
+            onSubmit={onSubmit}
+            onSucess={onSucess}
             setButtonValue={setButtonValue} 
         />
-    ), [ file ]);
+    ), [ file, onError, onSubmit, onSucess ]);
 
     const switchState = useCallback(prop =>  setOpen(prop), []);
     const handleClose = useCallback(() => setOpen(false), []);
@@ -104,6 +128,23 @@ const CreatePost = () => {
                     Create a post
                 </BootstrapDialogTitle>
                 <DialogContent className="px-0">
+                    <Alert 
+                        className="hidden mb-3" 
+                        color="error"
+                        ref={errorAlert} 
+                        severity="error" 
+                        onClose={closeAlert(errorAlert)}>
+                        Error while adding your post, please try again.
+                    </Alert>
+                    <Alert 
+                        className="hidden mb-"
+                        color="info" 
+                        ref={successAlert} 
+                        severity="success"  
+                        onClose={closeAlert(successAlert)}
+                    >
+                        Your post was successfully added!
+                    </Alert>
                     { imageMemo }
                     { textFieldMemo }
                     <input 
