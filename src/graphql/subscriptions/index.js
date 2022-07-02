@@ -163,6 +163,38 @@ export const POST_ADDED_SUBSCRIPTION = gql`
     }
 `;
 
+export const POST_UPDATED_SUBSCRIPTION = gql`
+    subscription PostUpdated {
+        postUpdated {
+            operation
+            post {
+                author
+                createdAt
+                comments {
+                    ID
+                    content
+                    createdAt
+                    replies {
+                        ID
+                        content 
+                        createdAt
+                        replyingTo
+                        username
+                    }
+                    username
+                }
+                description
+                ID
+                image
+                likes {
+                    username
+                }
+                tags
+            }
+        }
+    }
+`;
+
 export const GET_FEEDBACKS__SUBSCRIPTION = gql`
     subscription PostCreated {
         feedbackCreated {

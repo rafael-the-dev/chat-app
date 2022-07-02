@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useRef } from 'react'
 
 import { useDirectChatsQuery, useLoggedUserQuery, useUsersQuery, useFriendshipsQuery, 
-    useFriendshipsInvitationsQuery, usePostsQuery } from 'src/hooks';
+    useFriendshipsInvitationsQuery, usePostsQuery, usePostSubscription } from 'src/hooks';
 import { LoginContext } from './LoginContext';
 
 export const SubscriptionContext = createContext();
@@ -9,15 +9,17 @@ SubscriptionContext.displayName = "SubscriptionContext";
 
 export const SubscriptionContextProvider = ({ children }) => {
     const { loggedUser } = useContext(LoginContext);
+    const hasPostUpdate = useRef(false);
 
     //const userResult = useUserQuery(loggedUser.username);
     const userResult = useLoggedUserQuery();
     const result = useUsersQuery(loggedUser);
     const { subscribeToMore } = userResult;
-    const friendshipsResult = useFriendshipsQuery({ subscribeToMore });
-    const friendshipInvitationsResult = useFriendshipsInvitationsQuery({ subscribeToMore });
-    const directChatsResult = useDirectChatsQuery({ subscribeToMore });
+    useFriendshipsQuery({ subscribeToMore });
+    useFriendshipsInvitationsQuery({ subscribeToMore });
+    useDirectChatsQuery({ subscribeToMore });
     const postsResult = usePostsQuery();
+    usePostSubscription({ subscribeToMore: postsResult.subscribeToMore })
 
     //const groupsListRef = useRef([]);
     const userOldProperties = useRef({ 
@@ -86,6 +88,7 @@ export const SubscriptionContextProvider = ({ children }) => {
         const postsData = postsResult.data;
 
         if(postsData) {
+            hasPostUpdate.current = true;
             return postsData.posts;
         }
 
@@ -103,7 +106,7 @@ export const SubscriptionContextProvider = ({ children }) => {
     return (
         <SubscriptionContext.Provider 
             value={{ getBgColors, getDirectChats, getFriendshipsList, getFriendshipInvitationsList, getUsersList,
-                getGroupsInvitations, getPosts }}>
+                getGroupsInvitations, getPosts, hasPostUpdate }}>
             { children }
         </SubscriptionContext.Provider>
     );

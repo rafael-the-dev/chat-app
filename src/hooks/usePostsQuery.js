@@ -36,5 +36,5 @@ export const usePostsQuery = () => {
         }
     }, [ getPosts, user ]);
   
-    return { data, loading, error };
+    return { data, loading, error, subscribeToMore };
 };

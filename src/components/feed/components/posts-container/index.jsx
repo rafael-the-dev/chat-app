@@ -16,7 +16,7 @@ const PostsContainer = () => {
 
     const { hasNewPosts, loading } = buttonProperties;
 
-    const { getPosts } = useContext(AppContext);
+    const { getPosts, hasPostUpdate } = useContext(AppContext);
 
     const clickHandler = useCallback(() => {
         setButtonProperties(currentProperties => ({ ...currentProperties, loading: true }));
@@ -35,10 +35,16 @@ const PostsContainer = () => {
                 return getPosts();
             }
 
-            startTransition(() => setButtonProperties({ hasNewPosts: true, loading: false }));
+            if(!hasPostUpdate.current) {
+                startTransition(() => setButtonProperties({ hasNewPosts: true, loading: false }));
+            } else {
+                hasPostUpdate.current = false;
+                return getPosts();
+            }
+
             return currentPosts;
         })
-    }, [ getPosts ])
+    }, [ getPosts, hasPostUpdate ])
 
     return (
         <div className="mt-6 relative">

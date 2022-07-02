@@ -8,3 +8,4 @@ export * from "./useGroupsQuery";
 export * from "./useGroupChatQuery"
 export * from "./useLoggedUserQuery"
 export * from "./usePostsQuery"
+export * from "./usePostSubscription"
