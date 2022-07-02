@@ -57,14 +57,15 @@ const Post = ({ author, description, image }) => {
                 </div>
                 <Options author={author} />
             </header>
-            { image && <div className="h-[300px] mt-3 relative w-full">
+            { image && <div className="mt-3 relative w-full">
                 <CardMedia
+                    className="h-auto"
                     component="img"
                     height="194"
                     image={`${serverPublicURL.current}/${image}`}
                     alt="Paella dish"
                 />
-                {/*<Image 
+                {/*<Image h-[300px] 
                     alt={description}
                     className="object-contain"
                     loader={myLoader}
