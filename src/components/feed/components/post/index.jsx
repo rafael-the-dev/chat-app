@@ -17,7 +17,7 @@ import Options from "./components/options"
 
 library.add(faComment);
 
-const Post = ({ author, createdAt, description, image }) => {
+const Post = ({ author, createdAt, description, ID, image }) => {
 
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     const { loggedUser } = useContext(LoginContext)
@@ -56,7 +56,7 @@ const Post = ({ author, createdAt, description, image }) => {
                         </Typography>
                     </div>
                 </div>
-                <Options author={author} />
+                <Options author={author} ID={ID} />
             </header>
             { image && <div className="mt-3 relative w-full">
                 <CardMedia
