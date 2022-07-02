@@ -19,7 +19,7 @@ export const SubscriptionContextProvider = ({ children }) => {
     useFriendshipsInvitationsQuery({ subscribeToMore });
     useDirectChatsQuery({ subscribeToMore });
     const postsResult = usePostsQuery();
-    usePostSubscription({ subscribeToMore: postsResult.subscribeToMore })
+    usePostSubscription({ hasPostUpdate, subscribeToMore: postsResult.subscribeToMore })
 
     //const groupsListRef = useRef([]);
     const userOldProperties = useRef({ 
@@ -88,7 +88,6 @@ export const SubscriptionContextProvider = ({ children }) => {
         const postsData = postsResult.data;
 
         if(postsData) {
-            hasPostUpdate.current = true;
             return postsData.posts;
         }
 

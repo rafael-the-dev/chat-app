@@ -5,7 +5,7 @@ import { LoginContext } from "src/context"
 
 import { POST_UPDATED_SUBSCRIPTION } from 'src/graphql/subscriptions';
 
-export const usePostSubscription = ({ subscribeToMore }) => {
+export const usePostSubscription = ({ hasPostUpdate, subscribeToMore }) => {
     const { user } = useContext(LoginContext)
 
     useSubscription(POST_UPDATED_SUBSCRIPTION);
@@ -37,8 +37,10 @@ export const usePostSubscription = ({ subscribeToMore }) => {
 
                     if(postUpdated.operation === "DELETED") {
                         posts = onDelete({ ID : postUpdated.post.ID, posts });
+                        hasPostUpdate.current = true;
                     } else if(postUpdated.operation === "UPDATED") {
                         posts = onUpdate({ posts, postUpdated: postUpdated.post })
+                        hasPostUpdate.current = true;
                     }
 
                     return Object.assign({}, prev, {
@@ -47,5 +49,5 @@ export const usePostSubscription = ({ subscribeToMore }) => {
                 }
             });
         }
-    }, [ onDelete, onUpdate,subscribeToMore, user ]); 
+    }, [ hasPostUpdate, onDelete, onUpdate, subscribeToMore, user ]); 
 };
