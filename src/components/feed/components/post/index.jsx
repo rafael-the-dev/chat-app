@@ -3,8 +3,6 @@ import Image from "next/image"
 import { Avatar, CardMedia, IconButton, Paper, Typography } from "@mui/material"
 import classNames from "classnames"
 
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -13,11 +11,12 @@ import { faComment } from '@fortawesome/free-solid-svg-icons'
 import { AppContext, LoginContext } from "src/context"
 import { getDate } from "src/helpers"
 
+import LikeButton from "./components/like-button"
 import Options from "./components/options"
 
 library.add(faComment);
 
-const Post = ({ author, createdAt, description, ID, image }) => {
+const Post = ({ author, createdAt, description, ID, image, likes }) => {
 
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     const { loggedUser } = useContext(LoginContext)
@@ -76,9 +75,7 @@ const Post = ({ author, createdAt, description, ID, image }) => {
             </div>}
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                    <IconButton>
-                        <FavoriteBorderIcon />
-                    </IconButton>
+                    <LikeButton id={ID} likes={likes} />
                     <IconButton className="">
                         <FontAwesomeIcon 
                             className={classNames("text-2xl")} 

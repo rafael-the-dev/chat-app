@@ -19,3 +19,11 @@ export const DELETE_POST = gql`
         }
     }
 `;
+
+export const LIKE_POST = gql`
+    mutation LikePost($id: String!) {
+        likePost(id: $id) {
+            ID
+        }
+    }
+`;

@@ -13,6 +13,16 @@ export const usePostSubscription = ({ subscribeToMore }) => {
     const onDelete = useCallback(({ ID, posts }) => {
         const result  = posts.filter(post => post.ID !== ID);
         return result;
+    }, []);
+
+    const onUpdate = useCallback(({ posts, postUpdated }) => {
+        const index = posts.findIndex(post => post.ID === postUpdated.ID);
+
+        if(index !== -1) {
+            posts[index] = { ...postUpdated }
+        }
+
+        return posts;
     }, [])
 
     useEffect(() => {
@@ -27,6 +37,8 @@ export const usePostSubscription = ({ subscribeToMore }) => {
 
                     if(postUpdated.operation === "DELETED") {
                         posts = onDelete({ ID : postUpdated.post.ID, posts });
+                    } else if(postUpdated.operation === "UPDATED") {
+                        posts = onUpdate({ posts, postUpdated: postUpdated.post })
                     }
 
                     return Object.assign({}, prev, {
@@ -35,5 +47,5 @@ export const usePostSubscription = ({ subscribeToMore }) => {
                 }
             });
         }
-    }, [ onDelete ,subscribeToMore, user ]); 
+    }, [ onDelete, onUpdate,subscribeToMore, user ]); 
 };
