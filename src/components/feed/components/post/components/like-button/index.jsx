@@ -7,10 +7,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { LoginContext } from "src/context";
-import { LIKE_POST } from "src/graphql/mutations"
+import { DISLIKE_POST, LIKE_POST } from "src/graphql/mutations"
 
 const Button = ({ id, likes }) => {
     const likeMutation = useMutation(LIKE_POST);
+    const dislikeMutation = useMutation(DISLIKE_POST);
 
     const { loggedUser } = useContext(LoginContext);
 
@@ -24,26 +25,44 @@ const Button = ({ id, likes }) => {
 
     const likeIcon = useMemo(() => hasLiked ? <FavoriteIcon className="text-red-500" /> : <FavoriteBorderIcon />, [ hasLiked ])
 
+    const responseHandler = useMemo(() => (
+        {
+            onCompleted: () => {
+                setLoading(false);
+            },
+            onError: (error) => {
+                console.error(error)
+                setLoading(false);
+            }
+        }
+    ), []);
+
     const likeHandler = useCallback(() => {
         const like = likeMutation[0];
         setLoading(true);
 
         like({ 
+            ...responseHandler,
             variables: {
                 id
-            },
-            onCompleted() {
-                setLoading(false);
-            },
-            onError(error) {
-                console.error(error)
-                setLoading(false);
             }
         })
-    }, [ id, likeMutation ])
+    }, [ id, likeMutation, responseHandler ]);
+
+    const dislikeHandler = useCallback(() => {
+        const dislike = dislikeMutation[0];
+        setLoading(true);
+
+        dislike({ 
+            ...responseHandler,
+            variables: {
+                id
+            }
+        })
+    }, [ id, responseHandler, dislikeMutation ])
 
     return (
-        <IconButton onClick={ hasLiked ? () => {} : likeHandler }>
+        <IconButton onClick={ hasLiked ? dislikeHandler : likeHandler }>
             { loading ? <CircularProgress className="" size={19} /> : likeIcon }
         </IconButton>
     );
