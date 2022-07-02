@@ -11,12 +11,13 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faComment } from '@fortawesome/free-solid-svg-icons'
 
 import { AppContext, LoginContext } from "src/context"
+import { getDate } from "src/helpers"
 
 import Options from "./components/options"
 
 library.add(faComment);
 
-const Post = ({ author, description, image }) => {
+const Post = ({ author, createdAt, description, image }) => {
 
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     const { loggedUser } = useContext(LoginContext)
@@ -51,7 +52,7 @@ const Post = ({ author, description, image }) => {
                         <Typography 
                             className="text-xs"
                             component="p">
-                            12:00 PM
+                            { getDate(new Date(parseInt(createdAt))) }
                         </Typography>
                     </div>
                 </div>
