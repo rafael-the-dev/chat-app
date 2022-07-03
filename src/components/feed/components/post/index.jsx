@@ -11,6 +11,7 @@ import { faComment } from '@fortawesome/free-solid-svg-icons'
 import { AppContext, LoginContext } from "src/context"
 import { getDate } from "src/helpers"
 
+import Likes from "./components/likes"
 import LikeButton from "./components/like-button"
 import Options from "./components/options"
 
@@ -87,6 +88,7 @@ const Post = ({ author, createdAt, description, ID, image, likes }) => {
                     <BookmarkBorderIcon />
                 </IconButton>
             </div>
+            <Likes likes={ likes } /> 
             { description && (
                 <Typography 
                     className="px-3 text-slate-600"
