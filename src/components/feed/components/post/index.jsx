@@ -15,6 +15,7 @@ import { getUserDetails } from "src/helpers/user"
 import Likes from "./components/likes"
 import LikeButton from "./components/like-button"
 import Options from "./components/options"
+import Form from "./components/form"
 
 library.add(faComment);
 
@@ -29,9 +30,9 @@ const Post = ({ author, createdAt, description, ID, image, likes }) => {
 
     return (
         <Paper 
-            className="flex flex-col items-stretch mb-4 px-4 py-3 rounded-xl w-full last:mb-0"
+            className="flex flex-col items-stretch mb-4 px-0 pt-3 rounded-xl w-full last:mb-0"
             elevation={0}>
-            <header className="flex items-center justify-between">
+            <header className="flex items-center justify-between px-4">
                 <div className="flex items-center">
                     <Avatar 
                         alt={authorDetails.name}
@@ -69,7 +70,7 @@ const Post = ({ author, createdAt, description, ID, image, likes }) => {
                     src={`${serverPublicURL.current}/${image}`}
                 />*/}
             </div>}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between px-4">
                 <div className="flex items-center">
                     <LikeButton id={ID} likes={likes} />
                     <IconButton className="">
@@ -91,6 +92,7 @@ const Post = ({ author, createdAt, description, ID, image, likes }) => {
                     { description }
                 </Typography>
             )}
+            <Form ID={ID} />
         </Paper>
     );
 };
