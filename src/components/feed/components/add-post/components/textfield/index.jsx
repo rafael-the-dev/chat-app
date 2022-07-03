@@ -33,7 +33,7 @@ const TextfieldContainer = forwardRef(({ file, setInputValue, setTextfieldValue 
                 return { hasError: false, value: inputValue };
             })
         })
-    }, []);
+    }, [ setInputValue ]);
 
     const leftCharacteres = useMemo(() => maxCharacteresLength.current - value.length, [ value ]);
 
