@@ -1,8 +1,9 @@
-import { AvatarGroup, Button, Typography } from "@mui/material"
+import { AvatarGroup, Typography } from "@mui/material"
 import { useId, useMemo } from "react"
 import Link from "next/link"
 
 import Avatar from "./components/avatar"
+import OthersLikedPost from "./components/likes-dialog"
 
 const Likes = ({ likes }) => {
     const id = useId();
@@ -41,7 +42,7 @@ const Likes = ({ likes }) => {
                                 component="p">
                                 and
                             </Typography>
-                            <Button className="lowercase py-0 text-black">others</Button>
+                            <OthersLikedPost likes={likes} />
                         </>
                     )
                 }
