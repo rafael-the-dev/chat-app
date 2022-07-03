@@ -10,6 +10,7 @@ import { faComment } from '@fortawesome/free-solid-svg-icons'
 
 import { AppContext, LoginContext } from "src/context"
 import { getDate } from "src/helpers"
+import { getUserDetails } from "src/helpers/user"
 
 import Likes from "./components/likes"
 import LikeButton from "./components/like-button"
@@ -22,13 +23,7 @@ const Post = ({ author, createdAt, description, ID, image, likes }) => {
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     const { loggedUser } = useContext(LoginContext)
 
-    const authorDetails = useMemo(() => {
-        const result = getUsersList().find(user => user.username === author);
-
-        if(result) return result;
-
-        return { image: "", name: ""};
-    }, [ author, getUsersList ])
+    const authorDetails = useMemo(() => getUserDetails({ list: getUsersList(), username: author }), [ author, getUsersList ])
 
     const myLoader = ({ src }) => `${serverPublicURL.current}/${image}`;
 

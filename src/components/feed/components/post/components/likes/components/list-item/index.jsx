@@ -1,21 +1,16 @@
-import { Avatar, ListItem, ListItemButton, ListItemText } from "@mui/material"
+import { Avatar, ListItem, ListItemText } from "@mui/material"
 import { useContext, useMemo } from "react"
 import classNames from "classnames"
 import Link from "next/link"
 
 import { AppContext, LoginContext } from "src/context"
+import { getUserDetails } from "src/helpers/user"
 
 const ListItemContainer = ({ username }) => {
     const { loggedUser } = useContext(LoginContext)
     const { getUsersList, serverPublicURL } = useContext(AppContext);
 
-    const details = useMemo(() => {
-        const result = getUsersList().find(user => user.username === username);
-
-        if(result) return result;
-
-        return { image: "", name: "", username: "" }
-    }, [ getUsersList, username ]);
+    const details = useMemo(() => getUserDetails({ list: getUsersList(), username }), [ getUsersList, username ]);
 
     return (
         <ListItem 
