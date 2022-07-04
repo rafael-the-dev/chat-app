@@ -60,6 +60,7 @@ const Post = ({ author, createdAt, description, ID, image, likes }) => {
                     component="img"
                     height="194"
                     image={`${serverPublicURL.current}/${image}`}
+                    loading= "lazy"
                     alt="Paella dish"
                 />
                 {/*<Image h-[300px] 

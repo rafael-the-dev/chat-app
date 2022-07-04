@@ -26,28 +26,26 @@ export const usePostSubscription = ({ hasPostUpdate, subscribeToMore }) => {
     }, [])
 
     useEffect(() => {
-        if(user) {
-            subscribeToMore({
-                document: POST_UPDATED_SUBSCRIPTION,
-                updateQuery: (prev, { subscriptionData }) => {
-                    if (!subscriptionData.data || !Boolean(user)) return prev;
+        subscribeToMore({
+            document: POST_UPDATED_SUBSCRIPTION,
+            updateQuery: (prev, { subscriptionData }) => {
+                if (!subscriptionData.data) return prev;
 
-                    const postUpdated = subscriptionData.data.postUpdated;
-                    let posts = prev.posts ? [ ...prev.posts ] : [];
+                const postUpdated = subscriptionData.data.postUpdated;
+                let posts = prev.posts ? [ ...prev.posts ] : [];
 
-                    if(postUpdated.operation === "DELETED") {
-                        posts = onDelete({ ID : postUpdated.post.ID, posts });
-                        hasPostUpdate.current = true;
-                    } else if(postUpdated.operation === "UPDATED") {
-                        posts = onUpdate({ posts, postUpdated: postUpdated.post })
-                        hasPostUpdate.current = true;
-                    }
-
-                    return Object.assign({}, prev, {
-                        posts
-                    });
+                if(postUpdated.operation === "DELETED") {
+                    posts = onDelete({ ID : postUpdated.post.ID, posts });
+                    if(Boolean(user)) hasPostUpdate.current = true;
+                } else if(postUpdated.operation === "UPDATED") {
+                    posts = onUpdate({ posts, postUpdated: postUpdated.post })
+                    if(Boolean(user)) hasPostUpdate.current = true;
                 }
-            });
-        }
+
+                return Object.assign({}, prev, {
+                    posts
+                });
+            }
+        });
     }, [ hasPostUpdate, onDelete, onUpdate, subscribeToMore, user ]); 
 };

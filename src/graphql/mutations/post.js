@@ -9,6 +9,14 @@ export const ADD_POST = gql`
     }
 `;
 
+export const ADD_COMMENT = gql`
+    mutation AddComment($comment: String!, $id: String!) {
+        addComment(comment: $comment, id: $id) {
+            ID
+        }
+    }
+`;
+
 export const DELETE_POST = gql`
     mutation DeletePost($id: String!) {
         deletePost(id: $id) {

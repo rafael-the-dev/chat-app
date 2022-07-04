@@ -233,12 +233,18 @@ export const GET_POSTS = gql`
             createdAt
             comments {
                 ID
-                content
+                comment
                 createdAt
+                likes {
+                    username
+                }
                 replies {
                     ID
-                    content 
+                    comment 
                     createdAt
+                    likes {
+                        username
+                    }
                     replyingTo
                     username
                 }

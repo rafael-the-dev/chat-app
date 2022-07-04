@@ -141,12 +141,18 @@ export const POST_ADDED_SUBSCRIPTION = gql`
             createdAt
             comments {
                 ID
-                content
+                comment
                 createdAt
+                likes {
+                    username
+                }
                 replies {
                     ID
-                    content 
+                    comment 
                     createdAt
+                    likes {
+                        username
+                    }
                     replyingTo
                     username
                 }
@@ -172,12 +178,18 @@ export const POST_UPDATED_SUBSCRIPTION = gql`
                 createdAt
                 comments {
                     ID
-                    content
+                    comment
                     createdAt
+                    likes {
+                       username
+                    }
                     replies {
                         ID
-                        content 
+                        comment 
                         createdAt
+                        likes {
+                            username
+                        }
                         replyingTo
                         username
                     }
