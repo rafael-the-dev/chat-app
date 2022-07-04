@@ -3,7 +3,7 @@ import { useRef } from "react"
 
 import Dialog from "./components/dialog"
 
-const Container = ({ comments }) => {
+const Container = ({ author, comments }) => {
     const handleOpenRef = useRef(null);
 
     return (
@@ -14,7 +14,7 @@ const Container = ({ comments }) => {
                     onClick={() => handleOpenRef.current?.()}>
                     View { comments.length > 1 ? `all ${comments.length} comments` : `1 comment` }
                 </Button>
-                <Dialog comments={comments} handleOpenRef={handleOpenRef} />
+                <Dialog author={author} comments={comments} handleOpenRef={handleOpenRef} />
             </div>
         )
     );

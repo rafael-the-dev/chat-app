@@ -6,7 +6,7 @@ import CommentForm from "../../../form"
 import DialogHeader from "../dialog-header"
 
 
-const Container = ({ handleOpenRef }) => {
+const Container = ({ author, handleOpenRef }) => {
     const [ open, setOpen ] = useState(false);
 
     const handleClose = useCallback(() => setOpen(false), []);
@@ -25,7 +25,7 @@ const Container = ({ handleOpenRef }) => {
             <div>
                 <Hidden mdDown></Hidden>
                 <div>
-                    <DialogHeader onClose={handleClose} />
+                    <DialogHeader author={author} onClose={handleClose} />
                     <CommentForm />
                 </div>
             </div>
