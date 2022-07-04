@@ -12,7 +12,7 @@ const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;
   
     return (
-      <DialogTitle className="dark:text-slate-300" sx={{ m: 0, p: 2, paddingLeft: 0 }} {...other}>
+      <DialogTitle className="border-b border-solid border-slate-200 pb-3 dark:text-slate-300" sx={{ m: 0, p: 2, paddingLeft: 0 }} {...other}>
         {children}
         {onClose ? (
           <IconButton
