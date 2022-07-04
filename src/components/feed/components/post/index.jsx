@@ -1,7 +1,8 @@
-import { useCallback, useContext, useMemo } from "react";
+import { useContext, useMemo } from "react";
 import Image from "next/image"
 import { Avatar, CardMedia, IconButton, Paper, Typography } from "@mui/material"
 import classNames from "classnames"
+import Link from "next/link"
 
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,10 +17,11 @@ import Likes from "./components/likes"
 import LikeButton from "./components/like-button"
 import Options from "./components/options"
 import Form from "./components/form"
+import Comments from "./components/comments"
 
 library.add(faComment);
 
-const Post = ({ author, createdAt, description, ID, image, likes }) => {
+const Post = ({ author, createdAt, comments, description, ID, image, likes }) => {
 
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     const { loggedUser } = useContext(LoginContext)
@@ -87,12 +89,22 @@ const Post = ({ author, createdAt, description, ID, image, likes }) => {
             </div>
             <Likes likes={ likes } /> 
             { description && (
-                <Typography 
-                    className="px-3 text-slate-600"
-                    component="p">
-                    { description }
-                </Typography>
+                <div className=" flex px-6">
+                    <Link href={`profile?username=${authorDetails.username}`}>
+                        <Typography 
+                            className="font-semibold"
+                            component="a">
+                            { authorDetails.name }
+                        </Typography>
+                    </Link>
+                    <Typography 
+                        className="px-3 text-slate-600"
+                        component="p">
+                        { description }
+                    </Typography>
+                </div>
             )}
+            <Comments comments={comments} />
             <Form ID={ID} />
         </Paper>
     );
