@@ -5,9 +5,10 @@ import classNames from "classnames"
 import CommentForm from "../../../form"
 import DialogHeader from "./components/dialog-header"
 import Comment from "./components/comment-card"
+import Likes from "../../../likes"
 
 
-const Container = ({ author, comments, handleOpenRef }) => {
+const Container = ({ author, comments, handleOpenRef, likes }) => {
     const [ open, setOpen ] = useState(false);
     const id = useId();
 
@@ -34,6 +35,9 @@ const Container = ({ author, comments, handleOpenRef }) => {
                                 comments.map(comment => <Comment key={comment.ID} { ...comment } />)
                             }
                         </ul>
+                    </div>
+                    <div className="mt-3">
+                        <Likes likes={likes} />
                     </div>
                     <CommentForm />
                 </div>
