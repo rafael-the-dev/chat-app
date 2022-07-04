@@ -42,11 +42,15 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
                         src={`${serverPublicURL.current}/${authorDetails.image}`}
                     />
                     <div className=" ml-3">
-                        <Typography 
-                            className="font-bold text-sm"
-                            component="h2">
-                            { authorDetails.name }
-                        </Typography>
+                        <Link href={`profile?username=${authorDetails.username}`}>
+                            <a>
+                                <Typography 
+                                    className="font-bold text-black text-sm hover:text-red-500"
+                                    component="h2">
+                                    { authorDetails.name }
+                                </Typography>
+                            </a>
+                        </Link>
                         <Typography 
                             className="text-xs"
                             component="p">
@@ -91,11 +95,13 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
             { description && (
                 <div className=" flex px-6">
                     <Link href={`profile?username=${authorDetails.username}`}>
-                        <Typography 
-                            className="font-semibold"
-                            component="a">
-                            { authorDetails.name }
-                        </Typography>
+                        <a>
+                            <Typography 
+                                className="font-semibold text-black hover:text-red-500"
+                                component="p">
+                                { authorDetails.name }
+                            </Typography>
+                        </a>
                     </Link>
                     <Typography 
                         className="px-3 text-slate-600"

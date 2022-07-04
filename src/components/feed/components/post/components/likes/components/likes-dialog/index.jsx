@@ -22,7 +22,7 @@ const LikesDialog = ({ likes }) => {
     return (
         <>
             <Button 
-                className="lowercase py-0 text-black"
+                className="lowercase py-0 text-black text-sm hover:text-red-500"
                 onClick={handleClick}>
                 others
             </Button>

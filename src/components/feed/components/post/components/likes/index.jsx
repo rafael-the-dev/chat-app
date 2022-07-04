@@ -28,7 +28,7 @@ const Likes = ({ likes }) => {
                 <Link href={`profile?username=${randomUser.username}`}>
                     <a>
                         <Typography 
-                            className="font-medium text-black"
+                            className="font-medium text-black hover:text-red-500"
                             component="p">
                             { randomUser.username }
                         </Typography>
@@ -38,7 +38,7 @@ const Likes = ({ likes }) => {
                     likes.length > 1 && (
                         <>
                             <Typography 
-                                className=" font-medium ml-2 text-black"
+                                className="ml-2 text-black"
                                 component="p">
                                 and
                             </Typography>
