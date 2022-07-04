@@ -7,9 +7,9 @@ import { getUserDetails } from "src/helpers/user"
 import { getDate } from "src/helpers"
 
 import Avatar from "src/components/avatar"
+import LikeButton from "./components/like-button"
 
-
-const Card = ({ comment, createdAt, username }) => {
+const Card = ({ comment, createdAt, likes, username }) => {
     const { getUsersList } = useContext(AppContext);
     
     const details = useMemo(() => getUserDetails({ list: getUsersList(), username }), [ getUsersList, username ]);
@@ -17,8 +17,8 @@ const Card = ({ comment, createdAt, username }) => {
     return (
         <li className="flex mb-3 last:mb-0">
             <Avatar { ...details } />
-            <div className="pl-4">
-                <div>
+            <div className="grow pl-4">
+                <div className="flex items-center justify-between">
                     <Typography
                         className="flex"
                         component="p">
@@ -33,6 +33,7 @@ const Card = ({ comment, createdAt, username }) => {
                         </Link>
                         { comment }
                     </Typography>
+                    <LikeButton likes={likes} />
                 </div>
                 <Typography
                     className="text-[.85rem] text-zinc-600"
