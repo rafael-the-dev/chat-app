@@ -36,6 +36,14 @@ export const DISLIKE_POST = gql`
     }
 `;
 
+export const LIKE_COMMENT = gql`
+    mutation LikeComment($commentID: String!, $id: String!) {
+        likeComment(commentID: $commentID, id: $id) {
+            ID
+        }
+    }
+`;
+
 export const LIKE_POST = gql`
     mutation LikePost($id: String!) {
         likePost(id: $id) {

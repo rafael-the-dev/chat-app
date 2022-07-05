@@ -3,7 +3,7 @@ import { useRef } from "react"
 
 import Dialog from "./components/dialog"
 
-const Container = ({ author, comments, likes }) => {
+const Container = ({ author, comments, ID, likes }) => {
     const handleOpenRef = useRef(null);
 
     return (
@@ -18,6 +18,7 @@ const Container = ({ author, comments, likes }) => {
                     author={author} 
                     comments={comments} 
                     handleOpenRef={handleOpenRef} 
+                    ID={ID}
                     likes={likes}
                 />
             </div>

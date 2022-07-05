@@ -8,7 +8,7 @@ import Comment from "./components/comment-card"
 import Likes from "../../../likes"
 
 
-const Container = ({ author, comments, handleOpenRef, likes }) => {
+const Container = ({ author, comments, handleOpenRef, ID, likes }) => {
     const [ open, setOpen ] = useState(false);
     const id = useId();
 
@@ -16,8 +16,8 @@ const Container = ({ author, comments, handleOpenRef, likes }) => {
 
     useEffect(() => {
         handleOpenRef.current = () => setOpen(true);
-    }, [ handleOpenRef ])
-    console.log(comments)
+    }, [ handleOpenRef ]);
+    
     return (
         <Dialog
             classes={{ paper: classNames("px-0 md:min-w-[450px] dark:bg-stone-500") }}
@@ -32,7 +32,7 @@ const Container = ({ author, comments, handleOpenRef, likes }) => {
                     <div className="pt-4">
                         <ul className="px-4">
                             {
-                                comments.map(comment => <Comment key={comment.ID} { ...comment } />)
+                                comments.map(comment => <Comment { ...comment } key={comment.ID} postID={ID} />)
                             }
                         </ul>
                     </div>

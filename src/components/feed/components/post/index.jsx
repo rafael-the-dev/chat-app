@@ -110,7 +110,7 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
                     </Typography>
                 </div>
             )}
-            <Comments author={author} comments={comments} likes={likes} />
+            <Comments author={author} comments={comments} ID={ID} likes={likes} />
             <Form ID={ID} />
         </Paper>
     );
