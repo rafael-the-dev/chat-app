@@ -8,11 +8,22 @@ import { getUserDetails } from "src/helpers/user"
 import { getDate } from "src/helpers"
 
 import Avatar from "src/components/avatar"
-import LikeButton from "./components/like-button"
-import ReplyForm from "./components/reply-form"
-import RepliesContainer from "./components/replies"
+import LikeButton from "../like-button"
+import ReplyForm from "../reply-form"
 
-const Card = ({ comment, createdAt, ID, likes, postID, replies, username }) => {
+const UserLink = ({ textColor, username }) => (
+    <Link href={`profile?username=${username}`}>
+        <a className="mr-2">
+            <Typography 
+                className={`font-semibold text-sm hover:text-red-500 ${ textColor ? "text-blue-900" : "text-zinc-600"}`}
+                component="span">
+                { username }
+            </Typography>
+        </a>
+    </Link>
+);
+
+const Card = ({ comment, commentID, createdAt, ID, likes, postID, replyingTo, username }) => {
     const { getUsersList } = useContext(AppContext);
 
     const toggleReplyFormRef = useRef(null);
@@ -27,18 +38,11 @@ const Card = ({ comment, createdAt, ID, likes, postID, replies, username }) => {
                     <Typography
                         className="flex"
                         component="p">
-                        <Link href={`profile?username=${details.username}`}>
-                            <a className="mr-2">
-                                <Typography 
-                                    className="font-semibold text-zinc-600 text-sm hover:text-red-500"
-                                    component="span">
-                                    { details.username }
-                                </Typography>
-                            </a>
-                        </Link>
+                        <UserLink username={details.username} />
+                        <UserLink username={replyingTo} textColor />
                         { comment }
                     </Typography>
-                    <LikeButton commentID={ID} id={postID} likes={likes} />
+                    <LikeButton commentID={commentID} id={postID} likes={likes} />
                 </div>
                 <div>
                     <div className="flex items-center mt-2">
@@ -55,12 +59,11 @@ const Card = ({ comment, createdAt, ID, likes, postID, replies, username }) => {
                     </div>
                 </div>
                 <ReplyForm 
-                    commentID={ID}
+                    commentID={commentID}
                     id={postID}
                     replyingTo={details.username}
                     toggleRef={toggleReplyFormRef} 
                 />
-                <RepliesContainer commentID={ID} postID={postID} replies={replies} />
             </div>
         </li>
     );

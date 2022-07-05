@@ -5,7 +5,7 @@ import { AppContext } from "src/context"
 import { getUserDetails } from "src/helpers/user"
 
 
-const Container = ({ image, name, username, size }) => {
+const Container = ({ className, image, name, username, size }) => {
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     
     const details = useMemo(() => {
@@ -16,12 +16,12 @@ const Container = ({ image, name, username, size }) => {
         return getUserDetails({ list: getUsersList(), username });
     }, [ getUsersList, image, name, username ]);
 
-    const defaultSize = size ? size : 40;
+    const classes = className ? className : `h-[40px] w-[40px]`;
 
     return (
         <Avatar 
             alt={details.name} 
-            className={`h-[${defaultSize}px] w-[${defaultSize}px]`}
+            className={classes}
             src={`${serverPublicURL.current}/${details.image}`} 
         />
     );
