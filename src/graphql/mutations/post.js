@@ -28,6 +28,14 @@ export const DELETE_POST = gql`
     }
 `;
 
+export const DISLIKE_COMMENT = gql`
+    mutation DisikeComment($commentID: String!, $id: String!) {
+        dislikeComment(commentID: $commentID, id: $id) {
+            ID
+        }
+    }
+`;
+
 export const DISLIKE_POST = gql`
     mutation DislikePost($id: String!) {
         dislikePost(id: $id) {

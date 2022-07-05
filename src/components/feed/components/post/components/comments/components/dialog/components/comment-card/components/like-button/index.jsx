@@ -8,16 +8,17 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { LoginContext } from "src/context"
 import { hasLiked } from "src/helpers/user"
-import { LIKE_COMMENT } from "src/graphql/mutations"
+import { DISLIKE_COMMENT, LIKE_COMMENT } from "src/graphql/mutations"
 
 const Button = ({ commentID, id, likes }) => {
     const likeCommentMutation = useMutation(LIKE_COMMENT);
+    const dislikeCommentMutation = useMutation(DISLIKE_COMMENT);
 
     const [ loading, setLoading ] = useState(false)
 
     const { loggedUser } = useContext(LoginContext)
     const hasLike = useMemo(() => hasLiked({ likes, username: loggedUser.username }), [ likes, loggedUser ]);
-
+    console.log(hasLike)
     const responseHandler = useMemo(() => (
         {
             onCompleted: () => {
@@ -29,6 +30,19 @@ const Button = ({ commentID, id, likes }) => {
             }
         }
     ), []);
+
+    const dislikeHandler = useCallback(() => {
+        setLoading(true);
+        const dislike = dislikeCommentMutation[0];
+
+        dislike({
+            ...responseHandler,
+            variables: {
+                commentID,
+                id
+            }
+        })
+    }, [ commentID, id, dislikeCommentMutation, responseHandler ])
 
     const likeHandler = useCallback(() => {
         setLoading(true);
@@ -48,7 +62,7 @@ const Button = ({ commentID, id, likes }) => {
     return (
         <IconButton
             className="p-0 text-xs hover:bg-transparent"
-            onClick={hasLike ? () => {} : likeHandler }>
+            onClick={hasLike ? dislikeHandler : likeHandler }>
             { loading ? <CircularProgress className="" size={16} /> : likeIcon }
         </IconButton>
     );
