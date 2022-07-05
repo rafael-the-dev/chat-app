@@ -93,20 +93,21 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
             </div>
             <Likes likes={ likes } /> 
             { description && (
-                <div className=" flex px-6">
-                    <Link href={`profile?username=${authorDetails.username}`}>
-                        <a>
-                            <Typography 
-                                className="font-semibold text-black hover:text-red-500"
-                                component="p">
-                                { authorDetails.name }
-                            </Typography>
-                        </a>
-                    </Link>
+                <div className="flex px-6">
+                    
                     <Typography 
-                        className="px-3 text-slate-600"
+                        className="flex px-3 text-slate-600"
                         component="p">
-                        { description }
+                        <Link href={`profile?username=${authorDetails.username}`}>
+                            <a>
+                                <Typography 
+                                    className="font-semibold text-black hover:text-red-500"
+                                    component="p">
+                                    { authorDetails.name }
+                                </Typography>
+                            </a>
+                        </Link>
+                        <span>{ description }</span>
                     </Typography>
                 </div>
             )}

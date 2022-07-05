@@ -20,7 +20,7 @@ const Container = ({ children }) => {
     const { errorMessage, hasError, isLoading } = useContext(AppContext)
 
     const rootRef = useRef(null);
-    const feed = useMemo(() => <Hidden mdDown><Feed /></Hidden>, [])
+    const feed = useMemo(() => <Feed />, [])
 
     const isLogged = useMemo(() => (![ '/login', '/signup' ].includes(pathname)) && user !== null, [ pathname, user ])
     const pathnameRef = useRef("");
@@ -65,7 +65,6 @@ const Container = ({ children }) => {
             rootRef.current.classList.remove("remove-root-bg")
         }
     }, [ tab ])
-    console.log(openRefreshTokenDialog)
 
     return (
         <>
@@ -80,7 +79,7 @@ const Container = ({ children }) => {
             </Collapse>
             <div id="root" ref={rootRef}>
                     { children }
-                    { ![ '/login', '/signup' ].includes(pathname) && Boolean(user) && !Boolean(page) && feed }
+                    { feed }
                     { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
             </div>
             <Dialog

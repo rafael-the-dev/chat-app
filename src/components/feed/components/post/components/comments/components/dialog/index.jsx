@@ -39,7 +39,7 @@ const Container = ({ author, comments, handleOpenRef, ID, likes }) => {
                     <div className="mt-3">
                         <Likes likes={likes} />
                     </div>
-                    <CommentForm />
+                    <CommentForm ID={ID} />
                 </div>
             </div>
         </Dialog>

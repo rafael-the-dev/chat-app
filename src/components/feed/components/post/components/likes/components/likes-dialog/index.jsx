@@ -1,5 +1,5 @@
 import { useCallback, useId, useState } from "react";
-import { Button, List, Popover } from "@mui/material"
+import { Button, Hidden, List, Popover } from "@mui/material"
 import classNames from "classnames"
 
 import ListItem from "../list-item"
@@ -24,7 +24,7 @@ const LikesDialog = ({ likes }) => {
             <Button 
                 className="lowercase py-0 text-black text-sm hover:text-red-500"
                 onClick={handleClick}>
-                others
+                <Hidden mdDown>others</Hidden><Hidden mdUp>{likes.length} likes</Hidden>
             </Button>
             <Popover
                 id={id}

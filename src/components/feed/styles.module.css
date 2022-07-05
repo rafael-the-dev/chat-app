@@ -3,6 +3,12 @@
     transition: all ease-in 1s;
 }
 
+.rootHomePage {
+    overflow: hidden;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .postsPanel {
     background: #cccccc45;
     padding: 0.5rem 1rem;

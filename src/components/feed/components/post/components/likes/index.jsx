@@ -1,4 +1,4 @@
-import { AvatarGroup, Typography } from "@mui/material"
+import { AvatarGroup, Hidden, Typography } from "@mui/material"
 import { useId, useMemo, useRef } from "react"
 import Link from "next/link"
 
@@ -28,33 +28,38 @@ const Likes = ({ likes }) => {
                     likes.slice(0, 4).map(like => <Avatar key={`${id}-${like.username}`} { ...like} />)
                 }
             </AvatarGroup>
-            <div className="flex items-center ml-3">
-                <Typography 
-                    className="mr-2 text-black"
-                    component="p">
-                    liked by
-                </Typography>
-                <Link href={`profile?username=${randomUser.username}`}>
-                    <a>
-                        <Typography 
-                            className="font-medium text-black hover:text-red-500"
-                            component="p">
-                            { randomUser.username }
-                        </Typography>
-                    </a>
-                </Link>
-                {
-                    likes.length > 1 && (
-                        <>
+            <div className="flex items-center md:ml-3">
+                <Hidden mdDown>
+                    <Typography 
+                        className="mr-2 text-black"
+                        component="p">
+                        liked by
+                    </Typography>
+                    <Link href={`profile?username=${randomUser.username}`}>
+                        <a>
                             <Typography 
-                                className="ml-2 text-black"
+                                className="font-medium text-black hover:text-red-500"
                                 component="p">
-                                and
+                                { randomUser.username }
                             </Typography>
-                            <OthersLikedPost likes={likes} />
-                        </>
-                    )
-                }
+                        </a>
+                    </Link>
+                    {
+                        likes.length > 1 && (
+                            <>
+                                <Typography 
+                                    className="ml-2 text-black"
+                                    component="p">
+                                    and
+                                </Typography>
+                                <OthersLikedPost likes={likes} />
+                            </>
+                        )
+                    }
+                </Hidden>
+                <Hidden mdUp>
+                    <OthersLikedPost likes={likes} />
+                </Hidden>
             </div>
         </div>
     );
