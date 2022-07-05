@@ -1,5 +1,5 @@
-import { IconButton, Typography } from "@mui/material"
-import { useContext, useMemo } from "react";
+import { Button, IconButton, Typography } from "@mui/material"
+import { useContext, useMemo, useRef } from "react";
 import Link from "next/link"
 
 import { AppContext } from "src/context"
@@ -8,14 +8,17 @@ import { getDate } from "src/helpers"
 
 import Avatar from "src/components/avatar"
 import LikeButton from "./components/like-button"
+import ReplyForm from "./components/reply-form"
 
 const Card = ({ comment, createdAt, ID, likes, postID, username }) => {
     const { getUsersList } = useContext(AppContext);
+
+    const toggleReplyFormRef = useRef(null);
     
     const details = useMemo(() => getUserDetails({ list: getUsersList(), username }), [ getUsersList, username ]);
     
     return (
-        <li className="flex mb-4 last:mb-0">
+        <li className="flex mb-4 pb-1 last:mb-0">
             <Avatar { ...details } />
             <div className="grow pl-4">
                 <div className="flex items-center justify-between">
@@ -35,11 +38,21 @@ const Card = ({ comment, createdAt, ID, likes, postID, username }) => {
                     </Typography>
                     <LikeButton commentID={ID} id={postID} likes={likes} />
                 </div>
-                <Typography
-                    className="text-[.85rem] text-zinc-600"
-                    component="p">
-                    { getDate(new Date(parseInt(createdAt))) }
-                </Typography>
+                <div>
+                    <div className="flex items-center mt-2">
+                        <Typography
+                            className="text-[.85rem] text-zinc-600"
+                            component="p">
+                            { getDate(new Date(parseInt(createdAt))) }
+                        </Typography>
+                        <Button
+                            className="normal-case py-0 text-zinc-600 hover:text-red-500"
+                            onClick={() => toggleReplyFormRef.current?.()}>
+                            Reply
+                        </Button>
+                    </div>
+                </div>
+                <ReplyForm toggleRef={toggleReplyFormRef} />
             </div>
         </li>
     );
