@@ -3,10 +3,10 @@ import { IconButton, TextField } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import Collapse from '@mui/material/Collapse';
 
-import SendIcon from '@mui/icons-material/Send';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 
 import Emojis from "src/components/emojis-popover"
+import SendButton from "./components/send-button"
 
 const CustomTextfield = styled(TextField)({
     '& .MuiOutlinedInput-input': {
@@ -17,7 +17,7 @@ const CustomTextfield = styled(TextField)({
     }
 });
 
-const Container = ({ toggleRef }) => {
+const Container = ({ commentID, id, replyingTo, toggleRef }) => {
     const [ expanded, setExpanded ] = useState(false);
 
     const handleClick = useRef(null);
@@ -36,7 +36,7 @@ const Container = ({ toggleRef }) => {
 
             return currentValue;
         })
-    }, [])
+    }, []);
 
     useEffect(() => {
         toggleRef.current = () => setExpanded(b => !b);
@@ -44,7 +44,9 @@ const Container = ({ toggleRef }) => {
 
     return (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <form className="border border-solid border-slate-200 flex items-center mt-2">
+            <form 
+                className="border border-solid border-slate-200 flex items-center mt-2"
+                onSubmit={event => onSubmit.current?.(event)}>
                 <CustomTextfield 
                     className="border-0 grow py-0"
                     inputRef={inputRef}
@@ -56,9 +58,14 @@ const Container = ({ toggleRef }) => {
                     onClick={event => handleClick.current?.(event)}>
                     <InsertEmoticonIcon />
                 </IconButton>
-                <IconButton>
-                    <SendIcon />
-                </IconButton>
+                <SendButton 
+                    buttonSetValue={buttonSetValue} 
+                    commentID={commentID}
+                    id={id} 
+                    inputRef={inputRef} 
+                    onSubmit={onSubmit}
+                    replyingTo={replyingTo}
+                />
                 <Emojis 
                     handleClick={handleClick} 
                     inputRef={inputRef}

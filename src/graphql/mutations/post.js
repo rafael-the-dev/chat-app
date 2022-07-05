@@ -59,3 +59,12 @@ export const LIKE_POST = gql`
         }
     }
 `;
+
+export const REPLY_COMMENT = gql`
+    mutation ReplyComment($comment: String!, $commentID: String!, $id: String!, $replyingTo: String!) {
+        addCommentReply(comment: $comment, commentID: $commentID, id: $id, replyingTo: $replyingTo) {
+            ID
+        }
+    }
+`;
+

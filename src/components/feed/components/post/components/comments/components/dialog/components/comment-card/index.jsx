@@ -52,7 +52,12 @@ const Card = ({ comment, createdAt, ID, likes, postID, username }) => {
                         </Button>
                     </div>
                 </div>
-                <ReplyForm toggleRef={toggleReplyFormRef} />
+                <ReplyForm 
+                    commentID={ID}
+                    id={postID}
+                    replyingTo={details.username}
+                    toggleRef={toggleReplyFormRef} 
+                />
             </div>
         </li>
     );
