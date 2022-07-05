@@ -1,5 +1,5 @@
 import { AvatarGroup, Typography } from "@mui/material"
-import { useId, useMemo } from "react"
+import { useId, useMemo, useRef } from "react"
 import Link from "next/link"
 
 import Avatar from "./components/avatar"
@@ -7,8 +7,17 @@ import OthersLikedPost from "./components/likes-dialog"
 
 const Likes = ({ likes }) => {
     const id = useId();
+    const randomUserRef = useRef(null);
 
-    const randomUser = useMemo(() => likes[Math.floor(Math.random() * likes.length)], [ likes ]);
+    const randomUser = useMemo(() => {
+        if(randomUserRef.current) {
+            return randomUserRef.current;
+        } else {
+            const result = likes[Math.floor(Math.random() * likes.length)];
+            randomUserRef.current = result;
+            return result;
+        }
+    }, [ likes ]);
 
     if(likes.length === 0) return <></>;
 

@@ -17,7 +17,7 @@ const Container = ({ author, comments, handleOpenRef, ID, likes }) => {
     useEffect(() => {
         handleOpenRef.current = () => setOpen(true);
     }, [ handleOpenRef ]);
-    console.log(comments)
+    
     return (
         <Dialog
             classes={{ paper: classNames("px-0 md:min-w-[450px] dark:bg-stone-500") }}
