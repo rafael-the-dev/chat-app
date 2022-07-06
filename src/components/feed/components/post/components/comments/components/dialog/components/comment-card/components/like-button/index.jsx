@@ -11,13 +11,14 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { LoginContext } from "src/context"
 import { hasLiked } from "src/helpers/user"
-import { DISLIKE_COMMENT, LIKE_COMMENT, LIKE_COMMENT_REPLY } from "src/graphql/mutations"
+import { DISLIKE_COMMENT, DISLIKE_COMMENT_REPLY, LIKE_COMMENT, LIKE_COMMENT_REPLY } from "src/graphql/mutations"
 
 const Button = ({ commentID, id, likes, replyID, smallIcon }) => {
     const dislikeCommentMutation = useMutation(DISLIKE_COMMENT);
+    const dislikeCommentReplyMutation = useMutation(DISLIKE_COMMENT_REPLY);
     const likeCommentMutation = useMutation(LIKE_COMMENT);
     const likeCommentReplyMutation = useMutation(LIKE_COMMENT_REPLY);
-
+    console.log(likes)
     const [ loading, setLoading ] = useState(false)
 
     const { loggedUser } = useContext(LoginContext)
@@ -69,6 +70,20 @@ const Button = ({ commentID, id, likes, replyID, smallIcon }) => {
         })
     }, [ commentID, id, likeCommentMutation, responseHandler ])
 
+    const dislikeCommentReplyHandler = useCallback(() => {
+        setLoading(true);
+        const dislike = dislikeCommentReplyMutation[0];
+
+        dislike({
+            ...responseHandler,
+            variables: {
+                commentID,
+                id,
+                replyID
+            }
+        })
+    }, [ commentID, dislikeCommentReplyMutation, id, replyID, responseHandler ])
+
     const likeCommentReplyHandler = useCallback(() => {
         setLoading(true);
         const like = likeCommentReplyMutation[0];
@@ -87,11 +102,11 @@ const Button = ({ commentID, id, likes, replyID, smallIcon }) => {
     
     const handler = useMemo(() => {
         if(replyID) {
-            return hasLike ? dislikeHandler : likeCommentReplyHandler;
+            return hasLike ? dislikeCommentReplyHandler : likeCommentReplyHandler;
         }
 
         return hasLike ? dislikeHandler : likeHandler;
-    }, [ dislikeHandler, hasLike, likeHandler, likeCommentReplyHandler, replyID ]);
+    }, [ dislikeHandler, dislikeCommentReplyHandler, hasLike, likeHandler, likeCommentReplyHandler, replyID ]);
 
     return (
         <IconButton
