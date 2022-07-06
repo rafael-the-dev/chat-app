@@ -1,7 +1,8 @@
-import { Button, Typography } from "@mui/material"
+import { Button, Hidden, Typography } from "@mui/material"
 import { useContext, useMemo, useRef } from "react";
 import Link from "next/link"
 import ShowMoreText from "react-show-more-text";
+import classNames from "classnames"
 
 import classes from "./styles.module.css"
 import { AppContext } from "src/context"
@@ -12,6 +13,21 @@ import Avatar from "src/components/avatar"
 import LikeButton from "./components/like-button"
 import ReplyForm from "./components/reply-form"
 import RepliesContainer from "./components/replies"
+
+
+const Text = ({ children }) => (
+    <Typography  
+        className={classNames(classes.comment, `grow pr-3`)}
+        component={ShowMoreText}
+            lines={1}
+            more='Read more'
+            less='Read less'
+            anchorClass='my-anchor-css-class'
+            expanded={false}
+        >
+        { children }
+    </Typography>
+);
 
 const Card = ({ comment, createdAt, ID, likes, postID, replies, username }) => {
     const { getUsersList } = useContext(AppContext);
@@ -25,25 +41,21 @@ const Card = ({ comment, createdAt, ID, likes, postID, replies, username }) => {
             <Avatar { ...details } className={classes.avatar} />
             <div className="grow pl-4">
                 <div className="flex items-start justify-between">
-                    <Typography  
-                        className={`grow pr-3`}
-                        component={ShowMoreText}
-                            lines={5}
-                            more='Read more'
-                            less='Read less'
-                            anchorClass='my-anchor-css-class'
-                            expanded={true}
-                            width={100}
-                        >
-                        <Link href={`profile?username=${details.username}`} passHref>
-                            <Typography 
-                                className="font-semibold mr-2 text-zinc-600 text-sm hover:text-red-500"
-                                component="a">
-                                { details.name }
-                            </Typography>
-                        </Link>
-                        { comment }
-                    </Typography>
+                    <Hidden mdUp>
+                        <Text>{ comment }</Text>
+                    </Hidden>
+                    <Hidden mdDown>
+                        <Text >
+                            <Link href={`profile?username=${details.username}`} passHref>
+                                <Typography 
+                                    className="font-semibold mr-2 text-zinc-600 text-sm hover:text-red-500"
+                                    component="a">
+                                    { details.name }
+                                </Typography>
+                            </Link>
+                            { comment }
+                        </Text>
+                    </Hidden>
                     <LikeButton commentID={ID} id={postID} likes={likes} />
                 </div>
                 <div>

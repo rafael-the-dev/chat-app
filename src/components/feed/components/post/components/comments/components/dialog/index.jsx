@@ -2,6 +2,8 @@ import { Alert, Button, Dialog, DialogActions, DialogContent, Hidden, IconButton
 import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react"
 import classNames from "classnames"
 
+import classes from "./styles.module.css"
+
 import CommentForm from "../../../form"
 import DialogHeader from "./components/dialog-header"
 import Comment from "./components/comment-card"
@@ -20,7 +22,7 @@ const Container = ({ author, comments, handleOpenRef, ID, likes }) => {
     
     return (
         <Dialog
-            classes={{ paper: classNames("px-0 md:min-w-[450px] dark:bg-stone-500") }}
+            classes={{ paper: classNames(classes.paper, "px-0 md:min-w-[450px] dark:bg-stone-500") }}
             open={open}
             onClose={handleClose}
             aria-describedby="session-dialog-description"
