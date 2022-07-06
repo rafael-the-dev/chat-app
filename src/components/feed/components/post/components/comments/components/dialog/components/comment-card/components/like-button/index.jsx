@@ -11,11 +11,12 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { LoginContext } from "src/context"
 import { hasLiked } from "src/helpers/user"
-import { DISLIKE_COMMENT, LIKE_COMMENT } from "src/graphql/mutations"
+import { DISLIKE_COMMENT, LIKE_COMMENT, LIKE_COMMENT_REPLY } from "src/graphql/mutations"
 
-const Button = ({ commentID, id, likes, smallIcon }) => {
-    const likeCommentMutation = useMutation(LIKE_COMMENT);
+const Button = ({ commentID, id, likes, replyID, smallIcon }) => {
     const dislikeCommentMutation = useMutation(DISLIKE_COMMENT);
+    const likeCommentMutation = useMutation(LIKE_COMMENT);
+    const likeCommentReplyMutation = useMutation(LIKE_COMMENT_REPLY);
 
     const [ loading, setLoading ] = useState(false)
 
@@ -68,12 +69,34 @@ const Button = ({ commentID, id, likes, smallIcon }) => {
         })
     }, [ commentID, id, likeCommentMutation, responseHandler ])
 
+    const likeCommentReplyHandler = useCallback(() => {
+        setLoading(true);
+        const like = likeCommentReplyMutation[0];
+
+        like({
+            ...responseHandler,
+            variables: {
+                commentID,
+                id,
+                replyID
+            }
+        })
+    }, [ commentID, id, likeCommentReplyMutation, replyID, responseHandler ])
+
     const likeIcon = useMemo(() => hasLike ? <FavoriteIcon className={classNames(customClasses, "text-red-500")} /> : <FavoriteBorderIcon className={classNames(customClasses, "hover:text-red-500")} />, [ hasLike ])
     
+    const handler = useMemo(() => {
+        if(replyID) {
+            return hasLike ? dislikeHandler : likeCommentReplyHandler;
+        }
+
+        return hasLike ? dislikeHandler : likeHandler;
+    }, [ dislikeHandler, hasLike, likeHandler, likeCommentReplyHandler, replyID ]);
+
     return (
         <IconButton
             className="p-0  hover:bg-transparent"
-            onClick={hasLike ? dislikeHandler : likeHandler }>
+            onClick={handler}>
             { loading ? <CircularProgress className="" size={16} /> : likeIcon }
         </IconButton>
     );

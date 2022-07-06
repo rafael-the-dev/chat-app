@@ -65,7 +65,13 @@ const Card = ({ comment, commentID, createdAt, ID, likes, postID, replyingTo, us
                             { comment }
                         </Text>
                     </Hidden>
-                    <LikeButton commentID={commentID} id={postID} likes={likes} smallIcon />
+                    <LikeButton 
+                        commentID={commentID} 
+                        id={postID} 
+                        likes={likes} 
+                        replyID={ID}
+                        smallIcon 
+                    />
                 </div>
                 <div>
                     <div className="flex items-center mt-2">
