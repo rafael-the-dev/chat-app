@@ -3,6 +3,7 @@ import { useContext, useMemo, useRef } from "react";
 import Link from "next/link"
 import classNames from "classnames"
 import ShowMoreText from "react-show-more-text";
+import { useRouter } from "next/router"
 
 import classes from "./styles.module.css"
 import { AppContext } from "src/context"
@@ -50,15 +51,17 @@ const Card = ({ comment, commentID, createdAt, ID, likes, postID, replyingTo, us
         <li className="flex mb-4 pb-1 last:mb-0">
             <Avatar { ...details } className={classes.avatar} />
             <div className="grow pl-3 md:pl-4">
-                <div className="flex items-center justify-between">
+                <div className="flex items-start justify-between">
                     <Hidden mdUp>
-                        <Text>{ comment }</Text>
+                        <Text>
+                            <UserLink username={replyingTo} textColor />
+                            { comment }
+                        </Text>
                     </Hidden>
                     <Hidden mdDown>
                         <Text lines={3}>
                             <UserLink username={details.username} />
                             <UserLink username={replyingTo} textColor />
-                            <span>details.username</span>
                             { comment }
                         </Text>
                     </Hidden>
