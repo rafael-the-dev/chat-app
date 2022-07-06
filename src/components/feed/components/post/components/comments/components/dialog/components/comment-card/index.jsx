@@ -9,6 +9,7 @@ import { AppContext } from "src/context"
 import { getUserDetails } from "src/helpers/user"
 import { getDate } from "src/helpers"
 
+import LikesDialog from "src/components/feed/components/post/components/likes/components/likes-dialog"
 import Avatar from "src/components/avatar"
 import LikeButton from "./components/like-button"
 import ReplyForm from "./components/reply-form"
@@ -65,8 +66,13 @@ const Card = ({ comment, createdAt, ID, likes, postID, replies, username }) => {
                             component="p">
                             { getDate(new Date(parseInt(createdAt))) }
                         </Typography>
+                        <LikesDialog 
+                            likes={likes} 
+                            label={ likes.length > 1 ? `${likes.length} likes` : `1 like`} 
+                        />
                         <Button
-                            className="normal-case py-0 text-zinc-600 hover:text-red-500"
+                            className={classNames("normal-case p-0 text-zinc-600 hover:text-red-500",
+                            { "-ml-3": likes.length > 0})}
                             onClick={() => toggleReplyFormRef.current?.()}>
                             Reply
                         </Button>

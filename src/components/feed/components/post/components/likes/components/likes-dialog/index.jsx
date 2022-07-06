@@ -4,7 +4,7 @@ import classNames from "classnames"
 
 import ListItem from "../list-item"
 
-const LikesDialog = ({ likes }) => {
+const LikesDialog = ({ className, likes, label }) => {
     const [ anchorEl, setAnchorEl] = useState(null);
     const ID = useId();
 
@@ -18,13 +18,15 @@ const LikesDialog = ({ likes }) => {
     const handleClick = useCallback((event) => {
         setAnchorEl(event.currentTarget);
     }, []);
+
+    if(likes.length === 0) return <></>;
     
     return (
         <>
             <Button 
-                className="lowercase py-0 text-black text-sm hover:text-red-500"
+                className={classNames("lowercase py-0 text-black text-sm hover:text-red-500")}
                 onClick={handleClick}>
-                <Hidden mdDown>others</Hidden><Hidden mdUp>{likes.length} likes</Hidden>
+                { label ? label : <><Hidden mdDown>others</Hidden><Hidden mdUp>{likes.length} likes</Hidden></> }
             </Button>
             <Popover
                 id={id}
