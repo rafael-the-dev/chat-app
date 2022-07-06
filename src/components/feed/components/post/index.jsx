@@ -3,6 +3,7 @@ import Image from "next/image"
 import { Avatar, CardMedia, IconButton, Paper, Typography } from "@mui/material"
 import classNames from "classnames"
 import Link from "next/link"
+import ShowMoreText from "react-show-more-text";
 
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -34,7 +35,7 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
         <Paper 
             className="flex flex-col items-stretch mb-4 px-0 pt-3 rounded-xl w-full last:mb-0"
             elevation={0}>
-            <header className="flex items-center justify-between px-4">
+            <header className="flex items-center justify-between pl-4 pr-1 md:px-4">
                 <div className="flex items-center">
                     <Avatar 
                         alt={authorDetails.name}
@@ -77,7 +78,7 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
                     src={`${serverPublicURL.current}/${image}`}
                 />*/}
             </div>}
-            <div className="flex items-center justify-between px-4">
+            <div className="flex items-center justify-between px-2 md:px-4">
                 <div className="flex items-center">
                     <LikeButton id={ID} likes={likes} />
                     <IconButton className="">
@@ -93,21 +94,24 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
             </div>
             <Likes likes={ likes } /> 
             { description && (
-                <div className="flex px-6">
-                    
-                    <Typography 
-                        className="flex px-3 text-slate-600"
-                        component="p">
-                        <Link href={`profile?username=${authorDetails.username}`}>
-                            <a>
-                                <Typography 
-                                    className="font-semibold text-black hover:text-red-500"
-                                    component="p">
-                                    { authorDetails.name }
-                                </Typography>
-                            </a>
+                <div className="px-4 md:px-6">
+                    <Typography  
+                        className={`grow `}
+                        component={ShowMoreText}
+                            lines={2}
+                            more='Read more'
+                            less='Read less'
+                            anchorClass='my-anchor-css-class'
+                            expanded={false}
+                        >
+                        <Link href={`profile?username=${authorDetails.username}`} passHref>
+                            <Typography 
+                                className="font-semibold mr-2 text-black hover:text-red-500"
+                                component="a">
+                                { authorDetails.name }
+                            </Typography>
                         </Link>
-                        <span>{ description }</span>
+                        { description }
                     </Typography>
                 </div>
             )}
@@ -118,3 +122,4 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
 };
 
 export default Post;
+

@@ -8,7 +8,7 @@ const Container = ({ author, comments, ID, likes }) => {
 
     return (
         comments.length > 1 && (
-            <div className="px-4">
+            <div className="px-2 md:px-4">
                 <Button 
                     className="normal-case text-zinc-500" 
                     onClick={() => handleOpenRef.current?.()}>

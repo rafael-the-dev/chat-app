@@ -22,7 +22,7 @@ const Likes = ({ likes }) => {
     if(likes.length === 0) return <></>;
 
     return (
-        <div className="flex items-center mb-1 px-6">
+        <div className="flex items-center mb-1 px-4 md:px-6">
             <AvatarGroup total={ likes.length }>
                 {
                     likes.slice(0, 4).map(like => <Avatar key={`${id}-${like.username}`} { ...like} />)

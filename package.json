@@ -33,6 +33,7 @@
     "react-hook-form": "latest",
     "react-jss": "latest",
     "react-scripts": "latest",
+    "react-show-more-text": "^1.5.2",
     "web-vitals": "latest",
     "ws": "latest"
   },

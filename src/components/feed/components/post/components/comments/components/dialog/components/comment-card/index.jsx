@@ -1,6 +1,7 @@
 import { Button, Typography } from "@mui/material"
 import { useContext, useMemo, useRef } from "react";
 import Link from "next/link"
+import ShowMoreText from "react-show-more-text";
 
 import classes from "./styles.module.css"
 import { AppContext } from "src/context"
@@ -23,25 +24,30 @@ const Card = ({ comment, createdAt, ID, likes, postID, replies, username }) => {
         <li className="flex mb-4 pb-1 last:mb-0">
             <Avatar { ...details } className={classes.avatar} />
             <div className="grow pl-4">
-                <div className="flex items-center justify-between">
-                    <Typography
-                        className="flex"
-                        component="p">
-                        <Link href={`profile?username=${details.username}`}>
-                            <a className="mr-2">
-                                <Typography 
-                                    className="font-semibold text-zinc-600 text-sm hover:text-red-500"
-                                    component="span">
-                                    { details.username }
-                                </Typography>
-                            </a>
+                <div className="flex items-start justify-between">
+                    <Typography  
+                        className={`grow pr-3`}
+                        component={ShowMoreText}
+                            lines={5}
+                            more='Read more'
+                            less='Read less'
+                            anchorClass='my-anchor-css-class'
+                            expanded={true}
+                            width={100}
+                        >
+                        <Link href={`profile?username=${details.username}`} passHref>
+                            <Typography 
+                                className="font-semibold mr-2 text-zinc-600 text-sm hover:text-red-500"
+                                component="a">
+                                { details.name }
+                            </Typography>
                         </Link>
                         { comment }
                     </Typography>
                     <LikeButton commentID={ID} id={postID} likes={likes} />
                 </div>
                 <div>
-                    <div className="flex items-center mt-2">
+                    <div className="flex items-center mt-1">
                         <Typography
                             className="text-[.85rem] text-zinc-600"
                             component="p">
@@ -67,3 +73,19 @@ const Card = ({ comment, createdAt, ID, likes, postID, replies, username }) => {
 };
 
 export default Card;
+
+
+/*<Typography
+className="flex"
+component="p">
+<Link href={`profile?username=${details.username}`}>
+    <a className="mr-2">
+        <Typography 
+            className="font-semibold text-zinc-600 text-sm hover:text-red-500"
+            component="span">
+            { details.username }
+        </Typography>
+    </a>
+</Link>
+{ comment }
+</Typography>*/

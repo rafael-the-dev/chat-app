@@ -37,7 +37,7 @@ const Form = ({ ID }) => {
 
     return (
         <form 
-            className="border-t border-solid border-slate-200 flex items-center mt-4 pl-4 pr-3 py-2"
+            className="border-t border-solid border-slate-200 flex items-center mt-4 pl-2 md:pl-4 pr-2 md:pr-3 py-2"
             onSubmit={event => onSubmit.current?.(event)}>
             <IconButton onClick={event => handleClick.current?.(event)}>
                 <InsertEmoticonIcon />
