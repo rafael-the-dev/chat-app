@@ -3,13 +3,13 @@ import { useContext, useMemo, useRef } from "react";
 import Link from "next/link"
 import classNames from "classnames"
 import ShowMoreText from "react-show-more-text";
-import { useRouter } from "next/router"
 
 import classes from "./styles.module.css"
 import { AppContext } from "src/context"
 import { getUserDetails } from "src/helpers/user"
 import { getDate } from "src/helpers"
 
+import LikesDialog from "src/components/feed/components/post/components/likes/components/likes-dialog"
 import Avatar from "src/components/avatar"
 import LikeButton from "../like-button"
 import ReplyForm from "../reply-form"
@@ -80,8 +80,13 @@ const Card = ({ comment, commentID, createdAt, ID, likes, postID, replyingTo, us
                             component="p">
                             { getDate(new Date(parseInt(createdAt))) }
                         </Typography>
+                        <LikesDialog 
+                            likes={likes} 
+                            label={ likes.length > 1 ? `${likes.length} likes` : `1 like`} 
+                        />
                         <Button
-                            className="normal-case py-0 text-zinc-600 hover:text-red-500"
+                            className={classNames("normal-case p-0 text-zinc-600 hover:text-red-500",
+                            { "-ml-3": likes.length > 0})}
                             onClick={() => toggleReplyFormRef.current?.()}>
                             Reply
                         </Button>
