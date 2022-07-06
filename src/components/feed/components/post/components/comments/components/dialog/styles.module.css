@@ -2,3 +2,16 @@
     margin: 32px 16px;
     width: 90%;
 }
+
+.dialogList {
+    height: 350px;
+}
+
+@media screen and (min-width: 900px) {
+    .paper {
+        width: auto;
+    }
+
+    .dialogContent {
+    }
+}

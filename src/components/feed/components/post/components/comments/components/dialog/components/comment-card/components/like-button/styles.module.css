@@ -1,0 +1,9 @@
+.smallIcon {
+    font-size: 1.25rem;
+}
+
+@media screen and (min-width: 600px) {
+    .smallIcon {
+        font-size: 1.4rem;
+    }
+}

@@ -1,6 +1,8 @@
-import { Button, Typography } from "@mui/material"
+import { Button, Hidden, Typography } from "@mui/material"
 import { useContext, useMemo, useRef } from "react";
 import Link from "next/link"
+import classNames from "classnames"
+import ShowMoreText from "react-show-more-text";
 
 import classes from "./styles.module.css"
 import { AppContext } from "src/context"
@@ -23,6 +25,20 @@ const UserLink = ({ textColor, username }) => (
     </Link>
 );
 
+const Text = ({ children, lines }) => (
+    <Typography  
+        className={classNames(classes.comment, `grow pr-3`)}
+        component={ShowMoreText}
+            lines={ lines ? lines : 1 }
+            more='Read more'
+            less='Read less'
+            anchorClass='my-anchor-css-class'
+            expanded={false}
+        >
+        { children }
+    </Typography>
+);
+
 const Card = ({ comment, commentID, createdAt, ID, likes, postID, replyingTo, username }) => {
     const { getUsersList } = useContext(AppContext);
 
@@ -33,16 +49,20 @@ const Card = ({ comment, commentID, createdAt, ID, likes, postID, replyingTo, us
     return (
         <li className="flex mb-4 pb-1 last:mb-0">
             <Avatar { ...details } className={classes.avatar} />
-            <div className="grow pl-4">
+            <div className="grow pl-3 md:pl-4">
                 <div className="flex items-center justify-between">
-                    <Typography
-                        className="flex"
-                        component="p">
-                        <UserLink username={details.username} />
-                        <UserLink username={replyingTo} textColor />
-                        { comment }
-                    </Typography>
-                    <LikeButton commentID={commentID} id={postID} likes={likes} />
+                    <Hidden mdUp>
+                        <Text>{ comment }</Text>
+                    </Hidden>
+                    <Hidden mdDown>
+                        <Text lines={3}>
+                            <UserLink username={details.username} />
+                            <UserLink username={replyingTo} textColor />
+                            <span>details.username</span>
+                            { comment }
+                        </Text>
+                    </Hidden>
+                    <LikeButton commentID={commentID} id={postID} likes={likes} smallIcon />
                 </div>
                 <div>
                     <div className="flex items-center mt-2">

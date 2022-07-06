@@ -29,10 +29,10 @@ const Container = ({ author, comments, handleOpenRef, ID, likes }) => {
         >
             <div>
                 <Hidden mdDown></Hidden>
-                <div>
+                <div className={classes.dialogContent}>
                     <DialogHeader author={author} onClose={handleClose} />
                     <div className="pt-4">
-                        <ul className="px-4">
+                        <ul className={classNames(classes.dialogList, "overflow-y-auto px-4")}>
                             {
                                 comments.map(comment => <Comment { ...comment } key={comment.ID} postID={ID} />)
                             }
