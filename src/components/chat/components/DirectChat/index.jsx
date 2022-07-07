@@ -11,7 +11,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
 
 import { ChatContext, LoginContext } from "src/context"
-import { useDirectChatQuery, useUserQuery } from "src/hooks"
+import { useChatRootClass, useDirectChatQuery, useUserQuery } from "src/hooks"
 import { getOnlyDate } from "src/helpers"
 
 import { READ_DIRECT_MESSAGE, SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
@@ -21,7 +21,7 @@ import Sidebar from "./components/sidebar"
 const DirectChatContainer = () => {
     const router = useRouter();
     const { dest, id } = router.query;
-
+    
     const sendDirectMessageMutation = useMutation(SEND_DIRECT_MESSAGE);
     const readDirectMessageMutation = useMutation(READ_DIRECT_MESSAGE);
 
@@ -42,8 +42,6 @@ const DirectChatContainer = () => {
         }
         return {};
     }, [ destinataryResult ]);
-
-    console.log(dest, destinatary);
 
     const makeMessagesAsRead = useCallback((chatID) => {
         const readMessage = readDirectMessageMutation[0];

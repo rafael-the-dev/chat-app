@@ -50,12 +50,16 @@ const Container = () => {
             <Hidden mdDown>
                 <Home />
             </Hidden>
-            <Hidden mdUp>
-                { selectedPage }
-            </Hidden>
+            { selectedPage }
             { forwardMessageDialog }
         </>
     );
 };
 
 export default Container;
+
+/**
+ * <Hidden mdUp>
+                { selectedPage }
+            </Hidden>
+ */

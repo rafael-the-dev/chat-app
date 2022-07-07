@@ -27,7 +27,7 @@ const Container = ({ image, name, username }) => {
     }, [])
 
     return (
-        <li className={classNames(classes.card, `flex items-center py-2 last:border-0`)}>
+        <li className={classNames(classes.card, `flex items-center py-2 sm:px-3 last:border-0 sm:last:border sm:mb-4 md:last:border-0`)}>
             <Avatar 
                 imgProps={{ loading: "lazy" }}
                 src={image ? `http://localhost:5000/${image}` : ""}

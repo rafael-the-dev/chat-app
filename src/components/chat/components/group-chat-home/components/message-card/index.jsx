@@ -41,7 +41,7 @@ const MessageCard = ({ image, ID, messages, name }) => {
 
     return (
         <li className={classNames(classes.card, "w-full last:border-0 dark:hover:bg-stone-600")}>
-            <Link href={`/?tab=chat&page=group-chat&id=${ID}`}>
+            <Link href={`chat?tab=chat&page=group-chat&id=${ID}`}>
                 <a 
                     className={classNames("flex items-center px-5 py-2 text-black w-full")}
                     onClick={clickHandler}>

@@ -3,6 +3,8 @@ import { Avatar, Button, Hidden, Typography } from '@mui/material'
 import { useRouter } from "next/router"
 import Head from 'next/head';
 import classNames from "classnames"
+import classes from "./styles.module.css"
+
 import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from 'src/context/AppContext';
 import { ChatContext } from 'src/context';
@@ -16,7 +18,8 @@ const Home = () => {
     const { chatTab, setChatTab } = useContext(ChatContext)
 
     const router = useRouter();
-    const { subtab } = router.query;
+    const { query, pathname } = router;
+    const { page, subtab } = query;
 
     const clickHandler = useCallback(prop => () => setChatTab(prop), [ setChatTab ]);
 
@@ -26,6 +29,14 @@ const Home = () => {
 
     const directChatsMemo = useMemo(() => <DirectChatsHome />, []);
     const groupChatMemo = useMemo(() => <GroupChat />, []);
+
+    const isChatPage = useMemo(() => {
+        if(page) {
+            return ([ 'direct-chat', 'group-chat' ].includes(page) && pathname === '/chat');
+        }
+
+        return false;
+    }, [ page, pathname ]);
 
     useEffect(() => {
         switch(subtab) {
@@ -62,7 +73,7 @@ const Home = () => {
                     </Avatar>
                 </header>
             </Hidden>
-            <main className='h-full md:relative'>
+            <div className={classNames('h-full md:relative', { [classes.container]: isChatPage })}>
                 <div className={classNames("flex pla")}>
                     <Button 
                         className={classNames(classesToggler("DIRECT_CHAT", chatTab))}
@@ -77,7 +88,7 @@ const Home = () => {
                 </div>
                 { directChatsMemo }
                 { groupChatMemo }
-            </main>
+            </div>
         </>
     );
 };

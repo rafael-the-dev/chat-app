@@ -9,6 +9,11 @@
     background-color: rgba(197, 197, 29, .7) !important;
 }
 
+.sub-root--chat {
+    display: flex;
+    width: 100%;
+}
+
 
 aside.emoji-picker-react {
     width: 100% !important;

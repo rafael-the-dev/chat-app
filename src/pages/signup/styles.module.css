@@ -3,6 +3,12 @@
     min-height: 100vh;
 }
 
+@media screen and (min-width: 600px){
+    .loginContainer {
+        width: 450px !important;
+    }
+}
+
 @media screen and (min-width: 900px){
     .loginContainer {
         width: 400px !important;
