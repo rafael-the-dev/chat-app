@@ -63,7 +63,8 @@ const SendButton = ({ buttonSetValue, ID, inputRef, onSubmit }) => {
 
     return (
         <CustomButton
-            disabled={loading || !Boolean(value)}>
+            disabled={loading || !Boolean(value)}
+            type="submit">
             { loading ? "Posting..." : "Post"}
         </CustomButton>
     );
