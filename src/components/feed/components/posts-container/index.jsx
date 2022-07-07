@@ -57,7 +57,7 @@ const PostsContainer = () => {
                 { loading ? "Loading..." : "New Posts" }
             </Button>
             <ul 
-                className={classNames(classes.postsContainer, "px-4 md:px-0 overflow-y-auto rounded-xl",
+                className={classNames(classes.postsContainer, "px-4 pb-12 md:px-0 overflow-y-auto rounded-xl",
                 hasNewPosts ? "mt-8" : "mt-6")}
                 ref={postsContainerRef}>
                 {

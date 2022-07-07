@@ -28,7 +28,7 @@ const Feed = () => {
 
     return (
         <div className={classNames(classes.transition, `grow items-stretch pt-8 bg-transitionV h-screen 
-            dark:bg-stone-900`, pathname === "/" ? [classes.rootHomePage] : "md:pr-8",
+            dark:bg-stone-900`, pathname === "/" ? [classes.rootHomePage] : classNames(classes.rootOthersPage, "md:px-12"),
             canIHide ? "hidden" : `${pathname !== "/" ? "hidden md:flex" : "flex"}`)}>
             <div className={classNames(pathname === "/" ? "md:pl-0 md:pr-16" : "px-6", "grow")}>
                 <div className="px-4 md:px-0">
@@ -50,7 +50,9 @@ const Feed = () => {
                 </div>
                 <Posts />
             </div>
-            <aside className="hidden md:flex flex-col items-stretch pb-6 w-[300px]">
+            <aside 
+                className={classNames("flex-col items-stretch pb-6 w-[300px]",
+                pathname === "/" ? "hidden md:flex": "hidden")}>
                 <KnownPeople />
                 <AdBanner />
             </aside>

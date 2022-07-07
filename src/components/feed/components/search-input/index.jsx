@@ -18,7 +18,7 @@ const SearchInput = () => {
     return (
         <div 
             className={classNames(classes.transition, { "max-w-sm": pathname === "/"},
-            "bg-slate-300 flex items-center justify-end rounded-full dark:bg-stone-400", { "grow pl-3 pr-1": open })}>
+            "bg-slate-300 hidden items-center justify-end rounded-full dark:bg-stone-400", { "grow pl-3 pr-1": open })}>
             <input 
                 className={classNames(classes.transition, "bg-transparent border-0 outline-none h-0 w-0", { "h-6 grow w-auto": open }, { "p-0": !open })} 
                 placeholder="search..."

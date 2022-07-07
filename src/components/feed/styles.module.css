@@ -19,4 +19,8 @@
         padding-left: 7%;
         padding-right: 7%;
     }
+
+    .rootOthersPage {
+        width: calc(100% - 400px);
+    }
 }

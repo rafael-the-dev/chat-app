@@ -5,9 +5,9 @@ import Dialog from "./components/dialog"
 
 const Container = ({ author, comments, ID, likes }) => {
     const handleOpenRef = useRef(null);
-
+    
     return (
-        comments.length > 1 && (
+        comments.length > 0 && (
             <div className="px-2 md:px-4">
                 <Button 
                     className="normal-case text-zinc-500" 

@@ -2,6 +2,7 @@ import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconB
 import { useCallback, useMemo, useRef, useState, useTransition } from "react"
 
 import classNames from "classnames"
+import classes from "./styles.module.css"
 
 import CloseIcon from '@mui/icons-material/Close';
 import ImageIcon from '@mui/icons-material/Image';
@@ -119,7 +120,7 @@ const CreatePost = () => {
                 add new post
             </Button>
             <Dialog
-                classes={{ paper: classNames("px-4 md:min-w-[450px] dark:bg-stone-500") }}
+                classes={{ paper: classNames(classes.paper, "px-4 md:min-w-[450px] dark:bg-stone-500") }}
                 open={open}
                 onClose={handleClose}
                 aria-describedby="session-dialog-description"
