@@ -150,14 +150,16 @@ const GroupChatContainer = () => {
             <div className="flex flex-col grow items-stretch pb-[5rem] md:relative dark:md:bg-stone-600">
                 <header className="bg-cyan-700 py-2 pr-2 fixed flex items-center justify-between left-0 top-0 
                     w-full z-10 md:absolute dark:md:bg-stone-600">
-                    <div className="flex items-center">
-                        <Link href="/?tab=chat">
-                            <a>
-                                <IconButton>
-                                    <ArrowBackIcon className="text-slate-100" />
-                                </IconButton>
-                            </a>
-                        </Link>
+                    <div className="flex items-center md:pl-3">
+                        <Hidden mdUp>
+                            <Link href="chat">
+                                <a>
+                                    <IconButton>
+                                        <ArrowBackIcon className="text-slate-100" />
+                                    </IconButton>
+                                </a>
+                            </Link>
+                        </Hidden>
                         <div className="flex flex-col">
                             <Typography 
                                 className="text-slate-100" 
