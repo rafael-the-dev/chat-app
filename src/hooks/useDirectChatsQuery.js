@@ -20,7 +20,7 @@ export const useDirectChatsQuery = ({ loggedUser }) => {
                 updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data) return prev;
 
-                    const chats = [ ...prev.directChats ]
+                    const chats = prev.directChats ? [ ...prev.directChats ] : [];
                     const receivedChat = subscriptionData.data.messageSent;
 
                     const chatIndex = chats.findIndex(item => item.ID === receivedChat.ID);
