@@ -3,7 +3,7 @@ import { Collapse } from '@mui/material';
 import { useCallback, useContext, useMemo, useState } from "react";
 import { AppContext } from "src/context/AppContext";
 import classNames from 'classnames'
-import classes from './styles.module.css'
+import classes from '../styles/card.module.css'
 
 import { getDate } from "src/helpers"
 

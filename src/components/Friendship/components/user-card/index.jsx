@@ -3,7 +3,7 @@ import { useCallback, useContext, useMemo, useRef } from "react";
 import { AppContext, LoginContext } from "src/context";
 import classNames from 'classnames'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import classes from './styles.module.css'
+import classes from '../styles/card.module.css'
 
 import Dialog from "./components/dialog"
 
@@ -27,7 +27,8 @@ const Container = ({ image, name, username }) => {
     }, [])
 
     return (
-        <li className={classNames(classes.card, `flex items-center py-2 sm:px-3 last:border-0 sm:last:border sm:mb-4 md:last:border-0`)}>
+        <li className={classNames(classes.card, `flex items-center py-2 sm:px-3 last:border-0 
+            sm:last:border sm:mb-4 md:last:border-0 md:mb-0 md:px-0`)}>
             <Avatar 
                 imgProps={{ loading: "lazy" }}
                 src={image ? `http://localhost:5000/${image}` : ""}

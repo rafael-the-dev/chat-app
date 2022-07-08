@@ -113,7 +113,7 @@ const Container = () => {
                     </Button>
                 </div>
                 <form 
-                    className={classNames("bg-white border border-solid border-slate-200 flex items-center px-2 py-1 dark:bg-stone-400 dark:border-0")}
+                    className={classNames("bg-white border border-solid border-slate-200 flex items-center px-2 py-1 dark:bg-stone-400 dark:border-0 sm:px-3 md:px-2")}
                     onSubmit={searchHandler}>
                     <IconButton className={classNames({ 'hidden': tab !== "SEARCH_FRIENDS" })} onClick={handleClick} type="button">
                         <FilterAltIcon />

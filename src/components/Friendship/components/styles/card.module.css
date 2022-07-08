@@ -1,0 +1,22 @@
+.card {
+    border-bottom: 1px solid #bcb8b866;
+}
+
+.iconRotate {
+    transform: rotate(180deg);
+}
+
+@media screen and (min-width: 600px) {
+    .card {
+        border: 1px solid #bcb8b866;
+        width: 48%;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .card {
+        border: none;
+        border-bottom: 1px solid #bcb8b866;
+        width: 100%;
+    }
+}

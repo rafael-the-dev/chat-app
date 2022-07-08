@@ -29,7 +29,8 @@ const Container = () => {
     return (
         <ul 
             className={classNames({ "hidden": searchFriendsFilter !== filterOptions.current.search }, 
-            "list-none px-5 pt-6 sm:flex sm:flex-wrap sm:justify-between md:flex-col")}>
+            { "sm:flex": searchFriendsFilter === filterOptions.current.search },
+            "list-none px-5 pt-6 sm:flex-wrap sm:justify-between md:flex-col")}>
             {
                 filterList?.filter(user => isMyFriend(user.username))
                     .map((item, index) => <FriendCard key={item.username} { ...item } />)

@@ -1,8 +1,8 @@
 import { Avatar, Badge, Collapse, IconButton, List, ListItem, ListItemButton, ListItemText, Popover, Typography } from "@mui/material";
-import { useCallback, useContext, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import { AppContext } from "src/context/AppContext";
 import classNames from 'classnames'
-import classes from './styles.module.css'
+import classes from '../styles/card.module.css'
 
 import { useRouter } from "next/router"
 
@@ -54,7 +54,8 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
     const deleteFriendshipListItem = useMemo(() => <DeleteFriendshipListItem username={username} />, [ username ])
 
     return (
-        <li className={classNames(classes.card, `flex flex-col pt-3 pb-2 last:border-0`)}>
+        <li className={classNames(classes.card, `flex flex-col pt-3 pb-2 last:border-0
+            sm:px-3 sm:last:border sm:mb-4 md:last:border-0 md:px-0 md:mb-0`)}>
             <div className="flex items-center">
                 <Badge
                     anchorOrigin={{
