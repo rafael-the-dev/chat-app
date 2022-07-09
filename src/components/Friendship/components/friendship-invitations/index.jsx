@@ -16,7 +16,11 @@ const FriendshipInvitations = () => {
     }, [ getFriendshipInvitationsList, loggedUser ])
         
     return (
-        <ul className={classNames("list-none px-5 mt-6", { 'hidden': searchFriendsFilter !== filterOptions.current.invitations })}>
+        <ul 
+            className={classNames("", 
+            { 'hidden': searchFriendsFilter !== filterOptions.current.invitations },
+            { 'sm:flex': searchFriendsFilter === filterOptions.current.invitations },
+            "list-none px-5 mt-6 sm:flex-wrap sm:justify-between md:flex-col")}>
             {
                 invitationsList.map((item, index) => (
                     <Card key={item.ID} { ...item } />
