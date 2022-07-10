@@ -1,0 +1,19 @@
+@media screen and (min-width: 600px) {
+    .toggleContaiener {
+        border: 1px solid #bcb8b866;
+    }
+
+    .subContainer {
+        width: 48%;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .toggleContaiener {
+        border: none;
+    }
+
+    .subContainer {
+        width: 100%;
+    }
+}

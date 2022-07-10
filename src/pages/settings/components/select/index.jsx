@@ -2,6 +2,8 @@ import { MenuItem, TextField } from "@mui/material"
 import { useCallback, useContext, useMemo, useState } from "react"
 import CheckIcon from '@mui/icons-material/Check';
 import { styled } from '@mui/material/styles';
+import classes from "../../styles/settings.module.css"
+import classNames from "classnames"
 
 import { ThemeContext } from "src/context/ThemeContext"
 
@@ -51,7 +53,7 @@ const SelectContianer = () => {
     }, [ addFontFamily ]);
 
     return (
-        <div className="mt-4 px-4">
+        <div className={classNames(classes.subContainer, "mt-4 px-2 sm:mt-0 sm:px-0 md:mt-4 md:px-1")}>
             <CustomTextfield
                 classes={{ root: "dark:border-slate-300" }}
                 fullWidth
