@@ -23,7 +23,8 @@ const FriendshipInvitaitonCard = ({ description, ID, datetime, image, sender }) 
     }, [ description ]);
 
     return (
-        <li className={classNames(classes.card, `flex flex-col pt-3 pb-2 last:border-0`)}>
+        <li className={classNames(classes.card, `flex flex-col pt-3 pb-2 last:border-0
+        sm:pr-3 sm:pl-2 sm:last:border sm:mb-4 md:last:border-0 md:mb-0 md:px-0`)}>
             <div className="flex items-center">
                 <Avatar 
                     className="h-[50px] text-base w-[50px]"
