@@ -48,7 +48,7 @@ const DialogHeader = ({ author, onClose }) => {
                 <Link href={`profile?username=${details.username}`}>
                     <a className="ml-3">
                         <Typography 
-                            className="font-medium text-black hover:text-red-500"
+                            className="font-medium text-black hover:text-red-500 dark:text-slate-400"
                             component="p">
                             { details.name }
                         </Typography>

@@ -18,7 +18,7 @@ import RepliesContainer from "./components/replies"
 
 const Text = ({ children }) => (
     <Typography  
-        className={classNames(classes.comment, `grow pr-3`)}
+        className={classNames(classes.comment, `grow pr-3 dark:text-zinc-500`)}
         component={ShowMoreText}
             lines={1}
             more='Read more'
@@ -49,7 +49,7 @@ const Card = ({ comment, createdAt, ID, likes, postID, replies, username }) => {
                         <Text >
                             <Link href={`profile?username=${details.username}`} passHref>
                                 <Typography 
-                                    className="font-semibold mr-2 text-zinc-600 text-sm hover:text-red-500"
+                                    className="font-semibold mr-2 text-zinc-600 text-sm hover:text-red-500  dark:text-slate-500"
                                     component="a">
                                     { details.name }
                                 </Typography>

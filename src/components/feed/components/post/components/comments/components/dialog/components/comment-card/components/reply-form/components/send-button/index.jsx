@@ -61,7 +61,7 @@ const Button = ({ buttonSetValue, commentID, id, inputRef, onSubmit, replyingTo 
     return (
         <IconButton
             disabled={loading || !Boolean(value)}>
-            { loading ? <CircularProgress size={20} /> : <SendIcon /> }
+            { loading ? <CircularProgress size={20} /> : <SendIcon className="dark:text-zinc-500" /> }
         </IconButton>
     );
 };

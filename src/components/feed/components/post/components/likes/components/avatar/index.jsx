@@ -12,7 +12,7 @@ const Container = ({ username }) => {
     return (
         <Avatar 
             alt={details.name} 
-            className="h-[20px] w-[20px]"
+            className="h-[22px] w-[22px] dark:border-0"
             src={`${serverPublicURL.current}/${details.image}`} 
         />
     );

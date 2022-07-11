@@ -23,7 +23,7 @@ const Button = ({ id, likes }) => {
     }, [ likes, loggedUser ]);
     //console.log(hasLiked, likes)
 
-    const likeIcon = useMemo(() => hasLiked ? <FavoriteIcon className="text-red-500" /> : <FavoriteBorderIcon />, [ hasLiked ])
+    const likeIcon = useMemo(() => hasLiked ? <FavoriteIcon className="text-red-500" /> : <FavoriteBorderIcon className="dark:text-zinc-500" />, [ hasLiked ])
 
     const responseHandler = useMemo(() => (
         {

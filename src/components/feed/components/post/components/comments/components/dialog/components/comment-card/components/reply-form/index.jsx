@@ -14,6 +14,9 @@ const CustomTextfield = styled(TextField)({
     },
     '& .MuiOutlinedInput-notchedOutline': {
         border: 'none'
+    },
+    '.dark & input': {
+        color: "#71717a"
     }
 });
 
@@ -48,7 +51,7 @@ const Container = ({ commentID, id, replyingTo, toggleRef }) => {
                 className="border border-solid border-slate-200 flex items-center mt-2"
                 onSubmit={event => onSubmit.current?.(event)}>
                 <CustomTextfield 
-                    className="border-0 grow py-0"
+                    className="border-0 grow py-0 dark:text-zinc-500"
                     inputRef={inputRef}
                     onChange={changeHandler}
                     placeholder="Add a comment..."
@@ -56,7 +59,7 @@ const Container = ({ commentID, id, replyingTo, toggleRef }) => {
                 <IconButton 
                     type="button"
                     onClick={event => handleClick.current?.(event)}>
-                    <InsertEmoticonIcon />
+                    <InsertEmoticonIcon className="dark:text-zinc-500" />
                 </IconButton>
                 <SendButton 
                     buttonSetValue={buttonSetValue} 

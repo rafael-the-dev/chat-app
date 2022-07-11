@@ -98,7 +98,7 @@ const Button = ({ commentID, id, likes, replyID, smallIcon }) => {
         })
     }, [ commentID, id, likeCommentReplyMutation, replyID, responseHandler ])
 
-    const likeIcon = useMemo(() => hasLike ? <FavoriteIcon className={classNames(customClasses, "text-red-500")} /> : <FavoriteBorderIcon className={classNames(customClasses, "hover:text-red-500")} />, [ hasLike ])
+    const likeIcon = useMemo(() => hasLike ? <FavoriteIcon className={classNames(customClasses, "text-red-500")} /> : <FavoriteBorderIcon className={classNames(customClasses, "hover:text-red-500 dark:text-zinc-500")} />, [ hasLike ])
     
     const handler = useMemo(() => {
         if(replyID) {
