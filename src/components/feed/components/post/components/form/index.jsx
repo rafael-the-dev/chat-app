@@ -13,6 +13,9 @@ const CustomTextfield = styled(TextField)({
     },
     '& .MuiOutlinedInput-notchedOutline': {
         border: 'none'
+    },
+    '.dark & input': {
+        color: "#71717a"
     }
 });
 
@@ -37,10 +40,11 @@ const Form = ({ ID }) => {
 
     return (
         <form 
-            className="border-t border-solid border-slate-200 flex items-center mt-4 pl-2 md:pl-4 pr-2 md:pr-3 py-2"
+            className="border-t border-solid border-slate-200 flex items-center mt-4 pl-2 md:pl-4 
+            pr-2 md:pr-3 py-2 dark:border-zinc-500"
             onSubmit={event => onSubmit.current?.(event)}>
             <IconButton onClick={event => handleClick.current?.(event)}>
-                <InsertEmoticonIcon />
+                <InsertEmoticonIcon className="dark:text-zinc-500" />
             </IconButton>
             <CustomTextfield 
                 className="border-0 grow py-0"

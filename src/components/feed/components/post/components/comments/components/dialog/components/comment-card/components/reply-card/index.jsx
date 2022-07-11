@@ -18,7 +18,7 @@ const UserLink = ({ textColor, username }) => (
     <Link href={`profile?username=${username}`}>
         <a className="mr-2">
             <Typography 
-                className={`font-semibold text-sm hover:text-red-500 ${ textColor ? "text-blue-900" : "text-zinc-600"}`}
+                className={`font-semibold text-sm hover:text-red-500 ${ textColor ? "text-blue-900" : "text-zinc-600 dark:text-slate-400"}`}
                 component="span">
                 { username }
             </Typography>
@@ -28,7 +28,7 @@ const UserLink = ({ textColor, username }) => (
 
 const Text = ({ children, lines }) => (
     <Typography  
-        className={classNames(classes.comment, `grow pr-3`)}
+        className={classNames(classes.comment, `grow pr-3 dark:text-zinc-500`)}
         component={ShowMoreText}
             lines={ lines ? lines : 1 }
             more='Read more'
