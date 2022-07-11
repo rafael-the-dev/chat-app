@@ -27,7 +27,9 @@ const Options = ({ author, ID }) => {
     return (
         <>
             {loggedUser.username === author ? (
-                <IconButton onClick={handleClick}>
+                <IconButton 
+                    className="dark:text-slate-400"
+                    onClick={handleClick}>
                     <MoreVertIcon />
                 </IconButton>
             ) : <></>}

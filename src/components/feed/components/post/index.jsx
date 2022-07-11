@@ -33,7 +33,7 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
 
     return (
         <Paper 
-            className="flex flex-col items-stretch mb-4 px-0 pt-3 rounded-xl w-full last:mb-0"
+            className="flex flex-col items-stretch mb-4 px-0 pt-3 rounded-xl w-full last:mb-0 dark:bg-stone-500"
             elevation={0}>
             <header className="flex items-center justify-between pl-4 pr-1 md:px-4">
                 <div className="flex items-center">
@@ -46,14 +46,14 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
                         <Link href={`profile?username=${authorDetails.username}`}>
                             <a>
                                 <Typography 
-                                    className="font-bold text-black text-sm hover:text-red-500"
+                                    className="font-bold text-black text-sm hover:text-red-500 dark:text-slate-300"
                                     component="h2">
                                     { authorDetails.name }
                                 </Typography>
                             </a>
                         </Link>
                         <Typography 
-                            className="text-xs"
+                            className="text-xs dark:text-slate-500"
                             component="p">
                             { getDate(new Date(parseInt(createdAt))) }
                         </Typography>
@@ -88,7 +88,7 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
                         />
                     </IconButton>
                 </div>
-                <IconButton>
+                <IconButton className="dark:text-zinc-500">
                     <BookmarkBorderIcon />
                 </IconButton>
             </div>
@@ -96,7 +96,7 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
             { description && (
                 <div className="px-4 md:px-6">
                     <Typography  
-                        className={`grow `}
+                        className={`grow dark:text-zinc-400`}
                         component={ShowMoreText}
                             lines={2}
                             more='Read more'
@@ -106,7 +106,7 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
                         >
                         <Link href={`profile?username=${authorDetails.username}`} passHref>
                             <Typography 
-                                className="font-semibold mr-2 text-black hover:text-red-500"
+                                className="font-semibold mr-2 text-black hover:text-red-500 dark:text-slate-400"
                                 component="a">
                                 { authorDetails.name }
                             </Typography>
