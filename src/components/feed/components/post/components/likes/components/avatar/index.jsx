@@ -1,5 +1,6 @@
 import { Avatar } from "@mui/material"
 import { useContext, useMemo } from "react"
+import classes from "./styles.module.css"
 
 import { AppContext } from "src/context"
 import { getUserDetails } from "src/helpers/user"
@@ -12,7 +13,7 @@ const Container = ({ username }) => {
     return (
         <Avatar 
             alt={details.name} 
-            className="h-[22px] w-[22px] dark:border-0"
+            className={classes.avatar}
             src={`${serverPublicURL.current}/${details.image}`} 
         />
     );

@@ -24,7 +24,7 @@ const LikesDialog = ({ className, likes, label }) => {
     return (
         <>
             <Button 
-                className={classNames("lowercase py-0 text-black text-sm hover:text-red-500 dark:text-zinc-400")}
+                className={classNames("lowercase py-0 text-black text-sm text-transition hover:text-red-500 dark:text-zinc-400")}
                 onClick={handleClick}>
                 { label ? label : <><Hidden mdDown>others</Hidden><Hidden mdUp>{likes.length} likes</Hidden></> }
             </Button>

@@ -31,14 +31,14 @@ const Likes = ({ likes }) => {
             <div className="flex items-center md:ml-3">
                 <Hidden mdDown>
                     <Typography 
-                        className="mr-2 text-black dark:text-zinc-500"
+                        className="mr-2 text-black dark:text-zinc-500 text-transition"
                         component="p">
                         liked by
                     </Typography>
                     <Link href={`profile?username=${randomUser.username}`}>
                         <a>
                             <Typography 
-                                className="font-medium text-black hover:text-red-500 dark:text-zinc-400"
+                                className="font-medium text-black hover:text-red-500 text-transition dark:text-zinc-400"
                                 component="p">
                                 { randomUser.username }
                             </Typography>
@@ -48,7 +48,7 @@ const Likes = ({ likes }) => {
                         likes.length > 1 && (
                             <>
                                 <Typography 
-                                    className="ml-2 text-black dark:text-zinc-500"
+                                    className="ml-2 text-black text-transition dark:text-zinc-500"
                                     component="p">
                                     and
                                 </Typography>

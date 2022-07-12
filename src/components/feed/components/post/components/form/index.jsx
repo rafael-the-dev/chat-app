@@ -47,7 +47,7 @@ const Form = ({ ID }) => {
                 <InsertEmoticonIcon className="dark:text-zinc-500" />
             </IconButton>
             <CustomTextfield 
-                className="border-0 grow py-0"
+                className="border-0 grow py-0 text-transition"
                 inputRef={inputRef}
                 onChange={changeHandler}
                 placeholder="Add a comment..."

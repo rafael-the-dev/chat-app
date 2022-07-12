@@ -53,6 +53,10 @@ a {
   background-color: #48B0D0;
 }
 
+.sub-root {
+  min-height: 95vh;
+}
+
 @media screen  and (min-width: 900px){
   #root {
     display: flex;

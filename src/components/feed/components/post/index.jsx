@@ -33,7 +33,8 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
 
     return (
         <Paper 
-            className="flex flex-col items-stretch mb-4 px-0 pt-3 rounded-xl w-full last:mb-0 dark:bg-stone-500"
+            className="flex flex-col items-stretch mb-4 px-0 pt-3 rounded-xl w-full last:mb-0 
+            bg-transition dark:bg-stone-500"
             elevation={0}>
             <header className="flex items-center justify-between pl-4 pr-1 md:px-4">
                 <div className="flex items-center">
@@ -46,7 +47,8 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
                         <Link href={`profile?username=${authorDetails.username}`}>
                             <a>
                                 <Typography 
-                                    className="font-bold text-black text-sm hover:text-red-500 dark:text-slate-300"
+                                    className="font-bold text-black text-sm hover:text-red-500 text-transition
+                                    dark:text-slate-300"
                                     component="h2">
                                     { authorDetails.name }
                                 </Typography>
@@ -96,7 +98,7 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
             { description && (
                 <div className="px-4 md:px-6">
                     <Typography  
-                        className={`grow dark:text-zinc-400`}
+                        className={`grow dark:text-zinc-400 text-transition`}
                         component={ShowMoreText}
                             lines={2}
                             more='Read more'
@@ -106,7 +108,8 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
                         >
                         <Link href={`profile?username=${authorDetails.username}`} passHref>
                             <Typography 
-                                className="font-semibold mr-2 text-black hover:text-red-500 dark:text-slate-400"
+                                className="font-semibold mr-2 text-black hover:text-red-500 
+                                dark:text-slate-400 text-transition"
                                 component="a">
                                 { authorDetails.name }
                             </Typography>

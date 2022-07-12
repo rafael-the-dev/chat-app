@@ -17,7 +17,9 @@ const ListItemContainer = ({ username }) => {
             disablePadding 
             className={classNames("dark:hover:bg-stone-500 dark:text-slate-400")}>
             <Link href={`profile?username=${details.username}`}>
-                <a className="flex items-center px-3 py-2 text-black hover:bg-slate-200 w-full">
+                <a 
+                    className="flex items-center px-3 py-2 text-black hover:bg-slate-200 w-full 
+                    dark:text-slate-400 dark:hover:text-black">
                     <Avatar 
                         alt={details.name} 
                         className="h-[30px] w-[30px]"
