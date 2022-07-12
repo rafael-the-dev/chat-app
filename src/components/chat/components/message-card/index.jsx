@@ -1,7 +1,7 @@
-import { IconButton, List, ListItem, ListItemButton, ListItemText, Popover, Typography } from '@mui/material'
+import { IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material'
 import classNames from 'classnames';
 import Image from "next/image"
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { AppContext } from 'src/context/AppContext';
 import { LoginContext } from 'src/context/LoginContext';
 import { ChatContext, ForwardMessage } from 'src/context';
@@ -21,6 +21,7 @@ import { getDate } from "src/helpers"
 
 import IsReadCard from "./components/is-read-card"
 import Avatar from "./components/avatar"
+import Popover from "src/components/popover"
 
 library.add(faCheckDouble);
 
@@ -42,23 +43,13 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
     const deleteMutation = useMutation(DELETE_DIRECT_MESSAGE)
     const deleteGroupMessageMutation = useMutation(DELETE_GROUP_MESSAGE);
 
-    const [ anchorEl, setAnchorEl] = useState(null);
-
-    const openPopover = Boolean(anchorEl);
-    const id = openPopover ? 'simple-popover' : undefined;
-
-    const handleClose = useCallback(() => {
-        setAnchorEl(null);
-    }, []);
-    
-    const handleClick = useCallback((event) => {
-        setAnchorEl(event.currentTarget);
-    }, []);
+    const onClickRef = useRef(null);
+    const onCloseRef = useRef(null);
 
     const replyHandler = useCallback(() => {
-        handleClose();
+        onCloseRef.current?.();
         setRepliedMessage({ ...message, isDirectChat });
-    }, [ handleClose, isDirectChat, message, setRepliedMessage ])
+    }, [ isDirectChat, message, setRepliedMessage ])
 
     const forwardHandler = useCallback(() => {
         addMessageVariables({
@@ -69,7 +60,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
             text: text
         });
         setForwardDetails({ directContact: dest, group: chatIDRef.current });
-        setAnchorEl(null);
+        onCloseRef.current?.();
         setOpenForwardMessageDialog(true);
     }, [ addMessageVariables, chatIDRef, dest, image, setForwardDetails, text, setOpenForwardMessageDialog ])
 
@@ -83,13 +74,13 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
                 messageID: ID
             },
             onCompleted() {
-                handleClose();
+                onCloseRef.current?.();
             },
             onError(error) {
                 console.log(error)
             }
         })
-    }, [ chatIDRef, deleteMutation, dest, handleClose, ID ])
+    }, [ chatIDRef, deleteMutation, dest, ID ])
 
     const groupMessageDeleteHandler = useCallback(() => {
         const deleteMessage = deleteGroupMessageMutation[0];
@@ -100,13 +91,13 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
                 messageID: ID
             },
             onCompleted() {
-                handleClose();
+                onCloseRef.current?.();
             },
             onError(error) {
                 console.log(error)
             }
         });
-    }, [ chatIDRef, deleteGroupMessageMutation, handleClose, ID ])
+    }, [ chatIDRef, deleteGroupMessageMutation, ID ])
 
     const destinatary = useMemo(() => {
         const result = getUsersList()?.find(item => item.username === sender);
@@ -136,7 +127,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
                     <div className={classNames("flex flex-col min-w-[120px] pt-1 pb-3 px-4 rounded-2xl", 
                         loggedUser.username !== sender ? "other-message rounded-bl-none": "user-message rounded-br-none",
                         isDeleted ? "deleted-message" : "")}>
-                        <IconButton disabled={isDeleted} className="p-0 self-end" onClick={handleClick}>
+                        <IconButton disabled={isDeleted} className="p-0 self-end" onClick={e => onClickRef.current?.(e)}>
                             <MoreHorizIcon />
                         </IconButton>
                         { reply !== null && <RepliedMessage { ...reply } /> }
@@ -162,21 +153,15 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
                     </Typography> }
                 </div>
                 <Popover
-                    id={id}
-                    open={openPopover}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    classes={{ paper: ""}}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
+                    id={ID}
+                    onClickRef={onClickRef}
+                    onCloseRef={onCloseRef}
                 >
                     <List className={classNames("py-0 w-[170px]")}>
                         <ListItem 
                             disablePadding 
                             onClick={replyHandler} 
-                            className={classNames()}>
+                            className={classNames("dark:bg-stone-500 dark:hover:bg-slate-400 dark:text-slate-400 dark:hover:text-stone-900")}>
                             <ListItemButton>
                                 <ListItemText 
                                     primary="Reply" 
@@ -186,7 +171,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
                         <ListItem 
                             disablePadding 
                             onClick={forwardHandler} 
-                            className={classNames()}>
+                            className={classNames("dark:bg-stone-500 dark:hover:bg-slate-400 dark:text-slate-400 dark:hover:text-stone-900")}>
                             <ListItemButton>
                                 <ListItemText 
                                     primary="Forward" 
@@ -196,7 +181,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
                         <ListItem 
                             disablePadding 
                             onClick={ isDirectChat ? deleteHandler : groupMessageDeleteHandler} 
-                            className={classNames()}>
+                            className={classNames("dark:bg-stone-500 dark:hover:bg-slate-400")}>
                             <ListItemButton disabled={ sender !== loggedUser.username }>
                                 <ListItemText 
                                     className={classNames('text-red-500')} 

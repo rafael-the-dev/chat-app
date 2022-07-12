@@ -10,7 +10,7 @@ const PopoverContainer = ({ children, id, onClickRef, onCloseRef }) => {
     const childrenMemo = useMemo(() => <>{ children }</>, [ children ])
 
     const handleClose = useCallback(event => {
-        event.stopPropagation();
+        event && event.stopPropagation();
         setAnchorEl(null);
     }, []);
 
