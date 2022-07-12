@@ -1,6 +1,9 @@
 import Image from "next/image"
 import { Chip, IconButton, Typography } from "@mui/material"
 import { useCallback, useContext, useEffect, useMemo, useRef } from "react"
+import { styled } from '@mui/material/styles'
+import classes from "./styles.module.css"
+import classNames from "classnames"
 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
@@ -8,7 +11,15 @@ import { AppContext, LoginContext } from "src/context";
 
 import Form from "./components/form"
 import Dialog from "src/components/Friendship/components/user-card/components/dialog"
-import Popover from "src/components/popover"
+import Popover from "src/components/popover";
+
+const CustomImage = styled(Image)({
+    '&': {
+        height: 'auto !important',
+        maxHeight: 'unset !important',
+        width: '100% !important'
+    }
+})
 
 const UserDetails = ({ clickHandler, username }) => {
     const { getFriendshipsList, getFriendshipInvitationsList, getUsersList, serverPublicURL } = useContext(AppContext);
@@ -59,15 +70,16 @@ const UserDetails = ({ clickHandler, username }) => {
             id={`${username}-details`}
             onClickRef={onClickRef}
         >
-            <article className="flex dark:bg-stone-900">
-                    <Image 
-                        alt={userDetails.name}
-                        height={170}
-                        loader={myLoader}
-                        src={userDetails.image ? `${serverPublicURL.current}/${userDetails.image}` : imageURL }
-                        unoptimized={true}
-                        width={170}
-                    />
+            <article className={classNames(classes.root, "flex dark:bg-stone-900")}>
+                <CustomImage 
+                    alt={userDetails.name}
+                    className="bg-black"
+                    height={170}
+                    loader={myLoader}
+                    src={userDetails.image ? `${serverPublicURL.current}/${userDetails.image}` : imageURL }
+                    unoptimized={true}
+                    width={170}
+                />
                 <div className="p-2">
                     <div className="flex items-center justify-between">
                         <div>

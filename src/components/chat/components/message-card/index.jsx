@@ -155,11 +155,11 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
                             { isDeleted ? "This message was deleted" : text }
                         </Typography>
                     </div>
-                    <Typography className={classNames("mt-[4px] text-xs text-slate-300", loggedUser.username !== sender ? "" : "text-right")}>
+                    { !isDeleted && <Typography className={classNames("mt-[4px] text-xs text-slate-300", loggedUser.username !== sender ? "" : "text-right")}>
                         { sender !== loggedUser.username && isReadIcon(false) }
                         { getDate(new Date(parseInt(createdAt))) } 
                         { sender === loggedUser.username && isReadIcon(true) }
-                    </Typography>
+                    </Typography> }
                 </div>
                 <Popover
                     id={id}
