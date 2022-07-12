@@ -15,6 +15,8 @@ import { useChatRootClass, useDirectChatQuery, useUserQuery } from "src/hooks"
 import { getOnlyDate } from "src/helpers"
 
 import { READ_DIRECT_MESSAGE, SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
+
+import ChatDate from "../chat-date"
 import MessageCard from '../message-card'
 import Sidebar from "./components/sidebar"
 
@@ -185,11 +187,7 @@ const DirectChatContainer = () => {
                                     if(isDateChanged(item.createdAt)) {
                                         return (
                                             <div className="flex flex-col items-stretch" key={index}>
-                                                <div className="flex justify-center mb-4">
-                                                    <Typography className="font-semibold">
-                                                        { getOnlyDate(new Date(parseInt(item.createdAt))) }
-                                                    </Typography>
-                                                </div>
+                                                <ChatDate createdAt={item.createdAt} />
                                                 <MessageCard { ...item } chatIDRef={chatIDRef} isDirectChat dest={dest} message={item} />
                                             </div>
                                         );
