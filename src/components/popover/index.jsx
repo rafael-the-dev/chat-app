@@ -1,13 +1,16 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { Popover } from "@mui/material"
 
-const PopoverContainer = ({ children, id, onClickRef }) => {
+const PopoverContainer = ({ children, id, onClickRef, onCloseRef }) => {
     const [ anchorEl, setAnchorEl] = useState(null);
 
     const openPopover = Boolean(anchorEl);
     const popoverID = openPopover ? `${id}-popover` : undefined;
 
-    const handleClose = useCallback(() => {
+    const childrenMemo = useMemo(() => <>{ children }</>, [ children ])
+
+    const handleClose = useCallback(event => {
+        event.stopPropagation();
         setAnchorEl(null);
     }, []);
 
@@ -17,7 +20,12 @@ const PopoverContainer = ({ children, id, onClickRef }) => {
 
     useEffect(() => {
         onClickRef.current = handleClick;
-    }, [ handleClick, onClickRef ])
+    }, [ handleClick, onClickRef ]);
+
+    useEffect(() => {
+        if(onCloseRef)
+            onCloseRef.current = handleClose;
+    }, [ handleClose, onCloseRef ])
 
     return (
         <Popover
@@ -31,7 +39,7 @@ const PopoverContainer = ({ children, id, onClickRef }) => {
                 horizontal: 'left',
             }}
         >
-            { children }
+            { childrenMemo }
         </Popover>
     );
 };

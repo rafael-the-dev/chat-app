@@ -1,5 +1,5 @@
-import { Avatar, Badge, Collapse, IconButton, List, ListItem, ListItemButton, ListItemText, Popover, Typography } from "@mui/material";
-import { useCallback, useContext, useMemo, useState } from "react";
+import { Avatar, Badge, Collapse, IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
+import { useCallback, useContext, useId, useMemo, useRef, useState, useTransition } from "react";
 import { AppContext } from "src/context/AppContext";
 import classNames from 'classnames'
 import classes from '../styles/card.module.css'
@@ -7,45 +7,32 @@ import classes from '../styles/card.module.css'
 import { useRouter } from "next/router"
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-//import CircleIcon from '@mui/icons-material/Circle';
-
-import { useMutation } from "@apollo/client";
-import { REJECT_FRIENDSHIP_INVITATION } from "src/graphql/mutations";
-import { GET_FRIENDSHIPS_INVITATIONS } from "src/graphql/queries";
 
 import Input from "./components/Input"
 import DeleteFriendshipListItem from "./components/delete-friendship"
+import Popover from "src/components/popover"
 
 const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
     const router = useRouter();
+    const id = useId();
     const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
 
-    const [ anchorEl, setAnchorEl] = useState(null);
     const [ expanded, setExpanded ] = useState(false);
-
-    const rejectMutation = useMutation(REJECT_FRIENDSHIP_INVITATION, { 
-        refetchQueries: [ GET_FRIENDSHIPS_INVITATIONS ]
-    });
+    const [ isPendig, startTransition ] = useTransition();
+    const onClickRef = useRef(null);
+    const onCloseRef = useRef(null)
 
     const toggleExpanded = useCallback(prop => () => {
-        setExpanded(prop);
-        setAnchorEl(null);
+        onCloseRef.current?.();
+        startTransition(() => {
+            setExpanded(prop);
+        })
+        //setAnchorEl(null);
     }, [])
-
-    const openPopover = Boolean(anchorEl);
-    const id = openPopover ? 'simple-popover' : undefined;
-
-    const handleClose = useCallback(() => {
-        setAnchorEl(null);
-    }, []);
 
     const listItemClickHandler = useCallback(prop => () => {
     }, [  ]);
     
-    const handleClick = useCallback((event) => {
-        setAnchorEl(event.currentTarget);
-    }, []);
-
     const goToChatClickHandler = useCallback(() => {
         router.push(`chat?page=direct-chat&dest=${username}`)
     }, [ router, username ]);
@@ -82,7 +69,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                             component="h2">
                             { name }
                         </Typography>
-                        <IconButton className="p-0 dark:text-slate-400" onClick={handleClick}>
+                        <IconButton className="p-0 dark:text-slate-400" onClick={e => onClickRef.current?.(e)}>
                             <MoreHorizIcon />
                         </IconButton>
                     </div>
@@ -97,15 +84,9 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                 { inputMemo }
             </Collapse>
             <Popover
-                id={id}
-                open={openPopover}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                classes={{ paper: ""}}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
+                id={`${id}-username`}
+                onClickRef={onClickRef}
+                onCloseRef={onCloseRef}
             >
                 <List className={classNames("pt-0 w-[230px] dark:bg-stone-900")}>
                     <ListItem 

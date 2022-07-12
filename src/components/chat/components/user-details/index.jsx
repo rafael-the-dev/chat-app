@@ -1,6 +1,6 @@
 import Image from "next/image"
-import { Chip, IconButton, Popover, Typography } from "@mui/material"
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
+import { Chip, IconButton, Typography } from "@mui/material"
+import { useCallback, useContext, useEffect, useMemo, useRef } from "react"
 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
@@ -8,14 +8,12 @@ import { AppContext, LoginContext } from "src/context";
 
 import Form from "./components/form"
 import Dialog from "src/components/Friendship/components/user-card/components/dialog"
+import Popover from "src/components/popover"
 
 const UserDetails = ({ clickHandler, username }) => {
     const { getFriendshipsList, getFriendshipInvitationsList, getUsersList, serverPublicURL } = useContext(AppContext);
-    const { loggedUser } = useContext(LoginContext)
-    const [ anchorEl, setAnchorEl ] = useState(null);
-
-    const openPopover = Boolean(anchorEl);
-    const id = openPopover ? `${username}-details-popover` : undefined;
+    const { loggedUser } = useContext(LoginContext);
+    const onClickRef = useRef(null);
 
     const imageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfgJ0SYGF5qAueA_nbIYvUB58DCZ2KG-DkYA&usqp=CAU";
 
@@ -45,38 +43,21 @@ const UserDetails = ({ clickHandler, username }) => {
 
     const form = useMemo(() => <Form username={userDetails.username} />, [ userDetails ]);
 
-    const handleClose = useCallback(event => {
-        event.stopPropagation();
-        setAnchorEl(null);
-    }, []);
-
     const openDialog = useRef(null);
-    const openDialogHandler = useCallback(() => {
-        if(openDialog.current) {
-            openDialog.current();
-        }
-    }, [])
-
+    const openDialogHandler = useCallback(() => openDialog.current?.(), [])
 
     useEffect(() => {
         clickHandler.current = event => {
             if(loggedUser.username !== username) {
-                setAnchorEl(event.currentTarget);
+                onClickRef.current?.(event);
             }
         }
     }, [ clickHandler, loggedUser, username ])
 
     return (
         <Popover
-            id={id}
-            open={openPopover}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            classes={{ paper: ""}}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-            }}
+            id={`${username}-details`}
+            onClickRef={onClickRef}
         >
             <article className="flex dark:bg-stone-900">
                     <Image 
