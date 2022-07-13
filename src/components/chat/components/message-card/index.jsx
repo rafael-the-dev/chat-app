@@ -53,11 +53,18 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
     }, [ isDirectChat, message, setRepliedMessage ])
 
     const messageCardType = useMemo(() => {
-        const isInvalid = (messageIndex - 1 === -1) || ((messageIndex + 1) > (messages.length - 1));
+        const isGreaterThanMessagesSize = (messageIndex + 1) > (messages.length - 1);
+        const isInvalid = (messageIndex - 1 === -1);
         if(isDateChanged || isInvalid) return "NORMAL";
 
         const lastMessageSender = messages[messageIndex - 1].sender;
         const currentMessageSender = messages[messageIndex].sender;
+
+        if(isGreaterThanMessagesSize) {
+            if(currentMessageSender === lastMessageSender) return "EQUAL_TO_LAST"
+            return "NORMAL";
+        }
+
         const nextMessageSender = messages[messageIndex + 1].sender;
 
         if(currentMessageSender === lastMessageSender && currentMessageSender === nextMessageSender) {
@@ -67,7 +74,6 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
             return nextMessageDay === currentMessageDay ? "EQUAL_TO_BOTH" : "EQUAL_TO_LAST";
         }
 
-        if(currentMessageSender === lastMessageSender) return "EQUAL_TO_LAST"
 
     }, [ createdAt, isDateChanged, messages, messageIndex ]);
 
