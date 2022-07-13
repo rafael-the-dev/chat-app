@@ -1,18 +1,22 @@
-import { useCallback, useMemo, useState } from "react"
-import { IconButton, List, ListItem, ListItemButton, ListItemText, Popover } from "@mui/material"
+import { useCallback, useMemo, useRef, useState } from "react"
+import { IconButton, List, ListItem, ListItemButton, ListItemText } from "@mui/material"
 import classNames from "classnames"
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import LeaveGroupButton from "./components/leave-group"
 import GroupDetails from "src/components/group-details"
+import Popover from "src/components/popover"
 
 const Menu = ({ group, groupID }) => {
-    const [ properties, setProperties ] = useState({ anchorEl: null, openGroupDetailsDrawer: false })
-    const { anchorEl, openGroupDetailsDrawer } = properties;
+    const [ properties, setProperties ] = useState({ anchorEl: null, openGroupDetailsDrawer: false });
+    const onClickRef = useRef(null);
+    const onCloseRef = useRef(null);
+    const { openGroupDetailsDrawer } = properties;
 
-    const handleClose = useCallback(() => {
-        setProperties(props => ({ ...props, anchorEl: null }));
+    const handleClose = useCallback(e => {
+        //setProperties(props => ({ ...props, anchorEl: null }));
+        onCloseRef.current?.(e);
     }, []);
 
     const handleCloseDrawer = useCallback(() => {
@@ -20,11 +24,9 @@ const Menu = ({ group, groupID }) => {
     }, []);
 
     const handleClick = useCallback((event) => {
-        setProperties(props => ({ ...props, anchorEl: event.currentTarget }));
+        onClickRef.current?.(event);
+        //setProperties(props => ({ ...props, anchorEl: event.currentTarget }));
     }, []);
-
-    const openPopover = Boolean(anchorEl);
-    const id = openPopover ? 'group-menu-popover' : undefined;
 
     const leaveGroupButton = useMemo(() => (
         <LeaveGroupButton 
@@ -33,9 +35,10 @@ const Menu = ({ group, groupID }) => {
         />
     ), [ groupID, handleClose ])
 
-    const groupDetailsHandler = useCallback(() => {
+    const groupDetailsHandler = useCallback(e => {
+        handleClose(e);
         setProperties(props => ({ ...props, anchorEl: null, openGroupDetailsDrawer: true }));
-    }, [ ]);
+    }, [ handleClose ]);
 
     return (
         <>
@@ -43,15 +46,9 @@ const Menu = ({ group, groupID }) => {
                 <MoreVertIcon className="text-slate-100" />
             </IconButton>
             <Popover
-                id={id}
-                open={openPopover}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                classes={{ paper: ""}}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
+                id={`${groupID}-group-menu`}
+                onClickRef={onClickRef}
+                onCloseRef={onCloseRef}
             >
                 <List className={classNames("py-0 w-[200px]")}>
                 <ListItem 
