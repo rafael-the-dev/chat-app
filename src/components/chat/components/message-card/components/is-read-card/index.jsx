@@ -1,5 +1,5 @@
-import { Avatar, List, ListItem, Popover } from "@mui/material"
-import { useCallback, useId, useMemo, useState } from "react"
+import { List } from "@mui/material"
+import { useCallback, useId, useMemo, useRef } from "react"
 import classNames from 'classnames'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,17 +7,17 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 
 import ReportCard from "../report-card"
+import Popover from "src/components/popover"
 
 library.add(faCheckDouble);
 
 
 const Card = ({ isDeleted, isLoggedUser, isRead, message }) => {
-    const [ anchorEl, setAnchorEl] = useState(null);
-    
+    const onClickRef = useRef(null);
     const counterID = useId();
 
     const onHoverHandler = useCallback(event => {
-        setAnchorEl(event.currentTarget)
+        onClickRef.current?.(event);
     }, []);
 
     const isTotallyRead = useMemo(() => {
@@ -33,26 +33,12 @@ const Card = ({ isDeleted, isLoggedUser, isRead, message }) => {
         />
     ), [ isDeleted, isLoggedUser, isTotallyRead, onHoverHandler ])
 
-    const openPopover = Boolean(anchorEl);
-    const id = openPopover ? `message-read-popover-${counterID}` : undefined;
-
-    const handleClose = useCallback(() => {
-        setAnchorEl(null);
-    }, []);
-    
     return (
         <>
             { iconMemo }
             <Popover
-                id={id}
-                open={openPopover}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                classes={{ paper: ""}}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
+                id={`message-read-popover-${counterID}`}
+                onClickRef={onClickRef}
             >
                 <List className={classNames("px-2 min-w-[230px] max-w-[260px]")}>
                     {
