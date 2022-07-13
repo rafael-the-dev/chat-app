@@ -6,7 +6,7 @@ import { Button } from "@mui/material"
 import Card from "../post"
 import { AppContext } from "src/context"
 
-const PostsContainer = () => {
+const PostsContainer = ({ pathname }) => {
     const [ posts, setPosts ] = useState([]);
     const [ buttonProperties, setButtonProperties ] = useState({ hasNewPosts: false, loading: false });
     const [ isPending, startTransition ] = useTransition();
@@ -57,8 +57,9 @@ const PostsContainer = () => {
                 { loading ? "Loading..." : "New Posts" }
             </Button>
             <ul 
-                className={classNames(classes.postsContainer, "px-4 pb-12 md:px-0 overflow-y-auto rounded-xl",
-                hasNewPosts ? "mt-8" : "mt-6")}
+                className={classNames(classes.postsContainer, "px-4 pb-12 md:px-12 overflow-y-auto rounded-xl",
+                hasNewPosts ? "mt-8" : "mt-6",
+                pathname === '/' ? "": classes.postsContainerOthers)}
                 ref={postsContainerRef}>
                 {
                     posts.map(post => <Card key={`${id}-${post.ID}`} { ...post } />)

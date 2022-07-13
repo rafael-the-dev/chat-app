@@ -14,13 +14,52 @@
     padding: 0.5rem 1rem;
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 900px) {
+    .rootOthersPage {
+        width: calc(100% - 400px);
+    }
+    
+    .postsPanelRootOthers {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+}
+
+@media screen and (min-width: 990px) {
+    .postsPanelRoot {
+        padding-left: 7% !important;
+        padding-right: calc(7% + 1rem) !important;
+    }
+}
+
+@media screen and (min-width: 1080px) {
+    .rootHomePage {
+        padding-left: 4%;
+        padding-right: 4%;
+    }
+
+    .postsContainer {
+        padding-right: 3rem;
+        width: calc(100% - 300px);
+    }
+
+    .postsPanelRoot {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    .aside {
+        display: flex !important;
+    }
+}
+
+@media screen and (min-width: 1280px) {
     .rootHomePage {
         padding-left: 7%;
         padding-right: 7%;
     }
 
-    .rootOthersPage {
-        width: calc(100% - 400px);
+    .postsContainer {
+        padding-right: 4rem;
     }
 }

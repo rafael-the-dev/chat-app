@@ -29,10 +29,34 @@ const KnownPeople = () => {
     const isValid = useCallback(user => {
         const username = user.username;
         return !hasInvitationSent(username) && isMyFriend(username);
-    }, [ hasInvitationSent, isMyFriend ])
+    }, [ hasInvitationSent, isMyFriend ]);
 
-    const list = useMemo(() => getUsersList().filter(isValid), [ getUsersList, isValid ]);
-    console.log("list", list)
+    const hasRandomUser = useCallback(({ list, randomUser }) => {
+        return Boolean(list.find(selectedUser => selectedUser.username === randomUser.username));
+    }, [])
+
+    const list = useMemo(() => {
+        const filteredList = getUsersList().filter(isValid);
+
+        if(filteredList.length <= 3) return filteredList;
+
+        const result = [];
+
+        for(let i = 0; i < 3; i++) {
+            let randomUser = filteredList[Math.floor(Math.random() * filteredList.length)];
+            let hasSelectedRandomUser = hasRandomUser({ list: result, randomUser });
+
+            while(hasSelectedRandomUser) {
+                randomUser = filteredList[Math.floor(Math.random() * filteredList.length)];
+                hasSelectedRandomUser = hasRandomUser({ list: result, randomUser });;
+            }
+
+            result.push(randomUser);
+        }
+
+        return result;
+
+    }, [ getUsersList, hasRandomUser, isValid ]);
 
     return (
         <section className={classNames(classes.root, `bg-transition h-[300px] max-h-[330px] mb-6 pt-3 rounded-xl dark:bg-stone-500`)}>
