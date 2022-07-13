@@ -70,7 +70,7 @@ const UserDetails = ({ clickHandler, username }) => {
             id={`${username}-details`}
             onClickRef={onClickRef}
         >
-            <article className={classNames(classes.root, "flex dark:bg-stone-900")}>
+            <article className={classNames(classes.root, "flex flex-col sm:flex-row dark:bg-stone-900")}>
                 <CustomImage 
                     alt={userDetails.name}
                     className="bg-black"

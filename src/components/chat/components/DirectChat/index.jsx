@@ -11,8 +11,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
 
 import { ChatContext, LoginContext } from "src/context"
-import { useChatRootClass, useDirectChatQuery, useUserQuery } from "src/hooks"
-import { getOnlyDate } from "src/helpers"
+import { useDirectChatQuery, useUserQuery } from "src/hooks"
 
 import { READ_DIRECT_MESSAGE, SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
 
@@ -181,7 +180,7 @@ const DirectChatContainer = () => {
                                 Friends since<br />{ friendshipDate }
                             </Typography>
                         </div>
-                        <div className="flex flex-col items-stretch px-4 pt-6">
+                        <div className="flex flex-col items-stretch px-4 sm:px-8 pt-6">
                             {
                                 chatDetails.messages.map((item, index) => {
                                     if(isDateChanged(item.createdAt)) {
@@ -200,7 +199,7 @@ const DirectChatContainer = () => {
                     { textfieldContainer }
                 </main>
             </div>
-            <Hidden mdDown>
+            <Hidden lgDown>
                 <Sidebar group={chatDetails} />
             </Hidden>
         </div>

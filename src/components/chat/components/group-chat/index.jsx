@@ -21,6 +21,7 @@ import MessageCard from '../message-card'
 import InviteUserButton from "./components/InviteUser"
 import Menu from "./components/options"
 import Sidebar from "./components/sidebar"
+import ChatDate from "../chat-date"
 
 const GroupChatContainer = () => {
     const router = useRouter();
@@ -185,22 +186,18 @@ const GroupChatContainer = () => {
                                 { friendshipDate }
                             </Typography>
                         </div>
-                        <div className="flex flex-col items-stretch px-4 pt-6 md:px-6">
+                        <div className="flex flex-col items-stretch px-4 pt-6 sm:px-8 md:px-6">
                             {
                                 chatDetails.messages.map((item, index) => {
                                     if(isDateChanged(item.createdAt)) {
                                         return (
-                                            <div className="flex flex-col items-stretch" key={index}>
-                                                <div className="flex justify-center mb-4">
-                                                    <Typography className="font-semibold">
-                                                        { getOnlyDate(new Date(parseInt(item.createdAt))) }
-                                                    </Typography>
-                                                </div>
+                                            <div className="flex flex-col items-stretch" key={item.ID}>
+                                                <ChatDate createdAt={item.createdAt} />
                                                 <MessageCard { ...item } chatIDRef={chatIDRef} message={item} />
                                             </div>
                                         );
                                     }
-                                    return <MessageCard key={index} { ...item } chatIDRef={chatIDRef} message={item} />
+                                    return <MessageCard key={item.ID} { ...item } chatIDRef={chatIDRef} message={item} />
                                 })
                             }
                         </div>
@@ -208,7 +205,7 @@ const GroupChatContainer = () => {
                     { textfieldContainer }
                 </main>
             </div>
-            <Hidden mdDown>
+            <Hidden lgDown>
                 <Sidebar group={chatDetails} />
             </Hidden>
         </div>
