@@ -185,13 +185,33 @@ const DirectChatContainer = () => {
                                 chatDetails.messages.map((item, index) => {
                                     if(isDateChanged(item.createdAt)) {
                                         return (
-                                            <div className="flex flex-col items-stretch" key={index}>
+                                            <div className="flex flex-col items-stretch" key={item.ID}>
                                                 <ChatDate createdAt={item.createdAt} />
-                                                <MessageCard { ...item } chatIDRef={chatIDRef} isDirectChat dest={dest} message={item} />
+                                                <MessageCard 
+                                                    { ...item } 
+                                                    chatIDRef={chatIDRef} 
+                                                    isDirectChat 
+                                                    isDateChanged
+                                                    dest={dest} 
+                                                    message={item} 
+                                                    messages={chatDetails.messages}
+                                                    messageIndex={index}
+                                                />
                                             </div>
                                         );
                                     }
-                                    return <MessageCard key={index} { ...item } chatIDRef={chatIDRef} isDirectChat dest={dest} message={item} />
+                                    return (
+                                        <MessageCard 
+                                            key={item.ID} 
+                                            { ...item } 
+                                            chatIDRef={chatIDRef} 
+                                            isDirectChat 
+                                            dest={dest} 
+                                            message={item} 
+                                            messages={chatDetails.messages}
+                                            messageIndex={index}
+                                        />
+                                    )
                                 })
                             }
                         </div>

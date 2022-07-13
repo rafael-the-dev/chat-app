@@ -193,11 +193,27 @@ const GroupChatContainer = () => {
                                         return (
                                             <div className="flex flex-col items-stretch" key={item.ID}>
                                                 <ChatDate createdAt={item.createdAt} />
-                                                <MessageCard { ...item } chatIDRef={chatIDRef} message={item} />
+                                                <MessageCard 
+                                                    { ...item } 
+                                                    chatIDRef={chatIDRef} 
+                                                    isDateChanged
+                                                    message={item} 
+                                                    messages={chatDetails.messages}
+                                                    messageIndex={index}
+                                                />
                                             </div>
                                         );
                                     }
-                                    return <MessageCard key={item.ID} { ...item } chatIDRef={chatIDRef} message={item} />
+                                    return (
+                                        <MessageCard 
+                                            { ...item }
+                                            key={item.ID}  
+                                            chatIDRef={chatIDRef} 
+                                            message={item} 
+                                            messages={chatDetails.messages}
+                                            messageIndex={index}
+                                        />
+                                    )
                                 })
                             }
                         </div>

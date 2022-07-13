@@ -34,7 +34,8 @@ const ReadIcon = ({ isDeleted, isLoggedUser, isRead }) => {
     );
 };
 
-const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, isForwarded, isRead, image, message, reply, sender, text }) => {
+const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, isDirectChat, isForwarded, isRead, image, 
+    message, messages, messageIndex, reply, sender, text }) => {
     const { loggedUser } = useContext(LoginContext)
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     const { addMessageVariables, setOpenForwardMessageDialog, setForwardDetails } = useContext(ForwardMessage);
@@ -50,6 +51,42 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
         onCloseRef.current?.();
         setRepliedMessage({ ...message, isDirectChat });
     }, [ isDirectChat, message, setRepliedMessage ])
+
+    const messageCardType = useMemo(() => {
+        const isInvalid = (messageIndex - 1 === -1) || ((messageIndex + 1) > (messages.length - 1));
+        if(isDateChanged || isInvalid) return "NORMAL";
+
+        const lastMessageSender = messages[messageIndex - 1].sender;
+        const currentMessageSender = messages[messageIndex].sender;
+        const nextMessageSender = messages[messageIndex + 1].sender;
+
+        if(currentMessageSender === lastMessageSender && currentMessageSender === nextMessageSender) {
+            const currentMessageDay = new Date(parseInt(createdAt)).getDate();
+            const nextMessageDay = new Date(parseInt(messages[messageIndex + 1].createdAt)).getDate();
+
+            return nextMessageDay === currentMessageDay ? "EQUAL_TO_BOTH" : "EQUAL_TO_LAST";
+        }
+
+        if(currentMessageSender === lastMessageSender) return "EQUAL_TO_LAST"
+
+    }, [ createdAt, isDateChanged, messages, messageIndex ]);
+
+    const borderClasses = useMemo(() => {
+        const isLoggedUserSender = loggedUser.username === sender;
+
+        switch(messageCardType) {
+            case "EQUAL_TO_LAST": {
+                return !isLoggedUserSender ? "other-message rounded-tl-none": "user-message rounded-tr-none"
+            }
+            case "EQUAL_TO_BOTH": {
+                return !isLoggedUserSender ? "other-message rounded-l-none": "user-message rounded-r-none"
+            }
+            default: {
+                return !isLoggedUserSender ? "other-message rounded-bl-none": "user-message rounded-br-none"
+            }
+
+        }
+    }, [loggedUser, messageCardType, sender ])
 
     const forwardHandler = useCallback(() => {
         addMessageVariables({
@@ -125,7 +162,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDirectChat, is
                         <ShortcutIcon /> forwarded
                     </Typography> }
                     <div className={classNames("flex flex-col min-w-[120px] pt-1 pb-3 px-4 rounded-2xl", 
-                        loggedUser.username !== sender ? "other-message rounded-bl-none": "user-message rounded-br-none",
+                        borderClasses,
                         isDeleted ? "deleted-message" : "")}>
                         <IconButton disabled={isDeleted} className="p-0 self-end" onClick={e => onClickRef.current?.(e)}>
                             <MoreHorizIcon />
