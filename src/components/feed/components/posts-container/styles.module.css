@@ -15,7 +15,7 @@
     .postsContainer {
         height: 80vh;
     }
-    
+
     .postsContainerOthers {
         padding-left: 1rem !important;
         padding-right: 1rem !important;
@@ -33,5 +33,10 @@
     .postsContainer {
         padding-left: 0 !important;
         padding-right: 0 !important;
+    }
+
+    .postsContainerOthers {
+        padding-left: 7% !important;
+        padding-right: 7% !important;
     }
 }

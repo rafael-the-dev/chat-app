@@ -59,7 +59,7 @@ const PostsContainer = ({ pathname }) => {
             <ul 
                 className={classNames(classes.postsContainer, "px-4 pb-12 md:px-12 overflow-y-auto rounded-xl",
                 hasNewPosts ? "mt-8" : "mt-6",
-                pathname === '/' ? "": classes.postsContainerOthers)}
+                pathname === '/' ? "postsHome": classes.postsContainerOthers)}
                 ref={postsContainerRef}>
                 {
                     posts.map(post => <Card key={`${id}-${post.ID}`} { ...post } />)
