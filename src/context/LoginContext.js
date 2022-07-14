@@ -40,6 +40,8 @@ export const LoginContextProvider = ({ children }) => {
         return acessToken;
         } catch(e) { return { expiresIn: 0, token: ""}; }
     }, [])
+    
+    const router = useRouter();
 
     useEffect(() => {
         const { token } = getToken();
@@ -55,12 +57,14 @@ export const LoginContextProvider = ({ children }) => {
                     if(data) {
                         const { image, name, username } = data.validateToken;
                         addUser({ image, name, username });
-                        startTransition(() => setIsValidatingToken(true));
+                        router.push("/")
+                        setTimeout(() => setIsValidatingToken(false), 6000);
                     }
                 },
                 onError(err) {
                     console.log(err);
-                    setIsValidatingToken(true);
+                    router.push("/login");
+                    setTimeout(() => setIsValidatingToken(false), 2000);
                 }
             });
         }
@@ -71,9 +75,8 @@ export const LoginContextProvider = ({ children }) => {
                 isFirstRender.current = false;
             }
         };
-    }, [ addUser, getToken, validateToken ]);
+    }, [ addUser, getToken, router, validateToken ]);
     
-    const router = useRouter();
     const logout = useCallback(() => {
         const logoutUser = logoutMutation[0];
 
@@ -164,7 +167,8 @@ export const LoginContextProvider = ({ children }) => {
     }, [ user, checkExpirationToken ]);
 
     return (
-        <LoginContext.Provider value={{ addUser, dialogTimeoutRef, isValidatingToken, loggedUser, logout, openRefreshTokenDialog, revalidateToken, 
+        <LoginContext.Provider value={{ addUser, dialogTimeoutRef, isValidatingToken, loggedUser, logout, 
+            openRefreshTokenDialog, revalidateToken, setIsValidatingToken,
             setOpenRefreshTokenDialog, user }}>
             { children }
         </LoginContext.Provider>

@@ -37,17 +37,17 @@ const Container = ({ children }) => {
         if(pathname !== pathnameRef.current) {
             pathnameRef.current = pathname;
 
-            if(!isValidatingToken && [ '/login' ].includes(pathname) && user !== null) {
-                router.push("/")
+            if(!isValidatingToken && [ '/login' ].includes(pathname) && Boolean(user)) {
+                //router.push("/")
             }
         }
     }, [ isLogged, isValidatingToken, pathname, router, user ]);
 
     useEffect(() => {
-        if(!isValidatingToken && ![ '/login', '/signup' ].includes(pathname) && user !== null) {
-            console.log("is logged in")
+        if(!isValidatingToken && ![ '/login', '/signup' ].includes(pathname) && !Boolean(user)) {
+            router.push("/login")
         }
-    }, [ isValidatingToken, pathname, user ])
+    }, [ isValidatingToken, pathname, router, user ])
 
     useEffect(() => {
         if(isLogged) { 
@@ -64,15 +64,17 @@ const Container = ({ children }) => {
     }, [ isLogged ])
 
     useEffect(() => {
-        if([ ].includes(tab)) {
-            rootRef.current.classList.add("remove-root-bg")
-        } else {
-            rootRef.current.classList.remove("remove-root-bg")
+        if(rootRef.current) {
+            if([ ].includes(tab)) {
+                rootRef.current.classList.add("remove-root-bg")
+            } else {
+                rootRef.current.classList.remove("remove-root-bg")
+            }
         }
     }, [ tab ])
 
     if(isValidatingToken) {
-        return <Loading />
+        return <Loading />;
     }
 
     return (

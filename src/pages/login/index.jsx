@@ -18,7 +18,7 @@ import { AppContext } from 'src/context/AppContext';
 import Input from 'src/components/Input';
 
 const Container = () => {
-    const { addUser } = useContext(LoginContext)
+    const { addUser, setIsValidatingToken } = useContext(LoginContext)
     const { errorHandler, startLoading, stopLoading } = useContext(AppContext);
     //console.log(client)
     const loginMutation = useMutation(LOGIN)
@@ -63,11 +63,11 @@ const Container = () => {
                 },
                 async onCompleted(data) {
                     localStorage.setItem("__chat-app--token", JSON.stringify(data.login.acessToken))
-                    //console.log(data)
                     addUser({ image: data.login.image, name: data.login.name, username: data.login.username });
                     stopLoading();
-                    //refreshAllFeedbacks();
+                    setIsValidatingToken(true)
                     router.push('/');
+                    setTimeout(() => setIsValidatingToken(false), 6000);
                 },
                 onError(err) {
                     stopLoading();
@@ -117,7 +117,7 @@ const Container = () => {
                         </IconButton>
                         <Input 
                             className="grow"
-                            placeholder="Username"
+                            placeholder="password"
                             required
                             type={values.showPassword ? 'text' : 'password'}
                             value={values.password}
