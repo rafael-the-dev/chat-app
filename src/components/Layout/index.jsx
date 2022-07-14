@@ -10,13 +10,14 @@ import { AppContext } from 'src/context/AppContext';
 
 import Footer from 'src/components/Footer';
 import Feed from "src/components/feed"
+import Loading from "src/components/loading"
 
 const Container = ({ children }) => {
     const router = useRouter();
     const { pathname } = router;
     const { page, tab } = router.query;
 
-    const { dialogTimeoutRef, openRefreshTokenDialog, revalidateToken, setOpenRefreshTokenDialog, user } = useContext(LoginContext)
+    const { dialogTimeoutRef, isValidatingToken, openRefreshTokenDialog, revalidateToken, setOpenRefreshTokenDialog, user } = useContext(LoginContext)
     const { errorMessage, hasError, isLoading } = useContext(AppContext)
 
     const rootRef = useRef(null);
@@ -36,13 +37,17 @@ const Container = ({ children }) => {
         if(pathname !== pathnameRef.current) {
             pathnameRef.current = pathname;
 
-            if([ '/login' ].includes(pathname) && user !== null) {
+            if(!isValidatingToken && [ '/login' ].includes(pathname) && user !== null) {
                 router.push("/")
-            }else if(!isLogged && (![ '/login', '/signup' ].includes(pathname))) {
-                router.push("/login")
             }
         }
-    }, [ isLogged, pathname, router, user ]);
+    }, [ isLogged, isValidatingToken, pathname, router, user ]);
+
+    useEffect(() => {
+        if(!isValidatingToken && ![ '/login', '/signup' ].includes(pathname) && user !== null) {
+            console.log("is logged in")
+        }
+    }, [ isValidatingToken, pathname, user ])
 
     useEffect(() => {
         if(isLogged) { 
@@ -65,6 +70,10 @@ const Container = ({ children }) => {
             rootRef.current.classList.remove("remove-root-bg")
         }
     }, [ tab ])
+
+    if(isValidatingToken) {
+        return <Loading />
+    }
 
     return (
         <>

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGOUT, REVALIDATE_TOKEN, VALIDATE_TOKEN } from "src/graphql/mutations"
 import { useRouter } from 'next/router'
@@ -14,6 +14,8 @@ export const LoginContextProvider = ({ children }) => {
 
     const [ user, setUser ] = useState(null);
     const [ openRefreshTokenDialog, setOpenRefreshTokenDialog ] = useState(false);
+    const [ isValidatingToken, setIsValidatingToken ] = useState(false);
+    const [ isPending, startTransition ] = useTransition();
     
     const dialogTimeoutRef = useRef(null);
     const verificationTimeoutRef = useRef(null);
@@ -43,19 +45,22 @@ export const LoginContextProvider = ({ children }) => {
         const { token } = getToken();
         const validate = validateToken[0];
         if(isFirstRender.current) {
+            setIsValidatingToken(true);
+
             validate({ 
                 variables: {
                     token
                 },
                 onCompleted(data) {
-                    //console.log(data)
                     if(data) {
                         const { image, name, username } = data.validateToken;
-                        addUser({ image, name, username })
+                        addUser({ image, name, username });
+                        startTransition(() => setIsValidatingToken(true));
                     }
                 },
                 onError(err) {
-                    console.log(err)
+                    console.log(err);
+                    setIsValidatingToken(true);
                 }
             });
         }
@@ -159,7 +164,7 @@ export const LoginContextProvider = ({ children }) => {
     }, [ user, checkExpirationToken ]);
 
     return (
-        <LoginContext.Provider value={{ addUser, dialogTimeoutRef, loggedUser, logout, openRefreshTokenDialog, revalidateToken, 
+        <LoginContext.Provider value={{ addUser, dialogTimeoutRef, isValidatingToken, loggedUser, logout, openRefreshTokenDialog, revalidateToken, 
             setOpenRefreshTokenDialog, user }}>
             { children }
         </LoginContext.Provider>
