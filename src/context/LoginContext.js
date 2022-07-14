@@ -78,6 +78,7 @@ export const LoginContextProvider = ({ children }) => {
     }, [ addUser, getToken, router, validateToken ]);
     
     const logout = useCallback(() => {
+        setIsValidatingToken(true);
         const logoutUser = logoutMutation[0];
 
         const exit = () => {
@@ -86,6 +87,7 @@ export const LoginContextProvider = ({ children }) => {
             if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)
             if(verificationTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
             router.push("/login");
+            setTimeout(() => setIsValidatingToken(false), 2300)
         };
 
         logoutUser({
