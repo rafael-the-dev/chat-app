@@ -32,7 +32,7 @@ const Feed = () => {
             canIHide ? "hidden" : `${pathname !== "/" ? "hidden md:flex" : "flex"}`)}>
             <div 
                 className={classNames(pathname === "/" ? classNames(classes.postsContainer, "xl:pl-0") : classNames(classes.postsContainerOthers, "px-6 md:px-0"), "grow")}>
-                <div className={classNames(pathname === "/" ? classes.postsPanelRoot : classes.postsPanelRootOthers, "px-4 md:pl-12 md:pr-16")}>
+                <div className={classNames(pathname === "/" ? classes.postsPanelRoot : classes.postsPanelRootOthers, "pl-4 pr-8 md:pl-12 md:pr-16")}>
                     <Paper className={classNames(classes.transition, classes.postsPanel, `bg-transition flex items-center 
                         justify-between px-3 py-2 rounded-xl shadow-none dark:bg-stone-500`)}>
                         <div className="flex">

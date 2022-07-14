@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { Avatar, Button, Hidden, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Popover, Typography } from '@mui/material'
+import { Avatar, Button, Hidden, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import Head from 'next/head';
 import classNames from "classnames"
 import { LoginContext } from 'src/context/LoginContext';
@@ -14,6 +14,7 @@ import CheckIcon from '@mui/icons-material/Check';
 
 import SearchFriendsContainer from "./components/search-friends"
 import FriendshipContainer from "./components/friendships"
+import Popover from "src/components/popover"
 
 const Container = () => {
     const router = useRouter();
@@ -22,10 +23,10 @@ const Container = () => {
     const { loggedUser } = useContext(LoginContext)
     const { filterOptions, searchFriendsFilter, setSearchFriendsFilter, setSearchKey, setTab, tab  } = useContext(FriendshipContext)
     const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
-    //const [ tab, setTab ] = useState("SEARCH_FRIENDS");
-    //const [ filter, setFilter ] = useState("SEARCH");
-    const [ anchorEl, setAnchorEl] = useState(null);
+
     const inputRef = useRef(null);
+    const onClickRef = useRef(null);
+    const onCloseRef = useRef(null);
 
     const clickHandler = useCallback(prop => () => setTab(prop), [ setTab ]);
 
@@ -33,7 +34,7 @@ const Container = () => {
     const searchFriendsContainer = useMemo(() => <SearchFriendsContainer />, []);
 
     const classesToggler = useCallback((key, tab) => {
-        return `py-2 rounded-none w-1/2 ${tab === key ? "bg-gray-500 dark:bg-gray-900" : "bg-gray-400 text-black dark:bg-gray-500"}`
+        return `py-2 rounded-none w-1/2 sm:py-3 ${tab === key ? "bg-gray-500 dark:bg-gray-900" : "bg-gray-400 text-black dark:bg-gray-500"}`
     }, [ ]);
 
     const searchHandler = useCallback(event => {
@@ -43,16 +44,13 @@ const Container = () => {
         if(inputRef.current !== null && value !== "") setSearchKey(value)
     }, [ setSearchKey ]);
 
-    const handleClose = useCallback(() => {
-        setAnchorEl(null);
+    const handleClose = useCallback((event) => {
+        onCloseRef.current?.(event)
     }, []);
 
-    const openPopover = Boolean(anchorEl);
-    const id = openPopover ? 'simple-popover' : undefined;
-
-    const listItemClickHandler = useCallback(prop => () => {
+    const listItemClickHandler = useCallback(prop => event => {
         setSearchFriendsFilter(prop);
-        handleClose();
+        handleClose(event);
     }, [ handleClose, setSearchFriendsFilter ]);
 
 
@@ -63,7 +61,7 @@ const Container = () => {
     }, [ setSearchKey ]);
     
     const handleClick = useCallback((event) => {
-        setAnchorEl(event.currentTarget);
+        onClickRef.current?.(event);
     }, []);
 
     useEffect(() => {
@@ -131,15 +129,9 @@ const Container = () => {
                 { searchFriendsContainer }
                 { friendsContainer }
                 <Popover
-                    id={id}
-                    open={openPopover}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    classes={{ paper: ""}}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
+                    id="friendships"
+                    onClickRef={onClickRef}
+                    onCloseRef={onCloseRef}
                 >
                     <List className={classNames("pt-0 w-[230px]")}>
                         <ListItem 
