@@ -6,15 +6,15 @@ import { useRouter } from "next/router"
 const SettingsContainer = () => {
     const router = useRouter();
     const { pathname } = router;
-    console.log(router)
+    
     const classesToggler = useCallback((key, tab) => {
         return `bg-transition py-2 rounded-none w-1/2 sm:py-3 ${tab === key ? "bg-gray-500 dark:bg-gray-900" : "bg-gray-400 text-black dark:bg-gray-500"}`
     }, [ ]);
 
     const clickHandler = useCallback(prop => () => router.push(prop), [ router ])
-
+    
     return (
-        <div>
+        <div className={classNames({ "sm:hidden": pathname === "/profile" })}>
             <div className={classNames("flex pla")}>
                 <Button 
                     className={classNames(classesToggler("/profile", pathname))}

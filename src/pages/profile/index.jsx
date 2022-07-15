@@ -1,10 +1,12 @@
-import { Button, Typography } from "@mui/material"
+import { Button, Hidden, IconButton, Typography } from "@mui/material"
 import classNames from "classnames"
 import { useCallback, useContext, useMemo } from "react"
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client"
+import Link from "next/link"
 
 import classes from "./styles/index.module.css"
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import { AppContext, LoginContext } from "src/context"
 import { GET_USER_DETAILS } from "src/graphql/queries"
@@ -51,11 +53,22 @@ const ProfileContainer = () => {
                     <div className="flex items-center py-6">
                         <Avatar { ...details } className={classes.avatar} />
                         <div className="flex flex-col ml-6">
-                            <Typography 
-                                className="font-bold text-xl md:text-2xl"
-                                component="h2">
-                                { details.name }
-                            </Typography>
+                            <div className="flex items-center">
+                                <Typography 
+                                    className="font-bold text-xl md:text-2xl"
+                                    component="h2">
+                                    { details.name }
+                                </Typography>
+                                <Hidden smDown>
+                                    <Link href="settings">
+                                        <a className="ml-4">
+                                            <IconButton>
+                                                <SettingsIcon />
+                                            </IconButton>
+                                        </a>
+                                    </Link>
+                                </Hidden>
+                            </div>
                             <div className="flex items-center">
                                 <Text label="post" size={details.posts.length} />
                                 <Button className="bg-transparent ml-4 normal-case text-black">
