@@ -5,10 +5,11 @@ import classes from "./styles.module.css"
 
 import { AppContext } from "src/context"
 import { getUserDetails } from "src/helpers/user"
+import { getURL } from "src/helpers"
 
 
 const Container = ({ className, image, name, username, size }) => {
-    const { getUsersList, serverPublicURL } = useContext(AppContext);
+    const { getUsersList } = useContext(AppContext);
     
     const details = useMemo(() => {
         if(image) {
@@ -23,9 +24,10 @@ const Container = ({ className, image, name, username, size }) => {
     return (
         <Avatar 
             alt={details.name} 
-            classes={{root: "dark:border-0"}}
-            className={classNames(" dark:border-0", customClasses, classes.avatar)}
-            src={`${serverPublicURL.current}/${details.image}`} 
+            classes={{ root: "border-0" }}
+            className={classNames(" dark:border-0", customClasses)}
+            imgProps={{ loading: "lazy" }}
+            src={getURL({ url: details.image })} 
         />
     );
 };

@@ -53,3 +53,11 @@ export const getInitialsNameLetters = name => {
   return result;
 };
 
+export const getURL = ({ url }) => {
+  const publicUrl = "http://localhost:5000";
+
+  if("".startsWith("https://") || "".startsWith("http://")) return url;
+
+  return `${publicUrl}/${url}`;
+};
+

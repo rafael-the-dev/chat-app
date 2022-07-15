@@ -14,7 +14,7 @@ export const LoginContextProvider = ({ children }) => {
 
     const [ user, setUser ] = useState(null);
     const [ openRefreshTokenDialog, setOpenRefreshTokenDialog ] = useState(false);
-    const [ isValidatingToken, setIsValidatingToken ] = useState(false);
+    const [ isValidatingToken, setIsValidatingToken ] = useState(true);
     const [ isPending, startTransition ] = useTransition();
     
     const dialogTimeoutRef = useRef(null);
@@ -47,7 +47,7 @@ export const LoginContextProvider = ({ children }) => {
         const { token } = getToken();
         const validate = validateToken[0];
         if(isFirstRender.current) {
-            setIsValidatingToken(true);
+            //setIsValidatingToken(true);
 
             validate({ 
                 variables: {

@@ -290,6 +290,28 @@ export const GET_USERS = gql`
     }
 `;
 
+export const GET_USER_DETAILS = gql`
+    query getUserDetails($username: String!) {
+        user(username: $username) {
+            friendships {
+                username
+            }
+            image
+            posts {
+                ID
+                comments {
+                    ID
+                }
+                image
+                likes {
+                    username
+                }
+            }
+            username
+        }
+    }
+`;
+
 export const GET_FEEDBACKS = gql`
     query getFeedbacks {
         feedbacks {
