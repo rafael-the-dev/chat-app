@@ -19,6 +19,7 @@ export const LoginContextProvider = ({ children }) => {
     
     const dialogTimeoutRef = useRef(null);
     const verificationTimeoutRef = useRef(null);
+    const currentPathname = useRef(null);
     const canICheckToken = useRef(true);
 
     const loggedUser = useMemo(() => {
@@ -170,7 +171,7 @@ export const LoginContextProvider = ({ children }) => {
     }, [ user, checkExpirationToken ]);
 
     return (
-        <LoginContext.Provider value={{ addUser, dialogTimeoutRef, isValidatingToken, loggedUser, logout, 
+        <LoginContext.Provider value={{ addUser, currentPathname, dialogTimeoutRef, isValidatingToken, loggedUser, logout, 
             openRefreshTokenDialog, revalidateToken, setIsValidatingToken,
             setOpenRefreshTokenDialog, user }}>
             { children }

@@ -1,8 +1,7 @@
 import { Alert, AlertTitle, Button, IconButton, Paper, Typography } from '@mui/material';
-import { useCallback, useContext, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-//import client from "src/graphql/apollo-client"
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -14,15 +13,17 @@ import { useMutation } from '@apollo/client';
 import { LOGIN } from 'src/graphql/mutations';
 import { LoginContext } from 'src/context/LoginContext';
 import { AppContext } from 'src/context/AppContext';
-//import { GET_FEEDBACKS } from 'src/graphql/queries'
 import Input from 'src/components/Input';
 
 const Container = () => {
-    const { addUser, setIsValidatingToken } = useContext(LoginContext)
-    const { errorHandler, startLoading, stopLoading } = useContext(AppContext);
-    //console.log(client)
-    const loginMutation = useMutation(LOGIN)
-    const router = useRouter()
+    const { addUser, currentPathname, setIsValidatingToken } = useContext(LoginContext)
+    const { startLoading, stopLoading } = useContext(AppContext);
+    
+    const loginMutation = useMutation(LOGIN);
+    const router = useRouter();
+
+    const pathnameRef = useRef(null);
+    const passwordRef = useRef("");
 
     const alertRef = useRef(null);
     const userNameRef = useRef(null);
@@ -46,12 +47,20 @@ const Container = () => {
         setValues(currentValues => ({ ...currentValues, [prop]: event.target.value }));
     }, []);
 
-    const onSubmitHandler = event => {
+    const onLogin = useCallback(() => {
+        if("/login" !== currentPathname.current) {
+            setIsValidatingToken(false);
+            return;
+        }
+        setInterval(onLogin, 3000);
+    }, [ currentPathname, setIsValidatingToken ]);
+
+    const onSubmitHandler = useCallback(event => {
         event.preventDefault();
         alertRef.current.classList.add("hidden");
         
         let username = userNameRef.current.value;
-        let password = values.password;
+        let password = passwordRef.current;
         const signIn = loginMutation[0];
 
         if(username.trim() !== '' && password.trim() !== '') {
@@ -65,9 +74,10 @@ const Container = () => {
                     localStorage.setItem("__chat-app--token", JSON.stringify(data.login.acessToken))
                     addUser({ image: data.login.image, name: data.login.name, username: data.login.username });
                     stopLoading();
+                    pathnameRef.current = "/login";
                     setIsValidatingToken(true)
                     router.push('/');
-                    setTimeout(() => setIsValidatingToken(false), 6000);
+                    setTimeout(onLogin, 6000);
                 },
                 onError(err) {
                     stopLoading();
@@ -80,7 +90,11 @@ const Container = () => {
                 }
             });
         } 
-    };
+    }, [ addUser, loginMutation, onLogin, router, startLoading, stopLoading, setIsValidatingToken ]);
+
+    useEffect(() => {
+        passwordRef.current = values.password;
+    }, [ values ])
 
     return (
         <div className="min-h-screen flex items-center justify-center w-full px-5 md:px-0 dark:bg-stone-500">
