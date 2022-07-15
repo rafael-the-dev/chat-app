@@ -1,9 +1,9 @@
 import classNames from "classnames"
 import classes from "./styles.module.css"
 
-const Container = () => {
+const Container = ({ className }) => {
     return (
-        <div className={classNames(classes.container)}>
+        <div className={classNames(className, classes.container)}>
             <div className={classNames(classes.item)}></div>
             <div className={classNames(classes.item)}></div>
             <div className={classNames(classes.item)}></div>

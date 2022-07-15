@@ -6,22 +6,26 @@ import { useQuery } from "@apollo/client"
 
 import classes from "./styles/index.module.css"
 
-import { AppContext } from "src/context"
+import { AppContext, LoginContext } from "src/context"
 import { GET_USER_DETAILS } from "src/graphql/queries"
 import { getUserDetails } from "src/helpers/user"
 
 import Container from "src/components/container"
 import Tabs from "src/components/settings-tabs"
+import Loading from "src/components/loading"
 import Avatar from "src/components/avatar";
 import Text from "./components/text"
 import Card from "./components/post-card"
+import Error from "./components/error"
 
 const ProfileContainer = () => {
     const router = useRouter();
     const { username } = router.query;
 
     const { getUsersList } = useContext(AppContext)
-    const { data, error } = useQuery(GET_USER_DETAILS, { variables: { username }});
+    const { loggedUser } = useContext(LoginContext);
+
+    const { data, error, loading } = useQuery(GET_USER_DETAILS, { variables: { username: username ? username : loggedUser.username }});
     
     const details = useMemo(() => {
         if(!Boolean(data)) return { friendships: [], name: "", image: "", posts: [] };
@@ -35,12 +39,16 @@ const ProfileContainer = () => {
     }, [ data, getUsersList ]);
 
 
+    if(loading) return <Container><Loading /></Container>;
+
+    if(error) return <Container><Error /></Container>;
+
     return (
         <>
             <Container>
                 <Tabs />
                 <div className={classNames(classes.subContainer, "flex flex-col items-center overflow-y-auto pt-4")}>
-                    <div className="flex items-center">
+                    <div className="flex items-center py-6">
                         <Avatar { ...details } className={classes.avatar} />
                         <div className="flex flex-col ml-6">
                             <Typography 

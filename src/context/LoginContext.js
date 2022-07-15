@@ -64,7 +64,7 @@ export const LoginContextProvider = ({ children }) => {
                 onError(err) {
                     console.log(err);
                     router.push("/login");
-                    setTimeout(() => setIsValidatingToken(false), 2000);
+                    setTimeout(() => setIsValidatingToken(false), 3000);
                 }
             });
         }
@@ -161,10 +161,11 @@ export const LoginContextProvider = ({ children }) => {
     }, [ getToken, verifyExpirationTime ])
     
     useEffect(() => {
-        if(user !== null) checkExpirationToken();
-        return () => {
-            if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)
-            if(verificationTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
+        if(Boolean(user)) {
+            checkExpirationToken();
+        } else {
+            if(Boolean(dialogTimeoutRef.current)) clearTimeout(dialogTimeoutRef.current)
+            if(Boolean(verificationTimeoutRef.current)) clearTimeout(verificationTimeoutRef.current)
         };
     }, [ user, checkExpirationToken ]);
 

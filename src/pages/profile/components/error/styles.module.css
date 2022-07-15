@@ -1,0 +1,16 @@
+
+.root {
+    height: 90vh;
+}
+
+.title::before {
+    background-image: url(/images/icons/illustration-empty.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+    display: block;
+    height: 100px;
+    margin: 0 auto 1.3rem auto;
+    width: 100px;
+}
