@@ -4,6 +4,7 @@ import classes from "./styles.module.css"
 import { Button } from "@mui/material"
 
 import Card from "../post"
+import ScrollButton from "./components/scroll-button"
 import { AppContext } from "src/context"
 
 const PostsContainer = ({ pathname }) => {
@@ -13,21 +14,37 @@ const PostsContainer = ({ pathname }) => {
     const id = useId();
 
     const postsContainerRef = useRef(null);
+    const onClose = useRef(null);
+    const onOpen = useRef(null);
 
     const { hasNewPosts, loading } = buttonProperties;
 
     const { getPosts, hasPostUpdate } = useContext(AppContext);
+
+    const scrollToTop = useCallback(() => {
+        postsContainerRef.current?.scrollTo({ behavior: "smooth", top: 0 });
+    }, [])
 
     const clickHandler = useCallback(() => {
         setButtonProperties(currentProperties => ({ ...currentProperties, loading: true }));
         setTimeout(() => {
             setPosts(getPosts());
             startTransition(() => {
-                postsContainerRef.current?.scrollTo({ behavior: "smooth", top: 0 })
+                scrollToTop();
                 setButtonProperties({ hasNewPosts: false, loading: false });
             });
         }, 1500)
-    }, [ getPosts ])
+    }, [ getPosts, scrollToTop ]);
+
+    const scrollHandler = useCallback(e => {
+        const { scrollHeight, scrollTop } = e.target;
+
+        if(scrollHeight / 2 < scrollTop) {
+            onOpen.current?.();
+        } else {
+            onClose.current?.();
+        }
+    }, [])
 
     useEffect(() => {
         setPosts(currentPosts => {
@@ -60,11 +77,17 @@ const PostsContainer = ({ pathname }) => {
                 className={classNames(classes.postsContainer, "px-4 pb-12 md:px-12 overflow-y-auto rounded-xl",
                 hasNewPosts ? "mt-8" : "mt-6",
                 pathname === '/' ? "postsHome": classes.postsContainerOthers)}
-                ref={postsContainerRef}>
+                ref={postsContainerRef}
+                onScroll={scrollHandler}>
                 {
                     posts.map(post => <Card key={`${id}-${post.ID}`} { ...post } />)
                 }
             </ul>
+            <ScrollButton 
+                onClose={onClose} 
+                onClick={scrollToTop}
+                onOpen={onOpen} 
+            />
         </div>
     );
 };
