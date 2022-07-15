@@ -10,9 +10,11 @@ import { AppContext } from "src/context"
 import { GET_USER_DETAILS } from "src/graphql/queries"
 import { getUserDetails } from "src/helpers/user"
 
+import Container from "src/components/container"
 import Tabs from "src/components/settings-tabs"
 import Avatar from "src/components/avatar";
 import Text from "./components/text"
+import Card from "./components/post-card"
 
 const ProfileContainer = () => {
     const router = useRouter();
@@ -22,7 +24,7 @@ const ProfileContainer = () => {
     const { data, error } = useQuery(GET_USER_DETAILS, { variables: { username }});
     
     const details = useMemo(() => {
-        if(!Boolean(data)) return { name: "", image: "", posts: [] };
+        if(!Boolean(data)) return { friendships: [], name: "", image: "", posts: [] };
 
         const { user } = data;
 
@@ -35,14 +37,14 @@ const ProfileContainer = () => {
 
     return (
         <>
-            <div className="h-ful sub-root">
+            <Container>
                 <Tabs />
-                <div className="flex flex-col items-center pt-4">
+                <div className={classNames(classes.subContainer, "flex flex-col items-center overflow-y-auto pt-4")}>
                     <div className="flex items-center">
                         <Avatar { ...details } className={classes.avatar} />
                         <div className="flex flex-col ml-6">
                             <Typography 
-                                className="font-bold text-xl"
+                                className="font-bold text-xl md:text-2xl"
                                 component="h2">
                                 { details.name }
                             </Typography>
@@ -59,13 +61,14 @@ const ProfileContainer = () => {
                         component="p">
                         { details.description }
                     </Typography>
-                    <ul className="mt-6 w-full">
+                    <ul className={classNames("flex flex-wrap md:justify-between mt-6 w-full")}>
                         {
-                            
+                            details.posts.map(post => <Card key={post.ID} { ...post } />)
                         }
+                        { details.posts.length > 4 && details.posts.length % 2 !== 0 && <Card ID="none" />}
                     </ul>
                 </div>
-            </div>
+            </Container>
         </>
     );
 };

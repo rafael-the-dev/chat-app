@@ -1,5 +1,6 @@
 import classNames from "classnames"
 import { useRouter } from "next/router"
+import classes from "./styles.module.css"
 
 const Container = ({ children }) => {
     const router = useRouter();
@@ -15,7 +16,10 @@ const Container = ({ children }) => {
     };
     
     return (
-        <div className={classNames('h-ful sub-root dark:bg-stone-500', { 'sub-root--chat': isChatPage() })}>
+        <div 
+            className={classNames('h-ful sub-root dark:bg-stone-500', 
+            { 'sub-root--chat': isChatPage() }, 
+            { [classes.subRootProfile]: pathname === '/profile'})}>
             { children }
         </div>
     );

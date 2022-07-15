@@ -19,7 +19,7 @@ const Feed = () => {
 
     //![ '/login', '/signup' ].includes(pathname) && Boolean(user) && !Boolean(page) && 
     const canIHide = useMemo(() => {
-        if([ '/login', '/signup' ].includes(pathname)) {
+        if([ '/login', '/signup', "/profile" ].includes(pathname)) {
             return true;
         } 
 
