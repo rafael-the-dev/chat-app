@@ -52,19 +52,7 @@ const Card = ({ comment, commentID, createdAt, ID, likes, postID, replyingTo, us
             <Avatar { ...details } className={classes.avatar} />
             <div className="grow pl-3 md:pl-4">
                 <div className="flex items-start justify-between">
-                    <Hidden mdUp>
-                        <Text>
-                            <UserLink username={replyingTo} textColor />
-                            { comment }
-                        </Text>
-                    </Hidden>
-                    <Hidden mdDown>
-                        <Text lines={3}>
-                            <UserLink username={details.username} />
-                            <UserLink username={replyingTo} textColor />
-                            { comment }
-                        </Text>
-                    </Hidden>
+                    <UserLink username={details.username} />
                     <LikeButton 
                         commentID={commentID} 
                         id={postID} 
@@ -73,6 +61,10 @@ const Card = ({ comment, commentID, createdAt, ID, likes, postID, replyingTo, us
                         smallIcon 
                     />
                 </div>
+                <Text lines={3}>
+                    <UserLink username={replyingTo} textColor />
+                    { comment }
+                </Text>
                 <div>
                     <div className="flex items-center mt-2">
                         <Typography

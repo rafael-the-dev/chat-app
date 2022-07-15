@@ -75,13 +75,14 @@ const ProfileContainer = () => {
                                     <Text label="friend" size={details.friendships.length} />
                                 </Button>
                             </div>
+                            { loggedUser.username === details.username && <div className="mt-3">
+                                <Button 
+                                    className="px-12"
+                                    variant="outlined"
+                                    >Edit profile</Button>
+                            </div> }
                         </div>
                     </div>
-                    <Typography 
-                        className="max-w-[80%]"
-                        component="p">
-                        { details.description }
-                    </Typography>
                     <ul className={classNames("flex flex-wrap md:justify-between mt-6 w-full")}>
                         {
                             details.posts.map(post => <Card key={post.ID} { ...post } />)

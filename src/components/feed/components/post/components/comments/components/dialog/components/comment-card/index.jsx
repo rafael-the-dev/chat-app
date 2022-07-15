@@ -42,23 +42,16 @@ const Card = ({ comment, createdAt, ID, likes, postID, replies, username }) => {
             <Avatar { ...details } className={classes.avatar} />
             <div className="grow pl-4">
                 <div className="flex items-start justify-between">
-                    <Hidden mdUp>
-                        <Text>{ comment }</Text>
-                    </Hidden>
-                    <Hidden mdDown>
-                        <Text >
-                            <Link href={`profile?username=${details.username}`} passHref>
-                                <Typography 
-                                    className="font-semibold mr-2 text-zinc-600 text-sm hover:text-red-500  dark:text-slate-500"
-                                    component="a">
-                                    { details.name }
-                                </Typography>
-                            </Link>
-                            { comment }
-                        </Text>
-                    </Hidden>
+                    <Link href={`profile?username=${details.username}`} passHref>
+                        <Typography 
+                            className="font-semibold mr-2 text-zinc-600 text-sm hover:text-red-500  dark:text-slate-500"
+                            component="a">
+                            { details.name }
+                        </Typography>
+                    </Link>
                     <LikeButton commentID={ID} id={postID} likes={likes} />
                 </div>
+                    <Text>{ comment }</Text>
                 <div>
                     <div className="flex items-center mt-1">
                         <Typography

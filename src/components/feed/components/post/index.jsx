@@ -1,9 +1,10 @@
-import { useContext, useMemo } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef } from "react";
 import Image from "next/image"
-import { Avatar, CardMedia, IconButton, Paper, Typography } from "@mui/material"
+import { Avatar, Button, CardMedia, IconButton, Paper, Typography } from "@mui/material"
 import classNames from "classnames"
 import Link from "next/link"
 import ShowMoreText from "react-show-more-text";
+import { useRouter } from "next/router"
 
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,8 +23,18 @@ import Comments from "./components/comments"
 
 library.add(faComment);
 
-const Post = ({ author, createdAt, comments, description, ID, image, likes }) => {
+/**<Link href={`profile?username=${authorDetails.username}`} passHref>
+                            <Typography 
+                                className="font-semibold mr-2 text-black hover:text-red-500 
+                                dark:text-slate-400 text-transition"
+                                component="a"
+                                onClick={e => e.preventDefault()}>
+                                { authorDetails.name }
+                            </Typography>
+                        </Link> */
 
+const Post = ({ author, createdAt, comments, description, ID, image, likes }) => {
+    const router = useRouter();
     const { getUsersList, serverPublicURL } = useContext(AppContext);
     const { loggedUser } = useContext(LoginContext)
 
@@ -106,12 +117,18 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
                             anchorClass='my-anchor-css-class'
                             expanded={false}
                         >
-                        <Link href={`profile?username=${authorDetails.username}`} passHref>
+                        <Link href={`profile?username=${authorDetails.username}`}>
                             <Typography 
                                 className="font-semibold mr-2 text-black hover:text-red-500 
                                 dark:text-slate-400 text-transition"
-                                component="a">
-                                { authorDetails.name }
+                                component="a"
+                                onClick={e => e.preventDefault()}>
+                                <Button 
+                                    className="capitalize font-semibold mr-2 text-black hover:text-red-500 
+                                    dark:text-slate-400 text-base text-transition p-0 hover:bg-transparent"
+                                    onClick={e => router.push(`/profile?username=${authorDetails.username}`)}>
+                                    { authorDetails.name }
+                                </Button>
                             </Typography>
                         </Link>
                         { description }
