@@ -19,15 +19,15 @@ const Footer = () => {
     const { pathname } = router;
     const { tab } = router.query;
 
+    const homeDarkBg = () => pathname === "/" ? "dark:bg-stone-500" : "dark:bg-stone-900";
     const isSettingPage = () => pathname === "/settings" || pathname === "/profile";
 
-    const clickHandler = prop => () => router.push(`/${prop ? `?tab=${prop}` : "" }`);
 
     const getClasses = isTrue => isTrue ? "text-red-500" : "text-cyan-500";
 
     const navigation = () => (
         <nav className={classNames(classes.navbar, `bg-white flex justify-between py-2 px-2 w-full
-            md:flex-col  md:shadow-none bg-transition dark:bg-stone-900`)}>
+            md:flex-col  md:shadow-none bg-transition`, homeDarkBg())}>
             <Link href="/">
                 <HomeIcon className={classNames("text-3xl", getClasses(pathname === '/' && !isSettingPage()))} />
             </Link>
@@ -55,7 +55,7 @@ const Footer = () => {
             </Hidden>
             <Hidden mdDown>
                 <aside className={classNames(classes.aside, `bg-white fixed flex flex-col  h-full justify-between
-                    items-center left-0 top-0 md:pb-2 w-[60px] bg-transition dark:bg-stone-900`)}>
+                    items-center left-0 top-0 md:pb-2 w-[60px] bg-transition`, homeDarkBg())}>
                     { navigation() }
                     <Avatar />
                 </aside>

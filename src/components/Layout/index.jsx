@@ -50,20 +50,6 @@ const Container = ({ children }) => {
     }, [ isValidatingToken, pathname, router, user ])
 
     useEffect(() => {
-        if(isLogged) { 
-            if(rootRef.current !== null) {
-                rootRef.current.classList.remove("remove-root-padding")
-            }
-        } 
-
-        if(!isLogged){
-            if(rootRef.current !== null) {
-                rootRef.current.classList.add("remove-root-padding")
-            }
-        }
-    }, [ isLogged ])
-
-    useEffect(() => {
         if(rootRef.current) {
             if([ ].includes(tab)) {
                 rootRef.current.classList.add("remove-root-bg")
@@ -88,7 +74,10 @@ const Container = ({ children }) => {
                     </div>
                 </Alert>
             </Collapse>
-            <div id="root" ref={rootRef}>
+            <div 
+                className={classNames({ "remove-root-padding": !isLogged})}
+                id="root" 
+                ref={rootRef}>
                     { children }
                     { feed }
                     { ![ '/login', '/signup' ].includes(pathname) && <Footer />}

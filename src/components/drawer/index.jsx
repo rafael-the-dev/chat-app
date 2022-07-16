@@ -15,7 +15,7 @@ const Container = ({ children, id, closeHandler, drawerPaper, drawerRoot, openHa
     }, [ onClose, closeHandler ])
 
     useEffect(() => {
-        openHandler.current = onOpen;
+        if(openHandler) openHandler.current = onOpen;
     }, [ onOpen, openHandler ]);
 
     useEffect(() => {

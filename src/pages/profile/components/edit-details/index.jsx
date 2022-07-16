@@ -78,13 +78,13 @@ const Container = ({ openHandler }) => {
     return (
         <Drawer 
             closeHandler={closeHandler}
-            drawerPaper={classes.drawerPaper}
+            drawerPaper={classNames(classes.drawerPaper, `dark:bg-stone-500`)}
             id={`user-details-drawer`}
             openHandler={openHandler} 
         >
             <div className="flex flex-col h-full items-start px-4 pb-8 pt-3 w-full">
                 <IconButton onClick={onCloseHandler}>
-                    <ArrowBackIcon />
+                    <ArrowBackIcon className="dark:text-slate-300" />
                 </IconButton>
                 <form className="flex flex-col grow items-stretch pt-4 w-full">
                     <fieldset className="grow">
