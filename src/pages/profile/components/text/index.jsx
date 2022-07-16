@@ -2,7 +2,7 @@ import { Hidden, Typography } from "@mui/material"
 
 const Container = ({ label, size }) => (
     <Typography 
-        className="text-center text-sm sm:flex sm:items-center"
+        className="text-center text-sm sm:flex sm:items-center dark:text-slate-400"
         component="p">
         <span
             className="font-bold text-base sm:mr-2">

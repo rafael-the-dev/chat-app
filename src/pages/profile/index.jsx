@@ -55,7 +55,7 @@ const ProfileContainer = () => {
                         <div className="flex flex-col ml-6">
                             <div className="flex items-center">
                                 <Typography 
-                                    className="font-bold text-xl md:text-2xl"
+                                    className="font-bold text-xl md:text-2xl dark:text-slate-300"
                                     component="h2">
                                     { details.name }
                                 </Typography>
@@ -63,7 +63,7 @@ const ProfileContainer = () => {
                                     <Link href="settings">
                                         <a className="ml-4">
                                             <IconButton>
-                                                <SettingsIcon />
+                                                <SettingsIcon className="dark:text-slate-400" />
                                             </IconButton>
                                         </a>
                                     </Link>
@@ -77,7 +77,7 @@ const ProfileContainer = () => {
                             </div>
                             { loggedUser.username === details.username && <div className="mt-3">
                                 <Button 
-                                    className="px-12"
+                                    className="px-12 py-2 hover:bg-cyan-700 hover:text-white hover:border-0"
                                     variant="outlined"
                                     >Edit profile</Button>
                             </div> }
