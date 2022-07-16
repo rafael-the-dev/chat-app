@@ -1,7 +1,6 @@
 import { Hidden } from "@mui/material"
-import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react"
+import { useCallback, useRef } from "react"
 import classNames from "classnames"
-import { useRouter } from "next/router"
 
 import classes from "./styles.module.css"
 

@@ -1,36 +1,12 @@
-import { Avatar, DialogTitle, IconButton, Typography } from "@mui/material"
+import { Avatar, Typography } from "@mui/material"
 import { useContext, useMemo } from "react"
 import Link from "next/link"
 
-import CloseIcon from '@mui/icons-material/Close';
-
+import Header from "src/components/dialog/components/dialog-header"
 
 import { AppContext } from "src/context"
 import { getUserDetails } from "src/helpers/user"
 
-const BootstrapDialogTitle = (props) => {
-    const { children, onClose, ...other } = props;
-  
-    return (
-      <DialogTitle className="border-b border-solid border-slate-200 pb-3 dark:text-slate-300" sx={{ m: 0, p: 2, paddingLeft: 0 }} {...other}>
-        {children}
-        {onClose ? (
-          <IconButton
-            aria-label="close"
-            onClick={onClose}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </DialogTitle>
-    );
-};
 
 const DialogHeader = ({ author, onClose }) => {
     const { getUsersList, serverPublicURL } = useContext(AppContext);
@@ -38,7 +14,7 @@ const DialogHeader = ({ author, onClose }) => {
     const details = useMemo(() => getUserDetails({ list: getUsersList(), username: author }), [ getUsersList, author ]);
 
     return (
-        <BootstrapDialogTitle onClose={onClose}>
+        <Header onClose={onClose}>
             <div className="flex items-center pl-4">
                 <Avatar 
                     alt={details.name} 
@@ -55,7 +31,7 @@ const DialogHeader = ({ author, onClose }) => {
                     </a>
                 </Link>
             </div>
-        </BootstrapDialogTitle>
+        </Header>
     );
 };
 

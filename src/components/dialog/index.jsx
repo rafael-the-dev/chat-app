@@ -4,7 +4,7 @@ import classNames from "classnames"
 import { Dialog } from "@mui/material"
 
 
-const Container = ({ ariaDescribedby, children, closeHandler, dialogPaper, dialogRoot, openHandler }) => {
+const Container = ({ ariaDescribedby, ariaLabelledby, children, closeHandler, dialogPaper, dialogRoot, openHandler }) => {
     const router = useRouter();
     const { pathname } = router;
 
@@ -36,6 +36,7 @@ const Container = ({ ariaDescribedby, children, closeHandler, dialogPaper, dialo
             open={open}
             onClose={handleClose}
             aria-describedby={ariaDescribedby}
+            aria-labelledby={ariaLabelledby}
         >
             { childrenMemo }
         </Dialog>

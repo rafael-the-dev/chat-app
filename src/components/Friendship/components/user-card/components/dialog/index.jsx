@@ -1,12 +1,16 @@
-import { Alert, Button, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText } from '@mui/material';
+import { Alert, Button, Collapse, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import classNames from "classnames"
 import { useMutation} from "@apollo/client"
 import CircularProgress from '@mui/material/CircularProgress';
+import classes from "./styles.module.css"
 
 import { closeAlert, openAlert } from "src/helpers/alert"
 
 import Input from "../input"
+import Dialog from 'src/components/dialog'
+import DialogHeader from 'src/components/dialog/components/dialog-header'
+
 import { SEND_FRIENDSHIP_INVITATION } from "src/graphql/mutations"
 import { AppContext, LoginContext } from 'src/context';
 
@@ -19,6 +23,8 @@ const InvitationDialog = ({ name, openDialog, username }) => {
     const [ states, setStates ] = useState({ expanded: false, isLoading: false, open: false })
     const { expanded, isLoading, open } = states;
 
+    const openHandler = useRef(null);
+    const closeHandler = useRef(null);
     const successAlert = useRef(null);
     const errorAlert = useRef(null);
     const valueRef = useRef("");
@@ -60,23 +66,23 @@ const InvitationDialog = ({ name, openDialog, username }) => {
     }, [ sendInvitationMutation, username ]);
 
     useEffect(() => {
-        openDialog.current = toggleDialog(true);
+        openDialog.current = () => openHandler.current?.();
     }, [ openDialog, toggleDialog ]);
 
     return (
         <Dialog
-            classes={{ paper: "bg-transition dark:bg-stone-500"}}
-            open={open}
-            onClose={toggleDialog(false)}
-            aria-labelledby="friendship-invitation-dialog-title"
-            aria-describedby="friendship-invitation-dialog-description"
+            closeHandler={closeHandler}
+            dialogPaper="bg-transition dark:bg-stone-500"
+            openHandler={openHandler}
+            ariaLabelledby="friendship-invitation-dialog-title"
+            ariaDescribedby="friendship-invitation-dialog-description"
         >
-            <DialogTitle 
-                className='dark:text-slate-200'
-                id="friendship-invitation-dialog-title">
-                Invite { name }
-            </DialogTitle>
-            <DialogContent id="friendship-invitation-dialog-description">
+            <DialogHeader 
+                id="friendship-invitation-dialog-title"
+                onClose={() => closeHandler.current?.()}>
+                <span className="pl-6">Invite { name }</span>
+            </DialogHeader>
+            <DialogContent className={classes.dialogContent} id="friendship-invitation-dialog-description">
                 <Alert 
                     className="hidden mb-3" 
                     color="error"
