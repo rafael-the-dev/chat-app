@@ -1,4 +1,4 @@
-import { Alert, Button, Dialog, DialogActions, DialogContent, Hidden, IconButton } from "@mui/material"
+import { Hidden } from "@mui/material"
 import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react"
 import classNames from "classnames"
 import { useRouter } from "next/router"
@@ -9,35 +9,18 @@ import CommentForm from "../../../form"
 import DialogHeader from "./components/dialog-header"
 import Comment from "./components/comment-card"
 import Likes from "../../../likes"
-
+import Dialog from "src/components/dialog"
 
 const Container = ({ author, comments, handleOpenRef, ID, likes }) => {
-    const [ open, setOpen ] = useState(false);
-    const router = useRouter();
-    const { pathname } = router;
-    const currentPath = useRef(null);
-    const id = useId();
+    const closeHandler = useRef(null);
 
-    const handleClose = useCallback(() => setOpen(false), []);
-
-    useEffect(() => {
-        handleOpenRef.current = () => setOpen(true);
-    }, [ handleOpenRef ]);
-
-    useEffect(() => {
-        if(pathname !== currentPath.current) {
-            setOpen(false);
-            return;
-        }
-        currentPath.current = pathname;
-    }, [ pathname ])
+    const handleClose = useCallback(() => closeHandler.current?.(), []);
     
     return (
         <Dialog
-            classes={{ paper: classNames(classes.paper, "px-0 md:min-w-[450px] dark:bg-stone-500") }}
-            open={open}
-            onClose={handleClose}
-            aria-describedby="session-dialog-description"
+            closeHandler={closeHandler}
+            dialogPaper={classNames(classes.paper, "px-0 md:min-w-[450px] dark:bg-stone-500")}
+            openHandler={handleOpenRef}
         >
             <div>
                 <Hidden mdDown></Hidden>
