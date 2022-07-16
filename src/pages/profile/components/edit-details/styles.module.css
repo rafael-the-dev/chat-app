@@ -2,8 +2,9 @@
     width: 90%;
 }
 
-@media screen and (min-width: 900px) {
+
+@media screen and (min-width: 550px) {
     .drawerPaper {
-        width: 400px;
+        width: 430px;
     }
 }

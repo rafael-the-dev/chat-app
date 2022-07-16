@@ -1,4 +1,4 @@
-import { Avatar, Drawer, IconButton, Typography } from "@mui/material"
+import { Avatar, IconButton, Typography } from "@mui/material"
 import { useContext, useMemo } from "react"
 import classNames from "classnames"
 import classes from "./styles.module.css"
@@ -8,27 +8,27 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AppContext } from "src/context";
 
 import Card from "./components/card"
+import Drawer from "src/components/drawer"
 
-const GroupDetails = ({ close, group, openDrawer }) => {
+const GroupDetails = ({ closeHandler, group, openHandler }) => {
     const { serverPublicURL } = useContext(AppContext)
 
     const details = useMemo(() => {
-        if(Boolean(openDrawer) && Boolean(group)) return group;
+        if(Boolean(group)) return group;
 
         return { admin: "", image: "", name: "", members: [] };
-    }, [ openDrawer, group ]);
+    }, [ group ]);
 
     return (
         <Drawer
-            anchor="right"
+            drawerPaper={classes.drawerPaper}
+            drawerRoot={classes.drawerRoot}
             id="group-details-drawer"
-            open={openDrawer}
-            onClose={close}
-            classes={{ paper: classes.drawerPaper, root: classes.drawerRoot }}
-            >
+            closeHandler={closeHandler}
+            openHandler={openHandler}>
             <div className={classNames("flex flex-col h-full items-center")}>
                 <div className="mb-8 pt-3 w-full">
-                    <IconButton onClick={close}>
+                    <IconButton onClick={() => closeHandler.current?.()}>
                         <ArrowBackIcon />
                     </IconButton>
                 </div>

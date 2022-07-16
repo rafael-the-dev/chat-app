@@ -12,6 +12,9 @@ const Menu = ({ group, groupID }) => {
     const [ properties, setProperties ] = useState({ anchorEl: null, openGroupDetailsDrawer: false });
     const onClickRef = useRef(null);
     const onCloseRef = useRef(null);
+    const closeDrawerHandler = useRef(null);
+    const openDrawerHandler = useRef(null);
+
     const { openGroupDetailsDrawer } = properties;
 
     const handleClose = useCallback(e => {
@@ -38,6 +41,7 @@ const Menu = ({ group, groupID }) => {
     const groupDetailsHandler = useCallback(e => {
         handleClose(e);
         setProperties(props => ({ ...props, anchorEl: null, openGroupDetailsDrawer: true }));
+        openDrawerHandler.current?.();
     }, [ handleClose ]);
 
     return (
@@ -64,7 +68,11 @@ const Menu = ({ group, groupID }) => {
                     { leaveGroupButton }
                 </List>
             </Popover>
-            <GroupDetails close={handleCloseDrawer} group={group} openDrawer={openGroupDetailsDrawer} />
+            <GroupDetails 
+                closeHandler={closeDrawerHandler} 
+                group={group} 
+                openHandler={openDrawerHandler} 
+            />
         </>
     );
 };

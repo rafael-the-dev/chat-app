@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState} from "react"
+import { useCallback, useContext, useEffect, useState} from "react"
 import { Drawer } from "@mui/material"
 
+import { LoginContext } from "src/context"
 
 const Container = ({ children, id, closeHandler, drawerPaper, drawerRoot, openHandler }) => {
+    const { user } = useContext(LoginContext);
     const [ open, setOpen ] = useState(false);
 
     const onOpen = useCallback(() => setOpen(true), []);
@@ -15,6 +17,12 @@ const Container = ({ children, id, closeHandler, drawerPaper, drawerRoot, openHa
     useEffect(() => {
         openHandler.current = onOpen;
     }, [ onOpen, openHandler ]);
+
+    useEffect(() => {
+        if(!Boolean(user)) {
+            setOpen(false)
+        }
+    }, [ user ])
 
     return (
         <Drawer
