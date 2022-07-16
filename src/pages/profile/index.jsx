@@ -1,6 +1,6 @@
 import { Button, Hidden, IconButton, Typography } from "@mui/material"
 import classNames from "classnames"
-import { useCallback, useContext, useMemo } from "react"
+import { useCallback, useContext, useMemo, useRef } from "react"
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client"
 import Link from "next/link"
@@ -19,6 +19,7 @@ import Avatar from "src/components/avatar";
 import Text from "./components/text"
 import Card from "./components/post-card"
 import Error from "./components/error"
+import EditDetails from "./components/edit-details"
 
 const ProfileContainer = () => {
     const router = useRouter();
@@ -26,6 +27,8 @@ const ProfileContainer = () => {
 
     const { getUsersList } = useContext(AppContext)
     const { loggedUser } = useContext(LoginContext);
+    const openDrawerRef = useRef(null);
+    const closeDrawerRef = useRef(null);
 
     const { data, error, loading } = useQuery(GET_USER_DETAILS, { variables: { username: username ? username : loggedUser.username }});
     
@@ -77,9 +80,12 @@ const ProfileContainer = () => {
                             </div>
                             { loggedUser.username === details.username && <div className="mt-3">
                                 <Button 
-                                    className="px-12 py-2 hover:bg-cyan-700 hover:text-white hover:border-0"
+                                    className="px-12 py-2 border-cyan-700 text-cyan-700 hover:bg-cyan-700 hover:text-white"
+                                    onClick={() => openDrawerRef.current?.()}
                                     variant="outlined"
-                                    >Edit profile</Button>
+                                    >
+                                    Edit profile
+                                </Button>
                             </div> }
                         </div>
                     </div>
@@ -90,6 +96,9 @@ const ProfileContainer = () => {
                         { details.posts.length > 4 && details.posts.length % 2 !== 0 && <Card ID="none" />}
                     </ul>
                 </div>
+                <EditDetails 
+                    openHandler={openDrawerRef} 
+                />
             </Container>
         </>
     );
