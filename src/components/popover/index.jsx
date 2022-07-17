@@ -2,10 +2,10 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { Popover } from "@mui/material"
 import { LoginContext } from "src/context"
 
-const PopoverContainer = ({ children, id, onClickRef, onCloseRef }) => {
+const PopoverContainer = ({ children, customClose, id, onClickRef, onCloseRef, paperClassName }) => {
     const [ anchorEl, setAnchorEl] = useState(null);
     const { user } = useContext(LoginContext)
-
+    
     const openPopover = Boolean(anchorEl);
     const popoverID = openPopover ? `${id}-popover` : undefined;
 
@@ -40,8 +40,8 @@ const PopoverContainer = ({ children, id, onClickRef, onCloseRef }) => {
             id={popoverID}
             open={openPopover}
             anchorEl={anchorEl}
-            onClose={handleClose}
-            classes={{ paper: ""}}
+            onClose={customClose ? customClose : handleClose}
+            classes={{ paper: paperClassName }}
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',

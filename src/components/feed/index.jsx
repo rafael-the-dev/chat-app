@@ -37,9 +37,6 @@ const Feed = () => {
                         justify-between px-3 py-2 rounded-xl shadow-none dark:bg-stone-500`)}>
                         <div className="flex">
                             <AddPost />
-                            <Button className="border border-solid border-blue-600 ml-3 rounded-lg text-blue-600">
-                                Filter
-                            </Button>
                         </div>
                         <div className="flex grow justify-end ml-3">
                             <Input />
