@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
-import { Alert, AlertTitle, Collapse, Hidden, LinearProgress } from "@mui/material"
+import { Alert, AlertTitle, Collapse, LinearProgress } from "@mui/material"
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import classNames from 'classnames'
 import globalStyles from "src/styles/global-styles.module.css"
@@ -11,11 +11,12 @@ import { AppContext } from 'src/context/AppContext';
 import Footer from 'src/components/Footer';
 import Feed from "src/components/feed"
 import Loading from "src/components/loading"
+import Post from "src/components/feed/components/post/components/comments/components/dialog"
 
 const Container = ({ children }) => {
     const router = useRouter();
     const { pathname } = router;
-    const { page, tab } = router.query;
+    const { dialog, id, page, tab } = router.query;
 
     const { dialogTimeoutRef, isValidatingToken, openRefreshTokenDialog, revalidateToken, setOpenRefreshTokenDialog, user } = useContext(LoginContext)
     const { errorMessage, hasError, isLoading } = useContext(AppContext)
@@ -82,6 +83,7 @@ const Container = ({ children }) => {
                     { feed }
                     { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
             </div>
+            { dialog === "posts" && id && <Post /> }
             <Dialog
                 classes={{ paper: classNames("dark:bg-stone-500") }}
                 open={openRefreshTokenDialog && ![ '/login', '/signup' ].includes(pathname)}

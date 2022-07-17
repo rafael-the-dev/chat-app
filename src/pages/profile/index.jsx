@@ -91,7 +91,7 @@ const ProfileContainer = () => {
                     </div>
                     <ul className={classNames("flex flex-wrap md:justify-between mt-6 w-full")}>
                         {
-                            details.posts.map(post => <Card key={post.ID} { ...post } />)
+                            details.posts.map(post => <Card key={post.ID} username={username} { ...post } />)
                         }
                         { details.posts.length > 4 && details.posts.length % 2 !== 0 && <Card ID="none" />}
                     </ul>
