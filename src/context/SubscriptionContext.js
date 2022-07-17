@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useRef } from 'react'
 
 import { useDirectChatsQuery, useLoggedUserQuery, useUsersQuery, useFriendshipsQuery, 
-    useFriendshipsInvitationsQuery, usePostsQuery, usePostSubscription } from 'src/hooks';
+    useFriendshipsInvitationsQuery, useNotifications, usePostsQuery, usePostSubscription } from 'src/hooks';
 import { LoginContext } from './LoginContext';
 
 export const SubscriptionContext = createContext();
@@ -20,6 +20,7 @@ export const SubscriptionContextProvider = ({ children }) => {
     useDirectChatsQuery({ subscribeToMore });
     const postsResult = usePostsQuery();
     usePostSubscription({ hasPostUpdate, subscribeToMore: postsResult.subscribeToMore })
+    useNotifications({ subscribeToMore })
 
     //const groupsListRef = useRef([]);
     const userOldProperties = useRef({ 
@@ -27,6 +28,7 @@ export const SubscriptionContextProvider = ({ children }) => {
         friendships: [], 
         friendshipInvitations: [], 
         groupsInvitations: [],
+        notifications: [],
         usersColors: {}, 
         usersList: []
     });
@@ -76,14 +78,14 @@ export const SubscriptionContextProvider = ({ children }) => {
         }
 
         if(userData) {
-            properties = { ...properties, ...userData.loggedUser };   
+            properties = { ...properties, ...userData.loggedUser }; 
         }
 
         const newUserProperties = { ...userOldProperties.current, ...properties };
         userOldProperties.current = newUserProperties;
         return newUserProperties;
     }, [ getColor, result, userResult ]);
-
+    console.log(userProperties.notifications)
     const posts = useMemo(() => {
         const postsData = postsResult.data;
 
@@ -100,11 +102,13 @@ export const SubscriptionContextProvider = ({ children }) => {
     const getFriendshipInvitationsList = useCallback(() => userProperties.friendshipInvitations, [ userProperties ]);
     const getUsersList = useCallback(() => userProperties.usersList, [ userProperties ]);
     const getGroupsInvitations = useCallback(() => userProperties.groupsInvitations, [ userProperties ]);
+    const getNotifications = useCallback(() => userProperties.notifications, [ userProperties ]);
     const getPosts = useCallback(() => posts, [ posts ]);
 
     return (
         <SubscriptionContext.Provider 
-            value={{ getBgColors, getDirectChats, getFriendshipsList, getFriendshipInvitationsList, getUsersList,
+            value={{ getBgColors, getDirectChats, getFriendshipsList, getFriendshipInvitationsList, 
+                getNotifications, getUsersList,
                 getGroupsInvitations, getPosts, hasPostUpdate }}>
             { children }
         </SubscriptionContext.Provider>

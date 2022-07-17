@@ -19,9 +19,8 @@ export const usePost = ({ id }) => {
                 variables: { id },
                 updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data) return prev;
-                    console.log("data", subscriptionData)
+                    
                     const { updatedPost } = subscriptionData.data;
-
 
                     return Object.assign({}, prev, {
                         post: { ...updatedPost }

@@ -134,6 +134,47 @@ export const FRIENDSHIP_INVITATION_SENT = gql`
     }
 `;
 
+export const NOTIFICATION_SUBSCRIPTION = gql`
+    subscription Notification($username: String!) {
+        notification(username: $username) {
+            checked
+            commentId
+            replyId
+            type
+            post {
+                author
+                createdAt
+                comments {
+                    ID
+                    comment
+                    createdAt
+                    likes {
+                        username
+                    }
+                    replies {
+                        ID
+                        comment 
+                        createdAt
+                        likes {
+                            username
+                        }
+                        replyingTo
+                        username
+                    }
+                    username
+                }
+                description
+                ID
+                image
+                likes {
+                    username
+                }
+                tags
+            }
+        }
+    }
+`;
+
 export const POST_ADDED_SUBSCRIPTION = gql`
     subscription PostAdded {
         postAdded {

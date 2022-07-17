@@ -222,6 +222,42 @@ export const GET_LOGGED_USER_DETAILS = gql`
             isOnline
             name
             username
+            notifications {
+                checked
+                commentId
+                replyId
+                type
+                post {
+                    author
+                    createdAt
+                    comments {
+                        ID
+                        comment
+                        createdAt
+                        likes {
+                            username
+                        }
+                        replies {
+                            ID
+                            comment 
+                            createdAt
+                            likes {
+                                username
+                            }
+                            replyingTo
+                            username
+                        }
+                        username
+                    }
+                    description
+                    ID
+                    image
+                    likes {
+                        username
+                    }
+                    tags
+                }
+            }
         }
     }
 `;

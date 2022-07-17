@@ -1,5 +1,6 @@
 import classNames from 'classnames'
-import { Hidden, IconButton } from '@mui/material'
+import { Badge, Hidden } from '@mui/material'
+import { useContext, useMemo } from "react"
 
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
@@ -8,6 +9,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 import classes from './styles.module.css'
 import { useRouter } from 'next/router'
+import { AppContext } from "src/context"
 
 import ChatTab from "./components/chat-tab"
 import Avatar from "../logged-user-avatar"
@@ -18,6 +20,15 @@ const Footer = () => {
     const router = useRouter();
     const { pathname } = router;
     const { tab } = router.query;
+
+    const { getNotifications } = useContext(AppContext);
+
+    const unReadNotificationsSize = useMemo(() => {
+        return getNotifications().reduce((prevValue, currentNotification) => {
+            const currentValue = currentNotification.checked ? 0 : 1;
+            return prevValue + currentValue;
+        }, 0)
+    }, [ getNotifications ])
 
     const homeDarkBg = () => pathname === "/" ? "dark:bg-stone-500" : "dark:bg-stone-900";
     const isSettingPage = () => pathname === "/settings" || pathname === "/profile";
@@ -38,7 +49,11 @@ const Footer = () => {
             </Link>
             <ChatTab getClasses={getClasses} pathname={pathname} tab={pathname} />
             <Link href="notifications">
-                <NotificationsIcon className={classNames("text-3xl", getClasses(tab === "/notifications"))} />
+                <Badge 
+                    badgeContent={unReadNotificationsSize} 
+                    classes={{ badge: classNames("text-slate-100",  pathname === "notifications" ? "bg-cyan-500" : "bg-red-500" ) }}>
+                    <NotificationsIcon className={classNames("text-3xl", getClasses(tab === "/notifications"))} />
+                </Badge>
             </Link>
             <Link href="settings">
                 <SettingsIcon className={classNames("text-3xl", getClasses(isSettingPage()))} />

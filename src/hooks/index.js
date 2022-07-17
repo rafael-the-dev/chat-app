@@ -7,6 +7,7 @@ export * from "./useDirectChatsQuery";
 export * from "./useGroupsQuery";
 export * from "./useGroupChatQuery"
 export * from "./useLoggedUserQuery"
+export * from "./useNotifications"
 export * from "./usePostsQuery"
 export * from "./usePostSubscription"
 export * from "./usePost"
