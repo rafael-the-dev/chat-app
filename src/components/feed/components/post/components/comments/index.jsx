@@ -2,8 +2,6 @@ import { Button } from "@mui/material"
 import { useRef } from "react"
 import Link from "next/link"
 
-import Dialog from "./components/dialog"
-
 const Container = ({ author, comments, ID, likes }) => {
     const handleOpenRef = useRef(null);
     

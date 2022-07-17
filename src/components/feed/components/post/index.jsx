@@ -1,5 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo, useRef } from "react";
-import Image from "next/image"
+import { useContext, useMemo } from "react";
 import { Avatar, Button, CardMedia, IconButton, Paper, Typography } from "@mui/material"
 import classNames from "classnames"
 import Link from "next/link"
@@ -11,8 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faComment } from '@fortawesome/free-solid-svg-icons'
 
-import { AppContext, LoginContext } from "src/context"
-import { getDate } from "src/helpers"
+import { AppContext } from "src/context"
+import { getDate, getURL } from "src/helpers"
 import { getUserDetails } from "src/helpers/user"
 
 import Likes from "./components/likes"
@@ -23,24 +22,11 @@ import Comments from "./components/comments"
 
 library.add(faComment);
 
-/**<Link href={`profile?username=${authorDetails.username}`} passHref>
-                            <Typography 
-                                className="font-semibold mr-2 text-black hover:text-red-500 
-                                dark:text-slate-400 text-transition"
-                                component="a"
-                                onClick={e => e.preventDefault()}>
-                                { authorDetails.name }
-                            </Typography>
-                        </Link> */
-
 const Post = ({ author, createdAt, comments, description, ID, image, likes }) => {
     const router = useRouter();
     const { getUsersList, serverPublicURL } = useContext(AppContext);
-    const { loggedUser } = useContext(LoginContext)
 
     const authorDetails = useMemo(() => getUserDetails({ list: getUsersList(), username: author }), [ author, getUsersList ])
-
-    const myLoader = ({ src }) => `${serverPublicURL.current}/${image}`;
 
     return (
         <Paper 
@@ -79,17 +65,10 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
                     className="h-auto"
                     component="img"
                     height="194"
-                    image={`${serverPublicURL.current}/${image}`}
+                    image={getURL({ url: image })}
                     loading= "lazy"
-                    alt="Paella dish"
-                />
-                {/*<Image h-[300px] 
                     alt={description}
-                    className="object-contain"
-                    loader={myLoader}
-                    layout="fill"
-                    src={`${serverPublicURL.current}/${image}`}
-                />*/}
+                />
             </div>}
             <div className="flex items-center justify-between px-2 md:px-4">
                 <div className="flex items-center">

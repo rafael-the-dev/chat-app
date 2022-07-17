@@ -9,7 +9,7 @@ const Container = ({ commentID, postID, replies }) => {
     const [ expanded, setExpanded ] = useState(false);
 
     const toggleExpanded = useCallback(() => setExpanded(b => !b), [])
-    console.log(replies)
+    
     if(replies.length === 0) return <></>;
 
     return (

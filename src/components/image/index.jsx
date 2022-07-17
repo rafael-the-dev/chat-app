@@ -11,7 +11,7 @@ const CustomImage = styled(Image)({
     }
 });
 
-const Container = ({ alt, url }) => {
+const Container = ({ alt, layout, url }) => {
     const myLoader = () => url;
 
     return (
@@ -20,6 +20,7 @@ const Container = ({ alt, url }) => {
             className="bg-black"
             height={170}
             loader={myLoader}
+            layout={layout}
             src={getURL({ url })}
             unoptimized={true}
             width={170}
