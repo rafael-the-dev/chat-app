@@ -2,10 +2,9 @@ import { Hidden } from "@mui/material"
 import { useCallback, useEffect, useMemo, useRef } from "react"
 import classNames from "classnames"
 import { useRouter } from "next/router"
-import { useQuery } from "@apollo/client"
 
 import classes from "./styles.module.css"
-import { GET_POST } from "src/graphql/queries"
+import { usePost } from "src/hooks"
 
 import CommentForm from "../../../form"
 import DialogHeader from "./components/dialog-header"
@@ -18,7 +17,7 @@ const Container = () => {
     const { pathname } = router;
     const { id, username } = router.query;
 
-    const { data } = useQuery(GET_POST, { variables: { id }});
+    const { data } = usePost({ id });
 
     const postDetails = useMemo(() => {
         if(data) {

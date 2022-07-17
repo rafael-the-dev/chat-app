@@ -207,6 +207,41 @@ export const POST_UPDATED_SUBSCRIPTION = gql`
     }
 `;
 
+export const UPDATED_POST_SUBSCRIPTION = gql`
+    subscription UpdatedPost($id: String!) {
+        updatedPost(id: $id) {
+            author
+            createdAt
+            comments {
+                ID
+                comment
+                createdAt
+                likes {
+                    username
+                }
+                replies {
+                    ID
+                    comment 
+                    createdAt
+                    likes {
+                        username
+                    }
+                    replyingTo
+                    username
+                }
+                username
+            }
+            description
+            ID
+            image
+            likes {
+                username
+            }
+            tags
+        }
+    }
+`;
+
 export const GET_FEEDBACKS__SUBSCRIPTION = gql`
     subscription PostCreated {
         feedbackCreated {
