@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, Typography } from "@mui/material"
+import { Button, DialogContent, Typography } from "@mui/material"
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import classNames from "classnames";
 import { useMutation } from "@apollo/client"
@@ -8,17 +8,20 @@ import { AppContext } from "src/context";
 
 import Checkbox from "../checkbox"
 import SendButton from "../send-button"
+import Dialog from "src/components/dialog"
+import DialogHeader from "src/components/dialog/components/dialog-header"
 
 import { SEND_GROUP_INVITATION } from "src/graphql/mutations"
 import Alert from "../feedback-alert"
 import { useMemo } from "react";
 
-const DialogContainer = ({ group, open, toggleDialog }) => {
+const DialogContainer = ({ group, openHandler }) => {
     const { getFriendshipsList } = useContext(AppContext);
 
     const sendMutation = useMutation(SEND_GROUP_INVITATION);
 
     const id = useRef(1);
+    const closeHandler = useRef(null);
 
     const [ list, setList ] = useState([]);
     const [ alerts, setAlerts ] = useState([]);
@@ -27,6 +30,8 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
     const listLength = useRef(0);
     const alertsList = useRef([]);
     const alertCounter = useRef(0);
+
+    const onClose = useCallback(() => closeHandler.current?.(), [])
 
     const avalableUsers = useMemo(() => {
         return getFriendshipsList()
@@ -99,21 +104,24 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
 
     return (
         <Dialog
-            aria-describedby="session-dialog-description"
-            classes={{ paper: classes.dialogPaper }}
-            open={open}
-            onClose={toggleDialog(false)}
+            ariaDescribedby="session-dialog-description"
+            closeHandler={closeHandler}
+            dialogPaper={classes.dialogPaper}
+            openHandler={openHandler}
         >
+            <DialogHeader onClose={onClose}>
+                <Typography 
+                    className="font-bold pl-4 text-xl"
+                    component="legend"
+                    >
+                    Invite friends to { group.name } group
+                </Typography>
+            </DialogHeader>
             <DialogContent>
                 { alerts }
                 <form>
                     <fieldset>
-                        <Typography 
-                            className="font-bold mb-4 text-xl"
-                            component="legend"
-                            >
-                            Invite friends to { group.name } group
-                        </Typography>
+                        
                         <div>
                             {
                                 avalableUsers.map(friend => (
@@ -135,7 +143,7 @@ const DialogContainer = ({ group, open, toggleDialog }) => {
                                 type="button"
                                 className={classNames(`bg-transparent border border-solid border-red-500 text-red-500 
                                 shadow-none hover:bg-red-500 capitalize hover:text-slate-100 hover:opacity-80`)}
-                                onClick={toggleDialog(false)}>
+                                onClick={onClose}>
                                 Cancel
                             </Button> 
                             <SendButton disabled={list.length === 0} handler={sendHandler} />

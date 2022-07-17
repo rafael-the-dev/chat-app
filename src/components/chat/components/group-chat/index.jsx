@@ -6,14 +6,12 @@ import { Hidden, IconButton, Typography } from "@mui/material"
 import { useMutation } from "@apollo/client"
 import moment from 'moment'
 import classNames from 'classnames'
-import classes from "./styles.module.css"
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
 
-import { AppContext, ChatContext, LoginContext } from "src/context"
+import { ChatContext, LoginContext } from "src/context"
 import { useGroupChatQuery } from "src/hooks"
-import { getOnlyDate } from "src/helpers"
 
 import { READ_GROUP_MESSAGE, SEND_GROUP_MESSAGE } from "src/graphql/mutations"
 
@@ -25,20 +23,17 @@ import ChatDate from "../chat-date"
 
 const GroupChatContainer = () => {
     const router = useRouter();
-    const { id, gd } = router.query;
+    const { id, } = router.query;
 
     const sendGroupMessageMutation = useMutation(SEND_GROUP_MESSAGE);
     const readGroupMessageMutation = useMutation(READ_GROUP_MESSAGE);
 
     const { loggedUser, user } = useContext(LoginContext)
     const { repliedMessage, setRepliedMessage } = useContext(ChatContext);
-    const { groupDetails } = useContext(AppContext)
 
-    //const destinataryResult = useUserQuery({ id, loggedUser });
     const { data } = useGroupChatQuery({ id, loggedUser });
 
     const chatIDRef = useRef("");
-    const destinataryRef = useRef("");
     const mainRef = useRef(null);
 
 
@@ -63,7 +58,7 @@ const GroupChatContainer = () => {
 
             return data.group;
         }
-        return { messages: [], members: [] };
+        return { invitations: [], messages: [], members: [] };
     }, [ data ]);
 
     const friendshipDate = useMemo(() => {
