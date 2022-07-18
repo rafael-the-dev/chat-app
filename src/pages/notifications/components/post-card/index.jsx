@@ -31,7 +31,7 @@ const Card = (props) => {
                 { ...authorDetails }
                 className={classes.avatar}
             />
-            <div className="ml-3">
+            <div className="grow ml-3">
                 <Header { ...props } author={authorDetails} />
                 <Body { ...props } />
                 <footer className="flex items-center justify-between mt-3">

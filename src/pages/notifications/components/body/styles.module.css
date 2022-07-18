@@ -15,3 +15,25 @@
 .description {
     width: 100px;
 }
+
+@media screen and (min-width: 600px) {
+    .content > span {
+       height: 152px !important;
+        width: 194px !important;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .comment {
+        width: 260px;
+    }
+
+    .content > span {
+        height: 72px !important;
+        width: 100px !important;
+    }
+
+    .description {
+        width: 160px;
+    }
+}
