@@ -10,6 +10,7 @@ SubscriptionContext.displayName = "SubscriptionContext";
 export const SubscriptionContextProvider = ({ children }) => {
     const { loggedUser } = useContext(LoginContext);
     const hasPostUpdate = useRef(false);
+    const hasNewNotifications = useRef(false);
 
     //const userResult = useUserQuery(loggedUser.username);
     const userResult = useLoggedUserQuery();
@@ -20,7 +21,7 @@ export const SubscriptionContextProvider = ({ children }) => {
     useDirectChatsQuery({ subscribeToMore });
     const postsResult = usePostsQuery();
     usePostSubscription({ hasPostUpdate, subscribeToMore: postsResult.subscribeToMore })
-    useNotifications({ subscribeToMore })
+    useNotifications({ hasNewNotifications, subscribeToMore })
 
     //const groupsListRef = useRef([]);
     const userOldProperties = useRef({ 
@@ -109,7 +110,7 @@ export const SubscriptionContextProvider = ({ children }) => {
         <SubscriptionContext.Provider 
             value={{ getBgColors, getDirectChats, getFriendshipsList, getFriendshipInvitationsList, 
                 getNotifications, getUsersList,
-                getGroupsInvitations, getPosts, hasPostUpdate }}>
+                getGroupsInvitations, getPosts, hasPostUpdate, hasNewNotifications }}>
             { children }
         </SubscriptionContext.Provider>
     );

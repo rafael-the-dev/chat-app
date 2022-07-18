@@ -10,12 +10,12 @@ import { AppContext } from "src/context"
 import Card from "../post-card"
 
 const Container = () => {
-    const { getNotifications } = useContext(AppContext);
+    const { getNotifications, hasNewNotifications } = useContext(AppContext);
 
     const [ notifications, setNotifications ] = useState([]);
-    const [ buttonProperties, setButtonProperties ] = useState({ hasNewNotifications: false, loading: false });
+    const [ buttonProperties, setButtonProperties ] = useState({ hasNewNotification: false, loading: false });
     const [ isPending, startTransition ] = useTransition();
-    const { hasNewNotifications, loading } = buttonProperties;
+    const { hasNewNotification, loading } = buttonProperties;
 
     const notificationsContainerRef = useRef(null);
     const isFirstRender = useRef(true);
@@ -30,30 +30,35 @@ const Container = () => {
             setNotifications(getNotifications());
             startTransition(() => {
                 scrollToTop();
-                setButtonProperties({ hasNewNotifications: false, loading: false });
+                hasNewNotifications.current = false;
+                setButtonProperties({ hasNewNotification: false, loading: false });
             });
         }, 1500)
-    }, [ getNotifications, scrollToTop ]);
+    }, [ getNotifications, hasNewNotifications, scrollToTop ]);
 
     useEffect(() => {
         setNotifications(currentPosts => {
-            if(currentPosts.length === 0 && isFirstRender.current) {
-                isFirstRender.current = false;
+            if(currentPosts.length === 0) {
+                hasNewNotifications.current = false;
                 return getNotifications();
             }
 
-            startTransition(() => setButtonProperties({ hasNewNotifications: true, loading: false }));
+            if(hasNewNotifications.current) {
+                startTransition(() => setButtonProperties({ hasNewNotification: true, loading: false }));
+            } 
 
             return currentPosts;
         })
-    }, [ getNotifications ])
+
+        return () => isFirstRender.current = true;
+    }, [ hasNewNotifications, getNotifications ])
 
     return (
         <div className="relative">
             <Button 
-                className={classNames(classes.button, { "opacity-0": !hasNewNotifications },
+                className={classNames(classes.button, { "opacity-0": !hasNewNotification },
                 "absolute normal-case rounded-xl top-0 z-10")}
-                disabled={!hasNewNotifications}
+                disabled={!hasNewNotification}
                 onClick={clickHandler}
                 startIcon={!loading && <ArrowUpwardIcon />}
                 variant="contained">

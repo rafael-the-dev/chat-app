@@ -1,6 +1,7 @@
-import { useContext, useMemo } from "react"
+import { useCallback, useContext, useMemo } from "react"
 import { Paper, Typography } from "@mui/material"
 import classNames from "classnames"
+import { useRouter } from "next/router"
 
 import classes from "./styles.module.css"
 import { getUserDetails } from "src/helpers/user"
@@ -15,18 +16,25 @@ import Body from "../body"
 
 
 const Card = (props) => {
-    const { author, checked, createdAt, commentId, post, replyId, type } = props;
+    const { author, createdAt, post } = props;
     const { getUsersList } = useContext(AppContext);
-    console.log(author)
+
+    const router = useRouter();
+    
     const authorDetails = useMemo(() => {
         return getUserDetails({ list: getUsersList(), username: author });
     }, [ author, getUsersList ])//href={`notifications?dialog=posts&id=${post.ID}`}
 
+    const clickHandler = useCallback(() => {
+        router.push(`/notifications?dialog=posts&id=${post.ID}`)
+    }, [ post, router ]);
+
     return (
         <Paper 
             component="li" 
-             className={classNames(`mb-3 flex items-start px-3 py-4 last:border-0`)}
-             elevation={0}>
+             className={classNames(`mb-3 flex items-start px-3 py-4 hover:cursor-pointer hover:bg-zinc-100 last:border-0`)}
+             elevation={0}
+             onClick={clickHandler}>
             <Avatar 
                 { ...authorDetails }
                 className={classes.avatar}

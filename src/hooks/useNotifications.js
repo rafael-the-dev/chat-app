@@ -4,7 +4,7 @@ import { LoginContext } from "src/context/LoginContext"
 
 import { NOTIFICATION_SUBSCRIPTION } from 'src/graphql/subscriptions';
 
-export const useNotifications = ({ subscribeToMore }) => {
+export const useNotifications = ({ hasNewNotifications, subscribeToMore }) => {
     const { loggedUser, user } = useContext(LoginContext);
     const username = useMemo(() => loggedUser.username, [ loggedUser ]);
 
@@ -21,13 +21,15 @@ export const useNotifications = ({ subscribeToMore }) => {
                     const { notification } = subscriptionData.data;
                     let notifications = prev.loggedUser ? [ notification, ...prev.loggedUser.notifications ] : [ notification ];
 
+                    hasNewNotifications.current = true;
+
                     return Object.assign({}, prev, {
                         loggedUser: { ...prev.loggedUser, notifications }
                     });
                 }
             });
         }
-    }, [ user, subscribeToMore, username ]); 
+    }, [ hasNewNotifications, user, subscribeToMore, username ]); 
   
 };
 

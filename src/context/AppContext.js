@@ -7,7 +7,7 @@ AppContext.displayName = 'AppContext';
 export const AppContextProvider = ({ children }) => {
     const { getBgColors, getDirectChats, getFriendshipsList, getFriendshipInvitationsList, 
         getNotifications, getUsersList,
-        getGroupsInvitations, getPosts, hasPostUpdate } = useContext(SubscriptionContext)
+        getGroupsInvitations, getPosts, hasPostUpdate, hasNewNotifications } = useContext(SubscriptionContext)
     const serverPublicURL = useRef("http://localhost:5000");
 
     const [ isLoading, setIsLoading ] = useState(false);
@@ -63,7 +63,7 @@ export const AppContextProvider = ({ children }) => {
     return (
         <AppContext.Provider 
             value={{ ...error.hasError, errorHandler, feedbacksList, openGroupDetailsDrawer, setOpenGroupDetailsDrawer, getDirectChats, getFriendshipInvitationsList, 
-            getInitialsNameLetters, getBgColors, getFriendshipsList, getGroupsInvitations, getNotifications, getPosts, getUsersList, hasPostUpdate,
+            getInitialsNameLetters, getBgColors, getFriendshipsList, getGroupsInvitations, getNotifications, getPosts, getUsersList, hasPostUpdate, hasNewNotifications,
             isLoading, openForwardMessageDialog, setFeedbackList, serverPublicURL,
             startLoading, stopLoading, setOpenForwardMessageDialog }}>
             { children }
