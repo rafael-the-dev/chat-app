@@ -17,7 +17,8 @@ const Container = ({ children }) => {
     
     return (
         <div 
-            className={classNames('h-ful sub-root dark:bg-stone-500', 
+            className={classNames('h-ful sub-root', 
+            pathname === "/notifications" ? "dark:bg-stone-900" : "dark:bg-stone-500",
             { 'sub-root--chat': isChatPage() }, 
             { [classes.subRootProfile]: pathname === '/profile'})}>
             { children }

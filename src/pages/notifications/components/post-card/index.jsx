@@ -32,7 +32,8 @@ const Card = (props) => {
     return (
         <Paper 
             component="li" 
-             className={classNames(`mb-3 flex items-start px-3 py-4 hover:cursor-pointer hover:bg-zinc-100 last:border-0`)}
+            className={classNames(`mb-3 flex items-start px-3 py-4 hover:cursor-pointer hover:bg-zinc-100 
+            last:border-0 dark:bg-stone-500`)}
              elevation={0}
              onClick={clickHandler}>
             <Avatar 
@@ -42,7 +43,7 @@ const Card = (props) => {
             <div className="grow ml-3">
                 <Header { ...props } author={authorDetails} />
                 <Body { ...props } />
-                <footer className="flex items-center justify-between mt-3">
+                <footer className="flex items-center justify-between mt-3 dark:text-slate-500">
                     <div className="flex items-center">
                         <Typography
                             component="p"

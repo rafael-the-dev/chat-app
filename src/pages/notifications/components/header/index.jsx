@@ -57,9 +57,10 @@ const Header = ({ author, commentId, post, replyId, type }) => {
     return (
         <header>
             <Typography
-                component="h2">
+                component="h2"
+                className="dark:text-zinc-500">
                 <Link href={`profile?username=${author.username}`}>
-                    <a className="font-bold mr-1 text-black">{ author.name }</a>
+                    <a className="font-bold mr-1 text-black dark:text-zinc-400">{ author.name }</a>
                 </Link>
                 { actionsMessage() }
             </Typography>
