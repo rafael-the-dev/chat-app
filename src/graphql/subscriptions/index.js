@@ -137,7 +137,9 @@ export const FRIENDSHIP_INVITATION_SENT = gql`
 export const NOTIFICATION_SUBSCRIPTION = gql`
     subscription Notification($username: String!) {
         notification(username: $username) {
+            author
             checked
+            createdAt
             commentId
             replyId
             type

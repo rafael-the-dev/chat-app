@@ -223,7 +223,9 @@ export const GET_LOGGED_USER_DETAILS = gql`
             name
             username
             notifications {
+                author
                 checked
+                createdAt
                 commentId
                 replyId
                 type
