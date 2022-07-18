@@ -7,6 +7,10 @@
     height: 350px;
 }
 
+.emptyMessages {
+    height: 100% !important;
+}
+
 @media screen and (min-width: 900px) {
     .paper {
         max-width: 900px !important;

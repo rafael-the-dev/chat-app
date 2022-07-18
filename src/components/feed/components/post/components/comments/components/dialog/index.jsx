@@ -12,6 +12,7 @@ import DialogHeader from "./components/dialog-header"
 import Comment from "./components/comment-card"
 import Likes from "../../../likes"
 import Dialog from "src/components/dialog"
+import Empty from "src/components/empty"
 
 const Container = () => {
     const router = useRouter();
@@ -59,11 +60,14 @@ const Container = () => {
                 <div className={classes.dialogContent}>
                     <DialogHeader author={author} onClose={handleClose} />
                     <div className="pt-4">
-                        <ul className={classNames(classes.dialogList, "overflow-y-auto px-4")}>
-                            {
-                                comments.map(comment => <Comment { ...comment } key={comment.ID}  onClose={handleClose} postID={ID} />)
-                            }
-                        </ul>
+                        { comments.length > 1 ? (
+                            <ul className={classNames(classes.dialogList, "overflow-y-auto px-4")}>
+                                {
+                                    comments.map(comment => <Comment { ...comment } key={comment.ID}  onClose={handleClose} postID={ID} />)
+                                }
+                            </ul>
+                            ) : <Empty className={classes.emptyMessages} message="There is no messages yet!" />
+                        }
                     </div>
                     <div className="mt-3">
                         <Likes likes={likes} />
