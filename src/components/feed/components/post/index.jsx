@@ -90,11 +90,11 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
                     <Typography  
                         className={`grow dark:text-zinc-400 text-transition`}
                         component={ShowMoreText}
-                            lines={2}
-                            more='Read more'
-                            less='Read less'
-                            anchorClass='my-anchor-css-class'
-                            expanded={false}
+                        lines={2}
+                        more='Read more'
+                        less='Read less'
+                        anchorClass='my-anchor-css-class'
+                        expanded={false}
                         >
                         <Link href={`profile?username=${authorDetails.username}`}>
                             <Typography 

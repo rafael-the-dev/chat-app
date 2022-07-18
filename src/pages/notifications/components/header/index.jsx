@@ -31,7 +31,7 @@ const Header = ({ author, commentId, post, replyId, type }) => {
                 return size <= 0 ? "" : `and ${size} other${size > 1 ? "s" : ""} liked your comment`
             }
             default: {
-                return length <= 0 ? "" : `and ${ length } other${ length - 1 > 1 ? "s" : ""} liked your post`
+                return length <= 0 ? "" : `and ${ length } other${ length > 1 ? "s" : ""} liked your post`
             }
         }
     };

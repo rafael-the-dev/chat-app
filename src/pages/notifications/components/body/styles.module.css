@@ -1,0 +1,9 @@
+.content > span {
+    height: 72px !important;
+    border-radius: 0.5rem 0 0 0.5rem;
+    width: 100px !important;
+}
+
+.description {
+    width: 130px;
+}

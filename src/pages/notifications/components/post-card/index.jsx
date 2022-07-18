@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { useContext, useMemo } from "react"
 import { Paper, Typography } from "@mui/material"
 import classNames from "classnames"
@@ -12,6 +11,7 @@ import CircleIcon from '@mui/icons-material/Circle';
 
 import Avatar from "src/components/avatar"
 import Header from "../header"
+import Body from "../body"
 
 
 const Card = (props) => {
@@ -25,7 +25,7 @@ const Card = (props) => {
     return (
         <Paper 
             component="li" 
-             className={classNames(`flex items-start px-3 py-4`)}
+             className={classNames(`border-b border-solid border-zinc-200 flex items-start px-3 py-4 last:border-0`)}
              elevation={0}>
             <Avatar 
                 { ...authorDetails }
@@ -33,6 +33,7 @@ const Card = (props) => {
             />
             <div className="ml-3">
                 <Header { ...props } author={authorDetails} />
+                <Body post={post} />
                 <footer className="flex items-center justify-between mt-3">
                     <div className="flex items-center">
                         <Typography
