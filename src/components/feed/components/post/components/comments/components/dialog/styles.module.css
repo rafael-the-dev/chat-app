@@ -9,9 +9,20 @@
 
 @media screen and (min-width: 900px) {
     .paper {
+        max-width: 900px !important;
         width: auto;
     }
 
+    .imageContainer > span {
+        height: 100% !important;
+        width: 400px !important;
+    }
+
+    .imageContainer > span img {
+        object-fit: contain !important;
+    }
+
     .dialogContent {
+        width: 430px;
     }
 }

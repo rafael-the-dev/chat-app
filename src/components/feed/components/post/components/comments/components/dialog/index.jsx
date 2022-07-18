@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 import classes from "./styles.module.css"
 import { usePost } from "src/hooks"
 
+import Image from "src/components/image"
 import CommentForm from "../../../form"
 import DialogHeader from "./components/dialog-header"
 import Comment from "./components/comment-card"
@@ -43,11 +44,18 @@ const Container = () => {
         <Dialog
             closeHandler={closeHandler}
             customClose={handleClose}
-            dialogPaper={classNames(classes.paper, "px-0 md:min-w-[450px] dark:bg-stone-500")}
+            dialogPaper={classNames(classes.paper, "overflow-hidden px-0 md:min-w-[450px] dark:bg-stone-500")}
             openHandler={handleOpenRef}
         >
-            <div>
-                <Hidden mdDown></Hidden>
+            <div className="md:flex md:items-stretch">
+                <Hidden mdDown>
+                    <div className={classes.imageContainer}>
+                        <Image 
+                            alt={postDetails.image}
+                            url={postDetails.image}
+                        />
+                    </div>
+                </Hidden>
                 <div className={classes.dialogContent}>
                     <DialogHeader author={author} onClose={handleClose} />
                     <div className="pt-4">
