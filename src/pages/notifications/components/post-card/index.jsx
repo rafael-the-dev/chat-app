@@ -25,7 +25,7 @@ const Card = (props) => {
     return (
         <Paper 
             component="li" 
-             className={classNames(`border-b border-solid border-zinc-200 flex items-start px-3 py-4 last:border-0`)}
+             className={classNames(`mb-3 flex items-start px-3 py-4 last:border-0`)}
              elevation={0}>
             <Avatar 
                 { ...authorDetails }
@@ -33,7 +33,7 @@ const Card = (props) => {
             />
             <div className="ml-3">
                 <Header { ...props } author={authorDetails} />
-                <Body post={post} />
+                <Body { ...props } />
                 <footer className="flex items-center justify-between mt-3">
                     <div className="flex items-center">
                         <Typography

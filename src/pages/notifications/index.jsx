@@ -1,4 +1,6 @@
 import { useContext } from "react"
+import classes from "./styles.module.css"
+import classNames from "classnames"
 
 import { AppContext } from "src/context"
 
@@ -10,7 +12,7 @@ const Notifications = () => {
     console.log(getNotifications())
     return (
         <Container>
-            <ul className="px-4 pt-6 mb-6">
+            <ul className={classNames(classes.list, "px-4 pt-6 mb-6")}>
                 {
                     getNotifications().map((item, index) => <Card key={index} { ...item} />)
                 }

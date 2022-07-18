@@ -12,26 +12,44 @@ const Header = ({ author, commentId, post, replyId, type }) => {
         return getComment().replies.find(reply => reply.ID === replyId)
     };
 
+    const countCommentsUsernames = () => {
+        const usernames = [];
+        post.comments.forEach(comment => {
+            if(!usernames.includes(comment.username)) usernames.push(comment.username);
+        })
+
+        return usernames.length - 1;
+    };
+
+    const countCommentRepliesUsernames = () => {
+        const usernames = [];
+        getComment().replies.forEach(reply => {
+            if(!usernames.includes(reply.username)) usernames.push(reply.username);
+        })
+
+        return usernames.length - 1;
+    };
+
     const actionsMessage = () => {
         switch(type) {
             case "COMMENT_REPLY": {
-                const size = getCommentReply().likes.length - 1;
-                return size <= 0 ? "" : `and ${size} other${size > 1 ? "s" : ""} replied your comment`
+                const size = countCommentRepliesUsernames();
+                return `${size <= 0 ? "" : `and ${size} other${size > 1 ? "s" : ""}`} replied your comment`
             }
             case "COMMENT": {
-                const size = post.comments.length - 1 ;
-                return size <= 0 ? "" : `and ${size} other${size > 1 ? "s" : ""} commented on your post`
+                const size =countCommentsUsernames() ;
+                return `${size <= 0 ? "" : `and ${size} other${size > 1 ? "s" : ""}`} commented on your post`
             }
             case "LIKE_COMMENT": {
                 const size = getComment().likes.length - 1;
-                return size <= 0 ? "" : `and ${size} other${size > 1 ? "s" : ""} liked your comment`
+                return `${size <= 0 ? "" : ` and ${size} other${size > 1 ? "s" : ""}`} liked your comment`
             }
             case "LIKE_COMMENT_REPLY": {
                 const size = getCommentReply().likes.length - 1;
-                return size <= 0 ? "" : `and ${size} other${size > 1 ? "s" : ""} liked your comment`
+                return `${size <= 0 ? "" : ` and ${size} other${size > 1 ? "s" : ""}`} liked your comment`
             }
             default: {
-                return length <= 0 ? "" : `and ${ length } other${ length > 1 ? "s" : ""} liked your post`
+                return `${length <= 0 ? "" : `and ${ length } other${ length > 1 ? "s" : ""}`} liked your post`
             }
         }
     };

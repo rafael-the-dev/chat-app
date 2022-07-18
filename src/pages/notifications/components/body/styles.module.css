@@ -4,6 +4,14 @@
     width: 100px !important;
 }
 
+.contentWithValue > span {
+    border-radius: 0 0 0 0.5rem !important;
+}
+
+.comment {
+    width: 203px;
+}
+
 .description {
-    width: 130px;
+    width: 100px;
 }
