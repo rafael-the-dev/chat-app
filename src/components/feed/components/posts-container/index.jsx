@@ -3,6 +3,8 @@ import classNames from "classnames"
 import classes from "./styles.module.css"
 import { Button } from "@mui/material"
 
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+
 import Card from "../post"
 import ScrollButton from "./components/scroll-button"
 import { AppContext } from "src/context"
@@ -67,9 +69,10 @@ const PostsContainer = ({ pathname }) => {
         <div className="mt-6 relative">
             <Button 
                 className={classNames(classes.button, { "opacity-0": !hasNewPosts },
-                "absolute rounded-xl top-0 z-10")}
+                "absolute normal-case rounded-xl top-0 z-10")}
                 disabled={!hasNewPosts}
                 onClick={clickHandler}
+                startIcon={!loading && <ArrowUpwardIcon />}
                 variant="contained">
                 { loading ? "Loading..." : "New Posts" }
             </Button>
