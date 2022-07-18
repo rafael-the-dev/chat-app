@@ -5,7 +5,10 @@ import classNames from "classnames"
 
 import classes from "./styles.module.css"
 import { getUserDetails } from "src/helpers/user"
+import { getDate } from "src/helpers"
 import { AppContext } from "src/context"
+
+import CircleIcon from '@mui/icons-material/Circle';
 
 import Avatar from "src/components/avatar"
 import Header from "../header"
@@ -30,6 +33,26 @@ const Card = (props) => {
             />
             <div className="ml-3">
                 <Header { ...props } author={authorDetails} />
+                <footer className="flex items-center justify-between mt-3">
+                    <div className="flex items-center">
+                        <Typography
+                            component="p"
+                            className={classes.text}>
+                            { post.likes.length } likes
+                        </Typography>
+                        <CircleIcon className={classNames(classes.circle, "mx-3")} />
+                        <Typography
+                            component="p"
+                            className={classes.text}>
+                            { post.comments.length } likes
+                        </Typography>
+                    </div>
+                    <Typography
+                        component="p"
+                        className={classes.text}>
+                        { getDate(parseInt(createdAt)) }
+                    </Typography>
+                </footer>
             </div>
         </Paper>
     );
