@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useRef } from 'react'
 
 import { useDirectChatsQuery, useLoggedUserQuery, useUsersQuery, useFriendshipsQuery, 
-    useFriendshipsInvitationsQuery, useNotifications, usePostsQuery, usePostSubscription } from 'src/hooks';
+    useFriendshipsInvitationsQuery, useNotifications, usePostsQuery, usePostSubscription, useUserQuery } from 'src/hooks';
 import { LoginContext } from './LoginContext';
 
 export const SubscriptionContext = createContext();
@@ -21,7 +21,8 @@ export const SubscriptionContextProvider = ({ children }) => {
     useDirectChatsQuery({ subscribeToMore });
     const postsResult = usePostsQuery();
     usePostSubscription({ hasPostUpdate, subscribeToMore: postsResult.subscribeToMore })
-    useNotifications({ hasNewNotifications, subscribeToMore })
+    useNotifications({ hasNewNotifications, subscribeToMore });
+    useUserQuery({ subscribeToMore });
 
     //const groupsListRef = useRef([]);
     const userOldProperties = useRef({ 

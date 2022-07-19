@@ -1,16 +1,14 @@
-import { useContext, useEffect, useMemo, useState } from 'react'
-import { useLazyQuery, useSubscription } from "@apollo/client"
+import { useContext, useEffect, useMemo } from 'react'
+import { useSubscription } from "@apollo/client"
 
 import { LoginContext } from "src/context"
-import { GET_USER } from 'src/graphql/queries';
 import { USER_UPDATED_SUBSCRIPTION } from 'src/graphql/subscriptions';
 
-export const useUserQuery = (dest) => {
+export const useUserQuery = ({ subscribeToMore }) => {
     const { user } = useContext(LoginContext)
-    const username = useMemo(() => dest ? dest : "", [ dest ]);
+    const username = useMemo(() => user ? user.username : "", [ user ]);
 
-    const subscription = useSubscription(USER_UPDATED_SUBSCRIPTION, { variables: { username }})
-    const [ getUser, { data, loading, error, subscribeToMore } ] = useLazyQuery(GET_USER, { variables: { username }});
+    useSubscription(USER_UPDATED_SUBSCRIPTION, { variables: { username }})
 
     useEffect(() => {
         if(user) {
@@ -19,18 +17,17 @@ export const useUserQuery = (dest) => {
                 variables: { username },
                 updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data || !Boolean(user)) return prev;
-
-                    const updatedUser = subscriptionData.data.userUpdated;
+                    
+                    console.log("more", subscriptionData.data)
+                    const { groupsInvitations } = subscriptionData.data.userUpdated;
 
                     return Object.assign({}, prev, {
-                        user: { ...updatedUser }
+                        loggedUser: { ...prev.loggedUser, groupsInvitations }
                     });
                 }
             });
         }
     }, [ user, username, subscribeToMore ]);
-  
-    return { data, loading, error };
 };
 
 export default useUserQuery;

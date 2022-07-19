@@ -2,6 +2,10 @@
     max-height: 60vh;
 }
 
+.emptyContainer {
+    height: 60vh;
+}
+
 @media screen and (min-width: 600px) {
     .invitationsList {
         max-height: 70vh;

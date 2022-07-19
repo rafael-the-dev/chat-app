@@ -8,6 +8,8 @@ import classes from "./styles.module.css"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { AppContext, LoginContext } from "src/context"
+
+import Empty from "src/components/empty"
 import Card from "./components/group-invitation-card"
 
 const GroupsInvitations = () => {
@@ -45,15 +47,18 @@ const GroupsInvitations = () => {
                         </a>
                     </Link>
                 </div>
-                <ul 
-                    className={classNames(classes.invitationsList, 
-                    "pt-2 overflow-y-auto pb-6 sm:flex sm:flex-wrap sm:justify-between sm:px-4 md:flex-col md:justify-start")}>
-                    {
-                        getGroupsInvitations().map((group, index) => (
-                            <Card key={`${id}-${index}`} { ...group } />
-                        ))
-                    }
-                </ul>
+                { getGroupsInvitations().length > 0 ? (
+                    <ul 
+                        className={classNames(classes.invitationsList, 
+                        "pt-2 overflow-y-auto pb-6 sm:flex sm:flex-wrap sm:justify-between sm:px-4 md:flex-col md:justify-start")}>
+                        {
+                            getGroupsInvitations().map((group, index) => (
+                                <Card key={`${id}-${index}`} { ...group } />
+                            ))
+                        }
+                    </ul> ) : 
+                    <Empty className={classes.emptyContainer} message="You don't have groups invitations" />
+                }
             </div>
         </>
     );
