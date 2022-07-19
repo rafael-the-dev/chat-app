@@ -2,15 +2,19 @@ import { useCallback, useContext, useEffect, useRef, useState, useTransition } f
 import { Button } from "@mui/material"
 import classes from "./styles.module.css"
 import classNames from "classnames"
+import { useMutation } from "@apollo/client"
 
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
+import { CHECK_NOTIFICATIONS } from "src/graphql/mutations"
+import { GET_LOGGED_USER_DETAILS } from "src/graphql/queries"
 import { AppContext } from "src/context"
 
 import Card from "../post-card"
 import Empty from "src/components/empty"
 
 const Container = () => {
+    const checkNotificationsMutation = useMutation(CHECK_NOTIFICATIONS, { refetchQueries: [ GET_LOGGED_USER_DETAILS ] })
     const { getNotifications, hasNewNotifications } = useContext(AppContext);
 
     const [ notifications, setNotifications ] = useState([]);
@@ -25,6 +29,16 @@ const Container = () => {
         notificationsContainerRef.current?.scrollTo({ behavior: "smooth", top: 0 });
     }, []);
 
+    const checkNotifcationsHandler = useCallback(() => {
+        const check = checkNotificationsMutation[0];
+
+        check({
+            onError(error) {
+                console.error(error)
+            }
+        })
+    }, [checkNotificationsMutation ])
+
     const clickHandler = useCallback(() => {
         setButtonProperties(currentProperties => ({ ...currentProperties, loading: true }));
         setTimeout(() => {
@@ -33,14 +47,16 @@ const Container = () => {
                 scrollToTop();
                 hasNewNotifications.current = false;
                 setButtonProperties({ hasNewNotification: false, loading: false });
+                checkNotifcationsHandler();
             });
         }, 1500)
-    }, [ getNotifications, hasNewNotifications, scrollToTop ]);
+    }, [ checkNotifcationsHandler, getNotifications, hasNewNotifications, scrollToTop ]);
 
     useEffect(() => {
         setNotifications(currentPosts => {
             if(currentPosts.length === 0) {
                 hasNewNotifications.current = false;
+                checkNotifcationsHandler();
                 return getNotifications();
             }
 
@@ -52,7 +68,7 @@ const Container = () => {
         })
 
         return () => isFirstRender.current = true;
-    }, [ hasNewNotifications, getNotifications ])
+    }, [ checkNotifcationsHandler, hasNewNotifications, getNotifications ])
 
     return (
         <div className="relative">

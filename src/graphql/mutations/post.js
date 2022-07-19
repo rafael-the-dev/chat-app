@@ -17,6 +17,12 @@ export const ADD_COMMENT = gql`
     }
 `;
 
+export const CHECK_NOTIFICATIONS = gql`
+    mutation CheckNotification {
+        checkNotifications
+    }
+`;
+
 export const DELETE_POST = gql`
     mutation DeletePost($id: String!) {
         deletePost(id: $id) {
