@@ -60,7 +60,7 @@ const Container = () => {
                 <div className={classes.dialogContent}>
                     <DialogHeader author={author} onClose={handleClose} />
                     <div className="pt-4">
-                        { comments.length > 1 ? (
+                        { comments.length > 0 ? (
                             <ul className={classNames(classes.dialogList, "overflow-y-auto px-4")}>
                                 {
                                     comments.map(comment => <Comment { ...comment } key={comment.ID}  onClose={handleClose} postID={ID} />)

@@ -1,6 +1,6 @@
 import { useCallback, useContext, useMemo } from 'react'
 import classNames from "classnames"
-import { IconButton } from "@mui/material"
+import { Button, IconButton } from "@mui/material"
 import Link from 'next/link'
 
 import AddIcon from '@mui/icons-material/Add';
@@ -21,9 +21,11 @@ const GroupChat = () => {
     return (
         <div className={classNames({ "hidden": chatTab !== "GROUP_CHAT"})}>
             { getGroupsInvitations().length > 0 && <div className="flex justify-end px-4 pt-2">
-                <Link href="/?tab=chat&amp;page=groups-invitations">
-                    <a className="text-red-500 underline hover:text-red-400">
-                        { getGroupsInvitations().length } group invitation{ getGroupsInvitations().length > 1 ? "s" : "" }
+                <Link href="chat?page=groups-invitations">
+                    <a className="">
+                        <Button className="normal-case p-0 text-base text-red-500 underline hover:text-red-400">
+                            { getGroupsInvitations().length } group invitation{ getGroupsInvitations().length > 1 ? "s" : "" }
+                        </Button>
                     </a>
                 </Link>
             </div> }

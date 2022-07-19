@@ -183,7 +183,7 @@ const GroupChatContainer = () => {
                                 { friendshipDate }
                             </Typography>
                         </div> 
-                        { chatDetails.messages.length > 1 ? (
+                        { chatDetails.messages.length > 0 ? (
                             <div className="flex flex-col items-stretch px-4 pt-6 sm:px-8 md:px-6">
                                 {
                                     chatDetails.messages.map((item, index) => {

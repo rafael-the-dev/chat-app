@@ -1,8 +1,6 @@
 import { useRouter } from "next/router"
-import { useCallback, useContext, useMemo } from 'react'
+import { useMemo } from 'react'
 import { Hidden } from "@mui/material"
-
-import { ForwardMessage } from "src/context";
 
 import ForwardMessageDialog from "src/components/forward-message";
 import DirectChat from "./components/DirectChat";
@@ -14,9 +12,6 @@ const Container = () => {
     const router = useRouter();
     const { page } = router.query;
 
-    const { openForwardMessageDialog, setOpenForwardMessageDialog } = useContext(ForwardMessage);
-
-    const closeForwardMessageDialog = useCallback(() => setOpenForwardMessageDialog(false), [ setOpenForwardMessageDialog ])
 
     const directChat = useMemo(() => <DirectChat />, []);
     const groupChat = useMemo(() => <GroupChat />, [])

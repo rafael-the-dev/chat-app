@@ -18,7 +18,7 @@ const FriendshipInvitations = () => {
     }, [ getFriendshipInvitationsList, loggedUser ])
         
     return (
-        invitationsList.length > 1 ? (
+        invitationsList.length > 0 ? (
         <ul 
             className={classNames(classes.container, "", 
             { 'hidden': searchFriendsFilter !== filterOptions.current.invitations },

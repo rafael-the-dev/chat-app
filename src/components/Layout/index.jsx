@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
 import { Alert, AlertTitle, Collapse, LinearProgress } from "@mui/material"
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Hidden } from '@mui/material';
 import classNames from 'classnames'
 import globalStyles from "src/styles/global-styles.module.css"
 
@@ -12,6 +12,7 @@ import Footer from 'src/components/Footer';
 import Feed from "src/components/feed"
 import Loading from "src/components/loading"
 import Post from "src/components/feed/components/post/components/comments/components/dialog"
+import GroupsInvitations from "src/components/chat/components/groups-invitations"
 
 const Container = ({ children }) => {
     const router = useRouter();
@@ -22,7 +23,8 @@ const Container = ({ children }) => {
     const { errorMessage, hasError, isLoading } = useContext(AppContext)
 
     const rootRef = useRef(null);
-    const feed = useMemo(() => <Feed />, [])
+    const feed = useMemo(() => <Feed />, []);
+    const groupInvitations = useMemo(() => <Hidden mdDown><GroupsInvitations /></Hidden>, [])
 
     const isLogged = useMemo(() => (![ '/login', '/signup' ].includes(pathname)) && user !== null, [ pathname, user ])
     const pathnameRef = useRef("");
@@ -81,6 +83,7 @@ const Container = ({ children }) => {
                 ref={rootRef}>
                     { children }
                     { feed }
+                    { page === "groups-invitations" & groupInvitations }
                     { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
             </div>
             { dialog === "posts" && id && <Post /> }

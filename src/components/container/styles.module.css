@@ -4,4 +4,9 @@
     .subRootProfile {
         width: 100% !important;
     }
+
+    .subRootGroupsInvitations {
+        display: flex;
+        width: 100% !important;
+    }
 }

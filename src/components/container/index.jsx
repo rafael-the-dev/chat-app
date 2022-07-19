@@ -14,13 +14,22 @@ const Container = ({ children }) => {
 
         return false;
     };
+
+    const isGroupInvitationsPage = () => {
+        if(page) {
+            return page === "groups-invitations" && pathname === '/chat';
+        }
+
+        return false;
+    };
     
     return (
         <div 
             className={classNames('h-ful sub-root', 
             pathname === "/notifications" ? "dark:bg-stone-900" : "dark:bg-stone-500",
             { 'sub-root--chat': isChatPage() }, 
-            { [classes.subRootProfile]: pathname === '/profile'})}>
+            { [classes.subRootProfile]: pathname === '/profile'},
+            { [classes.subRootGroupsInvitations]: isGroupInvitationsPage()})}>
             { children }
         </div>
     );

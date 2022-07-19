@@ -81,7 +81,7 @@ const Container = () => {
                 variant="contained">
                 { loading ? "Loading..." : "New Notifcations" }
             </Button>
-            { notifications.length > 1 ? (
+            { notifications.length > 0 ? (
                 <ul 
                     className={classNames(classes.list, "pt-6 px-4 mb-6 md:px-1 md:pt-1 md:mb-0")}
                     ref={notificationsContainerRef}>

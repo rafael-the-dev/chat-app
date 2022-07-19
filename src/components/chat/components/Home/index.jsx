@@ -32,7 +32,7 @@ const Home = () => {
 
     const isChatPage = useMemo(() => {
         if(page) {
-            return ([ 'direct-chat', 'group-chat' ].includes(page) && pathname === '/chat');
+            return ([ 'direct-chat', 'group-chat', 'groups-invitations' ].includes(page) && pathname === '/chat');
         }
 
         return false;

@@ -1,0 +1,22 @@
+.invitationsList {
+    max-height: 60vh;
+}
+
+@media screen and (min-width: 600px) {
+    .invitationsList {
+        max-height: 70vh;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .invitationsList {
+        max-height: 80vh;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    .invitationsList {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+    }
+}

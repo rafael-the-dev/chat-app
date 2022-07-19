@@ -20,7 +20,7 @@ const FriendshipsContainer = () => {
     }, [ searchKey, getFriendshipsList, tab ]);
 
     return (
-        filterList?.length > 1 ? (
+        filterList?.length > 0 ? (
             <ul 
                 className={classNames(classes.container, "mt-4 px-5", { 'hidden': tab !== 'FRIENDS' }, { 'sm:flex': tab === 'FRIENDS' },
                 "list-none overflow-y-auto px-5 sm:items-start sm:flex-wrap sm:justify-between md:flex-col md:items-stretch md:flex-nowrap md:justify-start")}>
