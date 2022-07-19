@@ -2,6 +2,8 @@ import { Avatar, Chip, IconButton, Typography } from "@mui/material";
 import { useCallback, useContext, useMemo, useRef } from "react";
 import { AppContext, LoginContext } from "src/context";
 import classNames from 'classnames'
+import Link from "next/link"
+
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import classes from '../styles/card.module.css'
 
@@ -42,9 +44,13 @@ const Container = ({ image, name, username }) => {
                     component="h2">
                     { name }
                 </Typography>
-                <Typography className={classNames("mt-1 text-transition dark:text-slate-500")}>
-                    @{ username }
-                </Typography>
+                <Link href={`profile?username=${username}`}>
+                    <a className="mt-1 text-black text-transition dark:text-slate-500 hover:text-cyan-500">
+                        <Typography className={classNames()}>
+                            @{ username }
+                        </Typography>
+                    </a>
+                </Link>
             </div>
             {
                 hasInvitationSent ? (

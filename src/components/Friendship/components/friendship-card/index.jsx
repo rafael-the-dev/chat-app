@@ -3,6 +3,7 @@ import { useCallback, useContext, useId, useMemo, useRef, useState, useTransitio
 import { AppContext } from "src/context/AppContext";
 import classNames from 'classnames'
 import classes from '../styles/card.module.css'
+import Link from "next/link"
 
 import { useRouter } from "next/router"
 
@@ -74,9 +75,13 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                         </IconButton>
                     </div>
                     <div className="flex items-center justify-between mt-1 dark:text-slate-500">
-                        <Typography className={classNames()}>
-                            @{ username }
-                        </Typography>
+                        <Link href={`profile?username=${username}`}>
+                            <a className="text-black hover:text-cyan-500">
+                                <Typography className={classNames()}>
+                                    @{ username }
+                                </Typography>
+                            </a>
+                        </Link>
                     </div>
                 </div>
             </div>

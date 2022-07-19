@@ -3,6 +3,7 @@ import { Collapse } from '@mui/material';
 import { useCallback, useContext, useMemo, useState } from "react";
 import { AppContext } from "src/context/AppContext";
 import classNames from 'classnames'
+import Link from "next/link"
 import classes from '../styles/card.module.css'
 
 import { getDate } from "src/helpers"
@@ -45,9 +46,13 @@ const FriendshipInvitaitonCard = ({ description, ID, datetime, image, sender }) 
                         </Typography>
                     </div>
                     <div className="flex items-center justify-between">
-                        <Typography className={classNames()}>
-                            @{ sender.username }
-                        </Typography>
+                        <Link href={`profile?username=${sender.username}`}>
+                            <a className="text-black hover:text-cyan-500">
+                                <Typography className={classNames()}>
+                                @{ sender.username }
+                                </Typography>
+                            </a>
+                        </Link>
                         <Buttons ID={ID} />
                     </div>
                 </div>

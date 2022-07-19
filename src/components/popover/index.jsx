@@ -1,10 +1,16 @@
-import { useCallback, useContext, useEffect, useMemo, useState } from "react"
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { Popover } from "@mui/material"
+import { useRouter } from "next/router"
+
 import { LoginContext } from "src/context"
 
 const PopoverContainer = ({ children, customClose, id, onClickRef, onCloseRef, paperClassName }) => {
+    const router = useRouter();
+    const { pathname } = router;
+
     const [ anchorEl, setAnchorEl] = useState(null);
-    const { user } = useContext(LoginContext)
+    const { user } = useContext(LoginContext);
+    const currentPath = useRef(null);
     
     const openPopover = Boolean(anchorEl);
     const popoverID = openPopover ? `${id}-popover` : undefined;
@@ -33,7 +39,15 @@ const PopoverContainer = ({ children, customClose, id, onClickRef, onCloseRef, p
         if(!Boolean(user)) {
             setAnchorEl(null);
         }
-    }, [ user ])
+    }, [ user ]);
+
+    useEffect(() => {
+        if(pathname !== currentPath.current) {
+            setAnchorEl(null);
+            return;
+        }
+        currentPath.current = pathname;
+    }, [ pathname ]);
 
     return (
         <Popover

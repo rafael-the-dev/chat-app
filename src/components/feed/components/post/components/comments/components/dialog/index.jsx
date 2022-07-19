@@ -66,7 +66,7 @@ const Container = () => {
                                     comments.map(comment => <Comment { ...comment } key={comment.ID}  onClose={handleClose} postID={ID} />)
                                 }
                             </ul>
-                            ) : <Empty className={classes.emptyMessages} message="There are no messages yet!" />
+                            ) : <Empty className={classes.emptyMessages} message="There are no comments yet!" />
                         }
                     </div>
                     <div className="mt-3">
