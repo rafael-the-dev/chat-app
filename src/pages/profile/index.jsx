@@ -1,6 +1,6 @@
 import { Button, Hidden, IconButton, Typography } from "@mui/material"
 import classNames from "classnames"
-import { useCallback, useContext, useMemo, useRef } from "react"
+import { useContext, useMemo, useRef } from "react"
 import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client"
 import Link from "next/link"
@@ -14,6 +14,7 @@ import { getUserDetails } from "src/helpers/user"
 
 import Container from "src/components/container"
 import Tabs from "src/components/settings-tabs"
+import Empty from "src/components/empty"
 import Loading from "src/components/loading"
 import Avatar from "src/components/avatar";
 import Text from "./components/text"
@@ -89,12 +90,20 @@ const ProfileContainer = () => {
                             </div> }
                         </div>
                     </div>
-                    <ul className={classNames("flex flex-wrap md:justify-between mt-6 w-full")}>
-                        {
-                            details.posts.map(post => <Card key={post.ID} username={username} { ...post } />)
-                        }
-                        { details.posts.length > 4 && details.posts.length % 2 !== 0 && <Card ID="none" />}
-                    </ul>
+                    {
+                        details.posts.length > 1 ? (
+                            <ul className={classNames("flex flex-wrap md:justify-between mt-6 w-full")}>
+                                {
+                                    details.posts.map(post => <Card key={post.ID} username={username} { ...post } />)
+                                }
+                                { details.posts.length > 4 && details.posts.length % 2 !== 0 && <Card ID="none" />}
+                            </ul>
+                        ) : 
+                        <Empty 
+                            className={classes.emptyContainer}
+                            message="There are no posts yet"
+                        />
+                    }
                 </div>
                 <EditDetails 
                     openHandler={openDrawerRef} 

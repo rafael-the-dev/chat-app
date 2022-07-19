@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 import { useCallback, useContext, useMemo } from 'react'
+import classes from "../styles/container.module.css"
+
 import { AppContext, LoginContext } from 'src/context';
 import { FriendshipContext } from 'src/context/FriendshipContext';
 
@@ -26,11 +28,11 @@ const Container = () => {
         return !Boolean(hasUsername);
     }, [ getFriendshipsList, loggedUser ])
 
-    return (
+    return (//
         <ul 
-            className={classNames({ "hidden": searchFriendsFilter !== filterOptions.current.search }, 
+            className={classNames(classes.container, { "hidden": searchFriendsFilter !== filterOptions.current.search }, 
             { "sm:flex": searchFriendsFilter === filterOptions.current.search },
-            "list-none px-5 pt-6 sm:flex-wrap sm:justify-between md:flex-col")}>
+            "list-none overflow-y-auto px-5 pt-4 sm:flex-wrap sm:justify-between md:flex-col md:flex-nowrap md:justify-start")}>
             {
                 filterList?.filter(user => isMyFriend(user.username))
                     .map((item, index) => <FriendCard key={item.username} { ...item } />)

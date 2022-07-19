@@ -1,0 +1,13 @@
+.container {
+    height: 66vh;
+}
+
+.emptyContainer {
+    height: 50vh !important;
+}
+
+@media screen and (min-width: 900px) {
+    .container {
+        height: 81vh;
+    }
+}
