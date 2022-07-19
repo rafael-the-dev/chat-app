@@ -6,11 +6,12 @@ import { useMutation } from "@apollo/client"
 import classes from "./styles.module.css"
 
 import { CREATE_NEW_GROUP } from "src/graphql/mutations"
+import { GET_GROUPS } from "src/graphql/queries"
 import { ChatContext } from "src/context"
 
 const CreateGroupModal = () => {
     const { openCreateGroupDialog, setOpenCreateGroupDialog } = useContext(ChatContext);
-    const createGroupMutation = useMutation(CREATE_NEW_GROUP);
+    const createGroupMutation = useMutation(CREATE_NEW_GROUP, { refetchQueries: [ GET_GROUPS ]});
 
     const [ groupName, setGroupName ] = useState("");
     const groupNameRef = useRef("");
@@ -123,7 +124,7 @@ const CreateGroupModal = () => {
                             disabled={!Boolean(groupName)}
                             onClick={createGroup}
                         >
-                            Send
+                            Create
                         </Button>
                     </div>
                 </form>

@@ -6,6 +6,7 @@ import { Hidden, IconButton, Typography } from "@mui/material"
 import { useMutation } from "@apollo/client"
 import moment from 'moment'
 import classNames from 'classnames'
+import classes from "./styles.module.css"
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
@@ -15,6 +16,7 @@ import { useGroupChatQuery } from "src/hooks"
 
 import { READ_GROUP_MESSAGE, SEND_GROUP_MESSAGE } from "src/graphql/mutations"
 
+import Empty from "src/components/empty"
 import MessageCard from '../message-card'
 import InviteUserButton from "./components/InviteUser"
 import Menu from "./components/options"
@@ -180,38 +182,41 @@ const GroupChatContainer = () => {
                             <Typography className="text-center" component="h2">
                                 { friendshipDate }
                             </Typography>
-                        </div>
-                        <div className="flex flex-col items-stretch px-4 pt-6 sm:px-8 md:px-6">
-                            {
-                                chatDetails.messages.map((item, index) => {
-                                    if(isDateChanged(item.createdAt)) {
+                        </div> 
+                        { chatDetails.messages.length > 1 ? (
+                            <div className="flex flex-col items-stretch px-4 pt-6 sm:px-8 md:px-6">
+                                {
+                                    chatDetails.messages.map((item, index) => {
+                                        if(isDateChanged(item.createdAt)) {
+                                            return (
+                                                <div className="flex flex-col items-stretch" key={item.ID}>
+                                                    <ChatDate createdAt={item.createdAt} />
+                                                    <MessageCard 
+                                                        { ...item } 
+                                                        chatIDRef={chatIDRef} 
+                                                        isDateChanged
+                                                        message={item} 
+                                                        messages={chatDetails.messages}
+                                                        messageIndex={index}
+                                                    />
+                                                </div>
+                                            );
+                                        }
                                         return (
-                                            <div className="flex flex-col items-stretch" key={item.ID}>
-                                                <ChatDate createdAt={item.createdAt} />
-                                                <MessageCard 
-                                                    { ...item } 
-                                                    chatIDRef={chatIDRef} 
-                                                    isDateChanged
-                                                    message={item} 
-                                                    messages={chatDetails.messages}
-                                                    messageIndex={index}
-                                                />
-                                            </div>
-                                        );
-                                    }
-                                    return (
-                                        <MessageCard 
-                                            { ...item }
-                                            key={item.ID}  
-                                            chatIDRef={chatIDRef} 
-                                            message={item} 
-                                            messages={chatDetails.messages}
-                                            messageIndex={index}
-                                        />
-                                    )
-                                })
-                            }
-                        </div>
+                                            <MessageCard 
+                                                { ...item }
+                                                key={item.ID}  
+                                                chatIDRef={chatIDRef} 
+                                                message={item} 
+                                                messages={chatDetails.messages}
+                                                messageIndex={index}
+                                            />
+                                        )
+                                    })
+                                }
+                            </div>
+                        ) : 
+                        <Empty className={classes.emptyContainer} message="There are no messages yet" />}
                     </div>
                     { textfieldContainer }
                 </main>

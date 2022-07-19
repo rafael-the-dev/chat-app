@@ -6,6 +6,7 @@ import { Hidden, IconButton, Typography } from "@mui/material"
 import { useMutation } from "@apollo/client"
 import moment from 'moment'
 import classNames from 'classnames'
+import classes from "./styles.module.css"
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
@@ -15,6 +16,7 @@ import { useDirectChatQuery, useUserQuery } from "src/hooks"
 
 import { READ_DIRECT_MESSAGE, SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
 
+import Empty from "src/components/empty"
 import ChatDate from "../chat-date"
 import MessageCard from '../message-card'
 import Sidebar from "./components/sidebar"
@@ -180,41 +182,43 @@ const DirectChatContainer = () => {
                                 Friends since<br />{ friendshipDate }
                             </Typography>
                         </div>
-                        <div className="flex flex-col items-stretch px-4 sm:px-8 pt-6">
-                            {
-                                chatDetails.messages.map((item, index) => {
-                                    if(isDateChanged(item.createdAt)) {
+                        { chatDetails.messages.length > 1 ? (
+                            <div className="flex flex-col items-stretch px-4 sm:px-8 pt-6">
+                                {
+                                    chatDetails.messages.map((item, index) => {
+                                        if(isDateChanged(item.createdAt)) {
+                                            return (
+                                                <div className="flex flex-col items-stretch" key={item.ID}>
+                                                    <ChatDate createdAt={item.createdAt} />
+                                                    <MessageCard 
+                                                        { ...item } 
+                                                        chatIDRef={chatIDRef} 
+                                                        isDirectChat 
+                                                        isDateChanged
+                                                        dest={dest} 
+                                                        message={item} 
+                                                        messages={chatDetails.messages}
+                                                        messageIndex={index}
+                                                    />
+                                                </div>
+                                            );
+                                        }
                                         return (
-                                            <div className="flex flex-col items-stretch" key={item.ID}>
-                                                <ChatDate createdAt={item.createdAt} />
-                                                <MessageCard 
-                                                    { ...item } 
-                                                    chatIDRef={chatIDRef} 
-                                                    isDirectChat 
-                                                    isDateChanged
-                                                    dest={dest} 
-                                                    message={item} 
-                                                    messages={chatDetails.messages}
-                                                    messageIndex={index}
-                                                />
-                                            </div>
-                                        );
-                                    }
-                                    return (
-                                        <MessageCard 
-                                            key={item.ID} 
-                                            { ...item } 
-                                            chatIDRef={chatIDRef} 
-                                            isDirectChat 
-                                            dest={dest} 
-                                            message={item} 
-                                            messages={chatDetails.messages}
-                                            messageIndex={index}
-                                        />
-                                    )
-                                })
-                            }
-                        </div>
+                                            <MessageCard 
+                                                key={item.ID} 
+                                                { ...item } 
+                                                chatIDRef={chatIDRef} 
+                                                isDirectChat 
+                                                dest={dest} 
+                                                message={item} 
+                                                messages={chatDetails.messages}
+                                                messageIndex={index}
+                                            />
+                                        )
+                                    })
+                                }
+                            </div>
+                        ) : <Empty className={classes.emptyContainer} message="There are no messages yet" />}
                     </div>
                     { textfieldContainer }
                 </main>

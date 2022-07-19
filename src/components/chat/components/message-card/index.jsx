@@ -66,12 +66,15 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
         }
 
         const nextMessageSender = messages[messageIndex + 1].sender;
+        const currentMessageDay = new Date(parseInt(createdAt)).getDate();
+        const nextMessageDay = new Date(parseInt(messages[messageIndex + 1].createdAt)).getDate();
 
         if(currentMessageSender === lastMessageSender && currentMessageSender === nextMessageSender) {
-            const currentMessageDay = new Date(parseInt(createdAt)).getDate();
-            const nextMessageDay = new Date(parseInt(messages[messageIndex + 1].createdAt)).getDate();
-
             return nextMessageDay === currentMessageDay ? "EQUAL_TO_BOTH" : "EQUAL_TO_LAST";
+        }
+
+        if(currentMessageSender === lastMessageSender) {
+            return nextMessageDay === currentMessageDay ? "EQUAL_TO_LAST" : "NORMAL";
         }
 
 
