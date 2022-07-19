@@ -51,8 +51,8 @@ const Footer = () => {
             <Link href="notifications">
                 <Badge 
                     badgeContent={unReadNotificationsSize} 
-                    classes={{ badge: classNames("text-slate-100",  pathname === "notifications" ? "bg-cyan-500" : "bg-red-500" ) }}>
-                    <NotificationsIcon className={classNames("text-3xl", getClasses(tab === "/notifications"))} />
+                    classes={{ badge: classNames("text-slate-100",  pathname === "/notifications" ? "bg-cyan-500" : "bg-red-500" ) }}>
+                    <NotificationsIcon className={classNames("text-3xl", getClasses(pathname === "/notifications"))} />
                 </Badge>
             </Link>
             <Link href="settings">

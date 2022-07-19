@@ -8,6 +8,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { AppContext } from "src/context"
 
 import Card from "../post-card"
+import Empty from "src/components/empty"
 
 const Container = () => {
     const { getNotifications, hasNewNotifications } = useContext(AppContext);
@@ -64,13 +65,16 @@ const Container = () => {
                 variant="contained">
                 { loading ? "Loading..." : "New Notifcations" }
             </Button>
-            <ul 
-                className={classNames(classes.list, "pt-6 px-4 mb-6 md:px-1 md:pt-1 md:mb-0")}
-                ref={notificationsContainerRef}>
-                {
-                    notifications.map((item, index) => <Card key={index} { ...item} />)
-                }
-            </ul>
+            { notifications.length > 1 ? (
+                <ul 
+                    className={classNames(classes.list, "pt-6 px-4 mb-6 md:px-1 md:pt-1 md:mb-0")}
+                    ref={notificationsContainerRef}>
+                    {
+                        notifications.map((item, index) => <Card key={item.ID} { ...item} />)
+                    }
+                </ul> ) :
+                <Empty message="There are no notifcations yet" />
+            }
         </div>
     );
 };

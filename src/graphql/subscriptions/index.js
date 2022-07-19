@@ -141,6 +141,7 @@ export const NOTIFICATION_SUBSCRIPTION = gql`
             checked
             createdAt
             commentId
+            ID
             replyId
             type
             post {
