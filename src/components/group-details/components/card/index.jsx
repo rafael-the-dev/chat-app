@@ -1,9 +1,12 @@
-import { Avatar, IconButton, Typography } from "@mui/material"
+import { IconButton, Typography } from "@mui/material"
 import { useContext, useMemo } from "react"
 import classNames from "classnames"
 import classes from "./styles.module.css"
+import Link from "next/link"
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
+import Avatar from "src/components/avatar"
 
 import { AppContext, LoginContext } from "src/context";
 
@@ -27,21 +30,24 @@ const Card = ({ admin, username }) => {
                 className={classNames("flex justify-between py-2 text-black w-full")}>
                 <div className="flex items-center">
                     <Avatar 
-                        className="text-base"
-                        imgProps={{ loading: "lazy" }}
-                        src={`http://localhost:5000/${userDetails.image}`}
+                        image={userDetails.image}
                     />
                     <div className="flex flex-col grow items-stretch ml-3">
                         <Typography 
-                            className={classNames("overflow-hidden text-ellipsis whitespace-nowrap w-[200px]")} 
+                            className={classNames(classes.text, "overflow-hidden text-ellipsis whitespace-nowrap")} 
                             component="h3">
                             { userDetails.name }
                         </Typography>
-                        <Typography 
-                            className={classNames("text-sm overflow-hidden text-ellipsis whitespace-nowrap w-[200px]")} 
-                            component="p">
-                            { userDetails.username }
-                        </Typography>
+                        <Link href={`profile?username=${userDetails.username}`}>
+                            <a>
+                                <Typography 
+                                    className={classNames(`text-sm overflow-hidden text-ellipsis whitespace-nowrap 
+                                    text-black hover:text-cyan-500`, classes.text)} 
+                                    component="p">
+                                    @{ userDetails.username }
+                                </Typography>
+                            </a>
+                        </Link>
                     </div>
                 </div>
                 <div className="flex items-center">

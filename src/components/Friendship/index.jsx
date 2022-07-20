@@ -1,5 +1,5 @@
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { Avatar, Button, Hidden, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
+import { Button, Hidden, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import Head from 'next/head';
 import classNames from "classnames"
 import { LoginContext } from 'src/context/LoginContext';
@@ -12,9 +12,10 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SearchIcon from '@mui/icons-material/Search';
 import CheckIcon from '@mui/icons-material/Check';
 
-import SearchFriendsContainer from "./components/search-friends"
-import FriendshipContainer from "./components/friendships"
-import Popover from "src/components/popover"
+import SearchFriendsContainer from "./components/search-friends";
+import FriendshipContainer from "./components/friendships";
+import Popover from "src/components/popover";
+import Avatar from "src/components/logged-user-avatar";
 
 const Container = () => {
     const router = useRouter();
@@ -90,11 +91,7 @@ const Container = () => {
                         component="h1">
                         Chat app
                     </Typography>
-                    <Avatar 
-                        className={classNames({ "bg-cyan-500": !Boolean(loggedUser.image) })}
-                        src={loggedUser.image ? `${serverPublicURL.current}/${loggedUser.image}` : ""}>
-                        { loggedUser.image ? "" : getInitialsNameLetters(loggedUser ? loggedUser.name : "" ) }
-                    </Avatar>
+                    <Avatar />
                 </header>
             </Hidden>
             <main>

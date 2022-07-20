@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from "react"
-import { Avatar, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import classNames from "classnames";
 import { useRouter } from 'next/router'
 import Link from "next/link"
@@ -12,7 +12,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 
 import { LoginContext } from "src/context/LoginContext"
-import { AppContext } from "src/context/AppContext"
+import { AppContext } from "src/context/AppContext";
+import Avatar from "src/components/avatar"
 
 library.add(faCheckDouble);
 
@@ -46,9 +47,7 @@ const MessageCard = ({ image, ID, messages, name }) => {
                     className={classNames("flex items-center px-5 py-2 text-black w-full")}
                     onClick={clickHandler}>
                     <Avatar 
-                        className="text-base"
-                        imgProps={{ loading: "lazy" }}
-                        src={`http://localhost:5000/${image}`}
+                        image={image}
                     />
                     <div className="flex flex-col grow items-stretch ml-3">
                         <Typography 

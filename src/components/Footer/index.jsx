@@ -19,7 +19,6 @@ import Link from "./components/link"
 const Footer = () => {
     const router = useRouter();
     const { pathname } = router;
-    const { tab } = router.query;
 
     const { getNotifications } = useContext(AppContext);
 

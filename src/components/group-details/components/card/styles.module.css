@@ -6,3 +6,13 @@
     background-color: #e2e7e9;
     cursor: pointer;
 }
+
+.text {
+    width: 200px;
+}
+
+@media screen and (min-width: 600px) {
+    .text {
+        width: 230px;
+    }
+}

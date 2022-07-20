@@ -1,16 +1,16 @@
-import { Avatar, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import { useRef } from "react"
 import classNames from "classnames";
 import { useContext } from 'react';
-import { AppContext, LoginContext } from 'src/context';
+import { LoginContext } from 'src/context';
 
 import LogoutIcon from '@mui/icons-material/Logout';
 
+import Avatar from "src/components/avatar"
 import Popover from "src/components/popover"
 
 const UserAvatar = () => {
     const { logout, loggedUser } = useContext(LoginContext);
-    const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext);
 
     const onClickRef = useRef(null);
 
@@ -18,10 +18,9 @@ const UserAvatar = () => {
         <div>
             <Avatar
                 className={classNames({ "bg-cyan-500": !Boolean(loggedUser.image) })}
-                src={`${serverPublicURL.current}/${loggedUser.image}`}
-                onClick={e => onClickRef.current?.(e)}>
-                { getInitialsNameLetters(loggedUser.name) }
-            </Avatar>
+                image={loggedUser.image}
+                onClick={e => onClickRef.current?.(e)} 
+            />
             <Popover
                 id={`${loggedUser.username}-logged-user`}
                 onClickRef={onClickRef}

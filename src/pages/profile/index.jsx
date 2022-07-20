@@ -29,7 +29,6 @@ const ProfileContainer = () => {
     const { getUsersList } = useContext(AppContext)
     const { loggedUser } = useContext(LoginContext);
     const openDrawerRef = useRef(null);
-    const closeDrawerRef = useRef(null);
 
     const { data, error, loading } = useQuery(GET_USER_DETAILS, { variables: { username: username ? username : loggedUser.username }});
     

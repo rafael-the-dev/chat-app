@@ -1,18 +1,15 @@
-import { Avatar, IconButton, Typography } from "@mui/material"
-import { useContext, useMemo } from "react"
+import { IconButton, Typography } from "@mui/material"
+import { useMemo } from "react"
 import classNames from "classnames"
 import classes from "./styles.module.css"
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import { AppContext } from "src/context";
-
 import Card from "./components/card"
-import Drawer from "src/components/drawer"
+import Drawer from "src/components/drawer";
+import Avatar from "src/components/avatar";
 
 const GroupDetails = ({ closeHandler, group, openHandler }) => {
-    const { serverPublicURL } = useContext(AppContext)
-
     const details = useMemo(() => {
         if(Boolean(group)) return group;
 
@@ -34,9 +31,7 @@ const GroupDetails = ({ closeHandler, group, openHandler }) => {
                 </div>
                 <Avatar 
                     alt={details.name}
-                    className=""
-                    imgProps={{ loading: "lazy" }}
-                    src={details.image ? `${serverPublicURL.current}/${details.image}` : ""}
+                    image={details.image}
                 />
                 <Typography 
                     className="font-bold text-xl"

@@ -1,13 +1,12 @@
 import Avatar from "src/components/avatar"
 import { useCallback, useContext, useRef } from "react"
 import classNames from "classnames"
-import { AppContext, LoginContext } from "src/context";
+import { LoginContext } from "src/context";
 
 import UserDetails from "src/components/chat/components/user-details"
 
 const AvatarContainer = ({ destinatary, isDirectChat, sender }) => {
     const { loggedUser } = useContext(LoginContext);
-    const { serverPublicURL } = useContext(AppContext);
 
     const clickHandler = useRef(null);
 

@@ -1,20 +1,17 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react'
-import { Avatar, Button, Hidden, Typography } from '@mui/material'
+import { Button, Hidden, Typography } from '@mui/material'
 import { useRouter } from "next/router"
 import Head from 'next/head';
 import classNames from "classnames"
 import classes from "./styles.module.css"
 
-import { LoginContext } from 'src/context/LoginContext';
-import { AppContext } from 'src/context/AppContext';
 import { ChatContext } from 'src/context';
 
-import DirectChatsHome from "../DirectChatHome"
-import GroupChat from "../group-chat-home"
+import DirectChatsHome from "../DirectChatHome";
+import GroupChat from "../group-chat-home";
+import Avatar from "src/components/logged-user-avatar"
 
 const Home = () => {
-    const { user } = useContext(LoginContext)
-    const { getInitialsNameLetters, serverPublicURL } = useContext(AppContext)
     const { chatTab, setChatTab } = useContext(ChatContext)
 
     const router = useRouter();
@@ -66,11 +63,7 @@ const Home = () => {
                         component="h1">
                         Chat app
                     </Typography>
-                    <Avatar
-                        className={classNames({ "bg-cyan-500": !Boolean(user?.image) })}
-                        src={user?.image ? `${serverPublicURL.current}/${user.image}` : ""}>
-                        { user?.image ? "" : getInitialsNameLetters(user ? user.name : "" ) }
-                    </Avatar>
+                    <Avatar />
                 </header>
             </Hidden>
             <div className={classNames('h-full md:relative', { [classes.container]: isChatPage })}>

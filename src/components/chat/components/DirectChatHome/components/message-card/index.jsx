@@ -1,18 +1,19 @@
-import { useCallback, useContext, useMemo } from "react"
-import { Avatar, Badge, Typography } from "@mui/material";
+import { useCallback, useContext, useMemo } from "react";
+import { Badge, Typography } from "@mui/material";
 import classNames from "classnames";
-import { useRouter } from 'next/router'
-import Link from "next/link"
+import { useRouter } from 'next/router';
+import Link from "next/link";
 
-import { getDate } from "src/helpers"
+import { getDate } from "src/helpers";
 
-import classes from './styles.module.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classes from './styles.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
+import { faCheckDouble } from '@fortawesome/free-solid-svg-icons';
 
-import { LoginContext } from "src/context/LoginContext"
-import { AppContext } from "src/context/AppContext"
+import { LoginContext } from "src/context/LoginContext";
+import { AppContext } from "src/context/AppContext";
+import Avatar from "src/components/avatar";
 
 library.add(faCheckDouble);
 
@@ -60,9 +61,7 @@ const MessageCard = ({ image, ID, messages, users }) => {
                         variant="dot"
                     >
                         <Avatar 
-                            className="text-base"
-                            imgProps={{ loading: "lazy" }}
-                            src={`http://localhost:5000/${destinatary.image}`}
+                            image={destinatary.image}
                         />
                     </Badge>
                     <div className="flex flex-col grow items-stretch ml-3">
