@@ -1,13 +1,10 @@
 .card {
     border-bottom: 1px solid #bcb8b866;
+    height: fit-content;
 }
 
 .iconRotate {
     transform: rotate(180deg);
-}
-
-.avatar {
-    
 }
 
 .friendAvatar {
@@ -15,10 +12,24 @@
     width: 50px;
 }
 
+.name {
+    width: 200px;
+}
+
 @media screen and (min-width: 600px) {
     .card {
         border: 1px solid #bcb8b866;
         width: 48%;
+    }
+
+    .name {
+        width: 108px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .name {
+        width: 190px;
     }
 }
 
@@ -27,5 +38,15 @@
         border: none;
         border-bottom: 1px solid #bcb8b866;
         width: 100%;
+    }
+
+    .nameHome {
+        width: 160px !important;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .name {
+        width: 235px;
     }
 }

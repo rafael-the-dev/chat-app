@@ -7,7 +7,7 @@ import { getUserDetails } from "src/helpers/user"
 import { getURL } from "src/helpers"
 
 
-const Container = ({ className, image, name, onClick, username, size }) => {
+const Container = ({ className, image, name, onClick, username, variant }) => {
     const { getUsersList } = useContext(AppContext);
     
     const details = useMemo(() => {
@@ -28,6 +28,7 @@ const Container = ({ className, image, name, onClick, username, size }) => {
             imgProps={{ loading: "lazy" }}
             onClick={onClick}
             src={getURL({ url: details.image })} 
+            variant={variant}
         />
     );
 };

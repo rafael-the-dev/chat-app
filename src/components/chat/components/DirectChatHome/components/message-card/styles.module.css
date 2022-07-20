@@ -6,3 +6,25 @@
     background-color: #e2e7e9;
     cursor: pointer;
 }
+
+.name {
+    width: 165px;
+}
+
+@media screen and (min-width: 600px) {
+    .name {
+        width: 300px;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .name {
+        width: 160px;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .name {
+        width: 210px;
+    }
+}

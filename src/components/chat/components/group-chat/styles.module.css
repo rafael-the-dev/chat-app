@@ -5,3 +5,19 @@
 .emptyContainer {
     height: 62vh;
 }
+
+.names {
+    width: 200px;
+}
+
+@media screen and (min-width: 600px) {
+    .names {
+        width: 300px;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .names {
+        width: 400px;
+    }
+}

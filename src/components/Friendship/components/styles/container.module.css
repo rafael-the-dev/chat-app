@@ -1,5 +1,5 @@
 .container {
-    height: 66vh;
+    max-height: 66vh;
 }
 
 .emptyContainer {
@@ -8,6 +8,6 @@
 
 @media screen and (min-width: 900px) {
     .container {
-        height: 81vh;
+        max-height: 81vh;
     }
 }

@@ -12,14 +12,12 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 
 import { LoginContext } from "src/context/LoginContext"
-import { AppContext } from "src/context/AppContext";
 import Avatar from "src/components/avatar"
 
 library.add(faCheckDouble);
 
 const MessageCard = ({ image, ID, messages, name }) => {
-    const { loggedUser } = useContext(LoginContext)
-    const { getUsersList } = useContext(AppContext)
+    const { loggedUser } = useContext(LoginContext);
 
     const countUnreadMessages = useMemo(() => {
         return messages.reduce((previousValue, currentMessage) => {
@@ -34,18 +32,11 @@ const MessageCard = ({ image, ID, messages, name }) => {
         return messages.length > 1 ? getDate(new Date(parseInt(messages[messages.length - 1].createdAt))) : "";
     }, [ messages ]);
 
-    const router = useRouter();
-    const clickHandler = useCallback(() => {
-    }, [  ])
-
-    //if(messages.length === 0) return <></>;
-
     return (
         <li className={classNames(classes.card, "w-full last:border-0 dark:hover:bg-stone-600")}>
             <Link href={`chat?tab=chat&page=group-chat&id=${ID}`}>
                 <a 
-                    className={classNames("flex items-center px-5 py-2 text-black w-full")}
-                    onClick={clickHandler}>
+                    className={classNames("flex items-center px-5 py-2 text-black w-full")}>
                     <Avatar 
                         image={image}
                     />
@@ -53,7 +44,7 @@ const MessageCard = ({ image, ID, messages, name }) => {
                         <Typography 
                             className={classNames("flex items-center justify-between ")} 
                             component="h2">
-                            <span className="font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-400">
+                            <span className={classNames(classes.name, "font-semibold overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-400")}>
                                 { name }
                             </span>
                             <span className="text-xs dark:text-slate-500">
@@ -61,7 +52,7 @@ const MessageCard = ({ image, ID, messages, name }) => {
                             </span>
                         </Typography>
                         { messages.length > 1 && <div className="flex items-center justify-between mt-1">
-                            <Typography className={classNames("flex items-center max-w-[220px] overflow-hidden text-sm text-ellipsis whitespace-nowrap dark:text-slate-500")}>
+                            <Typography className={classNames(classes.name, "flex items-center overflow-hidden text-sm text-ellipsis whitespace-nowrap dark:text-slate-500")}>
                                 <FontAwesomeIcon 
                                     className={classNames("mr-2", messages[messages.length - 1].isRead ? "text-cyan-500" : "text-slate-300")}
                                     icon="fa-solid fa-check-double" 

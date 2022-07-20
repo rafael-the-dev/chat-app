@@ -1,6 +1,6 @@
 
 .postsContainer {
-    height: 83vh;
+    max-height: 80vh;
     scroll-behavior: smooth;
     transition: margin ease-in 1s;
 }
@@ -13,7 +13,7 @@
 
 @media screen and (min-width: 900px) {
     .postsContainer {
-        height: 80vh;
+        max-height: 80vh;
     }
 
     .postsContainerOthers {
@@ -38,5 +38,11 @@
     .postsContainerOthers {
         padding-left: 7% !important;
         padding-right: 7% !important;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .postsContainer {
+        max-height: 84vh;
     }
 }

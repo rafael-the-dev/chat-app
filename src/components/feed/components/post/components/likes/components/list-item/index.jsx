@@ -30,6 +30,7 @@ const ListItemContainer = ({ username }) => {
                     />
                     <ListItemText 
                         className="ml-2"
+                        classes={{ primary: classNames(classes.name, "overflow-hidden text-ellipsis whitespace-nowrap")}}
                         primary={ details.username === loggedUser.username ? "You" : details.username } 
                     />
                 </a>

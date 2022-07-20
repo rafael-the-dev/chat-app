@@ -1,6 +1,8 @@
 import { AvatarGroup, Hidden, Typography } from "@mui/material"
 import { useId, useMemo, useRef } from "react"
-import Link from "next/link"
+import Link from "next/link";
+import classNames from "classnames"
+import classes from "./styles.module.css"
 
 import Avatar from "./components/avatar"
 import OthersLikedPost from "./components/likes-dialog"
@@ -38,7 +40,8 @@ const Likes = ({ likes }) => {
                     <Link href={`profile?username=${randomUser.username}`}>
                         <a>
                             <Typography 
-                                className="font-medium text-black hover:text-red-500 text-transition dark:text-zinc-400"
+                                className={classNames(classes.name, `font-medium text-black hover:text-red-500 
+                                text-transition dark:text-zinc-400 overflow-hidden text-ellipsis whitespace-nowrap`)}
                                 component="p">
                                 { randomUser.username }
                             </Typography>

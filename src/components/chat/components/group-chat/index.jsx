@@ -160,12 +160,12 @@ const GroupChatContainer = () => {
                         </Hidden>
                         <div className="flex flex-col">
                             <Typography 
-                                className="text-slate-100" 
+                                className={classNames(classes.names, "text-slate-100 text-ellipsis overflow-hidden whitespace-nowrap")} 
                                 component="h1">
                                 { chatDetails.name }
                             </Typography>
                             <Typography 
-                                className="mt-1 text-slate-300 text-sm text-ellipsis overflow-hidden whitespace-nowrap w-[200px]" 
+                                className={classNames(classes.names, "mt-1 text-slate-300 text-sm text-ellipsis overflow-hidden whitespace-nowrap")} 
                                 component="p">
                                 { chatDetails.members.filter(member => loggedUser.username !== member).join(", ") }
                             </Typography>

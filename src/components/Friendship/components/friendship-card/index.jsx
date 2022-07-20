@@ -62,7 +62,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                 <div className="flex flex-col grow ml-3">
                     <div className="flex justify-between">
                         <Typography 
-                            className={classNames("font-semibold max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-300")} 
+                            className={classNames(classes.name, "font-semibold overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-300")} 
                             component="h2">
                             { name }
                         </Typography>
@@ -73,7 +73,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                     <div className="flex items-center justify-between mt-1 dark:text-slate-500">
                         <Link href={`profile?username=${username}`}>
                             <a className="text-black hover:text-cyan-500">
-                                <Typography className={classNames()}>
+                                <Typography className={classNames(classes.name, "overflow-hidden text-ellipsis whitespace-nowrap")}>
                                     @{ username }
                                 </Typography>
                             </a>
