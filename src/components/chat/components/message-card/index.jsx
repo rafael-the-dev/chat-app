@@ -177,7 +177,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
                             <MoreHorizIcon />
                         </IconButton>
                         { reply !== null && <RepliedMessage { ...reply } /> }
-                        { image && (
+                        { image && !isDeleted && (
                             <div className="relative w-full">
                                 <CardMedia
                                     alt={message.text}

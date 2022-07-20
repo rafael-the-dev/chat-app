@@ -37,7 +37,7 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
         router.push(`chat?page=direct-chat&dest=${username}`)
     }, [ router, username ]);
 
-    const inputMemo = useMemo(() => <Input closeInput={toggleExpanded(false)} />, [ toggleExpanded ])
+    const inputMemo = useMemo(() => <Input closeInput={toggleExpanded(false)} username={username} />, [ toggleExpanded, username ])
     const deleteFriendshipListItem = useMemo(() => <DeleteFriendshipListItem username={username} />, [ username ])
 
     return (

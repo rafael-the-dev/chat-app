@@ -129,9 +129,11 @@ const TextfieldContainer = ({ sendHandler }) => {
 
     const submitHandler = useCallback(event => {
         event.preventDefault();
+
+        deleteImage();
         sendHandler({ inputRef, imageRef })
         setCanISubmit(false)
-    }, [ sendHandler ]);
+    }, [ deleteImage, sendHandler ]);
 
     const hasRepliedMessage = useMemo(() => Object.keys(repliedMessage).length > 0, [ repliedMessage ]);
 

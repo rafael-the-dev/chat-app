@@ -21,7 +21,7 @@ const getToken = () => {
 };
 
 const httpLink = new HttpLink({
-  uri: "https://swift-exuberant-sort.glitch.me/graphql"//'http://localhost:5000/graphql',
+  uri: 'http://localhost:5000/graphql',
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
@@ -40,7 +40,7 @@ const wsLink =
     typeof window !== "undefined"
         ? new GraphQLWsLink(
                 createClient({
-                    url: "wss://swift-exuberant-sort.glitch.me/graphql", 
+                    url: "ws://localhost:5000/graphql", 
                     connectionParams: {
                       authToken: getToken(),
                       authorization: getToken(),
@@ -60,12 +60,12 @@ const wsLink =
       );
     },
     wsLink,
-    concat(authMiddleware, createUploadLink({ uri: "https://swift-exuberant-sort.glitch.me/graphql" })),
+    concat(authMiddleware, createUploadLink({ uri: "http://localhost:5000/graphql" })),
   ) : null;
 
 const client = new ApolloClient({
   link: splitLink,
-  uri: "https://swift-exuberant-sort.glitch.me/graphql",//"http://localhost:5000/graphql",
+  uri: "http://localhost:5000/graphql",
   cache: new InMemoryCache()
 });
 
