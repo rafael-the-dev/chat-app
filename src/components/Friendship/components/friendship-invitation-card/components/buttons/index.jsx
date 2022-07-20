@@ -23,7 +23,7 @@ const AcceptButton = ({ ID }) => {
                 id: ID
             },
             onError(err) {
-                console.log(err);
+                console.error(err);
                 setLoading({ acceptButton: false, rejectButton: false })
             }
         });
@@ -38,7 +38,7 @@ const AcceptButton = ({ ID }) => {
                 id: ID
             },
             onError(err) {
-                console.log(err);
+                console.error(err);
                 setLoading({ acceptButton: false, rejectButton: false });
             }
         });

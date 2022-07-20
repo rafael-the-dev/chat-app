@@ -45,7 +45,7 @@ export const AppContextProvider = ({ children }) => {
     }, []);
 
     const errorHandler = useCallback((err) => {
-        console.log(err)
+        console.error(err)
         err.graphQLErrors.forEach(error => {
             switch(error.extensions.code) {
                 case "BAD_USER_INPUT": {

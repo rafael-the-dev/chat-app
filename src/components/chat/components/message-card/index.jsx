@@ -1,7 +1,7 @@
 import { IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material'
 import classNames from 'classnames';
 import Image from "next/image"
-import { useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { useCallback, useContext, useMemo, useRef } from 'react';
 import { AppContext } from 'src/context/AppContext';
 import { LoginContext } from 'src/context/LoginContext';
 import { ChatContext, ForwardMessage } from 'src/context';
@@ -17,7 +17,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import RepliedMessage from "../replied-message"
 import { DELETE_DIRECT_MESSAGE, DELETE_GROUP_MESSAGE } from "src/graphql/mutations"
-import { getDate } from "src/helpers"
+import { getDate, getURL } from "src/helpers"
 
 import IsReadCard from "./components/is-read-card"
 import Avatar from "./components/avatar"
@@ -123,7 +123,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
                 onCloseRef.current?.();
             },
             onError(error) {
-                console.log(error)
+                console.error(error)
             }
         })
     }, [ chatIDRef, deleteMutation, dest, ID ])
@@ -140,7 +140,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
                 onCloseRef.current?.();
             },
             onError(error) {
-                console.log(error)
+                console.error(error)
             }
         });
     }, [ chatIDRef, deleteGroupMessageMutation, ID ])
@@ -158,7 +158,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
             <IsReadCard isDeleted={isDeleted} isLoggedUser={isLoggedUser} message={message} isRead={isRead} /> )
     };
 
-    const myLoader = ({ src }) => `${serverPublicURL.current}/${image}`;
+    const myLoader = ({ src }) => getURL({ url: image });
 
     return (
         <article 
@@ -180,11 +180,11 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
                         { image && (
                             <div className="h-[100px] relative w-full">
                                 <Image 
-                                    alt=""
+                                    alt={message}
                                     className="object-contain"
                                     loader={myLoader}
                                     layout="fill"
-                                    src={`${serverPublicURL.current}/${image}`}
+                                    src={getURL({ url: image})}
                                 />
                             </div>
                         )}

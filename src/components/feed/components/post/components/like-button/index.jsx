@@ -21,7 +21,6 @@ const Button = ({ id, likes }) => {
         const result = likes.find(like => like.username === loggedUser.username);
         return Boolean(result)
     }, [ likes, loggedUser ]);
-    //console.log(hasLiked, likes)
 
     const likeIcon = useMemo(() => hasLiked ? <FavoriteIcon className="text-red-500" /> : <FavoriteBorderIcon className="dark:text-zinc-500" />, [ hasLiked ])
 

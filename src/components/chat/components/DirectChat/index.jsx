@@ -61,7 +61,7 @@ const DirectChatContainer = () => {
                 chatID
             },
             onError(error) {
-                console.log(error);
+                console.error(error);
             }
         })
     }, [ readDirectMessageMutation ])
@@ -110,7 +110,7 @@ const DirectChatContainer = () => {
                 setRepliedMessage({});
             },
             onError(err) {
-                console.log(err)
+                console.error(err)
             }
         })
 

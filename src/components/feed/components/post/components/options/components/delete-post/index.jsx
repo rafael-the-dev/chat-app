@@ -24,7 +24,7 @@ const DeletePost = ({ id }) => {
                 setIsLoading(false);
             },
             onError(error) {
-                console.log(error);
+                console.error(error);
                 setIsLoading(false);
             }
         })

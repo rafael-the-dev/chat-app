@@ -12,19 +12,16 @@ const Image = ({ imageRef }) => {
 
     const changeHandler = useCallback(event => {
         const inputFile = event.target.files[0];
-        //console.log(inputFile)
+        
         if(inputFile) {
-           // console.log(avatarRef.current)
             if(avatarRef.current !== null) {
                 const reader = new FileReader();
-                //console.log(inputFile)
     
                 avatarRef.current.firstChild.alt = inputFile.name;
     
                 reader.onload = event => {
                     avatarRef.current.firstChild.src = event.target.result;
                     imageRef.current = inputFile;
-                    //console.log(event.target.result)
                 };
     
                 reader.readAsDataURL(inputFile);
@@ -32,7 +29,7 @@ const Image = ({ imageRef }) => {
             }
         }
     }, [ imageRef ]);
-    //console.log(file)
+    
     const emptyImage = useRef("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREAt16FjI60ZX7mbnNiMTSiGiWXelr3NFehw&usqp=CAU");
 
     const clickHandler = useCallback(() => {

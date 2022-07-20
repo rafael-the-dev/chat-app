@@ -47,7 +47,7 @@ const GroupChatContainer = () => {
                 chatID
             },
             onError(error) {
-                console.log(error);
+                console.error(error);
             }
         })
     }, [ readGroupMessageMutation ]);
@@ -98,7 +98,7 @@ const GroupChatContainer = () => {
                 setRepliedMessage({});
             },
             onError(err) {
-                console.log(err)
+                console.error(err)
             }
         })
 

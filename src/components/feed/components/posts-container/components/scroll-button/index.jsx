@@ -14,7 +14,7 @@ const Button = ({ onClose, onOpen, onClick }) => {
     useEffect(() => {
         onOpen.current = () => setOpen(true);
     }, [ onOpen ]);
-    console.log(open)
+    
     return (
         <IconButton 
             className={classNames({ "hidden": !open }, classes.button, 

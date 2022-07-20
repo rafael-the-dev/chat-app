@@ -77,11 +77,11 @@ const Container = () => {
                     pathnameRef.current = "/login";
                     setIsValidatingToken(true)
                     router.push('/');
-                    setTimeout(onLogin, 6000);
+                    setTimeout(onLogin, 10000);
                 },
                 onError(err) {
                     stopLoading();
-                    console.log(err)
+                    console.error(err)
                     err.graphQLErrors.forEach(error => {
                         if(error.extensions.code === "BAD_USER_INPUT" && error.message === "Username or password Invalid") {
                             alertRef.current.classList.remove("hidden")

@@ -18,7 +18,7 @@ const Button = ({ commentID, id, likes, replyID, smallIcon }) => {
     const dislikeCommentReplyMutation = useMutation(DISLIKE_COMMENT_REPLY);
     const likeCommentMutation = useMutation(LIKE_COMMENT);
     const likeCommentReplyMutation = useMutation(LIKE_COMMENT_REPLY);
-    console.log(likes)
+    
     const [ loading, setLoading ] = useState(false)
 
     const { loggedUser } = useContext(LoginContext)

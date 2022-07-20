@@ -24,7 +24,7 @@ const AcceptButton = ({ groupID, ID }) => {
                 setIsLoading(false);
             },
             onError(error) {
-                console.log(error)
+                console.error(error)
                 setIsLoading(false);
             }
         })

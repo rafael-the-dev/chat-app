@@ -15,12 +15,10 @@ export const LoginContextProvider = ({ children }) => {
     const [ user, setUser ] = useState(null);
     const [ openRefreshTokenDialog, setOpenRefreshTokenDialog ] = useState(false);
     const [ isValidatingToken, setIsValidatingToken ] = useState(true);
-    const [ isPending, startTransition ] = useTransition();
     
     const dialogTimeoutRef = useRef(null);
     const verificationTimeoutRef = useRef(null);
     const currentPathname = useRef(null);
-    const canICheckToken = useRef(true);
 
     const loggedUser = useMemo(() => {
         if(user) return user;
@@ -59,13 +57,13 @@ export const LoginContextProvider = ({ children }) => {
                         const { image, name, username } = data.validateToken;
                         addUser({ image, name, username });
                         router.push("/")
-                        setTimeout(() => setIsValidatingToken(false), 6000);
+                        setTimeout(() => setIsValidatingToken(false), 8000);
                     }
                 },
                 onError(err) {
-                    console.log(err);
+                    console.error(err);
                     router.push("/login");
-                    setTimeout(() => setIsValidatingToken(false), 3000);
+                    setTimeout(() => setIsValidatingToken(false), 4000);
                 }
             });
         }
@@ -119,7 +117,6 @@ export const LoginContextProvider = ({ children }) => {
                 token
             },
             onCompleted(data) {
-                //console.log(data)
                 if(data) {
                     if(dialogTimeoutRef.current !== null) clearTimeout(dialogTimeoutRef.current)
                     if(verificationTimeoutRef.current !== null) clearTimeout(verificationTimeoutRef.current)
@@ -141,7 +138,7 @@ export const LoginContextProvider = ({ children }) => {
                 }
             },
             onError(err) {
-                console.log(err)
+                console.error(err)
             }
         });
     }, [ getToken, revalidateTokenMutation, verifyExpirationTime ])

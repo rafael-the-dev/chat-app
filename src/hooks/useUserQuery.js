@@ -18,7 +18,6 @@ export const useUserQuery = ({ subscribeToMore }) => {
                 updateQuery: (prev, { subscriptionData }) => {
                     if (!subscriptionData.data || !Boolean(user)) return prev;
                     
-                    console.log("more", subscriptionData.data)
                     const { groupsInvitations } = subscriptionData.data.userUpdated;
 
                     return Object.assign({}, prev, {

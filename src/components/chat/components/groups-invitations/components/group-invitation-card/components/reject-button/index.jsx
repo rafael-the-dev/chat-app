@@ -11,8 +11,6 @@ const RejectButton = ({ groupID, ID }) => {
     const rejectGroupInvitationMutation = useMutation(REJECT_GROUP_INVITATION);
     const [ isLoading, setIsLoading ] = useState(false)
 
-    console.log(groupID, ID)
-
     const rejectHandler = useCallback(() => {
         const rejectInvitation = rejectGroupInvitationMutation[0];
         setIsLoading(true);
@@ -26,7 +24,7 @@ const RejectButton = ({ groupID, ID }) => {
                 setIsLoading(false);
             },
             onError(error) {
-                console.log(error)
+                console.error(error)
                 setIsLoading(false);
             }
         })

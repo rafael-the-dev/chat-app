@@ -24,7 +24,7 @@ const DeleteFriendshipListItem = ({ username }) => {
                 setIsLoading(false);
             },
             onError(error) {
-                console.log(error);
+                console.error(error);
                 setIsLoading(false);
             }
         })

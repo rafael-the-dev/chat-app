@@ -58,7 +58,7 @@ const InvitationDialog = ({ name, openDialog, username }) => {
                 setStates(props => ({ ...props, isLoading: false, expanded: false }))
             },
             onError(err) {
-                console.log(err);
+                console.error(err);
                 openAlert(errorAlert)();
                 setStates(props => ({ ...props, isLoading: false, expanded: false }))
             }

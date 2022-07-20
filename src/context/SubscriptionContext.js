@@ -87,7 +87,7 @@ export const SubscriptionContextProvider = ({ children }) => {
         userOldProperties.current = newUserProperties;
         return newUserProperties;
     }, [ getColor, result, userResult ]);
-    console.log(userProperties.notifications)
+    
     const posts = useMemo(() => {
         const postsData = postsResult.data;
 

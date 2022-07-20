@@ -60,11 +60,10 @@ const CreateGroupModal = () => {
             },
             onCompleted(data) {
                 openAlert(successAlert)();
-                console.log(data)
             },
             onError(error) {
                 openAlert(errorAlert)();
-                console.log(error);
+                console.error(error);
             }
         })
     }, [ closeAlert, createGroupMutation, openAlert ])
