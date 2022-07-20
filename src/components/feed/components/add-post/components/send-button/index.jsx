@@ -52,7 +52,7 @@ const SendButton = ({ file, inputRef, onError, onSubmit, onSucess, setButtonValu
 
     return (
         <CustomButton 
-            disabled={(!Boolean(file.image) && !Boolean(value.trim())) || isLoading }
+            disabled={!Boolean(file.image) || isLoading }
             variant="contained"
             type="button"
             className={classNames("border capitalize ml-3 px-8 hover:bg-transparent hover:border-solid hover:text-blue-500 hover:border-blue-500")}

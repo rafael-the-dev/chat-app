@@ -1,10 +1,7 @@
 import { Collapse, IconButton } from "@mui/material"
 import Image from "next/image"
-import { useRouter } from "next/router"
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { Typography } from "@mui/material"
+import { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import classNames from "classnames"
-//import Picker from 'emoji-picker-react';
 
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
@@ -21,9 +18,6 @@ const NoSSREmojiPicker = dynamic(() => import("emoji-picker-react"), {
 });
 
 const TextfieldContainer = ({ sendHandler }) => {
-    const router = useRouter();
-    const { page } = router.query;
-    
     const { repliedMessage } = useContext(ChatContext);
 
     const [ expanded, setExpanded ] = useState(false);
@@ -155,6 +149,7 @@ const TextfieldContainer = ({ sendHandler }) => {
                 { optionsButtonMemo }
                 { inputMemo }
                 <input 
+                    accept="image/png, image/jpg, image/jpeg"
                     className="hidden" 
                     ref={fileRef} 
                     type="file" 

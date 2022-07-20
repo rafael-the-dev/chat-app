@@ -39,7 +39,9 @@ const TextfieldContainer = forwardRef(({ file, setInputValue, setTextfieldValue 
 
     useEffect(() => {
         setTextfieldValue.current = () => setProperties({ hasError: false, value: "" });
-    }, [ setTextfieldValue ])
+    }, [ setTextfieldValue ]);
+
+    if(!Boolean(file.image)) return <></>;
 
     return (
         <>
@@ -51,8 +53,8 @@ const TextfieldContainer = forwardRef(({ file, setInputValue, setTextfieldValue 
                 inputRef={ref}
                 multiline
                 onChange={inputChangeHandler}
-                placeholder={Boolean(file.image) ? "Add image's caption" : "what do you want to talk about?" }
-                rows={Boolean(file.image) ? 2 : 5}
+                placeholder={Boolean(file.image) ? "Add description" : "what do you want to talk about?" }
+                rows={2}
                 value={value}
             />
             <div className="flex justify-end mt-2">
