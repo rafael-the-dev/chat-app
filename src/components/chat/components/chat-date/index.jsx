@@ -6,7 +6,7 @@ import classes from "./styles.module.css"
 
 const Container = ({ createdAt }) => {
     return (
-        <div className="border border-solid border-slate-500 dark:dark:border-slate-200 flex justify-center mt-4 mb-8 relative">
+        <div className="border border-solid border-slate-200 dark:dark:border-slate-200 flex justify-center mt-4 mb-8 relative">
             <Typography 
                 className={classNames(classes.date, "absolute font-semibold px-12 dark:bg-stone-600")}
                 >
