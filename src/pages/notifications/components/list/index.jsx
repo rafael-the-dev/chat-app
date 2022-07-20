@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef, useState, useTransition } from "react"
+import { useCallback, useContext, useEffect, useMemo, useRef, useState, useTransition } from "react"
 import { Button } from "@mui/material"
 import classes from "./styles.module.css"
 import classNames from "classnames"
@@ -24,6 +24,15 @@ const Container = () => {
 
     const notificationsContainerRef = useRef(null);
     const isFirstRender = useRef(true);
+
+    const sortedNotifications = useMemo(() => {
+        return [ ...notifications ].sort((a, b) => {
+            const aDate = new Date(parseInt(a.createdAt));
+            const bDate = new Date(parseInt(b.createdAt));
+
+            return bDate - aDate;
+        })
+    }, [ notifications ])
 
     const scrollToTop = useCallback(() => {
         notificationsContainerRef.current?.scrollTo({ behavior: "smooth", top: 0 });
@@ -81,12 +90,12 @@ const Container = () => {
                 variant="contained">
                 { loading ? "Loading..." : "New Notifcations" }
             </Button>
-            { notifications.length > 0 ? (
+            { sortedNotifications.length > 0 ? (
                 <ul 
                     className={classNames(classes.list, "pt-6 px-4 mb-6 md:px-1 md:pt-1 md:mb-0")}
                     ref={notificationsContainerRef}>
                     {
-                        notifications.map((item, index) => <Card key={item.ID} { ...item} />)
+                        sortedNotifications.map((item, index) => <Card key={item.ID} { ...item} />)
                     }
                 </ul> ) :
                 <Empty message="There are no notifcations yet" />

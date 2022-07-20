@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useId, useRef, useState, useTransition } from "react"
+import { useCallback, useContext, useEffect, useId, useMemo, useRef, useState, useTransition } from "react"
 import classNames from "classnames"
 import classes from "./styles.module.css"
 import { Button } from "@mui/material"
@@ -22,6 +22,15 @@ const PostsContainer = ({ pathname }) => {
     const { hasNewPosts, loading } = buttonProperties;
 
     const { getPosts, hasPostUpdate } = useContext(AppContext);
+
+    const sortedPosts = useMemo(() => {
+        return [ ...posts ].sort((a, b) => {
+            const aDate = new Date(parseInt(a.createdAt));
+            const bDate = new Date(parseInt(b.createdAt));
+
+            return bDate - aDate;
+        })
+    }, [ posts ])
 
     const scrollToTop = useCallback(() => {
         postsContainerRef.current?.scrollTo({ behavior: "smooth", top: 0 });
@@ -83,7 +92,7 @@ const PostsContainer = ({ pathname }) => {
                 ref={postsContainerRef}
                 onScroll={scrollHandler}>
                 {
-                    posts.map(post => <Card key={`${id}-${post.ID}`} { ...post } />)
+                    sortedPosts.map(post => <Card key={`${id}-${post.ID}`} { ...post } />)
                 }
             </ul>
             <ScrollButton 
