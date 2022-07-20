@@ -1,6 +1,6 @@
-import { IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material'
+import { CardMedia, IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material'
 import classNames from 'classnames';
-import Image from "next/image"
+//import Image from "next/image"
 import { useCallback, useContext, useMemo, useRef } from 'react';
 import { AppContext } from 'src/context/AppContext';
 import { LoginContext } from 'src/context/LoginContext';
@@ -158,7 +158,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
             <IsReadCard isDeleted={isDeleted} isLoggedUser={isLoggedUser} message={message} isRead={isRead} /> )
     };
     
-    const myLoader = ({ src }) => getURL({ url: image });
+    //const myLoader = ({ src }) => getURL({ url: image });
 
     return (
         <article 
@@ -178,14 +178,21 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
                         </IconButton>
                         { reply !== null && <RepliedMessage { ...reply } /> }
                         { image && (
-                            <div className="h-[100px] relative w-full">
-                                <Image 
+                            <div className="relative w-full">
+                                <CardMedia
+                                    alt={message.text}
+                                    component="img"
+                                    height="194"
+                                    image={getURL({ url: image })}
+                                    loading= "lazy"
+                                    />
+                                {/*<Image 
                                     alt={message.text}
                                     className="object-contain"
                                     loader={myLoader}
                                     layout="fill"
                                     src={getURL({ url: image })}
-                                />
+                                />*/}
                             </div>
                         )}
                         <Typography>
