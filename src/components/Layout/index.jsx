@@ -83,7 +83,7 @@ const Container = ({ children }) => {
                 ref={rootRef}>
                     { children }
                     { feed }
-                    { page === "groups-invitations" & groupInvitations }
+                    { page === "groups-invitations" && groupInvitations }
                     { ![ '/login', '/signup' ].includes(pathname) && <Footer />}
             </div>
             { dialog === "posts" && id && <Post /> }

@@ -15,7 +15,6 @@ export const AppContextProvider = ({ children }) => {
     const [ error, setError ] = useState({ hasError: false, errorMessage: "" });
     const [ openForwardMessageDialog, setOpenForwardMessageDialog ] = useState(false)
     const [ openGroupDetailsDrawer, setOpenGroupDetailsDrawer ] = useState({ group: null, open: false });
-    const groupsListRef = useRef([]);
 
     const startLoading = useCallback(() => setIsLoading(true), [])
     const stopLoading = useCallback(() => setIsLoading(false), [])
