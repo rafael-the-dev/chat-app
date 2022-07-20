@@ -11,8 +11,9 @@ import classes from "./styles.module.css"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextfieldContainer from "../textfield";
 
-import { ChatContext, LoginContext } from "src/context"
-import { useDirectChatQuery, useUserQuery } from "src/hooks"
+import { AppContext, ChatContext, LoginContext } from "src/context"
+import { useDirectChatQuery } from "src/hooks";
+import { getUserDetails } from "src/helpers/user"
 
 import { READ_DIRECT_MESSAGE, SEND_DIRECT_MESSAGE } from "src/graphql/mutations"
 
@@ -28,10 +29,11 @@ const DirectChatContainer = () => {
     const sendDirectMessageMutation = useMutation(SEND_DIRECT_MESSAGE);
     const readDirectMessageMutation = useMutation(READ_DIRECT_MESSAGE);
 
+    const { getUsersList } = useContext(AppContext);
     const { loggedUser } = useContext(LoginContext)
     const { repliedMessage, setRepliedMessage } = useContext(ChatContext);
 
-    const destinataryResult = useUserQuery(dest);
+    //const destinataryResult = useUserQuery({ name: dest });
     const { data } = useDirectChatQuery({ dest, id, loggedUser, users: [ dest, loggedUser.username ] });
 
     const chatIDRef = useRef("");
@@ -39,12 +41,17 @@ const DirectChatContainer = () => {
     const mainRef = useRef(null);
 
     const destinatary = useMemo(() => {
-        if(destinataryResult.data)  {
+        const result = getUserDetails({ list: getUsersList(), username: dest });
+        if(result) {
+            destinataryRef.current = result.username;
+            return result;
+        }
+        /*if(destinataryResult.data)  {
             destinataryRef.current = destinataryResult.data.user.username;
             return destinataryResult.data.user;
-        }
+        }*/
         return {};
-    }, [ destinataryResult ]);
+    }, [ dest, getUsersList ]);
 
     const makeMessagesAsRead = useCallback((chatID) => {
         const readMessage = readDirectMessageMutation[0];
