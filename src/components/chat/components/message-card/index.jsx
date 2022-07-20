@@ -37,7 +37,7 @@ const ReadIcon = ({ isDeleted, isLoggedUser, isRead }) => {
 const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, isDirectChat, isForwarded, isRead, image, 
     message, messages, messageIndex, reply, sender, text }) => {
     const { loggedUser } = useContext(LoginContext)
-    const { getUsersList, serverPublicURL } = useContext(AppContext);
+    const { getUsersList } = useContext(AppContext);
     const { addMessageVariables, setOpenForwardMessageDialog, setForwardDetails } = useContext(ForwardMessage);
     const { setRepliedMessage } = useContext(ChatContext);
 
@@ -157,7 +157,7 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
         return isDirectChat ? <ReadIcon isDeleted={isDeleted} isLoggedUser={isLoggedUser} isRead={isRead}  /> : (
             <IsReadCard isDeleted={isDeleted} isLoggedUser={isLoggedUser} message={message} isRead={isRead} /> )
     };
-
+    
     const myLoader = ({ src }) => getURL({ url: image });
 
     return (
@@ -180,11 +180,11 @@ const Container = ({ createdAt, chatIDRef, dest, ID, isDeleted, isDateChanged, i
                         { image && (
                             <div className="h-[100px] relative w-full">
                                 <Image 
-                                    alt={message}
+                                    alt={message.text}
                                     className="object-contain"
                                     loader={myLoader}
                                     layout="fill"
-                                    src={getURL({ url: image})}
+                                    src={getURL({ url: image })}
                                 />
                             </div>
                         )}

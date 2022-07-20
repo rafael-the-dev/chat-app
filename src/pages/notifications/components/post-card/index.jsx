@@ -48,13 +48,13 @@ const Card = (props) => {
                         <Typography
                             component="p"
                             className={classes.text}>
-                            { post.likes.length } likes
+                            { post.likes.length } like{ post.likes.length > 1 ? "s" : ""}
                         </Typography>
                         <CircleIcon className={classNames(classes.circle, "mx-3")} />
                         <Typography
                             component="p"
                             className={classes.text}>
-                            { post.comments.length } likes
+                            { post.comments.length } comment{ post.comments.length > 1 ? "s" : ""}
                         </Typography>
                     </div>
                     <Typography

@@ -4,11 +4,18 @@
 }
 
 .dialogList {
-    height: 350px;
+    height: 230px;
 }
 
 .emptyMessages {
     height: 100% !important;
+}
+
+
+@media screen and (min-width: 600px) {
+    .dialogList {
+        height: 350px;
+    }
 }
 
 @media screen and (min-width: 900px) {
