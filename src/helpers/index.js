@@ -54,7 +54,7 @@ export const getInitialsNameLetters = name => {
 };
 
 export const getURL = ({ url }) => {
-  const publicUrl = "https://swift-exuberant-sort.glitch.me";//"http://localhost:5000";
+  const publicUrl = "https://material-piquant-opinion.glitch.me";//"http://localhost:5000";
 
   if(Boolean(url) && (url.startsWith("https://") || url.startsWith("http://"))) return url;
 
