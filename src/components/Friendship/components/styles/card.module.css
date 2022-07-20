@@ -6,6 +6,15 @@
     transform: rotate(180deg);
 }
 
+.avatar {
+    
+}
+
+.friendAvatar {
+    height: 50px;
+    width: 50px;
+}
+
 @media screen and (min-width: 600px) {
     .card {
         border: 1px solid #bcb8b866;

@@ -1,4 +1,4 @@
-import { Avatar } from "@mui/material"
+import Avatar from "src/components/avatar"
 import { useCallback, useContext, useRef } from "react"
 import classNames from "classnames"
 import { AppContext, LoginContext } from "src/context";
@@ -23,7 +23,7 @@ const AvatarContainer = ({ destinatary, isDirectChat, sender }) => {
             <Avatar 
                 className={classNames("mb-4 hover:cursor-pointer", { "hidden": loggedUser.username === sender })}
                 onClick={openPopover}
-                src={`${serverPublicURL.current}/${destinatary.image}`}
+                image={destinatary.image}
             />
             <UserDetails clickHandler={clickHandler} username={destinatary.username} />
         </>

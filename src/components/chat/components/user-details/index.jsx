@@ -4,10 +4,12 @@ import { useCallback, useContext, useEffect, useMemo, useRef } from "react"
 import { styled } from '@mui/material/styles'
 import classes from "./styles.module.css"
 import classNames from "classnames"
+import Link from "next/link"
 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 import { AppContext, LoginContext } from "src/context";
+import { getURL } from "src/helpers"
 
 import Form from "./components/form"
 import Dialog from "src/components/Friendship/components/user-card/components/dialog"
@@ -76,7 +78,7 @@ const UserDetails = ({ clickHandler, username }) => {
                     className="bg-black"
                     height={170}
                     loader={myLoader}
-                    src={userDetails.image ? `${serverPublicURL.current}/${userDetails.image}` : imageURL }
+                    src={userDetails.image ? getURL({ url: userDetails.image }) : imageURL }
                     unoptimized={true}
                     width={170}
                 />
@@ -88,11 +90,15 @@ const UserDetails = ({ clickHandler, username }) => {
                                 component="h3">
                                 { userDetails.name }
                             </Typography>
-                            <Typography 
-                                className="text-sm overflow-hidden text-ellipsis whitespace-nowrap w-[200px] dark:text-slate-400" 
-                                component="p">
-                                @{ userDetails.username }
-                            </Typography>
+                            <Link href={`profile?username=${userDetails.username}`}>
+                                <a>
+                                <Typography 
+                                    className="text-black hover:text-cyan-500 text-sm overflow-hidden text-ellipsis whitespace-nowrap w-[200px] dark:text-slate-400" 
+                                    component="p">
+                                    @{ userDetails.username }
+                                </Typography>
+                                </a>
+                            </Link>
                         </div>
                         { !isMyFriend && !hasInvitationSent && <IconButton onClick={openDialogHandler}>
                             <PersonAddAltIcon className="text-cyan-500" />

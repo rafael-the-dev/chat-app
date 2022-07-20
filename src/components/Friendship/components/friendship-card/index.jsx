@@ -1,6 +1,5 @@
-import { Avatar, Badge, Collapse, IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
-import { useCallback, useContext, useId, useMemo, useRef, useState, useTransition } from "react";
-import { AppContext } from "src/context/AppContext";
+import { Badge, Collapse, IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
+import { useCallback, useId, useMemo, useRef, useState, useTransition } from "react";
 import classNames from 'classnames'
 import classes from '../styles/card.module.css'
 import Link from "next/link"
@@ -9,6 +8,7 @@ import { useRouter } from "next/router"
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
+import Avatar from "src/components/avatar"
 import Input from "./components/Input"
 import DeleteFriendshipListItem from "./components/delete-friendship"
 import Popover from "src/components/popover"
@@ -16,7 +16,6 @@ import Popover from "src/components/popover"
 const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
     const router = useRouter();
     const id = useId();
-    const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
 
     const [ expanded, setExpanded ] = useState(false);
     const [ isPendig, startTransition ] = useTransition();
@@ -56,12 +55,9 @@ const FriendshipInvitaitonCard = ({ isOnline, image, name, username }) => {
                     variant="dot"
                 >
                     <Avatar 
-                        className="h-[50px] text-base w-[50px]"
-                        imgProps={{ loading: "lazy" }}
-                        src={image ? `http://localhost:5000/${image}` : ""}
-                        style={{ backgroundColor: image ? "transparent" : getBgColors()[username] }}>
-                        { image ? "" :getInitialsNameLetters(name) }
-                    </Avatar>
+                        className={classes.friendAvatar}
+                        image={image}
+                    />
                 </Badge>
                 <div className="flex flex-col grow ml-3">
                     <div className="flex justify-between">

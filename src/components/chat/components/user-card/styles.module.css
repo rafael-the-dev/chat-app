@@ -1,3 +1,8 @@
 .availabilityIcon {
     transform: scale(.35);
 }
+
+.avatar {
+    height: 25px;
+    width: 25px;
+}

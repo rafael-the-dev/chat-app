@@ -1,4 +1,4 @@
-import { Avatar, Chip, IconButton, Typography } from "@mui/material";
+import { Chip, IconButton, Typography } from "@mui/material";
 import { useCallback, useContext, useMemo, useRef } from "react";
 import { AppContext, LoginContext } from "src/context";
 import classNames from 'classnames'
@@ -7,10 +7,11 @@ import Link from "next/link"
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import classes from '../styles/card.module.css'
 
+import Avatar from "src/components/avatar"
 import Dialog from "./components/dialog"
 
 const Container = ({ image, name, username }) => {
-    const { getFriendshipInvitationsList, getInitialsNameLetters, getBgColors } = useContext(AppContext);
+    const { getFriendshipInvitationsList } = useContext(AppContext);
     const { loggedUser } = useContext(LoginContext);
 
     const hasInvitationSent = useMemo(() => {
@@ -32,12 +33,8 @@ const Container = ({ image, name, username }) => {
         <li className={classNames(classes.card, `flex items-center py-2 sm:px-3 last:border-0 
             sm:last:border sm:mb-4 md:last:border-0 md:mb-0 md:px-0`)}>
             <Avatar 
-                imgProps={{ loading: "lazy" }}
-                src={image ? `http://localhost:5000/${image}` : ""}
-                style={{ backgroundColor: image ? "transparent" : getBgColors()[username] }} 
-                className="text-base">
-                { image ? "" :getInitialsNameLetters(name) }
-            </Avatar>
+                image={image}
+            />
             <div className="flex flex-col grow ml-3">
                 <Typography 
                     className={classNames("font-semibold max-w-[230px] overflow-hidden text-transition text-ellipsis whitespace-nowrap dark:text-slate-300")} 

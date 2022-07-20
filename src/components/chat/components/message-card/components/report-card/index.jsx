@@ -1,7 +1,9 @@
-import { Avatar, ListItem, Typography } from "@mui/material"
+import { ListItem, Typography } from "@mui/material"
 import classNames from "classnames"
 import { useContext, useMemo } from "react"
+import Avatar from "src/components/avatar"
 
+import classes from "./styles.module.css"
 import { AppContext } from 'src/context';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -26,8 +28,8 @@ const ReportCard = ({ isRead, username }) => {
         <ListItem className="mb-2 last:mb-0" disablePadding>
             <div className={classNames("flex items-center w-full")}>
                 <Avatar 
-                    className="h-[25px] text-base w-[25px]"
-                    src={targetUser.image ? `http://localhost:5000/${targetUser.image}` : ""}>
+                    className={classes.avatar}
+                    image={targetUser.image}>
                 </Avatar>
                 <Typography 
                     className={classNames("font-semibold grow ml-3 max-w-[180px] overflow-hidden text-ellipsis whitespace-nowrap")} 

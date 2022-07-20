@@ -1,14 +1,17 @@
-import { Avatar, ListItem, ListItemText } from "@mui/material"
+import { ListItem, ListItemText } from "@mui/material"
 import { useContext, useMemo } from "react"
 import classNames from "classnames"
 import Link from "next/link"
+
+import classes from "./styles.module.css"
+import Avatar from "src/components/avatar"
 
 import { AppContext, LoginContext } from "src/context"
 import { getUserDetails } from "src/helpers/user"
 
 const ListItemContainer = ({ username }) => {
     const { loggedUser } = useContext(LoginContext)
-    const { getUsersList, serverPublicURL } = useContext(AppContext);
+    const { getUsersList } = useContext(AppContext);
 
     const details = useMemo(() => getUserDetails({ list: getUsersList(), username }), [ getUsersList, username ]);
 
@@ -22,8 +25,8 @@ const ListItemContainer = ({ username }) => {
                     dark:text-slate-400 dark:hover:text-black">
                     <Avatar 
                         alt={details.name} 
-                        className="h-[30px] w-[30px]"
-                        src={`${serverPublicURL.current}/${details.image}`} 
+                        className={classes.avatar}
+                        image={details.image} 
                     />
                     <ListItemText 
                         className="ml-2"

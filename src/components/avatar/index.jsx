@@ -1,14 +1,13 @@
 import { Avatar } from "@mui/material"
 import { useContext, useMemo } from "react";
 import classNames from "classnames"
-import classes from "./styles.module.css"
 
 import { AppContext } from "src/context"
 import { getUserDetails } from "src/helpers/user"
 import { getURL } from "src/helpers"
 
 
-const Container = ({ className, image, name, username, size }) => {
+const Container = ({ className, image, name, onClick, username, size }) => {
     const { getUsersList } = useContext(AppContext);
     
     const details = useMemo(() => {
@@ -27,6 +26,7 @@ const Container = ({ className, image, name, username, size }) => {
             classes={{ root: "border-0" }}
             className={classNames(" dark:border-0", customClasses)}
             imgProps={{ loading: "lazy" }}
+            onClick={onClick}
             src={getURL({ url: details.image })} 
         />
     );

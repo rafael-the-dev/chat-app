@@ -1,5 +1,5 @@
-import { Avatar, Typography } from "@mui/material"
-import { useCallback, useContext, useMemo, useRef, useState } from "react"
+import { Typography } from "@mui/material"
+import { useCallback, useContext, useMemo, useRef } from "react"
 import classNames from 'classnames';
 
 import classes from "./styles.module.css"
@@ -7,10 +7,11 @@ import { AppContext } from "src/context"
 
 import CircleIcon from '@mui/icons-material/Circle';
 
+import Avatar from "src/components/avatar"
 import UserDetails from "../user-details"
 
 const User = ({ username }) => {
-    const { getInitialsNameLetters, getUsersList } = useContext(AppContext);
+    const { getUsersList } = useContext(AppContext);
     const clickHandler = useRef(null);
 
     const groupMember = useMemo(() => {
@@ -32,10 +33,9 @@ const User = ({ username }) => {
             className={classNames("flex items-centerv mb-3 w-full last:mb-0 hover:cursor-pointer")}
             onClick={openPopover}>
             <Avatar 
-                className="h-[25px] text-base w-[25px]"
-                src={groupMember.image ? `http://localhost:5000/${groupMember.image}` : ""}>
-                { groupMember.image ? "" :getInitialsNameLetters(groupMember.name) }
-            </Avatar>
+                className={classes.avatar}
+                image={groupMember.image}
+            />
             <Typography 
                 className={classNames("font-semibold grow ml-3 max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-400")} 
                 component="h2">

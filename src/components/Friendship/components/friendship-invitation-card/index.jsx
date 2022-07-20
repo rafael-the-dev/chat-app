@@ -1,7 +1,6 @@
-import { Avatar, IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { Collapse } from '@mui/material';
-import { useCallback, useContext, useMemo, useState } from "react";
-import { AppContext } from "src/context/AppContext";
+import { useCallback, useMemo, useState } from "react";
 import classNames from 'classnames'
 import Link from "next/link"
 import classes from '../styles/card.module.css'
@@ -10,10 +9,10 @@ import { getDate } from "src/helpers"
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
+import Avatar from "src/components/avatar"
 import Buttons from "./components/buttons"
 
 const FriendshipInvitaitonCard = ({ description, ID, datetime, image, sender }) => {
-    const { getInitialsNameLetters, getBgColors } = useContext(AppContext);
     const [ expanded, setExpanded ] = useState(false);
     
     const toggleExpanded = useCallback(() => setExpanded(b => !b), []);
@@ -28,12 +27,10 @@ const FriendshipInvitaitonCard = ({ description, ID, datetime, image, sender }) 
         sm:pr-3 sm:pl-2 sm:last:border sm:mb-4 md:last:border-0 md:mb-0 md:px-0`)}>
             <div className="flex items-center">
                 <Avatar 
-                    className="h-[50px] text-base w-[50px]"
-                    src={sender.image ? `http://localhost:5000/${sender.image}` : ""}
-                    style={{ backgroundColor: image ? "transparent" : getBgColors()[sender.username] }} 
-                    variant="square">
-                    { sender.image ? "" :getInitialsNameLetters(sender.name) }
-                </Avatar>
+                    className={classes.friendAvatar}
+                    image={sender.image}
+                    variant="square" 
+                />
                 <div className="flex flex-col grow ml-3">
                     <div className="flex items-center justify-between">
                         <Typography 

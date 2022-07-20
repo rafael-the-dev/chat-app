@@ -77,7 +77,7 @@ const PostsContainer = ({ pathname }) => {
                 { loading ? "Loading..." : "New Posts" }
             </Button>
             <ul 
-                className={classNames(classes.postsContainer, "px-4 pb-12 md:px-12 overflow-y-auto rounded-xl",
+                className={classNames(classes.postsContainer, "list-none px-4 pb-12 md:px-12 overflow-y-auto rounded-xl",
                 hasNewPosts ? "mt-8" : "mt-6",
                 pathname === '/' ? "postsHome": classes.postsContainerOthers)}
                 ref={postsContainerRef}

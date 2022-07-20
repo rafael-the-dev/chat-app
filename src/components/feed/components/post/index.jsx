@@ -1,9 +1,10 @@
 import { useContext, useMemo } from "react";
-import { Avatar, Button, CardMedia, IconButton, Paper, Typography } from "@mui/material"
+import { Button, CardMedia, IconButton, Paper, Typography } from "@mui/material"
 import classNames from "classnames"
 import Link from "next/link"
 import ShowMoreText from "react-show-more-text";
 import { useRouter } from "next/router"
+import classes from "./styles.module.css"
 
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,6 +15,7 @@ import { AppContext } from "src/context"
 import { getDate, getURL } from "src/helpers"
 import { getUserDetails } from "src/helpers/user"
 
+import Avatar from "src/components/avatar"
 import Likes from "./components/likes"
 import LikeButton from "./components/like-button"
 import Options from "./components/options"
@@ -24,7 +26,7 @@ library.add(faComment);
 
 const Post = ({ author, createdAt, comments, description, ID, image, likes }) => {
     const router = useRouter();
-    const { getUsersList, serverPublicURL } = useContext(AppContext);
+    const { getUsersList } = useContext(AppContext);
 
     const authorDetails = useMemo(() => getUserDetails({ list: getUsersList(), username: author }), [ author, getUsersList ])
 
@@ -32,13 +34,14 @@ const Post = ({ author, createdAt, comments, description, ID, image, likes }) =>
         <Paper 
             className="flex flex-col items-stretch mb-4 px-0 pt-3 rounded-xl w-full last:mb-0 
             bg-transition dark:bg-stone-500"
+            component="li"
             elevation={0}>
             <header className="flex items-center justify-between pl-4 pr-1 md:px-4">
                 <div className="flex items-center">
                     <Avatar 
                         alt={authorDetails.name}
-                        className="h-[30px] w-[30px]"
-                        src={`${serverPublicURL.current}/${authorDetails.image}`}
+                        className={classes.avatar}
+                        image={authorDetails.image}
                     />
                     <div className=" ml-3">
                         <Link href={`profile?username=${authorDetails.username}`}>
